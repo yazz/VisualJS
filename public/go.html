@@ -7856,7 +7856,9 @@
             var mainVueAppVm
             var yz =
             {
-                getNetworkHostName:         function                          (   ) {
+                // ********* FUNTIONS ***************
+
+                getNetworkHostName:             function        (   ) {
                     let networkHostName = location.hostname
                     if (networkHostName == "127.0.0.1") {
                         networkHostName = yz.networkIntranetIpAddress
@@ -7866,240 +7868,6 @@
                     }
                     return networkHostName
                 },
-
-                //
-                // maps the base component ID to the commit ID
-                // "Qm0x43FFE338..2F1" < - points to a commit ID
-                //
-                baseComponentIdReturnsCommitId:                 new Object(),
-
-                //
-                // This contains the source code for a particular commit ID
-                //
-                // eg:    value: {
-                //                    "async fn {... code here ... }"
-                //                    }
-                //  codeCache["QmVyCWHKJuc5am1jK1y4RrsBv7cEeztmMtWSKdt2YcUkMZ"]  =
-                //  {
-                //      code:               mm.editor_text,
-                //      component_type:     "SYSTEM",
-                //      libs:               [],
-                //      code_id:            mm.code_id,
-                //      base_component_id:  baseCompIdFromSrcCode
-                //  }
-                //
-                codeCache:                                      new Object(),
-
-                //
-                // This contains the engines that allows components to be decorated at
-                // run time, which means that their source code can be minimal. Originally
-                // this allowed us to take the large .vjs Application files which were
-                // often 300-400k in size, and shrink them to a few k. This is possible
-                // because most of that code was Javascript engine code. By taking this
-                // engine code out of the components also allows us to more easily swap
-                // out Vue.js for something else in the future as well, if needed. Right
-                // now (as of March 2023) we have to move things to an engine model
-                // because otherwise we end up with duplication of edits in the engine
-                // and the example apps
-                //
-                runtimePipelines:                               new Object(),
-
-                refs:                       {},
-                refTest:                    Vue.ref({a: 1}),
-                mainVars:                   {
-                    mainVueApp:                 null,
-                    visJsloaded:                false,
-                    mousedown:                  false,
-                    ipfs:                       null,
-                    web3loaded:                 false,
-                    disableAutoSave:            false,
-                    pageInitialised:            false,
-                    executeOnPageLoad:          null,
-                    diffJsloaded:               false,
-                    ideToolsloaded:             false,
-                    visCssloaded:               false,
-                    ipfsServerloaded:           false,
-                    d3loaded:                   false,
-                    chartsJsloaded:             false,
-                    tabulatorJsLoaded:          false,
-                    estraverseloaded:           false,
-                    esCodeGenLoaded:            false,
-                    testObject:                 null, // Use this to test elements at debug time
-                    webpageParams:              {},
-                    autoScroll:                 false,
-                    nextGlobalAppId:            1,
-                    wait_and_select_app:        null,
-                    online:                     false,   // If the Yazz server is current online with internet access
-                    localSqliteDb:              null
-                },
-                helpers:                    {
-                    insertCodeString:               function(  code  ,  st   ,  vall        ,  optionalEnd  ) {
-                        let endIndicator = ")"
-                        if (optionalEnd) {
-                            endIndicator = optionalEnd
-                        }
-                        let findd = st + "("
-                        let startIndexOfComment = code.toString().indexOf("/*")
-                        let startIndexOfFn = code.toString().indexOf("{")
-
-                        if (startIndexOfFn != -1) {
-                            if (startIndexOfComment == -1) {
-                                code = code.toString().substring(0,startIndexOfFn + 1) + "\n/*\n*/\n" +
-                                    code.toString().substring(startIndexOfFn + 1)
-                                startIndexOfComment = code.toString().indexOf("/*")
-                            }
-                            code = code.toString().substring(0,startIndexOfComment + 3) +
-                                "" + st + "(" + JSON.stringify(vall,null,2).replace(new RegExp("\\*\\/", 'g'), "*\\/") + endIndicator + "\n" +
-                                code.toString().substring(startIndexOfComment + 3)
-
-                        }
-
-                        return code
-
-                    },
-                    deleteCodeString:               function(  code  ,  st   ,  optionalEnd  ) {
-                        let endIndicator = ")"
-                        if (optionalEnd) {
-                            endIndicator = optionalEnd
-                        }
-                        let findd = st + "("
-                        let codeStart = code.toString().indexOf(findd)
-                        if (codeStart != -1) {
-                            let codeEnd = codeStart + code.toString().substring(codeStart).indexOf(endIndicator)
-
-                            code = code.toString().substring(0,codeStart) +
-                                code.toString().substring(codeEnd + 1 + endIndicator.length)
-
-                            return code
-                        }
-                        return code
-                    },
-                    getValueOfCodeString:           function(  code  ,  st   ,  optionalEnd  ) {
-                        let endIndicator = ")"
-                        if (optionalEnd) {
-                            endIndicator = optionalEnd
-                        }
-                        let toFind = st + "("
-                        if (code.toString().indexOf(toFind) != -1) {
-                            let codeStart = code.toString().indexOf(toFind) + toFind.length
-                            let codeEnd = codeStart + code.toString().substring(codeStart).indexOf(endIndicator)
-
-                            code = code.toString().substring(codeStart, codeEnd)
-                            let val = eval( "(" + code.toString() + ")")
-                            return val
-
-                        }
-                        return null
-                    },
-                    replaceBetween:                 function(  target,  start,  end         ,  replaceWith  ) {
-                        let startIndex  = target.indexOf(start)
-                        if (startIndex == -1) {
-                            return target
-                        }
-                        startIndex      += start.length
-                        let endIndex    = target.indexOf(end)
-                        if (endIndex == -1) {
-                            return target
-                        }
-                        let newString   = target.substring(0,startIndex) + replaceWith + target.substring(endIndex);
-                        return newString
-                    },
-                    addAfter:                       function(  target,  start,  replaceWith  ) {
-                        let startIndex  = target.indexOf(start) + start.length
-                        let endIndex    = startIndex
-                        let newString   = target.substring(0,startIndex) + replaceWith + target.substring(endIndex);
-                        return newString
-                    },
-                    addBefore:                      function(  target,  end  ,  replaceWith  ) {
-                        let startIndex  = target.indexOf(end)
-                        let endIndex    = startIndex + replaceWith.length - 1
-                        let newString   = target.substring(0,startIndex) + replaceWith + target.substring(endIndex);
-                        return newString
-                    }
-                },
-                savingCode:                 {
-                    saveCodeViaWebWorker:       null,
-                    yazzWebWorker:              null,
-                },
-                editor:                     {
-                    subEditorAction:                                null,   // Used to specify what special action was taken like "EDIT_SUB_COMPONENT"
-                    editingAppBaseComponentId:                      null,   // Type (BCI) of the currently edited component
-                    editingAppCodeId:                               null,   // Commit ID for the currently edited component
-                    lastEditingAppBaseComponentId:                  null,   // if we jump to edit another component save this
-                    lastEditingAppCodeId:                           null,   // if we jump to edit another component save this
-
-                    //
-                    // This is used to jump from editing an app to editing a UI control and back again
-                    //
-                    inEditor:                                       false,  // Always set to true when we enter the editor
-
-
-                    //
-                    // This is used when we have edited a UI control and want to jump back to the app and update the control
-                    // that was edited in the app
-                    //
-                    saveControlChanges:                             false,
-                    originalFormIdOfEditedUiControl:                null,
-                    originalNameOfEditedUiControl:                  null,
-                    originalBaseComponentIdOfEditedUiControl:       null,
-                    originalCodeIdOfEditedUiControl:                null,
-                    finalBaseComponentIdOfEditedUiControl:          null,
-                    finalCodeIdOfEditedUiControl:                   null
-                },
-                debug:                      {
-                    writeTextFile:  async function({fileName, fileText}) {
-                        let resultsCode = await yz.postToYazzReturnJson(
-                            "/http_post_save_debug_text_as_file",
-                            {
-                                debugFileName:  fileName,
-                                debugFileText:  fileText
-                            })
-                    }
-
-                },
-                componentsImplementation:   {
-                    designModeUiControlNameReturnsVueInstance:      {},             // This is a map from the UI control name to the corresponding Vue object in an edited app
-                    runtimeUiControlNameReturnsVueInstance:         {},             // This points to the Vue objects for the components in an app
-                    codeIdToVueComponentInfo:                       {},             // This is a true/false hashmap for whether a Vue component is loaded based  on the Code ID
-                    treeOfPossibleControlPropertyLinks:             new Object(),   // properties on UI components where the output of one property is linked to  the input of another property
-                    codeIdToComponentLoadedMethods:                 {}              // This is a true/false hashmap for whether a Vue component is loaded based  on the Code ID
-                },
-                componentsAPI:              {
-                    vue: {
-                        getDesignModeUiControlNameReturnsVueInstance:   function({controlName}) {
-                            return yz.componentsImplementation.designModeUiControlNameReturnsVueInstance[controlName]
-                        },
-                        mapDesignTimeControlNameToVueInstance:          function({controlName, vueInstance}) {
-                            yz.componentsImplementation.designModeUiControlNameReturnsVueInstance[controlName] = vueInstance
-                        },
-                        getRuntimeUiControlNameReturnsVueInstance:      function({controlName}) {
-                            return yz.componentsImplementation.runtimeUiControlNameReturnsVueInstance[controlName]
-                        },
-                        mapRuntimeTimeControlNameToVueInstance:          function({controlName, vueInstance}) {
-                            yz.componentsImplementation.runtimeUiControlNameReturnsVueInstance[controlName] = vueInstance
-                        },
-
-                        getVueComponentInfo:                            function({codeId}) {
-                            return yz.componentsImplementation.codeIdToVueComponentInfo[codeId]
-                        },
-                        setVueComponentInfo:                            function({codeId, vueInfo}) {
-                            yz.componentsImplementation.codeIdToVueComponentInfo[codeId] = vueInfo
-                        },
-                        getVueInfoForAllLoadedComponents:               function() {
-                            return yz.componentsImplementation.codeIdToVueComponentInfo
-                        },
-                        setComponentLoadedMethod:                       function({codeId, loadMethod}) {
-                            yz.componentsImplementation.codeIdToComponentLoadedMethods[codeId] = loadMethod
-                        },
-                        getComponentLoadedMethod:                       function({codeId}) {
-                            return yz.componentsImplementation.codeIdToComponentLoadedMethods[codeId]
-                        },
-                        getLoadedMethodForAllComponents:               function() {
-                            return yz.componentsImplementation.codeIdToComponentLoadedMethods
-                        },
-                    }
-                },
-
                 getTypeDisplayName:             function        (   args   ) {
                     let codeId = null
                     if ((args.codeId == null) || (args.codeId == "")) {
@@ -10907,141 +10675,6 @@ Loaded Method: {{ yz.componentsAPI.vue.getComponentLoadedMethod({codeId: loadedC
                 return ret
             },
 
-                networkIntranetIpAddress:           null,
-                file_upload_uuid:                   null,
-                base_component_id_of_loaded_app:    null,
-                code_id_of_loaded_app:              null,
-                queuedResponses:                    new Object(),
-                queuedBrowserResponseSeqNum:        0,
-                componentCallsListArgsSent:         new Object(),
-                uiDebuggerOn:                       false,
-                saveCodeToFile:                     null,
-                isWin:                              null,
-                executionCode:                      new Object(),
-                currentTimelineLogPoint:            0,
-                maxTimelineLogPoint:                0,
-                startTimelineTop:                   0,
-                executionTimeline:                  [],
-                executionTimelineMapTimeToLine:     {},
-                globalWatchList:                    {},
-                useProtocol:                        location.protocol,
-                useHostname:                        null,
-                usePort:                            null,
-                globalEventBus:                     mitt(),
-                newAppArgs:                         [],
-                webPageToServerWebSocket:           null,
-                appIntervalTimers:                  [],
-                indexingComponentInProgress:        false,
-                keycloak:                           null,
-                keycloakJsonInUse:                  null,
-                username:                           "",
-                globalStartTimer:                   new Date().getTime(),
-                globalEndTimer:                     new Date().getTime(),
-                globalTimerCounter:                 0,
-                signMessageTemplate:                "Hi there from Yazz. Sign this message " +
-                                                    "to prove you have access to this wallet " +
-                                                    "and we'll log you in. This won't cost " +
-                                                    "you any Ether." +
-                                                    "\n\n" +
-                                                    "To stop hackers using your wallet, here's " +
-                                                    "a unique message ID they can't guess: ",
-                currentBlockchain:                  "1",
-                blockchainIds:                      {
-                    '0': 'kardia',
-                    '1': {chainId: '0x1',chainName:'Ethereum - Mainnet',rpcUrls:['https://mainnet.infura.io/v3/'],blockExplorerUrls:['https://etherscan.io'],nativeCurrency: {symbol:'ETH',decimals: 18}},
-                    '4': {chainId: '0x4',chainName:'Ethereum - Rinkby test net',rpcUrls:['https://rinkeby.infura.io/v3/'],blockExplorerUrls:['https://rinkeby.etherscan.io'],nativeCurrency: {symbol:'ETH',decimals: 18}, faucet: "https://rinkebyfaucet.com/"},
-                    '8': 'ubiq',
-                    '10': 'optimism',
-                    '19': 'songbird',
-                    '20': 'elastos',
-                    '25': 'cronos',
-                    '30': {
-                        chainId: '0x1e',
-                        chainName:'rsk - mainnet',
-                        rpcUrls:["https://public-node.rsk.co"],
-                        blockExplorerUrls:['https://explorer.rsk.co'],
-                        nativeCurrency: {symbol:'RBTC',decimals: 18}
-                    },
-                    '31': {
-                        chainId: '0x1f',
-                        chainName:'rsk - testnet',
-                        rpcUrls:["https://public-node.testnet.rsk.co"],
-                        blockExplorerUrls:['https://explorer.testnet.rsk.co'],
-                        nativeCurrency: {symbol:'RBTC',decimals: 18},
-                        faucet: "https://faucet.rsk.co",
-                        preMinedUrl: "https://explorer.testnet.rsk.co/address/",
-                        postMinedUrl: ""
-                    },
-                    '40': {chainId: '0x28',chainName:'telos - mainnet',rpcUrls:['https://mainnet.telos.net/evm'],blockExplorerUrls:['https://teloscan.io'],nativeCurrency: {symbol:'TLOS',decimals: 18},
-                        faucet: "https://app.telos.net/testnet/developers"},
-                    '41': {
-                        chainId: '0x29',
-                        chainName:'telos - testnet',
-                        rpcUrls:["https://testnet.telos.net/evm"],
-                        blockExplorerUrls:['https://testnet.teloscan.io'],
-                        nativeCurrency: {symbol:'TLOS',decimals: 18},
-                        faucet: "https://app.telos.net/testnet/developers"
-                    },
-                    '52': 'csc',
-                    '55': 'zyx',
-                    '56': 'binance',
-                    '57': 'syscoin',
-                    '60': 'gochain',
-                    '61': 'ethclassic',
-                    '66': 'okexchain',
-                    '70': 'hoo',
-                    '82': 'meter',
-                    '88': 'tomochain',
-                    '97': {chainId: '0x61',chainName:'Binance Smart Chain - Testnet',rpcUrls:['https://data-seed-prebsc-1-s1.binance.org:8545'],blockExplorerUrls:['https://testnet.bscscan.com'],nativeCurrency: {symbol:'BNB',decimals: 18}},
-                    '100': 'xdai',
-                    '106': 'velas',
-                    '108': 'thundercore',
-                    '122': 'fuse',
-                    '128': 'heco',
-                    '137': 'polygon',
-                    '200': 'xdaiarb',
-                    '246': 'energyweb',
-                    '250': {chainId: '0xFA',chainName: 'Fantom Opera Mainnet',rpcUrls:['https://rpc.ftm.tools/'],blockExplorerUrls:['https://ftmscan.com'],nativeCurrency: {symbol:'FTM',decimals: 18}},
-                    '269': 'hpb',
-                    '288': 'boba',
-                    '321': 'kucoin',
-                    '336': 'shiden',
-                    '361': 'theta',
-                    '592': 'astar',
-                    '820': 'callisto',
-                    '888': 'wanchain',
-                    '1088': 'metis',
-                    '1284': 'moonbeam',
-                    '1285': 'moonriver',
-                    '2020': 'ronin',
-                    '4689': 'iotex',
-                    '5050': 'xlc',
-                    '5551': 'nahmii',
-                    '8217': 'klaytn',
-                    '10000': 'smartbch',
-                    '32659': 'fusion',
-                    '42161': 'arbitrum',
-                    '421611': {
-                        chainId: '0x66EEB',
-                        chainName:'arbitrum - testnet',
-                        rpcUrls:["https://rinkeby.arbitrum.io/rpc"],
-                        blockExplorerUrls:['https://rinkeby-explorer.arbitrum.io/#/'],
-                        nativeCurrency: {symbol:'ETH',decimals: 18},
-                        faucet: "https://docs.theanthill.io/how-to/getting-bnb-on-binance-smart-chain-bsc-testnet"
-                    },
-                    '42220': 'celo',
-                    '42262': 'oasis',
-                    '43114': 'avalanche',
-                    '71394': 'godwoken',
-                    '80001': {chainId: '0x80001',chainName:'Mumbai Testnet',rpcUrls:['https://rpc-mumbai.maticvigil.com'],blockExplorerUrls:['https://polygonscan.com'],nativeCurrency: {symbol:'MATIC',decimals: 18},
-                        faucet: "https://faucet.polygon.technology"},
-                    '333999': 'polis',
-                    '1313161554': 'aurora',
-                    '1666600000': 'harmony',
-                    '11297108109': 'palm',
-                    '836542336838601': 'curio'
-                },
-
                 // app helpers
                 appClearIntervals:                  function                    (  ) {
                 for(var i = 0; i < yz.appIntervalTimers.length; i++){
@@ -11864,6 +11497,386 @@ Loaded Method: {{ yz.componentsAPI.vue.getComponentLoadedMethod({codeId: loadedC
                             yz.executionTimeline[yz.currentTimelineLogPoint].vars[varName].after = varValue
                         }
                     }
+                },
+
+
+                helpers:                                        {
+                    insertCodeString:               function(  code  ,  st   ,  vall        ,  optionalEnd  ) {
+                        let endIndicator = ")"
+                        if (optionalEnd) {
+                            endIndicator = optionalEnd
+                        }
+                        let findd = st + "("
+                        let startIndexOfComment = code.toString().indexOf("/*")
+                        let startIndexOfFn = code.toString().indexOf("{")
+
+                        if (startIndexOfFn != -1) {
+                            if (startIndexOfComment == -1) {
+                                code = code.toString().substring(0,startIndexOfFn + 1) + "\n/*\n*/\n" +
+                                    code.toString().substring(startIndexOfFn + 1)
+                                startIndexOfComment = code.toString().indexOf("/*")
+                            }
+                            code = code.toString().substring(0,startIndexOfComment + 3) +
+                                "" + st + "(" + JSON.stringify(vall,null,2).replace(new RegExp("\\*\\/", 'g'), "*\\/") + endIndicator + "\n" +
+                                code.toString().substring(startIndexOfComment + 3)
+
+                        }
+
+                        return code
+
+                    },
+                    deleteCodeString:               function(  code  ,  st   ,  optionalEnd  ) {
+                        let endIndicator = ")"
+                        if (optionalEnd) {
+                            endIndicator = optionalEnd
+                        }
+                        let findd = st + "("
+                        let codeStart = code.toString().indexOf(findd)
+                        if (codeStart != -1) {
+                            let codeEnd = codeStart + code.toString().substring(codeStart).indexOf(endIndicator)
+
+                            code = code.toString().substring(0,codeStart) +
+                                code.toString().substring(codeEnd + 1 + endIndicator.length)
+
+                            return code
+                        }
+                        return code
+                    },
+                    getValueOfCodeString:           function(  code  ,  st   ,  optionalEnd  ) {
+                        let endIndicator = ")"
+                        if (optionalEnd) {
+                            endIndicator = optionalEnd
+                        }
+                        let toFind = st + "("
+                        if (code.toString().indexOf(toFind) != -1) {
+                            let codeStart = code.toString().indexOf(toFind) + toFind.length
+                            let codeEnd = codeStart + code.toString().substring(codeStart).indexOf(endIndicator)
+
+                            code = code.toString().substring(codeStart, codeEnd)
+                            let val = eval( "(" + code.toString() + ")")
+                            return val
+
+                        }
+                        return null
+                    },
+                    replaceBetween:                 function(  target,  start,  end         ,  replaceWith  ) {
+                        let startIndex  = target.indexOf(start)
+                        if (startIndex == -1) {
+                            return target
+                        }
+                        startIndex      += start.length
+                        let endIndex    = target.indexOf(end)
+                        if (endIndex == -1) {
+                            return target
+                        }
+                        let newString   = target.substring(0,startIndex) + replaceWith + target.substring(endIndex);
+                        return newString
+                    },
+                    addAfter:                       function(  target,  start,  replaceWith  ) {
+                        let startIndex  = target.indexOf(start) + start.length
+                        let endIndex    = startIndex
+                        let newString   = target.substring(0,startIndex) + replaceWith + target.substring(endIndex);
+                        return newString
+                    },
+                    addBefore:                      function(  target,  end  ,  replaceWith  ) {
+                        let startIndex  = target.indexOf(end)
+                        let endIndex    = startIndex + replaceWith.length - 1
+                        let newString   = target.substring(0,startIndex) + replaceWith + target.substring(endIndex);
+                        return newString
+                    }
+                },
+                debug:                                          {
+                    writeTextFile:  async function({fileName, fileText}) {
+                        let resultsCode = await yz.postToYazzReturnJson(
+                            "/http_post_save_debug_text_as_file",
+                            {
+                                debugFileName:  fileName,
+                                debugFileText:  fileText
+                            })
+                    }
+
+                },
+                componentsAPI:                                  {
+                    vue: {
+                        getDesignModeUiControlNameReturnsVueInstance:   function({controlName}) {
+                            return yz.componentsImplementation.designModeUiControlNameReturnsVueInstance[controlName]
+                        },
+                        mapDesignTimeControlNameToVueInstance:          function({controlName, vueInstance}) {
+                            yz.componentsImplementation.designModeUiControlNameReturnsVueInstance[controlName] = vueInstance
+                        },
+                        getRuntimeUiControlNameReturnsVueInstance:      function({controlName}) {
+                            return yz.componentsImplementation.runtimeUiControlNameReturnsVueInstance[controlName]
+                        },
+                        mapRuntimeTimeControlNameToVueInstance:          function({controlName, vueInstance}) {
+                            yz.componentsImplementation.runtimeUiControlNameReturnsVueInstance[controlName] = vueInstance
+                        },
+
+                        getVueComponentInfo:                            function({codeId}) {
+                            return yz.componentsImplementation.codeIdToVueComponentInfo[codeId]
+                        },
+                        setVueComponentInfo:                            function({codeId, vueInfo}) {
+                            yz.componentsImplementation.codeIdToVueComponentInfo[codeId] = vueInfo
+                        },
+                        getVueInfoForAllLoadedComponents:               function() {
+                            return yz.componentsImplementation.codeIdToVueComponentInfo
+                        },
+                        setComponentLoadedMethod:                       function({codeId, loadMethod}) {
+                            yz.componentsImplementation.codeIdToComponentLoadedMethods[codeId] = loadMethod
+                        },
+                        getComponentLoadedMethod:                       function({codeId}) {
+                            return yz.componentsImplementation.codeIdToComponentLoadedMethods[codeId]
+                        },
+                        getLoadedMethodForAllComponents:               function() {
+                            return yz.componentsImplementation.codeIdToComponentLoadedMethods
+                        },
+                    }
+                },
+
+
+
+
+
+
+
+
+                // ********* VARS ***************
+
+                //
+                // maps the base component ID to the commit ID
+                // "Qm0x43FFE338..2F1" < - points to a commit ID
+                //
+                baseComponentIdReturnsCommitId:                 new Object(),
+
+                //
+                // This contains the source code for a particular commit ID
+                //
+                // eg:    value: {
+                //                    "async fn {... code here ... }"
+                //                    }
+                //  codeCache["QmVyCWHKJuc5am1jK1y4RrsBv7cEeztmMtWSKdt2YcUkMZ"]  =
+                //  {
+                //      code:               mm.editor_text,
+                //      component_type:     "SYSTEM",
+                //      libs:               [],
+                //      code_id:            mm.code_id,
+                //      base_component_id:  baseCompIdFromSrcCode
+                //  }
+                //
+                codeCache:                                      new Object(),
+
+                //
+                // This contains the engines that allows components to be decorated at
+                // run time, which means that their source code can be minimal. Originally
+                // this allowed us to take the large .vjs Application files which were
+                // often 300-400k in size, and shrink them to a few k. This is possible
+                // because most of that code was Javascript engine code. By taking this
+                // engine code out of the components also allows us to more easily swap
+                // out Vue.js for something else in the future as well, if needed. Right
+                // now (as of March 2023) we have to move things to an engine model
+                // because otherwise we end up with duplication of edits in the engine
+                // and the example apps
+                //
+                runtimePipelines:                               new Object(),
+
+                refs:                                           {},
+                refTest:                                        Vue.ref({a: 1}),
+
+                mainVars:                                       {
+                    mainVueApp:                 null,
+                    visJsloaded:                false,
+                    mousedown:                  false,
+                    ipfs:                       null,
+                    web3loaded:                 false,
+                    disableAutoSave:            false,
+                    pageInitialised:            false,
+                    executeOnPageLoad:          null,
+                    diffJsloaded:               false,
+                    ideToolsloaded:             false,
+                    visCssloaded:               false,
+                    ipfsServerloaded:           false,
+                    d3loaded:                   false,
+                    chartsJsloaded:             false,
+                    tabulatorJsLoaded:          false,
+                    estraverseloaded:           false,
+                    esCodeGenLoaded:            false,
+                    testObject:                 null, // Use this to test elements at debug time
+                    webpageParams:              {},
+                    autoScroll:                 false,
+                    nextGlobalAppId:            1,
+                    wait_and_select_app:        null,
+                    online:                     false,   // If the Yazz server is current online with internet access
+                    localSqliteDb:              null
+                },
+                editor:                                         {
+                    subEditorAction:                                null,   // Used to specify what special action was taken like "EDIT_SUB_COMPONENT"
+                    editingAppBaseComponentId:                      null,   // Type (BCI) of the currently edited component
+                    editingAppCodeId:                               null,   // Commit ID for the currently edited component
+                    lastEditingAppBaseComponentId:                  null,   // if we jump to edit another component save this
+                    lastEditingAppCodeId:                           null,   // if we jump to edit another component save this
+
+                    //
+                    // This is used to jump from editing an app to editing a UI control and back again
+                    //
+                    inEditor:                                       false,  // Always set to true when we enter the editor
+
+
+                    //
+                    // This is used when we have edited a UI control and want to jump back to the app and update the control
+                    // that was edited in the app
+                    //
+                    saveControlChanges:                             false,
+                    originalFormIdOfEditedUiControl:                null,
+                    originalNameOfEditedUiControl:                  null,
+                    originalBaseComponentIdOfEditedUiControl:       null,
+                    originalCodeIdOfEditedUiControl:                null,
+                    finalBaseComponentIdOfEditedUiControl:          null,
+                    finalCodeIdOfEditedUiControl:                   null
+                },
+                componentsImplementation:                       {
+                    designModeUiControlNameReturnsVueInstance:      {},             // This is a map from the UI control name to the corresponding Vue object in an edited app
+                    runtimeUiControlNameReturnsVueInstance:         {},             // This points to the Vue objects for the components in an app
+                    codeIdToVueComponentInfo:                       {},             // This is a true/false hashmap for whether a Vue component is loaded based  on the Code ID
+                    treeOfPossibleControlPropertyLinks:             new Object(),   // properties on UI components where the output of one property is linked to  the input of another property
+                    codeIdToComponentLoadedMethods:                 {}              // This is a true/false hashmap for whether a Vue component is loaded based  on the Code ID
+                },
+                savingCode:                                     {
+                    saveCodeViaWebWorker:       null,
+                    yazzWebWorker:              null,
+                },
+
+                networkIntranetIpAddress:                       null,
+                file_upload_uuid:                               null,
+                base_component_id_of_loaded_app:                null,
+                code_id_of_loaded_app:                          null,
+                queuedResponses:                                new Object(),
+                queuedBrowserResponseSeqNum:                    0,
+                componentCallsListArgsSent:                     new Object(),
+                uiDebuggerOn:                                   false,
+                saveCodeToFile:                                 null,
+                isWin:                                          null,
+                executionCode:                                  new Object(),
+                currentTimelineLogPoint:                        0,
+                maxTimelineLogPoint:                            0,
+                startTimelineTop:                               0,
+                executionTimeline:                              [],
+                executionTimelineMapTimeToLine:                 {},
+                globalWatchList:                                {},
+                useProtocol:                                    location.protocol,
+                useHostname:                                    null,
+                usePort:                                        null,
+                globalEventBus:                                 mitt(),
+                newAppArgs:                                     [],
+                webPageToServerWebSocket:                       null,
+                appIntervalTimers:                              [],
+                indexingComponentInProgress:                    false,
+                keycloak:                                       null,
+                keycloakJsonInUse:                              null,
+                username:                                       "",
+                globalStartTimer:                               new Date().getTime(),
+                globalEndTimer:                                 new Date().getTime(),
+                globalTimerCounter:                             0,
+                signMessageTemplate:                            "Hi there from Yazz. Sign this message " +
+                                                                "to prove you have access to this wallet " +
+                                                                "and we'll log you in. This won't cost " +
+                                                                "you any Ether." +
+                                                                "\n\n" +
+                                                                "To stop hackers using your wallet, here's " +
+                                                                "a unique message ID they can't guess: ",
+                currentBlockchain:                              "1",
+                blockchainIds:                                  {
+                    '0': 'kardia',
+                    '1': {chainId: '0x1',chainName:'Ethereum - Mainnet',rpcUrls:['https://mainnet.infura.io/v3/'],blockExplorerUrls:['https://etherscan.io'],nativeCurrency: {symbol:'ETH',decimals: 18}},
+                    '4': {chainId: '0x4',chainName:'Ethereum - Rinkby test net',rpcUrls:['https://rinkeby.infura.io/v3/'],blockExplorerUrls:['https://rinkeby.etherscan.io'],nativeCurrency: {symbol:'ETH',decimals: 18}, faucet: "https://rinkebyfaucet.com/"},
+                    '8': 'ubiq',
+                    '10': 'optimism',
+                    '19': 'songbird',
+                    '20': 'elastos',
+                    '25': 'cronos',
+                    '30': {
+                        chainId: '0x1e',
+                        chainName:'rsk - mainnet',
+                        rpcUrls:["https://public-node.rsk.co"],
+                        blockExplorerUrls:['https://explorer.rsk.co'],
+                        nativeCurrency: {symbol:'RBTC',decimals: 18}
+                    },
+                    '31': {
+                        chainId: '0x1f',
+                        chainName:'rsk - testnet',
+                        rpcUrls:["https://public-node.testnet.rsk.co"],
+                        blockExplorerUrls:['https://explorer.testnet.rsk.co'],
+                        nativeCurrency: {symbol:'RBTC',decimals: 18},
+                        faucet: "https://faucet.rsk.co",
+                        preMinedUrl: "https://explorer.testnet.rsk.co/address/",
+                        postMinedUrl: ""
+                    },
+                    '40': {chainId: '0x28',chainName:'telos - mainnet',rpcUrls:['https://mainnet.telos.net/evm'],blockExplorerUrls:['https://teloscan.io'],nativeCurrency: {symbol:'TLOS',decimals: 18},
+                        faucet: "https://app.telos.net/testnet/developers"},
+                    '41': {
+                        chainId: '0x29',
+                        chainName:'telos - testnet',
+                        rpcUrls:["https://testnet.telos.net/evm"],
+                        blockExplorerUrls:['https://testnet.teloscan.io'],
+                        nativeCurrency: {symbol:'TLOS',decimals: 18},
+                        faucet: "https://app.telos.net/testnet/developers"
+                    },
+                    '52': 'csc',
+                    '55': 'zyx',
+                    '56': 'binance',
+                    '57': 'syscoin',
+                    '60': 'gochain',
+                    '61': 'ethclassic',
+                    '66': 'okexchain',
+                    '70': 'hoo',
+                    '82': 'meter',
+                    '88': 'tomochain',
+                    '97': {chainId: '0x61',chainName:'Binance Smart Chain - Testnet',rpcUrls:['https://data-seed-prebsc-1-s1.binance.org:8545'],blockExplorerUrls:['https://testnet.bscscan.com'],nativeCurrency: {symbol:'BNB',decimals: 18}},
+                    '100': 'xdai',
+                    '106': 'velas',
+                    '108': 'thundercore',
+                    '122': 'fuse',
+                    '128': 'heco',
+                    '137': 'polygon',
+                    '200': 'xdaiarb',
+                    '246': 'energyweb',
+                    '250': {chainId: '0xFA',chainName: 'Fantom Opera Mainnet',rpcUrls:['https://rpc.ftm.tools/'],blockExplorerUrls:['https://ftmscan.com'],nativeCurrency: {symbol:'FTM',decimals: 18}},
+                    '269': 'hpb',
+                    '288': 'boba',
+                    '321': 'kucoin',
+                    '336': 'shiden',
+                    '361': 'theta',
+                    '592': 'astar',
+                    '820': 'callisto',
+                    '888': 'wanchain',
+                    '1088': 'metis',
+                    '1284': 'moonbeam',
+                    '1285': 'moonriver',
+                    '2020': 'ronin',
+                    '4689': 'iotex',
+                    '5050': 'xlc',
+                    '5551': 'nahmii',
+                    '8217': 'klaytn',
+                    '10000': 'smartbch',
+                    '32659': 'fusion',
+                    '42161': 'arbitrum',
+                    '421611': {
+                        chainId: '0x66EEB',
+                        chainName:'arbitrum - testnet',
+                        rpcUrls:["https://rinkeby.arbitrum.io/rpc"],
+                        blockExplorerUrls:['https://rinkeby-explorer.arbitrum.io/#/'],
+                        nativeCurrency: {symbol:'ETH',decimals: 18},
+                        faucet: "https://docs.theanthill.io/how-to/getting-bnb-on-binance-smart-chain-bsc-testnet"
+                    },
+                    '42220': 'celo',
+                    '42262': 'oasis',
+                    '43114': 'avalanche',
+                    '71394': 'godwoken',
+                    '80001': {chainId: '0x80001',chainName:'Mumbai Testnet',rpcUrls:['https://rpc-mumbai.maticvigil.com'],blockExplorerUrls:['https://polygonscan.com'],nativeCurrency: {symbol:'MATIC',decimals: 18},
+                        faucet: "https://faucet.polygon.technology"},
+                    '333999': 'polis',
+                    '1313161554': 'aurora',
+                    '1666600000': 'harmony',
+                    '11297108109': 'palm',
+                    '836542336838601': 'curio'
                 },
 
                 //
