@@ -160,7 +160,7 @@ logo_url("/driver_icons/sqlite.jpg")
 
               if (!this.design_mode) {
 
-                  var result = await querySqlite(
+                  var result = await yz.querySqlite(
                                           {
                                               get_tables:      true,
                                               path:            this.control_properties_and_events.sqlite_file_path
@@ -189,7 +189,7 @@ logo_url("/driver_icons/sqlite.jpg")
             connect: async function() {
                 debugger
                 try {
-                    var result = await querySqlite(
+                    var result = await yz.querySqlite(
                                             {
                                                 connect:         true,
                                                 path:            this.control_properties_and_events.sqlite_file_path
@@ -220,7 +220,7 @@ logo_url("/driver_icons/sqlite.jpg")
                 //debugger
 
                 if (this.design_mode) {
-                    var result = await querySqlite(
+                    var result = await yz.querySqlite(
                                         {
                                                 path:            this.control_properties_and_events.sqlite_file_path,
                                                 get_columns:      true,
@@ -267,7 +267,7 @@ logo_url("/driver_icons/sqlite.jpg")
             
             runQuery: async function() {
                 if (!this.design_mode) {
-                    var result = await querySqlite(
+                    var result = await yz.querySqlite(
                                         {
                                                 sql:             this.control_properties_and_events.sql,
                                                 path:            this.control_properties_and_events.sqlite_file_path
