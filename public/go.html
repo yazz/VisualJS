@@ -8956,7 +8956,7 @@
                             (component_type != "SYSTEM") &&
                             (component_type != "VB"))
                         {
-                            trcode2 = getDebugCode(baseComponentId,  trcode2)
+                            trcode2 = yz.getDebugCode(baseComponentId,  trcode2)
                         }
 
 
@@ -11254,80 +11254,49 @@ Loaded Method: {{ yz.componentsAPI.vue.getComponentLoadedMethod({codeId: loadedC
                 },
 
                 // Simple web UI helpers
-                onscrolled:                         function          (  ) {
+                onscrolled:                         function                    (  ) {
                     if (yz.mainVars.mousedown) {
                     yz.mainVars.autoScroll = false;
                     }
                 },
-                onemousedown:                       function  (  ) {
+                onemousedown:                       function                    (  ) {
                     //console.log("onmousedown")
                     yz.mainVars.mousedown = true
                 },
-                onemouseup:                         function          (  ) {
+                onemouseup:                         function                    (  ) {
                     //console.log("onmouseup")
                     yz.mainVars.mousedown = false
                 },
-                refresh:                            function            (  ) {
+                refresh:                            function                    (  ) {
                     mainVueAppVm.count += 1;
                 },
 
-                //
-                // If this app is loaded as a HTML page and possibly without a Yazz server running
-                // "DO NOT" change this line as it is dynamically replaced by code
-                // !!!!!!!!!!! WARNING - PLEASE READ ABOVE COMMENT BEFORE EDITING  !!!!!!!!!!!
-                //
-                isStaticHtmlPageApp: false
-            }
-            window.yz                   = yz
-            var registerComponent       = yz.registerComponent
-            var callComponent           = yz.callComponent
-            var isValidObject           = yz.isValidObject
-            var showProgressBar         = yz.showProgressBar
-            var hideProgressBar         = yz.hideProgressBar
-            var msToTime                = yz.msToTime
-            var capitalizeFirstLetter   = yz.capitalizeFirstLetter
-            var timeDiffLater           = yz.timeDiffLater
-            var refresh                 = yz.refresh
 
 
-
-
-
-
-
-
-
-
-            //debug helpers
-            function        trace                               (  ) {
-                // this is a server side call but for some reason it gets evaluated
-                // when open a microservice which contains the "trace" function (Which
-                // is used for Jaeger OpenTracing)
-
-            }
-            function        fillInMissingWatchTimelineValues    (  vName  ,  executionStepNo  ) {
-                if (!yz.globalWatchList[vName]) {
-                    yz.globalWatchList[vName] = {
-                        viewer: ""
+                //debug helpers
+                fillInMissingWatchTimelineValues:   function                    (  vName  ,  executionStepNo  ) {
+                    if (!yz.globalWatchList[vName]) {
+                        yz.globalWatchList[vName] = {
+                            viewer: ""
+                        }
                     }
-                }
-                if (!yz.globalWatchList[vName][executionStepNo]) {
-                    yz.globalWatchList[vName][executionStepNo] = {}
-                }
-
-                if (executionStepNo == yz.executionTimeline.length) {
-                    return
-
-                } else if (!yz.globalWatchList[vName][executionStepNo].isSet) {
-                    if (executionStepNo == 0) {
-                        yz.globalWatchList[vName][executionStepNo].value = null
-                    } else {
-                        yz.globalWatchList[vName][executionStepNo].value = yz.globalWatchList[vName][executionStepNo - 1].value
+                    if (!yz.globalWatchList[vName][executionStepNo]) {
+                        yz.globalWatchList[vName][executionStepNo] = {}
                     }
-                }
-                fillInMissingWatchTimelineValues(vName, executionStepNo + 1)
-            }
-            function        addWatchPoint                       (  vName  ,  value  ) {
+
+                    if (executionStepNo == yz.executionTimeline.length) {
+                        return
+
+                    } else if (!yz.globalWatchList[vName][executionStepNo].isSet) {
+                        if (executionStepNo == 0) {
+                            yz.globalWatchList[vName][executionStepNo].value = null
+                        } else {
+                            yz.globalWatchList[vName][executionStepNo].value = yz.globalWatchList[vName][executionStepNo - 1].value
+                        }
+                    }
+                        yz.fillInMissingWatchTimelineValues(vName, executionStepNo + 1)
+                },
+                addWatchPoint:                      function                    (  vName  ,  value  ) {
                 yz.globalWatchList[vName][yz.currentTimelineLogPoint] = {}
                 yz.globalWatchList[vName][yz.currentTimelineLogPoint].value = eval("(" + JSON.stringify(value) + ")")
                 yz.globalWatchList[vName][yz.currentTimelineLogPoint].isSet = true
@@ -11344,8 +11313,8 @@ Loaded Method: {{ yz.componentsAPI.vue.getComponentLoadedMethod({codeId: loadedC
                         }
                     }
                 }
-            }
-            function        logExecutionPoint                   (  codeBlockName  ,  line  ,  node  ) {
+            },
+                logExecutionPoint:                  function                    (  codeBlockName  ,  line  ,  node  ) {
                 //console.log("logExecutionPoint(" + codeBlockName + "," + line)
 
                 if (yz.executionCode[codeBlockName]) {
@@ -11361,8 +11330,8 @@ Loaded Method: {{ yz.componentsAPI.vue.getComponentLoadedMethod({codeId: loadedC
 
                     yz.executionTimelineMapTimeToLine[recor.time] = recor
                 }
-            }
-            function        getDebugCode                        (  blockName  ,  trcode2  ,  args  ) {
+            },
+                getDebugCode:                       function                    (  blockName  ,  trcode2  ,  args  ) {
 
                 let _b = esprima.parse(trcode2,{tolerant: true , loc:true, range: true, attachComment: false})
                 let line = -1
@@ -11394,7 +11363,7 @@ Loaded Method: {{ yz.componentsAPI.vue.getComponentLoadedMethod({codeId: loadedC
                                         line = (node.loc.start.line - numLinesToSkip)
 
                                         if (line > 0) {
-                                            let newLine = "logExecutionPoint('" + blockName + "', " + line +",'" + JSON.stringify(node.type) + "');"
+                                            let newLine = "yz.logExecutionPoint('" + blockName + "', " + line +",'" + JSON.stringify(node.type) + "');"
                                             let newNode = esprima.parse(newLine)
 
                                             for (let rr = 0; rr < parent.body.length; rr++){
@@ -11428,7 +11397,7 @@ Loaded Method: {{ yz.componentsAPI.vue.getComponentLoadedMethod({codeId: loadedC
                                                         varNameToUse + "'," + varNameToUse + ");"
                                                     let newNodeAfter = esprima.parse(newLineAfter)
 
-                                                    let logWatchVarsCode = `for (let _uu=0; _uu<Object.keys(yz.globalWatchList).length; _uu++){try { let _vName = Object.keys(yz.globalWatchList)[_uu];if (isValidObject(_vName)){ addWatchPoint(_vName, eval(_vName) ) }} catch(_err){}}`
+                                                    let logWatchVarsCode = `for (let _uu=0; _uu<Object.keys(yz.globalWatchList).length; _uu++){try { let _vName = Object.keys(yz.globalWatchList)[_uu];if (isValidObject(_vName)){ yz.addWatchPoint(_vName, eval(_vName) ) }} catch(_err){}}`
                                                     let logWatchVarsNode = esprima.parse(logWatchVarsCode)
 
                                                     for (let rr = 0; rr < parent.body.length; rr++) {
@@ -11446,7 +11415,7 @@ Loaded Method: {{ yz.componentsAPI.vue.getComponentLoadedMethod({codeId: loadedC
 
                                             if ((node.type == "ExpressionStatement") && node.expression) {
                                                 if (node.expression.type == "CallExpression") {
-                                                    let logWatchVarsCode = `for (let _uu=0; _uu<Object.keys(yz.globalWatchList).length; _uu++){try { let _vName = Object.keys(yz.globalWatchList)[_uu];if (isValidObject(_vName)){ addWatchPoint(_vName, eval(_vName) ) }} catch(_err){}}`
+                                                    let logWatchVarsCode = `for (let _uu=0; _uu<Object.keys(yz.globalWatchList).length; _uu++){try { let _vName = Object.keys(yz.globalWatchList)[_uu];if (isValidObject(_vName)){ yz.addWatchPoint(_vName, eval(_vName) ) }} catch(_err){}}`
                                                     let logWatchVarsNode = esprima.parse(logWatchVarsCode)
 
                                                     for (let rr=0; rr<parent.body.length; rr++){
@@ -11485,7 +11454,7 @@ Loaded Method: {{ yz.componentsAPI.vue.getComponentLoadedMethod({codeId: loadedC
                                                             varName + "', " + varName + ");"
                                                         let newNodeAfter = esprima.parse(newLineAfter)
 
-                                                        let logWatchVarsCode = `for (let _uu=0; _uu<Object.keys(yz.globalWatchList).length; _uu++){try { let _vName = Object.keys(yz.globalWatchList)[_uu];if (isValidObject(_vName)){ addWatchPoint(_vName, eval(_vName) ) }} catch(_err){}}`
+                                                        let logWatchVarsCode = `for (let _uu=0; _uu<Object.keys(yz.globalWatchList).length; _uu++){try { let _vName = Object.keys(yz.globalWatchList)[_uu];if (isValidObject(_vName)){ yz.addWatchPoint(_vName, eval(_vName) ) }} catch(_err){}}`
                                                         let logWatchVarsNode = esprima.parse(logWatchVarsCode)
 
                                                         for (let rr = 0; rr < parent.body.length; rr++) {
@@ -11586,7 +11555,34 @@ Loaded Method: {{ yz.componentsAPI.vue.getComponentLoadedMethod({codeId: loadedC
                 }
 
                 return debugCode
+            },
+
+                //
+                // If this app is loaded as a HTML page and possibly without a Yazz server running
+                // "DO NOT" change this line as it is dynamically replaced by code
+                // !!!!!!!!!!! WARNING - PLEASE READ ABOVE COMMENT BEFORE EDITING  !!!!!!!!!!!
+                //
+                isStaticHtmlPageApp: false
             }
+            window.yz                   = yz
+            var registerComponent       = yz.registerComponent
+            var callComponent           = yz.callComponent
+            var isValidObject           = yz.isValidObject
+            var showProgressBar         = yz.showProgressBar
+            var hideProgressBar         = yz.hideProgressBar
+            var msToTime                = yz.msToTime
+            var capitalizeFirstLetter   = yz.capitalizeFirstLetter
+            var timeDiffLater           = yz.timeDiffLater
+            var refresh                 = yz.refresh
+
+
+
+
+
+
+
+
+
 
             //simple helpers
             function        compareValues                       (  a  ,  b  ) {

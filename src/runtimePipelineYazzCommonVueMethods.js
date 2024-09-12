@@ -1785,7 +1785,7 @@ ${formprop.fn}
                             `(async function(${argsToUserCodeStringV2}) {
 ${innerMethodSrcCode}
 })`
-                        let debugFcc = getDebugCode(
+                        let debugFcc = yz.getDebugCode(
                             "app." + appMethodId,
                             thecode,
                             {
@@ -3285,7 +3285,7 @@ ${code}
                         }
 
 
-                        let debugFcc = getDebugCode(
+                        let debugFcc = yz.getDebugCode(
                             blockName,
                             fcc,
                             {

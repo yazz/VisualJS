@@ -1373,7 +1373,7 @@ ___________
                         mm.setupTimelineEditor()
                         let allWatches = Object.keys(yz.globalWatchList)
                         for (let rt = 0 ; rt < allWatches.length; rt++) {
-                            fillInMissingWatchTimelineValues(allWatches[rt],0)
+                            yz.fillInMissingWatchTimelineValues(allWatches[rt],0)
                         }
                     },
                     200)
@@ -2187,7 +2187,7 @@ ___________
                 await this.loadComponentIntoEditor({codeId:  this.code_id })
                 let allWatches = Object.keys(yz.globalWatchList)
                 for (let rt = 0 ; rt < allWatches.length; rt++) {
-                    fillInMissingWatchTimelineValues(allWatches[rt],0)
+                    yz.fillInMissingWatchTimelineValues(allWatches[rt],0)
                 }
             },
             deleteWatch:                    async function  (  varN  ){
