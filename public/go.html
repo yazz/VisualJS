@@ -11386,14 +11386,14 @@ Loaded Method: {{ yz.componentsAPI.vue.getComponentLoadedMethod({codeId: loadedC
                                                     let varNameToUse = node.declarations[0].id.name
                                                     if (node.kind == "var") {
                                                         if (isValidObject(varNameToUse) && varNameToUse.indexOf("undefined")==-1){
-                                                            let newLine = "logVarBefore('" + blockName + "', " + node.loc.start.line + ",'" +
+                                                            let newLine = "yz.logVarBefore('" + blockName + "', " + node.loc.start.line + ",'" +
                                                                 varNameToUse + "', " + varNameToUse + ");"
                                                             let newNode = esprima.parse(newLine)
                                                         }
                                                     }
                                                     varsToAdd[varNameToUse] = {}
 
-                                                    let newLineAfter = "logVarAfter('" + blockName + "', " + node.loc.start.line + ",'" +
+                                                    let newLineAfter = "yz.logVarAfter('" + blockName + "', " + node.loc.start.line + ",'" +
                                                         varNameToUse + "'," + varNameToUse + ");"
                                                     let newNodeAfter = esprima.parse(newLineAfter)
 
@@ -11446,11 +11446,11 @@ Loaded Method: {{ yz.componentsAPI.vue.getComponentLoadedMethod({codeId: loadedC
                                                         varsToAdd[varName] = {}
 
 
-                                                        let newLine = "logVarBefore('" + blockName + "', " + node.loc.start.line + ",'" +
+                                                        let newLine = "yz.logVarBefore('" + blockName + "', " + node.loc.start.line + ",'" +
                                                             varName + "', " + varName + ");"
                                                         let newNode = esprima.parse(newLine)
 
-                                                        let newLineAfter = "logVarAfter('" + blockName + "', " + node.loc.start.line + ",'" +
+                                                        let newLineAfter = "yz.logVarAfter('" + blockName + "', " + node.loc.start.line + ",'" +
                                                             varName + "', " + varName + ");"
                                                         let newNodeAfter = esprima.parse(newLineAfter)
 
@@ -11787,71 +11787,21 @@ Loaded Method: {{ yz.componentsAPI.vue.getComponentLoadedMethod({codeId: loadedC
                     (document.body || head).appendChild(s);
                 },
                 base64ToUint8Array:                 function                    (  string  ) {
-                let raw = atob(string);
-                let rawLength = raw.length;
-                let array = new Uint8Array(new ArrayBuffer(rawLength));
-                for (let i = 0; i < rawLength; i += 1) {
-                    array[i] = raw.charCodeAt(i);
-                }
-                return array;
-            },
-
-
-
-                //
-                // If this app is loaded as a HTML page and possibly without a Yazz server running
-                // "DO NOT" change this line as it is dynamically replaced by code
-                // !!!!!!!!!!! WARNING - PLEASE READ ABOVE COMMENT BEFORE EDITING  !!!!!!!!!!!
-                //
-                isStaticHtmlPageApp: false
-            }
-            window.yz                   = yz
-            var registerComponent       = yz.registerComponent
-            var callComponent           = yz.callComponent
-            var isValidObject           = yz.isValidObject
-            var showProgressBar         = yz.showProgressBar
-            var hideProgressBar         = yz.hideProgressBar
-            var msToTime                = yz.msToTime
-            var capitalizeFirstLetter   = yz.capitalizeFirstLetter
-            var timeDiffLater           = yz.timeDiffLater
-            var refresh                 = yz.refresh
-
-
-
-
-
-
-
-            function        logVarBefore                        (  codeBlockName  ,  line  ,  varName  ,  varValue  ) {
-                if (yz.executionCode[codeBlockName]) {
-
-                    if (yz.executionTimeline[yz.currentTimelineLogPoint]) {
-                        if (!yz.executionTimeline[yz.currentTimelineLogPoint].vars[varName]) {
-                            yz.executionTimeline[yz.currentTimelineLogPoint].vars[varName] = {}
-                        }
-                        yz.executionTimeline[yz.currentTimelineLogPoint].vars[varName].before = varValue
+                    let raw = atob(string);
+                    let rawLength = raw.length;
+                    let array = new Uint8Array(new ArrayBuffer(rawLength));
+                    for (let i = 0; i < rawLength; i += 1) {
+                        array[i] = raw.charCodeAt(i);
                     }
+                    return array;
+                },
 
-                }
 
 
-            }
-            function        logVarAfter                         (  codeBlockName  ,  line  ,  varName  ,  varValue  ) {
-                if (yz.executionCode[codeBlockName]) {
-
-                    if (yz.executionTimeline[yz.currentTimelineLogPoint]) {
-                        if (!yz.executionTimeline[yz.currentTimelineLogPoint].vars[varName]) {
-                            yz.executionTimeline[yz.currentTimelineLogPoint].vars[varName] = {}
-                        }
-                        yz.executionTimeline[yz.currentTimelineLogPoint].vars[varName].after = varValue
-                    }
-                }
-            }
-
-            //login helpers
-            function        loadKeycloak                        (  keycloakJson  ) {
+                //login helpers
+                loadKeycloak:                       function                    (  keycloakJson  ) {
                 /*
-            loadKeycloak(
+            yz.loadKeycloak(
             {
             "realm": "yazz",
             "auth-server-url": "http://127.0.0.1:8080/auth",
@@ -11900,13 +11850,63 @@ Loaded Method: {{ yz.componentsAPI.vue.getComponentLoadedMethod({codeId: loadedC
                 };
                 script.src = keycloakJson["auth-server-url"] + "/js/keycloak.js";
                 document.head.appendChild(script);
-            }
-            function        logoutKeycloak                      (  ) {
+            },
+                logoutKeycloak:                     function                    (  ) {
                 if (yz.keycloak) {
                     yz.keycloakJsonInUse = null
                     yz.keycloak.logout()
                 }
+            },
+
+                logVarBefore:                       function                    (  codeBlockName  ,  line  ,  varName  ,  varValue  ) {
+                    if (yz.executionCode[codeBlockName]) {
+
+                        if (yz.executionTimeline[yz.currentTimelineLogPoint]) {
+                            if (!yz.executionTimeline[yz.currentTimelineLogPoint].vars[varName]) {
+                                yz.executionTimeline[yz.currentTimelineLogPoint].vars[varName] = {}
+                            }
+                            yz.executionTimeline[yz.currentTimelineLogPoint].vars[varName].before = varValue
+                        }
+
+                    }
+
+
+                },
+                logVarAfter:                        function                    (  codeBlockName  ,  line  ,  varName  ,  varValue  ) {
+                    if (yz.executionCode[codeBlockName]) {
+
+                        if (yz.executionTimeline[yz.currentTimelineLogPoint]) {
+                            if (!yz.executionTimeline[yz.currentTimelineLogPoint].vars[varName]) {
+                                yz.executionTimeline[yz.currentTimelineLogPoint].vars[varName] = {}
+                            }
+                            yz.executionTimeline[yz.currentTimelineLogPoint].vars[varName].after = varValue
+                        }
+                    }
+                },
+
+                //
+                // If this app is loaded as a HTML page and possibly without a Yazz server running
+                // "DO NOT" change this line as it is dynamically replaced by code
+                // !!!!!!!!!!! WARNING - PLEASE READ ABOVE COMMENT BEFORE EDITING  !!!!!!!!!!!
+                //
+                isStaticHtmlPageApp: false
             }
+            window.yz                   = yz
+            var registerComponent       = yz.registerComponent
+            var callComponent           = yz.callComponent
+            var isValidObject           = yz.isValidObject
+            var showProgressBar         = yz.showProgressBar
+            var hideProgressBar         = yz.hideProgressBar
+            var msToTime                = yz.msToTime
+            var capitalizeFirstLetter   = yz.capitalizeFirstLetter
+            var timeDiffLater           = yz.timeDiffLater
+            var refresh                 = yz.refresh
+
+
+
+
+
+
 
 
             var injectedVars = {
