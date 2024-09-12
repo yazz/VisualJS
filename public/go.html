@@ -9161,7 +9161,7 @@
                                 }
 
                                 if (baseComponentId.startsWith("COMP_")) {
-                                    //await saveDebugTextOnServer(trcode2, "z.js")
+                                    //await yz.saveDebugTextOnServer(trcode2, "z.js")
                                 }
                             }
                         }
@@ -11557,35 +11557,10 @@ Loaded Method: {{ yz.componentsAPI.vue.getComponentLoadedMethod({codeId: loadedC
                 return debugCode
             },
 
-                //
-                // If this app is loaded as a HTML page and possibly without a Yazz server running
-                // "DO NOT" change this line as it is dynamically replaced by code
-                // !!!!!!!!!!! WARNING - PLEASE READ ABOVE COMMENT BEFORE EDITING  !!!!!!!!!!!
-                //
-                isStaticHtmlPageApp: false
-            }
-            window.yz                   = yz
-            var registerComponent       = yz.registerComponent
-            var callComponent           = yz.callComponent
-            var isValidObject           = yz.isValidObject
-            var showProgressBar         = yz.showProgressBar
-            var hideProgressBar         = yz.hideProgressBar
-            var msToTime                = yz.msToTime
-            var capitalizeFirstLetter   = yz.capitalizeFirstLetter
-            var timeDiffLater           = yz.timeDiffLater
-            var refresh                 = yz.refresh
 
 
-
-
-
-
-
-
-
-
-            //simple helpers
-            function        compareValues                       (  a  ,  b  ) {
+                //simple helpers
+                compareValues:                      function                    (  a  ,  b  ) {
 
                 //if a and b aren't the same type, they can't be equal
                 if (typeof a !== typeof b) {
@@ -11609,68 +11584,90 @@ Loaded Method: {{ yz.componentsAPI.vue.getComponentLoadedMethod({codeId: loadedC
                     //recurse on the values for each key
                     return keysA.every(function(key) {
                         //if we made it here, they have identical keys
-                        return compareValues(a[key], b[key]);
+                        return yz.compareValues(a[key], b[key]);
                     });
 
                     //for primitives just use a straight up check
                 } else {
                     return a === b;
                 }
-            }
-            async function  saveDebugTextOnServer               (  textInput  ,  fileLocation  ) {
-                /*
-                ________________________________________
-                |                                      |
-                |         saveDebugTextOnServer        |
-                |                                      |
-                |______________________________________|
-                Function description
-                __________
-                | PARAMS |______________________________________________________________
-                |
-                |     textInput         The text to save
-                |     ---------
-                |
-                |      fileLocation     Where to save the text
-                |      ------------
-                |________________________________________________________________________ */
-                let resultsUi = await postToYazzReturnJson(
-                    "/http_post_save_debug_text",
-                    {
-                        textInput:      textInput,
-                        fileLocation:   fileLocation
-                    })
+            },
+                saveDebugTextOnServer:              async function              (  textInput  ,  fileLocation  ) {
+                    /*
+                    ________________________________________
+                    |                                      |
+                    |         saveDebugTextOnServer        |
+                    |                                      |
+                    |______________________________________|
+                    Function description
+                    __________
+                    | PARAMS |______________________________________________________________
+                    |
+                    |     textInput         The text to save
+                    |     ---------
+                    |
+                    |      fileLocation     Where to save the text
+                    |      ------------
+                    |________________________________________________________________________ */
+                    let resultsUi = await postToYazzReturnJson(
+                        "/http_post_save_debug_text",
+                        {
+                            textInput:      textInput,
+                            fileLocation:   fileLocation
+                        })
 
-            }
-            function        resetTimer                          (  messageToStart  ) {
-                console.log("Starting timer for: " + messageToStart)
-                yz.globalStartTimer = new Date().getTime()
-                yz.globalTimerCounter = 0
-            }
-            function        showTimer                           (  optionalMessage  ) {
-                yz.globalEndTimer = new Date().getTime()
-                yz.globalTimerCounter ++
-                let theTimerText = optionalMessage
-                if (!theTimerText) {
-                    theTimerText = "" + yz.globalTimerCounter
-                }
-                console.log("    Elapsed time in milliseconds: " + theTimerText + " : "+ (yz.globalEndTimer - yz.globalStartTimer))
-            }
-            function        getUrlParam                         (  paramName  ) {
-
-                var pairs = document.URL.split('?')
-                    .pop()
-                    .split('&');
-
-                for (var i = 0, p; i < pairs.length; i++) {
-                    p = pairs[i].split('=');
-                    if (p[0] == paramName) {
-                        return p[1];
+                },
+                resetTimer:                         function                    (  messageToStart  ) {
+                    console.log("Starting timer for: " + messageToStart)
+                    yz.globalStartTimer = new Date().getTime()
+                    yz.globalTimerCounter = 0
+                },
+                showTimer:                          function                    (  optionalMessage  ) {
+                    yz.globalEndTimer = new Date().getTime()
+                    yz.globalTimerCounter ++
+                    let theTimerText = optionalMessage
+                    if (!theTimerText) {
+                        theTimerText = "" + yz.globalTimerCounter
                     }
-                }
+                    console.log("    Elapsed time in milliseconds: " + theTimerText + " : "+ (yz.globalEndTimer - yz.globalStartTimer))
+                },
+                getUrlParam:                        function                    (  paramName  ) {
 
-                return null;
+                    var pairs = document.URL.split('?')
+                        .pop()
+                        .split('&');
+
+                    for (var i = 0, p; i < pairs.length; i++) {
+                        p = pairs[i].split('=');
+                        if (p[0] == paramName) {
+                            return p[1];
+                        }
+                    }
+
+                    return null;
+                },
+                //
+                // If this app is loaded as a HTML page and possibly without a Yazz server running
+                // "DO NOT" change this line as it is dynamically replaced by code
+                // !!!!!!!!!!! WARNING - PLEASE READ ABOVE COMMENT BEFORE EDITING  !!!!!!!!!!!
+                //
+                isStaticHtmlPageApp: false
             }
+            window.yz                   = yz
+            var registerComponent       = yz.registerComponent
+            var callComponent           = yz.callComponent
+            var isValidObject           = yz.isValidObject
+            var showProgressBar         = yz.showProgressBar
+            var hideProgressBar         = yz.hideProgressBar
+            var msToTime                = yz.msToTime
+            var capitalizeFirstLetter   = yz.capitalizeFirstLetter
+            var timeDiffLater           = yz.timeDiffLater
+            var refresh                 = yz.refresh
+
+
+
+
+
 
             async function  getFromYazzReturnJson               (  urlToget  ,  urlParams  ) {
                 let urlParamsWithoutNulls = {}
@@ -11865,7 +11862,7 @@ Loaded Method: {{ yz.componentsAPI.vue.getComponentLoadedMethod({codeId: loadedC
 
                 if (yz.keycloakJsonInUse) {
                     //debugger
-                    if (compareValues(yz.keycloakJsonInUse, keycloakJson)) {
+                    if (yz.compareValues(yz.keycloakJsonInUse, keycloakJson)) {
                         return
                     }
                 }

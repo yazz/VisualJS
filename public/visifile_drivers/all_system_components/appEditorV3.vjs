@@ -1885,7 +1885,7 @@ ___________
 
                     mm.save_state = "saved"
                     mm.checkSavedFile()
-                    //showTimer("done")
+                    //yz.showTimer("done")
                     mm.inSave = false
                     mm.editor_shell_locked = false
 
@@ -1895,7 +1895,7 @@ ___________
                         code_id:             mm.code_id
                     })
 
-                    //showTimer("return")
+                    //yz.showTimer("return")
                     return true
 
                 } catch (e) {

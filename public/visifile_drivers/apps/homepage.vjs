@@ -1046,7 +1046,7 @@ disableHighlightEditableApp:            {{ disableHighlightEditableApp }}
                                              | is loaded by looking for "id" in
                                              | the URL
                                              |__________________________________ */
-                    let highlightAppOnStartup = getUrlParam("id")
+                    let highlightAppOnStartup =yz. getUrlParam("id")
                     if (highlightAppOnStartup) {
                         mm.highlightEditableComponent(highlightAppOnStartup)
 
