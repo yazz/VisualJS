@@ -113,10 +113,10 @@ logo_url("/driver_icons/sqlite.jpg")
 */
 
     Yazz.component({
-        props: [  "meta",  "args",  "properties",  "name",  "refresh",  "design_mode"  ]
+        props: [  "meta",  "args",  "control_properties_and_events",  "name",  "refresh",  "design_mode"  ]
         ,
         template: `<div v-bind:style='"white-space:normal;height:100%;width:100%; border: 0px;" +
-                                    "background-color: "+    args["background_color"]  +  ";"'>
+                                    "background-color: "+    control_properties_and_events["background_color"]  +  ";"'>
                                     <div v-if="design_mode">
                                     sqlite:
                                                 {{design_time_text}}
@@ -137,8 +137,8 @@ logo_url("/driver_icons/sqlite.jpg")
         watch: {
           // This would be called anytime the value of the input changes
           refresh(newValue, oldValue) {
-              if (isValidObject(this.args)) {
-                  this.design_time_text = this.args.design_time_text
+              if (isValidObject(this.control_properties_and_events)) {
+                  this.design_time_text = this.control_properties_and_events.design_time_text
               }
           }
         },
@@ -158,12 +158,12 @@ logo_url("/driver_icons/sqlite.jpg")
             getTables: async function() {
               console.log("In getTables")
 
-              if (this.design_mode) {
+              if (!this.design_mode) {
 
                   var result = await querySqlite(
                                           {
                                               get_tables:      true,
-                                              path:            this.properties.sqlite_file_path
+                                              path:            this.control_properties_and_events.sqlite_file_path
                                           })
 
 
@@ -192,7 +192,7 @@ logo_url("/driver_icons/sqlite.jpg")
                     var result = await querySqlite(
                                             {
                                                 connect:         true,
-                                                path:            this.properties.sqlite_file_path
+                                                path:            this.control_properties_and_events.sqlite_file_path
                                             })
 
 
@@ -222,9 +222,9 @@ logo_url("/driver_icons/sqlite.jpg")
                 if (this.design_mode) {
                     var result = await querySqlite(
                                         {
-                                                path:            this.properties.sqlite_file_path,
+                                                path:            this.control_properties_and_events.sqlite_file_path,
                                                 get_columns:      true,
-                                                table:           this.args.design_mode_table
+                                                table:           this.control_properties_and_events.design_mode_table
                                         })
 
 
@@ -232,15 +232,15 @@ logo_url("/driver_icons/sqlite.jpg")
                    //alert("runQuery: " + JSON.stringify(result,null,2))
                    console.log(JSON.stringify(result,null,2))
                    if (result) {
-                       this.args.columns = []
+                       this.control_properties_and_events.columns = []
                        //alert(JSON.stringify(result,null,2))
                        for (var i=0;i<result.length;i++) {
-                           this.args.columns.push(result[i].name)
+                           this.control_properties_and_events.columns.push(result[i].name)
 
                        }
                    }
 
-                   return this.args.columns
+                   return this.control_properties_and_events.columns
                 }
             }
             ,
@@ -269,29 +269,29 @@ logo_url("/driver_icons/sqlite.jpg")
                 if (!this.design_mode) {
                     var result = await querySqlite(
                                         {
-                                                sql:             this.args.sql,
-                                                path:            this.properties.sqlite_file_path
+                                                sql:             this.control_properties_and_events.sql,
+                                                path:            this.control_properties_and_events.sqlite_file_path
                                         })
 
 
                    //alert("runQuery: " + JSON.stringify(result,null,2))
                    console.log(JSON.stringify(result,null,2))
                    if (result) {
-                        this.args.result = result.result
+                        this.control_properties_and_events.result = result.result
 
                         return result
                    }
 
 
                }
-                this.args.result = []
+                this.control_properties_and_events.result = []
                 this.changedFn()
                 return {}
             }
             ,
             changedFn: function() {
-                if (isValidObject(this.args)) {
-                    //this.args.text = this.text
+                if (isValidObject(this.control_properties_and_events)) {
+                    //this.control_properties_and_events.text = this.text
                 }
             }
 
