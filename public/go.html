@@ -11060,7 +11060,14 @@ Loaded Method: {{ yz.componentsAPI.vue.getComponentLoadedMethod({codeId: loadedC
                     '836542336838601': 'curio'
                 },
 
-                appSetInterval:                     function                      (  fnn  ,  interval  ) {
+                // app helpers
+                appClearIntervals:                  function                    (  ) {
+                for(var i = 0; i < yz.appIntervalTimers.length; i++){
+                    clearInterval(yz.appIntervalTimers[i]);
+                }
+                yz.appIntervalTimers = []
+            },
+                appSetInterval:                     function                    (  fnn  ,  interval  ) {
                 var xx = setInterval(fnn,interval)
                 yz.appIntervalTimers.push(xx)
             },
@@ -11084,13 +11091,6 @@ Loaded Method: {{ yz.componentsAPI.vue.getComponentLoadedMethod({codeId: loadedC
 
 
 
-            // app helpers
-            function        appClearIntervals                   (  ) {
-                for(var i = 0; i < yz.appIntervalTimers.length; i++){
-                    clearInterval(yz.appIntervalTimers[i]);
-                }
-                yz.appIntervalTimers = []
-            }
 
 
             async function  querySqlite                         (  args  ) {

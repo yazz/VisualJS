@@ -1109,7 +1109,7 @@ ___________
             saveButtonPressed:              async function  (  ) {
                 let mm = this
                 setTimeout(async function () {
-                    appClearIntervals();
+                    yz.appClearIntervals();
                     await mm.save(  mm.base_component_id  ,  mm.code_id  ,  null  )
                 }, 100)
             },
@@ -1133,7 +1133,7 @@ ___________
                 let mm = this
                 setTimeout(
                     async function(){
-                        appClearIntervals();
+                        yz.appClearIntervals();
                         await mm.loadComponentIntoEditor(
                             {
                                 codeId:         mm.code_id,
@@ -1147,7 +1147,7 @@ ___________
                 if ((mm.preview_type=="app") && (!mm.sqlite_data_saved_in_html)) {
                     mm.sqlite_data_saved_in_html = true;
                     setTimeout(async function(){
-                        appClearIntervals();
+                        yz.appClearIntervals();
                         await mm.save(mm.base_component_id, mm.code_id,null,{allowAppToWorkOffline: true});
                         setTimeout(function(){
                             document.getElementById("saveHTMLButton").click();
@@ -1274,7 +1274,7 @@ ___________
                 }
 
                 if (this.$refs.editor_component_ref) {
-                    appClearIntervals()
+                    yz.appClearIntervals()
                     this.editor_text = await this.$refs.editor_component_ref.getText()
 
                     //
@@ -1313,7 +1313,7 @@ ___________
                 }
                 setTimeout(function(){
                     console.log("appClearIntervals()")
-                    appClearIntervals()
+                    yz.appClearIntervals()
                 },2500)
             },
             chooseBoth:                     async function  (  ) {
@@ -1334,7 +1334,7 @@ ___________
                 this.app_width = "33%"
                 this.app_shown = true
 
-                appClearIntervals()
+                yz.appClearIntervals()
                 await mm.loadComponentIntoEditor({codeId:  this.code_id, runThisApp: true})
 
                 if (this.timeline_editor) {
@@ -1361,7 +1361,7 @@ ___________
                 this.app_shown = false
 
                 if (this.$refs.editor_component_ref && (this.mode=="edit") && (this.sub_mode=="code")) {
-                    appClearIntervals()
+                    yz.appClearIntervals()
                     this.editor_text = await this.$refs.editor_component_ref.getText()
 
                     await this.save( this.base_component_id, this.code_id, this.editor_text )
@@ -2377,7 +2377,7 @@ ___________
                     // ******** if AUTOSAVE is on then save the code ************
                     if (!yz.mainVars.disableAutoSave) {
                         //console.log("     saved: " + mm.code_id)
-                        appClearIntervals();
+                        yz.appClearIntervals();
                         await mm.save(mm.base_component_id, mm.code_id, null)
                     }
                 }
