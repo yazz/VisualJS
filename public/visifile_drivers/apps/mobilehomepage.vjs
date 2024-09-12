@@ -361,7 +361,7 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
               let mm = this
 
               let openfileurl = "http" + (($HOSTPORT == 443)?"s":"") + "://" + $HOST + "/http_post_load_topapps"
-              callAjax( openfileurl,
+              yz.callAjax( openfileurl,
                   function(res) {
                       //debugger
                       let responseJson = JSON.parse(res)
@@ -404,7 +404,7 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
                 let openfileurl = "/electron_file_open"
 
                 //console.log("openfileurl:= " + openfileurl)
-                callAjax( openfileurl,
+                yz.callAjax( openfileurl,
                     function(res) {
                         console.log(res)
                     })

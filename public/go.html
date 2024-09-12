@@ -10600,7 +10600,7 @@ Loaded Method: {{ yz.componentsAPI.vue.getComponentLoadedMethod({codeId: loadedC
                 return results
             },
                 getYazzCookie:                  function        (  )                                            {
-                return getCookie("yazz")
+                return yz.getCookie("yazz")
             },
                 callComponent:                  async function  (  componentSearchDetails  ,  fnCallArgs  )     {
                 /*
@@ -11612,6 +11612,49 @@ Loaded Method: {{ yz.componentsAPI.vue.getComponentLoadedMethod({codeId: loadedC
                     retval = await promise
                     return retval
                 },
+                getCookie:                          function                    (  name  ) {
+                const value = `; ${document.cookie}`;
+                const parts = value.split(`; ${name}=`);
+                if (parts.length === 2) return parts.pop().split(';').shift();
+            },
+                callAjax:                           function                    (  url  ,  callback  ){
+                        var xmlhttp;
+                        // compatible with IE7+, Firefox, Chrome, Opera, Safari
+                        xmlhttp = new XMLHttpRequest();
+                        xmlhttp.onreadystatechange = function(){
+                            if (xmlhttp.readyState == 4 && xmlhttp.status == 200){
+                                callback(xmlhttp.responseText);
+                            }
+                        }
+                        xmlhttp.open("GET", url, true);
+                        xmlhttp.send();
+                    },
+                callAjax2:                          function                    (  url  ,  options  ,  callback  ){
+                        var xmlhttp;
+                        //debugger
+                        if (options && options.params) {
+                            url += "?"
+                            let paramArray = Object.entries(options.params)
+                            let ajaxParams = Array.from(paramArray, ([name, value]) => ({ name, value }));
+                            ajaxParams.forEach(
+                                function myFunction(entry, index, ajaxParams) {
+                                    //debugger
+                                    url += entry.name + "=" + encodeURIComponent(entry.value) + "&";
+                                });
+                        }
+                        console.log("callAjax2 url = " + url)
+
+
+                        // compatible with IE7+, Firefox, Chrome, Opera, Safari
+                        xmlhttp = new XMLHttpRequest();
+                        xmlhttp.onreadystatechange = function(){
+                            if (xmlhttp.readyState == 4 && xmlhttp.status == 200){
+                                callback(xmlhttp.responseText);
+                            }
+                        }
+                        xmlhttp.open("GET", url, true);
+                        xmlhttp.send();
+                    },
 
 
                 //simple helpers
@@ -11701,6 +11744,9 @@ Loaded Method: {{ yz.componentsAPI.vue.getComponentLoadedMethod({codeId: loadedC
 
                     return null;
                 },
+
+
+
                 //
                 // If this app is loaded as a HTML page and possibly without a Yazz server running
                 // "DO NOT" change this line as it is dynamically replaced by code
@@ -11724,49 +11770,6 @@ Loaded Method: {{ yz.componentsAPI.vue.getComponentLoadedMethod({codeId: loadedC
 
 
 
-            function        getCookie                           (  name  ) {
-                const value = `; ${document.cookie}`;
-                const parts = value.split(`; ${name}=`);
-                if (parts.length === 2) return parts.pop().split(';').shift();
-            }
-            function        callAjax                            (  url  ,  callback  ){
-                var xmlhttp;
-                // compatible with IE7+, Firefox, Chrome, Opera, Safari
-                xmlhttp = new XMLHttpRequest();
-                xmlhttp.onreadystatechange = function(){
-                    if (xmlhttp.readyState == 4 && xmlhttp.status == 200){
-                        callback(xmlhttp.responseText);
-                    }
-                }
-                xmlhttp.open("GET", url, true);
-                xmlhttp.send();
-            }
-            function        callAjax2                           (  url  ,  options  ,  callback  ){
-                var xmlhttp;
-                //debugger
-                if (options && options.params) {
-                    url += "?"
-                    let paramArray = Object.entries(options.params)
-                    let ajaxParams = Array.from(paramArray, ([name, value]) => ({ name, value }));
-                    ajaxParams.forEach(
-                        function myFunction(entry, index, ajaxParams) {
-                            //debugger
-                            url += entry.name + "=" + encodeURIComponent(entry.value) + "&";
-                        });
-                }
-                console.log("callAjax2 url = " + url)
-
-
-                // compatible with IE7+, Firefox, Chrome, Opera, Safari
-                xmlhttp = new XMLHttpRequest();
-                xmlhttp.onreadystatechange = function(){
-                    if (xmlhttp.readyState == 4 && xmlhttp.status == 200){
-                        callback(xmlhttp.responseText);
-                    }
-                }
-                xmlhttp.open("GET", url, true);
-                xmlhttp.send();
-            }
             function        callAjaxPost                        (  url  ,  value  ,  callback  ){
                 var xhr = new XMLHttpRequest();
                 xhr.onreadystatechange = function(){
