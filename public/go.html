@@ -9784,7 +9784,7 @@
                             methods:    {
                                 click_card:                     async function(  id  ) {
                                     yz.mainVars.autoScroll = false;
-                                    await select_card(id)
+                                    await yz.select_card(id)
                                 },
                                 updateComments:                 async function(  ) {
                                     let mm                           = this
@@ -10389,7 +10389,7 @@ Loaded Method: {{ yz.componentsAPI.vue.getComponentLoadedMethod({codeId: loadedC
                             mainVueAppVm.show_loader = false
                             yz.mainVars.autoScroll = false
                             setTimeout(async function() {
-                                await select_card(nid)
+                                await yz.select_card(nid)
                             },20)
                             refresh();
                         }
@@ -10414,7 +10414,7 @@ Loaded Method: {{ yz.componentsAPI.vue.getComponentLoadedMethod({codeId: loadedC
                             mainVueAppVm.show_loader = true
                         } else if (!yz.isStaticHtmlPageApp) {
                             setTimeout(async function() {
-                                await select_card(1)
+                                await yz.select_card(1)
                             },200)
                         } else if (yz.isStaticHtmlPageApp) {
                             mainVueAppVm.is_static = true
@@ -11183,6 +11183,76 @@ Loaded Method: {{ yz.componentsAPI.vue.getComponentLoadedMethod({codeId: loadedC
                     }
                 },
 
+                // Load app into UI fns
+                prepareApp:                         async function              (  id  ,  bbase_component_id  ,  args  ) {
+                    console.log("****prepareApp")
+                    yz.base_component_id_of_loaded_app = bbase_component_id
+
+                    if ((mainVueAppVm.loadedAppMetaData.base_component_id != yz.base_component_id_of_loaded_app) ||
+                        (!yz.newAppArgs[id]))
+                    {
+                        yz.newAppArgs[id] = args
+                    }
+
+                    //
+                    // loadAppIntoElement
+                    //
+                    await yz.makeSureUiComponentLoadedV6(yz.base_component_id_of_loaded_app)
+                    if (mainVueAppVm.loadedAppMetaData.base_component_id == yz.base_component_id_of_loaded_app) {
+
+                        let codeIdOfComponent = yz.baseComponentIdReturnsCommitId[yz.base_component_id_of_loaded_app]
+                        yz.code_id_of_loaded_app = codeIdOfComponent
+
+                        mainVueAppVm.appCodeId = codeIdOfComponent
+                    }
+                },
+                select_card:                        async function              (  id  ) {
+                    if (mainVueAppVm.selected_card == id) {
+                        return;
+                    }
+                    if (mainVueAppVm.selected_card != -1) {
+                        if (id != -1) {
+                            document.querySelector('#card_' + mainVueAppVm.selected_card).classList.remove("expand");
+                        }
+                        document.querySelector('#card_' + mainVueAppVm.selected_card).classList.add('contract');
+                    }
+
+                    if (id != -1) {
+                        let elmnt = document.querySelector('#card_' + id);
+                        if (elmnt) {
+                            if (yz.isStaticHtmlPageApp) {
+                                mainVueAppVm.selected_card = id;
+                                setTimeout(async function() {
+                                    let thisApp = mainVueAppVm.loadedAppMetaData
+                                    if (mainVueAppVm.loadedAppMetaData.fn) {
+                                        setTimeout( mainVueAppVm.loadedAppMetaData.fn, 3000)
+                                    }
+                                    if (thisApp.base_component_id) {
+                                        await yz.prepareApp(  thisApp.id,   thisApp.base_component_id,   thisApp.args  )
+                                    }
+                                },200)
+                            } else {
+                                document.querySelector('#card_' + id).classList.remove('contract');
+                                document.querySelector('#card_' + id).classList.add('expand');
+                                setTimeout(function()
+                                {
+                                    mainVueAppVm.selected_card = id;
+                                    setTimeout(async function() {
+                                        let thisApp = mainVueAppVm.loadedAppMetaData
+                                        if (mainVueAppVm.loadedAppMetaData.fn) {
+                                            setTimeout( mainVueAppVm.loadedAppMetaData.fn, 3000)
+                                        }
+                                        if (thisApp.base_component_id) {
+                                            await yz.prepareApp(  thisApp.id,   thisApp.base_component_id,   thisApp.args  )
+                                        }
+                                    },200)
+                                },1000)
+                            }
+                        }
+                    }
+
+                },
+
                 //
                 // If this app is loaded as a HTML page and possibly without a Yazz server running
                 // "DO NOT" change this line as it is dynamically replaced by code
@@ -11206,75 +11276,6 @@ Loaded Method: {{ yz.componentsAPI.vue.getComponentLoadedMethod({codeId: loadedC
 
 
 
-            // Load app into UI fns
-            async function  prepareApp                          (  id  ,  bbase_component_id  ,  args  ) {
-                console.log("****prepareApp")
-                yz.base_component_id_of_loaded_app = bbase_component_id
-
-                if ((mainVueAppVm.loadedAppMetaData.base_component_id != yz.base_component_id_of_loaded_app) ||
-                    (!yz.newAppArgs[id]))
-                {
-                    yz.newAppArgs[id] = args
-                }
-
-                //
-                // loadAppIntoElement
-                //
-                await yz.makeSureUiComponentLoadedV6(yz.base_component_id_of_loaded_app)
-                if (mainVueAppVm.loadedAppMetaData.base_component_id == yz.base_component_id_of_loaded_app) {
-
-                    let codeIdOfComponent = yz.baseComponentIdReturnsCommitId[yz.base_component_id_of_loaded_app]
-                    yz.code_id_of_loaded_app = codeIdOfComponent
-
-                    mainVueAppVm.appCodeId = codeIdOfComponent
-                }
-            }
-            async function  select_card                         (  id  ) {
-                if (mainVueAppVm.selected_card == id) {
-                    return;
-                }
-                if (mainVueAppVm.selected_card != -1) {
-                    if (id != -1) {
-                        document.querySelector('#card_' + mainVueAppVm.selected_card).classList.remove("expand");
-                    }
-                    document.querySelector('#card_' + mainVueAppVm.selected_card).classList.add('contract');
-                }
-
-                if (id != -1) {
-                    let elmnt = document.querySelector('#card_' + id);
-                    if (elmnt) {
-                        if (yz.isStaticHtmlPageApp) {
-                            mainVueAppVm.selected_card = id;
-                            setTimeout(async function() {
-                                let thisApp = mainVueAppVm.loadedAppMetaData
-                                if (mainVueAppVm.loadedAppMetaData.fn) {
-                                    setTimeout( mainVueAppVm.loadedAppMetaData.fn, 3000)
-                                }
-                                if (thisApp.base_component_id) {
-                                    await prepareApp(  thisApp.id,   thisApp.base_component_id,   thisApp.args  )
-                                }
-                            },200)
-                        } else {
-                            document.querySelector('#card_' + id).classList.remove('contract');
-                            document.querySelector('#card_' + id).classList.add('expand');
-                            setTimeout(function()
-                            {
-                                mainVueAppVm.selected_card = id;
-                                setTimeout(async function() {
-                                    let thisApp = mainVueAppVm.loadedAppMetaData
-                                    if (mainVueAppVm.loadedAppMetaData.fn) {
-                                        setTimeout( mainVueAppVm.loadedAppMetaData.fn, 3000)
-                                    }
-                                    if (thisApp.base_component_id) {
-                                        await prepareApp(  thisApp.id,   thisApp.base_component_id,   thisApp.args  )
-                                    }
-                                },200)
-                            },1000)
-                        }
-                    }
-                }
-
-            }
 
             // Simple web UI helpers
             function        onscrolled                          (  ) {
