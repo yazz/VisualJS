@@ -9740,478 +9740,7 @@
 </span>`
                         }
 
-                        let debugHeaderStructure = {
-                            props:      [   "item"   ,   "visible"   ,   "element_id"   ,   "full_screen"   ,   "card_selected"   ,   "is_static"   ,  "appCodeId"],
-                            mounted:    async function() {
-                                let mm = this
-                                mm.isValidObject                    = Vue.inject('isValidObject')
-                                mm.yz                               = Vue.inject('yz')
-                                mm.showProgressBar                  = Vue.inject('showProgressBar')
-                                mm.hideProgressBar                  = Vue.inject('hideProgressBar')
-                                mm.msToTime                         = Vue.inject('msToTime')
-                                mm.capitalizeFirstLetter            = Vue.inject('capitalizeFirstLetter')
-                                mm.timeDiffLater                    = Vue.inject('timeDiffLater')
-                                mm.location                         = Vue.inject('location')
 
-                                yz.globalEventBus.on('hide_settings',
-                                    async function() {
-                                        mm.showSettings = false
-                                    });
-                                yz.globalEventBus.on('show_settings',
-                                    async function() {
-                                        mm.showSettings = true
-                                    });
-                            },
-                            methods:    {
-                                updateComments:                 async function(  ) {
-                                    let mm                           = this
-                                    let newrestUrl = location.protocol + "//" + yz.getNetworkHostName() + ":" +
-                                        location.port + "/http_post_load_comments_for_component" + "/" +
-                                        "?"
-
-                                    yz.callAjaxPost(
-                                        newrestUrl
-                                        ,
-                                        {
-                                            base_component_id:          yz.base_component_id_of_loaded_app,
-                                            base_component_id_version:  null
-                                        }
-                                        ,
-                                        function(response) {
-                                            let resp        = JSON.parse(response)
-                                            mm.new_comment  = ""
-                                            mm.new_rating   = 0
-
-                                            if (resp.status == "ok")
-                                                mm.comments = resp.level_2_comments_and_ratings
-                                        })
-                                },
-                                submitComment:                  async function(  ) {
-                                    let mm                           = this
-
-                                    mm.submit_error_message = ""
-                                    if (mm.new_comment.length < 5) {
-                                        mm.submit_error_message = "You must enter a comment to rate this"
-                                        return
-                                    }
-
-                                    if (mm.new_rating == 0 ) {
-                                        mm.submit_error_message = "You must enter a rating"
-                                        return
-                                    }
-
-
-                                    let newrestUrl = location.protocol + "//" + yz.getNetworkHostName() + ":" +
-                                        location.port + "/http_post_submit_comment" + "/" +
-                                        "?"
-
-                                    yz.callAjaxPost(newrestUrl
-                                        ,
-                                        {
-                                            base_component_id:          yz.base_component_id_of_loaded_app,
-                                            code_id:                    yz.code_id_of_loaded_app,
-                                            base_component_id_version:  null,
-                                            comment:                    mm.new_comment,
-                                            rating:                     mm.new_rating
-                                        }
-                                        ,
-                                        function(response) {
-                                            //debugger
-                                            let resp        = JSON.parse(response)
-                                            mm.new_comment  = ""
-                                            mm.new_rating   = 0
-
-                                            if (resp.status == "ok")
-                                            {
-                                                mm.comments             = resp.level_2_comments_and_ratings
-                                                mm.submit_info_message  = "Comment submitted"
-                                            }
-                                        })
-
-                                },
-                                debugV2:                       async function(  ) {
-                                    mainVueAppVm.globalDebuggerOn = true
-                                },
-                                openInfo:                       async function(  useTab  ) {
-                                    //debugger
-                                    let mm = this
-                                    if (mm.tab == useTab) {
-                                        mm.tab = ""
-                                        mm.show_page_info=false;
-                                    } else {
-                                        mm.tab = useTab
-                                        mm.show_page_info = true
-                                        await mm.updateComments()
-                                    }
-                                },
-                                logInWithMetamask:              async function(  ) {
-                                    let mm = this
-                                    //debugger
-                                    if (window.ethereum) {
-                                        await yz.useWeb3()
-                                        setTimeout(async function() {
-                                            let accs        = await web3.eth.getAccounts()
-                                            let accNo       = accs[0]
-                                            let openfileurl = "http" + (($HOSTPORT == 443)?"s":"") + "://" + $HOST + "/http_get_login_with_metamask?" +
-                                                new URLSearchParams({
-                                                    metamask_account_id: accNo
-                                                })
-                                            fetch(openfileurl, {
-                                                method: 'get',
-                                                credentials: "include"
-                                            })
-                                                .then((response) => response.json())
-                                                .then(async function(responseJson)
-                                                {
-                                                    let seed = responseJson.seed
-                                                    let signMessage =  yz.signMessageTemplate + seed
-                                                    let signedTx = await mm.signTransactionV2(signMessage)
-
-                                                    let checkSeedurl = "http" + (($HOSTPORT == 443)?"s":"") + "://" + $HOST + "/http_get_check_metamask_seed?" +
-                                                        new URLSearchParams({
-                                                            metamask_account_id: accNo
-                                                            ,
-                                                            signedTx: signedTx
-                                                            ,
-                                                            sign_message: signMessage
-                                                            ,
-                                                            random_seed: seed
-                                                        })
-
-                                                    fetch(checkSeedurl, {
-                                                        method: 'get',
-                                                        credentials: "include"
-                                                    })
-                                                        .then((response2) => response2.json())
-                                                        .then(async function(responseJson2)
-                                                        {
-                                                            if (responseJson2.error) {
-                                                                mm.login_error_message =  responseJson2.error
-                                                            } else {
-                                                                mm.accountNumber = accs[0]
-                                                                mm.show_page_info   = false;
-                                                                mm.tab              = ""
-
-                                                            }
-
-                                                        })
-                                                        .catch(err => {
-                                                            //error block
-                                                        })
-                                                    mm.accountNumber = accs[0]
-
-                                                })
-                                                .catch(err => {
-                                                    //error block
-                                                })
-
-                                        },100)
-                                    }
-                                },
-                                signTransactionV2:              async function(  test_transaction_text  ) {
-                                    let currentETHACC = (await web3.eth.getAccounts())[0]
-                                    let signedTx = //await web3.eth.sign(test_transaction_text, (await web3.eth.getAccounts())[0] );
-                                        await ethereum.request({
-                                            method: 'personal_sign',
-                                            params: [test_transaction_text   //message
-                                                ,
-                                                currentETHACC
-                                                // account
-                                                //,
-                                                //test_transaction_text   //password?
-                                            ],
-                                        });
-                                    return signedTx
-                                },
-                                signMetamaskLoginTransaction:   async function(  ) {
-                                    let mm                          = this
-                                    let test_transaction_text_el    = document.getElementById("test_transaction_text")
-                                    let test_transaction_text       = test_transaction_text_el.value
-                                    let currentETHACC               = (await web3.eth.getAccounts())[0]
-
-                                    mm.debug_sign_tx_out = //await web3.eth.sign(test_transaction_text, (await web3.eth.getAccounts())[0] );
-                                        await ethereum.request({
-                                            method: 'personal_sign',
-                                            params: [
-                                                test_transaction_text   //message
-                                                ,
-                                                currentETHACC
-                                                // account
-                                                //,
-                                                //test_transaction_text   //password?
-                                            ],
-                                        });
-                                }
-
-                            },
-                            data:       function () {
-                                return {
-                                    show_page_info:         false,
-                                    accountNumber:          null,
-                                    comments:               [],
-                                    rating:                 0,
-                                    new_rating:             0,
-                                    numRatings:             0,
-                                    new_comment:            "",
-                                    submit_error_message:   "",
-                                    login_error_message:    "",
-                                    submit_info_message:    "",
-                                    tab:                    "",
-                                    debug_sign_tx_out:      "",
-                                    showSettings:           true,
-                                    debugView:              null
-
-                                }
-                            },
-                            template:   `
-<span   v-bind:id='element_id'
-                                     v-bind:style="'padding:0px;position: relative; margin: auto;height:100%;width:100%;border:0px; overflow-y:none;'"
-                                     v-bind:class='card_selected?(is_static?"container":" container"):" container"' >
-
-                                <div
-                                    v-if="showSettings"
-                                    style='background-color:navy;height:5vh;width: 100vw;color:white;'>
-
-
-
-                                    <!-- ------------------------------------------------
-                                    The top menu items for the info pane
-                                    ------------------------------------------------ -->
-                                    <span
-                                        v-on:click=' openInfo("login")'
-                                        v-on:touchstart=' openInfo("login")'
-                                        style='height:100%;margin-left:20px;vertical-align:middle;'
-                                        >
-                                        {{ accountNumber?("" + accountNumber).substring(0,5) + "...":"Login" }}
-                                    </span>
-
-
-                                    <span
-                                        styledup='margin-left: 30px;'
-                                        v-on:click=' openInfo("comments")'
-                                        v-on:touchstart=' openInfo("comments")'
-                                        style='height:100%;margin-left:20px;vertical-align:middle;'
-                                        >
-                                        Comments
-                                    </span>
-
-
-                                    <span
-                                        styledup='margin-left: 30px;'
-                                        v-on:click=' openInfo("debug")'
-                                        v-on:touchstart=' openInfo("debug")'
-                                        style='height:100%;margin-left:20px;vertical-align:middle;'
-                                    >
-                                        Debug
-
-                                    </span>
-
-
-                                    <span
-                                        styledup='margin-left: 30px;'
-                                        v-on:click=' debugV2("debug")'
-                                        v-on:touchstart=' debugV2("debug")'
-                                        style='height:100%;margin-left:20px;vertical-align:middle;'
-                                    >
-                                        Debug V2
-
-                                    </span>
-
-
-
-                                    <span
-                                        style='height:100%;margin-left:20px;vertical-align:middle;'
-                                        v-if='show_page_info'
-                                        v-on:click='show_page_info=false;tab=""'
-                                        v-on:touchstart='show_page_info=false;'
-                                    >
-                                        Close
-                                    </span>
-                                </div>
-
-
-
-                                <div    v-if='show_page_info'
-                                        style='width:100vw; height:100vh;color:white;background-color:navy;padding:20px;'>
-
-                                    <!-- ------------------------------------------------
-                                    LOGIN pane
-                                    ------------------------------------------------ -->
-                                    <div v-if='tab=="login"'>
-
-                                    <div v-if='accountNumber'>Metamask Account Number: {{accountNumber}}</div>
-                                    <div v-else='accountNumber'>Logging in to Metamask will bring the Metamask popup and you will be
-                                    requested to authorise the login</div>
-
-                                    <div style='color:red' id='login_error'>{{login_error_message}}</div>
-
-                                    <button type=button
-                                        class='btn btn-primary'
-                                        style='margin-left: 10px;width:40vw;height:15vh;'
-                                        v-on:click='logInWithMetamask()'>
-
-                                        <img    src="/driver_icons/metamaskfox.svg"
-                                                style="height:100%;width:100%"
-                                        />
-                                    </button>
-
-                                </div>
-
-
-
-                                <!-- ------------------------------------------------
-
-                                Comments pane
-
-                                ------------------------------------------------ -->
-
-                                <div v-if='tab=="comments"'>
-
-                                    <div style=";height:40vh">
-
-                                        Add comment
-                                        <br>
-                                        <textarea   style='display: inline-block;'
-                                                    id='new_comment'
-                                                    v-model='new_comment'>
-                                        </textarea>
-                                        <br><br>
-
-                                        Rating (1-5, 5 is best):<br>
-                                        <input  id="new_rating"
-                                        v-model="new_rating"
-                                        type="range"
-                                        min="0"
-                                        max="5" />
-                                        {{new_rating}}
-                                        <br />
-                                        <button type=button class='btn btn-primary' style='margin-left: 10px' v-on:click='submitComment()'>
-                                        Submit comment
-                                        </button>
-                                        <div style='color:red' id='submit_error'>{{submit_error_message}}</div>
-                                        <div style='color:green' id='submit_info'>{{submit_info_message}}</div>
-
-                                    </div>
-
-
-
-                                    <div style="overflow: scroll;height:40vh">
-                                        <b>Previous comments:</b>
-                                        <li v-for='comment in comments'
-                                        style='color:white;background-color:navy;'>
-                                        {{comment.comment}} , {{comment.rating}} , {{msToTime(comment.date_and_time)}}
-
-                                        </li>
-                                    </div>
-
-                                </div>
-
-
-
-
-
-
-                                <!-- -------------------------------------------------
-                                 |                                                   |
-                                 |                    DEBUG pane                     |
-                                 |                                                   |
-                                 -------------------------------------------------- -->
-
-                                <div v-if='tab=="debug"'>
-
-
-                        <button style="margin: 20px;"
-                              class='btn btn-lg btn-danger'
-                              v-on:click='debugView="debug_view_vue"'>
-                              Show Loaded Vue objects
-                        </button>
-
-                        <button style="margin: 20px;"
-                              class='btn btn-lg btn-danger'
-                              v-on:click='debugView = "debug_view_ui_control_uuids"'>
-                                  Runtime UI control UUIDs
-                        </button>
-
-
-
-                        <button style="margin: 20px;"
-                              class='btn btn-lg info'
-                              v-on:click='debugView="debug_view_metamask"'>
-                              Metamask
-                        </button>
-
-
-                        <div v-if="debugView=='debug_view_vue'">
-                            <div style="color: white;font-size:60px;font-weight: bold;">Loaded Vue Objects</div>
-                          <pre style="color: white; overflow: scroll; height: 50%;">
-
-
-Code Ids: (yz.componentsAPI.vue.getVueInfoForAllLoadedComponents())
-<div v-for="loadedComponentCodeId  in  Object.keys(yz.componentsAPI.vue.getVueInfoForAllLoadedComponents())">
-{{loadedComponentCodeId}}
--------------------------------------------------------
-{{ yz.componentsAPI.vue.getVueComponentInfo({codeId: loadedComponentCodeId}) }}
-Loaded Method: {{ yz.componentsAPI.vue.getComponentLoadedMethod({codeId: loadedComponentCodeId}) }}
-...
-</div>
-
-                          </pre>
-                        </div>
-
-                        <div v-if="debugView=='debug_view_metamask'">
-
-                                    <div v-if='!accountNumber'>
-                                        You are not signed into Metamask. Please login first
-                                    </div>
-
-                                    <textarea id="test_transaction_text"
-                                              value="">
-                                    </textarea>
-
-                                    <button type=button
-                                            class='btn btn-primary'
-                                            v-bind:disabled='accountNumber?false:true'
-                                            style='margin-left: 10px;width:40vw;height:15vh;'
-                                            v-on:click='signMetamaskTransaction()'>
-
-                                        Sign transaction
-                                    </button>
-
-
-                                    <div>
-                                        {{debug_sign_tx_out}}
-                                    </div>
-                                </div>
-
-                        <div v-if='debugView=="debug_view_ui_control_uuids"' style="color: white;">
-    <div style="font-size:60px;font-weight: bold;color: white;">UI Control UUIDs</div>
-                          <pre style="color: white;">
-(runtimeComponentsInfo)
-{{ runtimeComponentsInfo }}
-                  </pre>
-                        </div>
-
-
-
-
-
-
-                                </div>
-                            </div>
-
-
-
-                              <div
-                                  v-bind:style="'; padding:0px; font-family: Helvetica ;  width: 100vw ;visibility: ' + (visible?'':'hidden') + ';' ">
-
-                                        <div    v-if='full_screen && (item.type == "app")'>
-                                            <component      v-bind:is='appCodeId'></component>
-                                        </div>
-                                        <div style='height: 2em;'></div>
-
-                                </div>
-                            </span>`
-                        }
 
 
 
@@ -10310,7 +9839,7 @@ Loaded Method: {{ yz.componentsAPI.vue.getComponentLoadedMethod({codeId: loadedC
 
                         yz.mainVars.mainVueApp = Vue.createApp(vueAppStructure);
                         yz.mainVars.mainVueApp.component('card_component', cardComponentStructure);
-                        yz.mainVars.mainVueApp.component('debug_header', debugHeaderStructure);
+                        yz.mainVars.mainVueApp.component('debug_header', yz.getDebugHeaderStructure());
                         yz.mainVars.mainVueApp.config.compilerOptions.whitespace = 'condense';
                         mainVueAppVm = yz.mainVars.mainVueApp.mount("#main_yazz_vue_root_html_element")
 
@@ -10404,6 +9933,467 @@ Loaded Method: {{ yz.componentsAPI.vue.getComponentLoadedMethod({codeId: loadedC
                 },
                 populateStaticCodeCache:            async function              (  )                                            {
                     //***ADD_STATIC_CODE
+                },
+                getDebugHeaderStructure:            function                    (  )                                            {
+                    let debugHeaderStructure = {
+                        props:      [   "visible"   ,   "element_id"   ,   "full_screen"   ,   "card_selected"   ,   "is_static"   ,  "appCodeId"],
+                        mounted:    async function() {
+                            let mm = this
+                            mm.isValidObject                    = Vue.inject('isValidObject')
+                            mm.yz                               = Vue.inject('yz')
+                            mm.showProgressBar                  = Vue.inject('showProgressBar')
+                            mm.hideProgressBar                  = Vue.inject('hideProgressBar')
+                            mm.msToTime                         = Vue.inject('msToTime')
+                            mm.capitalizeFirstLetter            = Vue.inject('capitalizeFirstLetter')
+                            mm.timeDiffLater                    = Vue.inject('timeDiffLater')
+                            mm.location                         = Vue.inject('location')
+
+                            yz.globalEventBus.on('hide_settings',
+                                async function() {
+                                    mm.showSettings = false
+                                });
+                            yz.globalEventBus.on('show_settings',
+                                async function() {
+                                    mm.showSettings = true
+                                });
+                        },
+                        methods:    {
+                            updateComments:                 async function(  ) {
+                                let mm                           = this
+                                let newrestUrl = location.protocol + "//" + yz.getNetworkHostName() + ":" +
+                                    location.port + "/http_post_load_comments_for_component" + "/" +
+                                    "?"
+
+                                yz.callAjaxPost(
+                                    newrestUrl
+                                    ,
+                                    {
+                                        base_component_id:          yz.base_component_id_of_loaded_app,
+                                        base_component_id_version:  null
+                                    }
+                                    ,
+                                    function(response) {
+                                        let resp        = JSON.parse(response)
+                                        mm.new_comment  = ""
+                                        mm.new_rating   = 0
+
+                                        if (resp.status == "ok")
+                                            mm.comments = resp.level_2_comments_and_ratings
+                                    })
+                            },
+                            submitComment:                  async function(  ) {
+                                let mm                           = this
+
+                                mm.submit_error_message = ""
+                                if (mm.new_comment.length < 5) {
+                                    mm.submit_error_message = "You must enter a comment to rate this"
+                                    return
+                                }
+
+                                if (mm.new_rating == 0 ) {
+                                    mm.submit_error_message = "You must enter a rating"
+                                    return
+                                }
+
+
+                                let newrestUrl = location.protocol + "//" + yz.getNetworkHostName() + ":" +
+                                    location.port + "/http_post_submit_comment" + "/" +
+                                    "?"
+
+                                yz.callAjaxPost(newrestUrl
+                                    ,
+                                    {
+                                        base_component_id:          yz.base_component_id_of_loaded_app,
+                                        code_id:                    yz.code_id_of_loaded_app,
+                                        base_component_id_version:  null,
+                                        comment:                    mm.new_comment,
+                                        rating:                     mm.new_rating
+                                    }
+                                    ,
+                                    function(response) {
+                                        //debugger
+                                        let resp        = JSON.parse(response)
+                                        mm.new_comment  = ""
+                                        mm.new_rating   = 0
+
+                                        if (resp.status == "ok")
+                                        {
+                                            mm.comments             = resp.level_2_comments_and_ratings
+                                            mm.submit_info_message  = "Comment submitted"
+                                        }
+                                    })
+
+                            },
+                            debugV2:                       async function(  ) {
+                                mainVueAppVm.globalDebuggerOn = true
+                            },
+                            openInfo:                       async function(  useTab  ) {
+                                //debugger
+                                let mm = this
+                                if (mm.tab == useTab) {
+                                    mm.tab = ""
+                                    mm.show_page_info=false;
+                                } else {
+                                    mm.tab = useTab
+                                    mm.show_page_info = true
+                                    await mm.updateComments()
+                                }
+                            },
+                            logInWithMetamask:              async function(  ) {
+                                let mm = this
+                                //debugger
+                                if (window.ethereum) {
+                                    await yz.useWeb3()
+                                    setTimeout(async function() {
+                                        let accs        = await web3.eth.getAccounts()
+                                        let accNo       = accs[0]
+                                        let openfileurl = "http" + (($HOSTPORT == 443)?"s":"") + "://" + $HOST + "/http_get_login_with_metamask?" +
+                                            new URLSearchParams({
+                                                metamask_account_id: accNo
+                                            })
+                                        fetch(openfileurl, {
+                                            method: 'get',
+                                            credentials: "include"
+                                        })
+                                            .then((response) => response.json())
+                                            .then(async function(responseJson)
+                                            {
+                                                let seed = responseJson.seed
+                                                let signMessage =  yz.signMessageTemplate + seed
+                                                let signedTx = await mm.signTransactionV2(signMessage)
+
+                                                let checkSeedurl = "http" + (($HOSTPORT == 443)?"s":"") + "://" + $HOST + "/http_get_check_metamask_seed?" +
+                                                    new URLSearchParams({
+                                                        metamask_account_id: accNo
+                                                        ,
+                                                        signedTx: signedTx
+                                                        ,
+                                                        sign_message: signMessage
+                                                        ,
+                                                        random_seed: seed
+                                                    })
+
+                                                fetch(checkSeedurl, {
+                                                    method: 'get',
+                                                    credentials: "include"
+                                                })
+                                                    .then((response2) => response2.json())
+                                                    .then(async function(responseJson2)
+                                                    {
+                                                        if (responseJson2.error) {
+                                                            mm.login_error_message =  responseJson2.error
+                                                        } else {
+                                                            mm.accountNumber = accs[0]
+                                                            mm.show_page_info   = false;
+                                                            mm.tab              = ""
+
+                                                        }
+
+                                                    })
+                                                    .catch(err => {
+                                                        //error block
+                                                    })
+                                                mm.accountNumber = accs[0]
+
+                                            })
+                                            .catch(err => {
+                                                //error block
+                                            })
+
+                                    },100)
+                                }
+                            },
+                            signTransactionV2:              async function(  test_transaction_text  ) {
+                                let currentETHACC = (await web3.eth.getAccounts())[0]
+                                let signedTx = //await web3.eth.sign(test_transaction_text, (await web3.eth.getAccounts())[0] );
+                                    await ethereum.request({
+                                        method: 'personal_sign',
+                                        params: [test_transaction_text   //message
+                                            ,
+                                            currentETHACC
+                                            // account
+                                            //,
+                                            //test_transaction_text   //password?
+                                        ],
+                                    });
+                                return signedTx
+                            },
+                            signMetamaskLoginTransaction:   async function(  ) {
+                                let mm                          = this
+                                let test_transaction_text_el    = document.getElementById("test_transaction_text")
+                                let test_transaction_text       = test_transaction_text_el.value
+                                let currentETHACC               = (await web3.eth.getAccounts())[0]
+
+                                mm.debug_sign_tx_out = //await web3.eth.sign(test_transaction_text, (await web3.eth.getAccounts())[0] );
+                                    await ethereum.request({
+                                        method: 'personal_sign',
+                                        params: [
+                                            test_transaction_text   //message
+                                            ,
+                                            currentETHACC
+                                            // account
+                                            //,
+                                            //test_transaction_text   //password?
+                                        ],
+                                    });
+                            }
+
+                        },
+                        data:       function () {
+                            return {
+                                show_page_info:         false,
+                                accountNumber:          null,
+                                comments:               [],
+                                rating:                 0,
+                                new_rating:             0,
+                                numRatings:             0,
+                                new_comment:            "",
+                                submit_error_message:   "",
+                                login_error_message:    "",
+                                submit_info_message:    "",
+                                tab:                    "",
+                                debug_sign_tx_out:      "",
+                                showSettings:           true,
+                                debugView:              null
+
+                            }
+                        },
+                        template:   `
+    <span   id='main_debug_header'
+                                         v-bind:style="'padding:0px;position: relative; margin: auto;height:100%;width:100%;border:0px; overflow-y:none;'"
+                                         v-bind:class='card_selected?(is_static?"container":" container"):" container"' >
+
+                                    <div
+                                        v-if="showSettings"
+                                        style='background-color:navy;height:5vh;width: 100vw;color:white;'>
+
+
+
+                                        <!-- ------------------------------------------------
+                                        The top menu items for the info pane
+                                        ------------------------------------------------ -->
+                                        <span
+                                            v-on:click=' openInfo("login")'
+                                            v-on:touchstart=' openInfo("login")'
+                                            style='height:100%;margin-left:20px;vertical-align:middle;'
+                                            >
+                                            {{ accountNumber?("" + accountNumber).substring(0,5) + "...":"Login" }}
+                                        </span>
+
+
+                                        <span
+                                            styledup='margin-left: 30px;'
+                                            v-on:click=' openInfo("comments")'
+                                            v-on:touchstart=' openInfo("comments")'
+                                            style='height:100%;margin-left:20px;vertical-align:middle;'
+                                            >
+                                            Comments
+                                        </span>
+
+
+                                        <span
+                                            styledup='margin-left: 30px;'
+                                            v-on:click=' openInfo("debug")'
+                                            v-on:touchstart=' openInfo("debug")'
+                                            style='height:100%;margin-left:20px;vertical-align:middle;'
+                                        >
+                                            Debug
+
+                                        </span>
+
+
+                                        <span
+                                            styledup='margin-left: 30px;'
+                                            v-on:click=' debugV2("debug")'
+                                            v-on:touchstart=' debugV2("debug")'
+                                            style='height:100%;margin-left:20px;vertical-align:middle;'
+                                        >
+                                            Debug V2
+
+                                        </span>
+
+
+
+                                        <span
+                                            style='height:100%;margin-left:20px;vertical-align:middle;'
+                                            v-if='show_page_info'
+                                            v-on:click='show_page_info=false;tab=""'
+                                            v-on:touchstart='show_page_info=false;'
+                                        >
+                                            Close
+                                        </span>
+                                    </div>
+
+
+
+                                    <div    v-if='show_page_info'
+                                            style='width:100vw; height:100vh;color:white;background-color:navy;padding:20px;'>
+
+                                        <!-- ------------------------------------------------
+                                        LOGIN pane
+                                        ------------------------------------------------ -->
+                                        <div v-if='tab=="login"'>
+
+                                        <div v-if='accountNumber'>Metamask Account Number: {{accountNumber}}</div>
+                                        <div v-else='accountNumber'>Logging in to Metamask will bring the Metamask popup and you will be
+                                        requested to authorise the login</div>
+
+                                        <div style='color:red' id='login_error'>{{login_error_message}}</div>
+
+                                        <button type=button
+                                            class='btn btn-primary'
+                                            style='margin-left: 10px;width:40vw;height:15vh;'
+                                            v-on:click='logInWithMetamask()'>
+
+                                            <img    src="/driver_icons/metamaskfox.svg"
+                                                    style="height:100%;width:100%"
+                                            />
+                                        </button>
+
+                                    </div>
+
+
+
+                                    <!-- ------------------------------------------------
+
+                                    Comments pane
+
+                                    ------------------------------------------------ -->
+
+                                    <div v-if='tab=="comments"'>
+
+                                        <div style=";height:40vh">
+
+                                            Add comment
+                                            <br>
+                                            <textarea   style='display: inline-block;'
+                                                        id='new_comment'
+                                                        v-model='new_comment'>
+                                            </textarea>
+                                            <br><br>
+
+                                            Rating (1-5, 5 is best):<br>
+                                            <input  id="new_rating"
+                                            v-model="new_rating"
+                                            type="range"
+                                            min="0"
+                                            max="5" />
+                                            {{new_rating}}
+                                            <br />
+                                            <button type=button class='btn btn-primary' style='margin-left: 10px' v-on:click='submitComment()'>
+                                            Submit comment
+                                            </button>
+                                            <div style='color:red' id='submit_error'>{{submit_error_message}}</div>
+                                            <div style='color:green' id='submit_info'>{{submit_info_message}}</div>
+
+                                        </div>
+
+
+
+                                        <div style="overflow: scroll;height:40vh">
+                                            <b>Previous comments:</b>
+                                            <li v-for='comment in comments'
+                                            style='color:white;background-color:navy;'>
+                                            {{comment.comment}} , {{comment.rating}} , {{msToTime(comment.date_and_time)}}
+
+                                            </li>
+                                        </div>
+
+                                    </div>
+
+
+
+
+
+
+                                    <!-- -------------------------------------------------
+                                     |                                                   |
+                                     |                    DEBUG pane                     |
+                                     |                                                   |
+                                     -------------------------------------------------- -->
+
+                                    <div v-if='tab=="debug"'>
+
+
+                            <button style="margin: 20px;"
+                                  class='btn btn-lg btn-danger'
+                                  v-on:click='debugView="debug_view_vue"'>
+                                  Show Loaded Vue objects
+                            </button>
+
+                            <button style="margin: 20px;"
+                                  class='btn btn-lg btn-danger'
+                                  v-on:click='debugView = "debug_view_ui_control_uuids"'>
+                                      Runtime UI control UUIDs
+                            </button>
+
+
+
+                            <button style="margin: 20px;"
+                                  class='btn btn-lg info'
+                                  v-on:click='debugView="debug_view_metamask"'>
+                                  Metamask
+                            </button>
+
+
+                            <div v-if="debugView=='debug_view_vue'">
+                                <div style="color: white;font-size:60px;font-weight: bold;">Loaded Vue Objects</div>
+                              <pre style="color: white; overflow: scroll; height: 50%;">
+
+
+    Code Ids: (yz.componentsAPI.vue.getVueInfoForAllLoadedComponents())
+    <div v-for="loadedComponentCodeId  in  Object.keys(yz.componentsAPI.vue.getVueInfoForAllLoadedComponents())">
+    {{loadedComponentCodeId}}
+    -------------------------------------------------------
+    {{ yz.componentsAPI.vue.getVueComponentInfo({codeId: loadedComponentCodeId}) }}
+    Loaded Method: {{ yz.componentsAPI.vue.getComponentLoadedMethod({codeId: loadedComponentCodeId}) }}
+    ...
+    </div>
+
+                              </pre>
+                            </div>
+
+                            <div v-if="debugView=='debug_view_metamask'">
+
+                                        <div v-if='!accountNumber'>
+                                            You are not signed into Metamask. Please login first
+                                        </div>
+
+                                        <textarea id="test_transaction_text"
+                                                  value="">
+                                        </textarea>
+
+                                        <button type=button
+                                                class='btn btn-primary'
+                                                v-bind:disabled='accountNumber?false:true'
+                                                style='margin-left: 10px;width:40vw;height:15vh;'
+                                                v-on:click='signMetamaskTransaction()'>
+
+                                            Sign transaction
+                                        </button>
+
+
+                                        <div>
+                                            {{debug_sign_tx_out}}
+                                        </div>
+                                    </div>
+
+                            <div v-if='debugView=="debug_view_ui_control_uuids"' style="color: white;">
+        <div style="font-size:60px;font-weight: bold;color: white;">UI Control UUIDs</div>
+                              <pre style="color: white;">
+    (runtimeComponentsInfo)
+    {{ runtimeComponentsInfo }}
+                      </pre>
+                            </div>
+
+                                    </div>
+                                </div>
+
+
+
+                                </span>`
+                    }
+                    return debugHeaderStructure
                 },
                 sendToServerViaWebSocket:           async function              (  msg  )                                       {
                     let isThisAppOnline = true
