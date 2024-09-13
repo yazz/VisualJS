@@ -9598,7 +9598,6 @@
                         }
 
                         yz.mainVars.mainVueApp = Vue.createApp(vueAppStructure);
-                        yz.mainVars.mainVueApp.component('card_component', yz.getCardComponentStructure());
                         yz.mainVars.mainVueApp.component('debug_header', yz.getDebugHeaderStructure());
                         yz.mainVars.mainVueApp.config.compilerOptions.whitespace = 'condense';
                         mainVueAppVm = yz.mainVars.mainVueApp.mount("#main_yazz_vue_root_html_element")
@@ -9693,25 +9692,6 @@
                 },
                 populateStaticCodeCache:            async function              (  )                                            {
                     //***ADD_STATIC_CODE
-                },
-                getCardComponentStructure:          function                    (  )                                            {
-                    let cardComponentStructure = {
-                        props:      [   "item"   ,   "element_id"   ,   "full_screen"   ,   "card_selected"   ,   "is_static"   ,  "appCodeId"],
-                        template:   `
-<span   v-bind:id='element_id'
-        v-bind:style="'padding:0px;position: relative; margin: auto;height:100%;width:100%;border:0px; overflow-y:none;'"
-        class='container' >
-
-    <div  v-bind:style="'; padding:0px; font-family: Helvetica ;  width: 100vw ;' ">
-
-        <div    v-if='full_screen && (item.type == "app")'>
-            <component      v-bind:is='appCodeId'></component>
-        </div>
-
-    </div>
-</span>`
-                    }
-                    return cardComponentStructure
                 },
                 getDebugHeaderStructure:            function                    (  )                                            {
                     let debugHeaderStructure = {
