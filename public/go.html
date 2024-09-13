@@ -9725,6 +9725,246 @@
                             },
                             template:   `
 <span   v-bind:id='element_id'
+        v-bind:style="'padding:0px;position: relative; margin: auto;height:100%;width:100%;border:0px; overflow-y:none;'"
+        v-bind:class='card_selected?(is_static?"container":" container"):" container"' >
+
+    <div  v-bind:style="'; padding:0px; font-family: Helvetica ;  width: 100vw ;visibility: ' + (visible?'':'hidden') + ';' ">
+
+        <div    v-if='full_screen && (item.type == "app")'>
+            <component      v-bind:is='appCodeId'></component>
+        </div>
+
+        <div style='height: 2em;'></div>
+
+    </div>
+</span>`
+                        }
+
+                        let debugHeaderStructure = {
+                            props:      [   "item"   ,   "visible"   ,   "element_id"   ,   "full_screen"   ,   "card_selected"   ,   "is_static"   ,  "appCodeId"],
+                            mounted:    async function() {
+                                let mm = this
+                                mm.isValidObject                    = Vue.inject('isValidObject')
+                                mm.yz                               = Vue.inject('yz')
+                                mm.showProgressBar                  = Vue.inject('showProgressBar')
+                                mm.hideProgressBar                  = Vue.inject('hideProgressBar')
+                                mm.msToTime                         = Vue.inject('msToTime')
+                                mm.capitalizeFirstLetter            = Vue.inject('capitalizeFirstLetter')
+                                mm.timeDiffLater                    = Vue.inject('timeDiffLater')
+                                mm.location                         = Vue.inject('location')
+
+                                yz.globalEventBus.on('hide_settings',
+                                    async function() {
+                                        mm.showSettings = false
+                                    });
+                                yz.globalEventBus.on('show_settings',
+                                    async function() {
+                                        mm.showSettings = true
+                                    });
+                            },
+                            methods:    {
+                                updateComments:                 async function(  ) {
+                                    let mm                           = this
+                                    let newrestUrl = location.protocol + "//" + yz.getNetworkHostName() + ":" +
+                                        location.port + "/http_post_load_comments_for_component" + "/" +
+                                        "?"
+
+                                    yz.callAjaxPost(
+                                        newrestUrl
+                                        ,
+                                        {
+                                            base_component_id:          yz.base_component_id_of_loaded_app,
+                                            base_component_id_version:  null
+                                        }
+                                        ,
+                                        function(response) {
+                                            let resp        = JSON.parse(response)
+                                            mm.new_comment  = ""
+                                            mm.new_rating   = 0
+
+                                            if (resp.status == "ok")
+                                                mm.comments = resp.level_2_comments_and_ratings
+                                        })
+                                },
+                                submitComment:                  async function(  ) {
+                                    let mm                           = this
+
+                                    mm.submit_error_message = ""
+                                    if (mm.new_comment.length < 5) {
+                                        mm.submit_error_message = "You must enter a comment to rate this"
+                                        return
+                                    }
+
+                                    if (mm.new_rating == 0 ) {
+                                        mm.submit_error_message = "You must enter a rating"
+                                        return
+                                    }
+
+
+                                    let newrestUrl = location.protocol + "//" + yz.getNetworkHostName() + ":" +
+                                        location.port + "/http_post_submit_comment" + "/" +
+                                        "?"
+
+                                    yz.callAjaxPost(newrestUrl
+                                        ,
+                                        {
+                                            base_component_id:          yz.base_component_id_of_loaded_app,
+                                            code_id:                    yz.code_id_of_loaded_app,
+                                            base_component_id_version:  null,
+                                            comment:                    mm.new_comment,
+                                            rating:                     mm.new_rating
+                                        }
+                                        ,
+                                        function(response) {
+                                            //debugger
+                                            let resp        = JSON.parse(response)
+                                            mm.new_comment  = ""
+                                            mm.new_rating   = 0
+
+                                            if (resp.status == "ok")
+                                            {
+                                                mm.comments             = resp.level_2_comments_and_ratings
+                                                mm.submit_info_message  = "Comment submitted"
+                                            }
+                                        })
+
+                                },
+                                debugV2:                       async function(  ) {
+                                    mainVueAppVm.globalDebuggerOn = true
+                                },
+                                openInfo:                       async function(  useTab  ) {
+                                    //debugger
+                                    let mm = this
+                                    if (mm.tab == useTab) {
+                                        mm.tab = ""
+                                        mm.show_page_info=false;
+                                    } else {
+                                        mm.tab = useTab
+                                        mm.show_page_info = true
+                                        await mm.updateComments()
+                                    }
+                                },
+                                logInWithMetamask:              async function(  ) {
+                                    let mm = this
+                                    //debugger
+                                    if (window.ethereum) {
+                                        await yz.useWeb3()
+                                        setTimeout(async function() {
+                                            let accs        = await web3.eth.getAccounts()
+                                            let accNo       = accs[0]
+                                            let openfileurl = "http" + (($HOSTPORT == 443)?"s":"") + "://" + $HOST + "/http_get_login_with_metamask?" +
+                                                new URLSearchParams({
+                                                    metamask_account_id: accNo
+                                                })
+                                            fetch(openfileurl, {
+                                                method: 'get',
+                                                credentials: "include"
+                                            })
+                                                .then((response) => response.json())
+                                                .then(async function(responseJson)
+                                                {
+                                                    let seed = responseJson.seed
+                                                    let signMessage =  yz.signMessageTemplate + seed
+                                                    let signedTx = await mm.signTransactionV2(signMessage)
+
+                                                    let checkSeedurl = "http" + (($HOSTPORT == 443)?"s":"") + "://" + $HOST + "/http_get_check_metamask_seed?" +
+                                                        new URLSearchParams({
+                                                            metamask_account_id: accNo
+                                                            ,
+                                                            signedTx: signedTx
+                                                            ,
+                                                            sign_message: signMessage
+                                                            ,
+                                                            random_seed: seed
+                                                        })
+
+                                                    fetch(checkSeedurl, {
+                                                        method: 'get',
+                                                        credentials: "include"
+                                                    })
+                                                        .then((response2) => response2.json())
+                                                        .then(async function(responseJson2)
+                                                        {
+                                                            if (responseJson2.error) {
+                                                                mm.login_error_message =  responseJson2.error
+                                                            } else {
+                                                                mm.accountNumber = accs[0]
+                                                                mm.show_page_info   = false;
+                                                                mm.tab              = ""
+
+                                                            }
+
+                                                        })
+                                                        .catch(err => {
+                                                            //error block
+                                                        })
+                                                    mm.accountNumber = accs[0]
+
+                                                })
+                                                .catch(err => {
+                                                    //error block
+                                                })
+
+                                        },100)
+                                    }
+                                },
+                                signTransactionV2:              async function(  test_transaction_text  ) {
+                                    let currentETHACC = (await web3.eth.getAccounts())[0]
+                                    let signedTx = //await web3.eth.sign(test_transaction_text, (await web3.eth.getAccounts())[0] );
+                                        await ethereum.request({
+                                            method: 'personal_sign',
+                                            params: [test_transaction_text   //message
+                                                ,
+                                                currentETHACC
+                                                // account
+                                                //,
+                                                //test_transaction_text   //password?
+                                            ],
+                                        });
+                                    return signedTx
+                                },
+                                signMetamaskLoginTransaction:   async function(  ) {
+                                    let mm                          = this
+                                    let test_transaction_text_el    = document.getElementById("test_transaction_text")
+                                    let test_transaction_text       = test_transaction_text_el.value
+                                    let currentETHACC               = (await web3.eth.getAccounts())[0]
+
+                                    mm.debug_sign_tx_out = //await web3.eth.sign(test_transaction_text, (await web3.eth.getAccounts())[0] );
+                                        await ethereum.request({
+                                            method: 'personal_sign',
+                                            params: [
+                                                test_transaction_text   //message
+                                                ,
+                                                currentETHACC
+                                                // account
+                                                //,
+                                                //test_transaction_text   //password?
+                                            ],
+                                        });
+                                }
+
+                            },
+                            data:       function () {
+                                return {
+                                    show_page_info:         false,
+                                    accountNumber:          null,
+                                    comments:               [],
+                                    rating:                 0,
+                                    new_rating:             0,
+                                    numRatings:             0,
+                                    new_comment:            "",
+                                    submit_error_message:   "",
+                                    login_error_message:    "",
+                                    submit_info_message:    "",
+                                    tab:                    "",
+                                    debug_sign_tx_out:      "",
+                                    showSettings:           true,
+                                    debugView:              null
+
+                                }
+                            },
+                            template:   `
+<span   v-bind:id='element_id'
                                      v-bind:style="'padding:0px;position: relative; margin: auto;height:100%;width:100%;border:0px; overflow-y:none;'"
                                      v-bind:class='card_selected?(is_static?"container":" container"):" container"' >
 
@@ -9975,7 +10215,6 @@ Loaded Method: {{ yz.componentsAPI.vue.getComponentLoadedMethod({codeId: loadedC
 
 
 
-
                         let vueAppStructure = {
                             template: `
                             <div>
@@ -10017,9 +10256,13 @@ Loaded Method: {{ yz.componentsAPI.vue.getComponentLoadedMethod({codeId: loadedC
                                         class="loader">
                                 </div>
 
+
+                                <debug_header   :visible='true'
+                                                :is_static='is_static'
+                                                :appCodeId='appCodeId'>
+                                </debug_header>
                                 <div v-if="loadedAppMetaData">
                                     <template   v-for="item  in  [loadedAppMetaData]" >
-
                                         <div    v-bind:style='"left:0px; top:0px; height:100%; width: 100vw ;z-index: 200000;background-color: white;overflow-y:hidden;overflow-x: hidden;display:" + (is_static?"":"")'>
 
                                             <card_component :item='item'
@@ -10067,6 +10310,7 @@ Loaded Method: {{ yz.componentsAPI.vue.getComponentLoadedMethod({codeId: loadedC
 
                         yz.mainVars.mainVueApp = Vue.createApp(vueAppStructure);
                         yz.mainVars.mainVueApp.component('card_component', cardComponentStructure);
+                        yz.mainVars.mainVueApp.component('debug_header', debugHeaderStructure);
                         yz.mainVars.mainVueApp.config.compilerOptions.whitespace = 'condense';
                         mainVueAppVm = yz.mainVars.mainVueApp.mount("#main_yazz_vue_root_html_element")
 
