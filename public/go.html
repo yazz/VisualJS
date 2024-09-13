@@ -9523,10 +9523,6 @@
                                     });
                             },
                             methods:    {
-                                click_card:                     async function(  id  ) {
-                                    yz.mainVars.autoScroll = false;
-                                    await yz.select_card(id)
-                                },
                                 updateComments:                 async function(  ) {
                                     let mm                           = this
                                     let newrestUrl = location.protocol + "//" + yz.getNetworkHostName() + ":" +
@@ -9730,7 +9726,6 @@
                             template:   `
 <span   v-bind:id='element_id'
                                      v-bind:style="'padding:0px;position: relative; margin: auto;height:100%;width:100%;border:0px; overflow-y:none;'"
-                                     v-on:click='click_card(item.id)'
                                      v-bind:class='card_selected?(is_static?"container":" container"):" container"' >
 
                                 <div
@@ -10788,12 +10783,6 @@ Loaded Method: {{ yz.componentsAPI.vue.getComponentLoadedMethod({codeId: loadedC
                     if (mainVueAppVm.selected_card == id) {
                         return;
                     }
-                    if (mainVueAppVm.selected_card != -1) {
-                        if (id != -1) {
-                            document.querySelector('#card_' + mainVueAppVm.selected_card).classList.remove("expand");
-                        }
-                        document.querySelector('#card_' + mainVueAppVm.selected_card).classList.add('contract');
-                    }
 
                     if (id != -1) {
                         let elmnt = document.querySelector('#card_' + id);
@@ -10810,8 +10799,6 @@ Loaded Method: {{ yz.componentsAPI.vue.getComponentLoadedMethod({codeId: loadedC
                                     }
                                 },200)
                             } else {
-                                document.querySelector('#card_' + id).classList.remove('contract');
-                                document.querySelector('#card_' + id).classList.add('expand');
                                 setTimeout(function()
                                 {
                                     mainVueAppVm.selected_card = id;
