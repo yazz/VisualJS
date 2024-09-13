@@ -9550,7 +9550,6 @@
                                         <div    v-bind:style='"left:0px; top:0px; height:100%; width: 100vw ;z-index: 200000;background-color: white;overflow-y:hidden;overflow-x: hidden;display:" + (is_static?"":"")'>
 
                                             <card_component :item='item'
-                                                            :visible='true'
                                                             :element_id='"card_" + item.id'
                                                             :full_screen='item.id == selected_card'
                                                             :is_static='is_static'
@@ -9691,19 +9690,17 @@
                 },
                 getCardComponentStructure:          function                    (  )                                            {
                     let cardComponentStructure = {
-                        props:      [   "item"   ,   "visible"   ,   "element_id"   ,   "full_screen"   ,   "card_selected"   ,   "is_static"   ,  "appCodeId"],
+                        props:      [   "item"   ,   "element_id"   ,   "full_screen"   ,   "card_selected"   ,   "is_static"   ,  "appCodeId"],
                         template:   `
 <span   v-bind:id='element_id'
         v-bind:style="'padding:0px;position: relative; margin: auto;height:100%;width:100%;border:0px; overflow-y:none;'"
-        v-bind:class='card_selected?(is_static?"container":" container"):" container"' >
+        class='container' >
 
-    <div  v-bind:style="'; padding:0px; font-family: Helvetica ;  width: 100vw ;visibility: ' + (visible?'':'hidden') + ';' ">
+    <div  v-bind:style="'; padding:0px; font-family: Helvetica ;  width: 100vw ;' ">
 
         <div    v-if='full_screen && (item.type == "app")'>
             <component      v-bind:is='appCodeId'></component>
         </div>
-
-        <div style='height: 2em;'></div>
 
     </div>
 </span>`
