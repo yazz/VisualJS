@@ -2295,21 +2295,12 @@ ___________
         },
         mounted:            async function () {
             let mm = this
-            if (Vue.version.startsWith("2")) {
-                mm.isValidObject                    = isValidObject
-                mm.yz                               = yz
-                mm.showProgressBar                  = showProgressBar
-                mm.hideProgressBar                  = hideProgressBar
-                mm.location                         = location
-
-            } else if (Vue.version.startsWith("3")) {
-                mm.isValidObject                    = Vue.inject('isValidObject')
-                mm.yz                               = Vue.inject('yz')
-                mm.showProgressBar                  = Vue.inject('showProgressBar')
-                mm.hideProgressBar                  = Vue.inject('hideProgressBar')
-                mm.location                         = Vue.inject('location')
-                mm.msToTime                         = Vue.inject('msToTime')
-            }
+            mm.isValidObject                    = Vue.inject('isValidObject')
+            mm.yz                               = Vue.inject('yz')
+            mm.showProgressBar                  = Vue.inject('showProgressBar')
+            mm.hideProgressBar                  = Vue.inject('hideProgressBar')
+            mm.location                         = Vue.inject('location')
+            mm.msToTime                         = Vue.inject('msToTime')
 
             await yz.useIdeTools()
             //await yz.useEstraverse()
@@ -2399,15 +2390,9 @@ ___________
             mm.refresh ++
         }
     }
-    if (Vue.version.startsWith("2")) {
-        yazzCompStruct.beforeDestroy = (async function() {
-            await this.beforeDestroyFn()
-        })
-    } else if (Vue.version.startsWith("3")) {
-        yazzCompStruct.beforeUnmount = (async function() {
-            await this.beforeDestroyFn()
-        })
-    }
+    yazzCompStruct.beforeUnmount = (async function() {
+        await this.beforeDestroyFn()
+    })
     Yazz.component(yazzCompStruct)
 }
 

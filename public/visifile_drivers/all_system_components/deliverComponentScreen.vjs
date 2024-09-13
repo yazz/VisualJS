@@ -553,23 +553,12 @@ pane_release_description:               {{pane_release_description}}
         props:      [  "editor_fns"  ],
         mounted:    async function() {
             let mm = this
-            if (Vue.version.startsWith("2")) {
-                mm.isValidObject                    = isValidObject
-                mm.yz                               = yz
-                mm.showProgressBar                  = showProgressBar
-                mm.hideProgressBar                  = hideProgressBar
-                mm.location                         = location
-
-            } else if (Vue.version.startsWith("3")) {
                 mm.isValidObject                    = Vue.inject('isValidObject')
                 mm.yz                               = Vue.inject('yz')
                 mm.showProgressBar                  = Vue.inject('showProgressBar')
                 mm.hideProgressBar                  = Vue.inject('hideProgressBar')
                 mm.location                         = Vue.inject('location')
                 mm.msToTime                         = Vue.inject('msToTime')
-
-
-            }
         },
         methods:    {
             // editor interface

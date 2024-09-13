@@ -187,13 +187,11 @@ logo_url("/driver_icons/dropdown.png")
         },
         mounted:    function(  ) {
             let mm = this
-            if (Vue.version.startsWith("3")) {
-                mm.isValidObject    = Vue.inject('isValidObject')
-                mm.yz               = Vue.inject('yz')
-                mm.showProgressBar  = Vue.inject('showProgressBar')
-                mm.hideProgressBar  = Vue.inject('hideProgressBar')
-                mm.$DEBUGUI         = Vue.inject('$DEBUGUI')
-            }
+            mm.isValidObject    = Vue.inject('isValidObject')
+            mm.yz               = Vue.inject('yz')
+            mm.showProgressBar  = Vue.inject('showProgressBar')
+            mm.hideProgressBar  = Vue.inject('hideProgressBar')
+            mm.$DEBUGUI         = Vue.inject('$DEBUGUI')
 
             if (isValidObject(this.control_properties_and_events)) {
                 this.items = this.control_properties_and_events.items

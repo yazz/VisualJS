@@ -79,10 +79,7 @@ load_once_from_file(true)
         mounted:   async function() {
             let mm = this
 
-            if (Vue.version.startsWith("2")) {
-            } else if (Vue.version.startsWith("3")) {
-                mm.yz                               = yz
-            }
+            mm.yz                               = yz
             let thisVueInstance  = this
             args.text            = null
             this.baseComponentId = yz.helpers.getValueOfCodeString(thisVueInstance.text, "base_component_id")

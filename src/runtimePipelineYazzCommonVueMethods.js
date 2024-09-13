@@ -6026,17 +6026,10 @@ return {}
 
 
                 let mm = this
-                if (Vue.version.startsWith("2")) {
-                    mm.isValidObject    = isValidObject
-                    mm.yz               = yz
-                    mm.showProgressBar  = showProgressBar
-                    mm.hideProgressBar  = hideProgressBar
-                } else if (Vue.version.startsWith("3")) {
-                    mm.isValidObject    = Vue.inject('isValidObject')
-                    mm.yz               = Vue.inject('yz')
-                    mm.showProgressBar  = Vue.inject('showProgressBar')
-                    mm.hideProgressBar  = Vue.inject('hideProgressBar')
-                }
+                mm.isValidObject    = Vue.inject('isValidObject')
+                mm.yz               = Vue.inject('yz')
+                mm.showProgressBar  = Vue.inject('showProgressBar')
+                mm.hideProgressBar  = Vue.inject('hideProgressBar')
                 if (!mm.design_mode) {
                     //debugger
                 }

@@ -262,8 +262,6 @@ load_once_from_file(true)
 </div>`,
         mounted:        function() {
             var thisVueInstance = this
-            if (Vue.version.startsWith("3")) {
-            }
             args.text           = null
 
             if (isValidObject(thisVueInstance.text)) {

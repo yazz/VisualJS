@@ -15,13 +15,16 @@
         <scriptold  src="/js_libs/socketio4.4.1.js"                                                 crossorigin="anonymous">                                                                                            </scriptold>
         <script src="https://unpkg.com/mitt/dist/mitt.umd.js"></script>
 
+        <!-- VueJS -->
         <script src="https://unpkg.com/vue@3.5.0/dist/vue.global.prod.js"></script>
         <scriptdev     src="/js_libs/vue.global.js">                                                           </scriptdev>
         <script_compat src="https://unpkg.com/@vue/compat@3.1"></script_compat>
 
+        <!-- Leaflet -->
         <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
         <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
 
+        <!-- AlaSQL -->
         <script     src="https://cdn.jsdelivr.net/npm/alasql@4">                                                                                                                                                        </script>
         <scriptold  src="/js_libs/alasql.js">                                                                                                                                                                           </scriptold>
 
@@ -8917,11 +8920,7 @@
                         }
 
                         let vueComponentCreation = null
-                        if (Vue.version.startsWith("2")) {
-                            vueComponentCreation = "Vue"
-                        } else if (Vue.version.startsWith("3")) {
-                            vueComponentCreation = "yz.mainVars.mainVueApp"
-                        }
+                        vueComponentCreation = "yz.mainVars.mainVueApp"
 
 
                         let codeIdVueObjectCode = trcode2.toString().replaceAll(
@@ -9505,22 +9504,14 @@
                             props:      [   "item"   ,   "visible"   ,   "element_id"   ,   "full_screen"   ,   "card_selected"   ,   "is_static"   ,  "appCodeId"],
                             mounted:    async function() {
                                 let mm = this
-                                if (Vue.version.startsWith("2")) {
-                                    mm.isValidObject                    = isValidObject
-                                    mm.yz                               = yz
-                                    mm.showProgressBar                  = showProgressBar
-                                    mm.hideProgressBar                  = hideProgressBar
-                                    mm.location                         = location
-                                } else if (Vue.version.startsWith("3")) {
-                                    mm.isValidObject                    = Vue.inject('isValidObject')
-                                    mm.yz                               = Vue.inject('yz')
-                                    mm.showProgressBar                  = Vue.inject('showProgressBar')
-                                    mm.hideProgressBar                  = Vue.inject('hideProgressBar')
-                                    mm.msToTime                         = Vue.inject('msToTime')
-                                    mm.capitalizeFirstLetter            = Vue.inject('capitalizeFirstLetter')
-                                    mm.timeDiffLater                    = Vue.inject('timeDiffLater')
-                                    mm.location                         = Vue.inject('location')
-                                }
+                                mm.isValidObject                    = Vue.inject('isValidObject')
+                                mm.yz                               = Vue.inject('yz')
+                                mm.showProgressBar                  = Vue.inject('showProgressBar')
+                                mm.hideProgressBar                  = Vue.inject('hideProgressBar')
+                                mm.msToTime                         = Vue.inject('msToTime')
+                                mm.capitalizeFirstLetter            = Vue.inject('capitalizeFirstLetter')
+                                mm.timeDiffLater                    = Vue.inject('timeDiffLater')
+                                mm.location                         = Vue.inject('location')
 
                                 yz.globalEventBus.on('hide_settings',
                                     async function() {
@@ -10079,18 +10070,10 @@ Loaded Method: {{ yz.componentsAPI.vue.getComponentLoadedMethod({codeId: loadedC
                             }
                         }
 
-                        if (Vue.version.startsWith("2")) {
-                            vueAppStructure.el = "#main_yazz_vue_root_html_element"
-                            yz.mainVars.mainVueApp = new Vue(vueAppStructure);
-                            Vue.component('card_component', cardComponentStructure);
-                            mainVueAppVm = yz.mainVars.mainVueApp
-
-                        } else if (Vue.version.startsWith("3")) {
-                            yz.mainVars.mainVueApp = Vue.createApp(vueAppStructure);
-                            yz.mainVars.mainVueApp.component('card_component', cardComponentStructure);
-                            yz.mainVars.mainVueApp.config.compilerOptions.whitespace = 'condense';
-                            mainVueAppVm = yz.mainVars.mainVueApp.mount("#main_yazz_vue_root_html_element")
-                        }
+                        yz.mainVars.mainVueApp = Vue.createApp(vueAppStructure);
+                        yz.mainVars.mainVueApp.component('card_component', cardComponentStructure);
+                        yz.mainVars.mainVueApp.config.compilerOptions.whitespace = 'condense';
+                        mainVueAppVm = yz.mainVars.mainVueApp.mount("#main_yazz_vue_root_html_element")
 
 
 

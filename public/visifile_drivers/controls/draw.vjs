@@ -141,13 +141,12 @@ logo_url("/driver_icons/draw.png")
       },
         mounted:    async function(  ) {
             let mm = this
-            if (Vue.version.startsWith("3")) {
-                mm.isValidObject    = Vue.inject('isValidObject')
-                mm.yz               = Vue.inject('yz')
-                mm.showProgressBar  = Vue.inject('showProgressBar')
-                mm.hideProgressBar  = Vue.inject('hideProgressBar')
-                mm.$DEBUGUI         = Vue.inject('$DEBUGUI')
-            }
+            mm.isValidObject    = Vue.inject('isValidObject')
+            mm.yz               = Vue.inject('yz')
+            mm.showProgressBar  = Vue.inject('showProgressBar')
+            mm.hideProgressBar  = Vue.inject('hideProgressBar')
+            mm.$DEBUGUI         = Vue.inject('$DEBUGUI')
+
             await registerComponent(this)
             this.loadImageToCanvas()
         },

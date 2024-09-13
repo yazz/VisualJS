@@ -510,11 +510,9 @@ use_db("todo")
         props:      [  "editor_fns"  ],
         mounted:    async function() {
             let mm = this
-            if (Vue.version.startsWith("3")) {
-                mm.$DEBUGUI              = Vue.inject('$DEBUGUI')
-        }
+            mm.$DEBUGUI              = Vue.inject('$DEBUGUI')
 
-    yz.mainVars.disableAutoSave     = false
+            yz.mainVars.disableAutoSave     = false
             mm.pane_home_selectedTable      = null
         },
         methods:    {
