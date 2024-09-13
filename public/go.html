@@ -10479,14 +10479,29 @@
                     await yz.createAlaSqlTable({
                         tableName: "ui_loaded_apps",
                         fields: [
-                            {name: "id",                fieldType: "INT PRIMARY KEY AUTOINCREMENT"},
-                            {name: "instance_uuid",     fieldType: "STRING"},
-                            {name: "created",           fieldType: "INTEGER"},
-                            {name: "base_component_id", fieldType: "STRING"},
-                            {name: "code_id",           fieldType: "STRING"},
-                            {name: "type",              fieldType: "STRING"},
-                            {name: "arguments",         fieldType: "STRING"},
-                            {name: "status",            fieldType: "STRING"}
+                            {name: "id",                        fieldType: "INT PRIMARY KEY AUTOINCREMENT"},
+                            {name: "instance_uuid",             fieldType: "STRING"},
+                            {name: "fk_subapp_instance_uuid",   fieldType: "STRING"},
+                            {name: "created",                   fieldType: "INTEGER"},
+                            {name: "base_component_id",         fieldType: "STRING"},
+                            {name: "code_id",                   fieldType: "STRING"},
+                            {name: "type",                      fieldType: "STRING"},
+                            {name: "arguments",                 fieldType: "STRING"},
+                            {name: "status",                    fieldType: "STRING"}
+                        ]})
+
+                    await yz.createAlaSqlTable({
+                        tableName: "ui_loaded_subapps",
+                        fields: [
+                            {name: "id",                            fieldType: "INT PRIMARY KEY AUTOINCREMENT"},
+                            {name: "subapp_instance_uuid",          fieldType: "STRING"},
+                            {name: "parent_subapp_instance_uuid",   fieldType: "STRING"},
+                            {name: "created",                       fieldType: "INTEGER"},
+                            {name: "base_component_id",             fieldType: "STRING"},
+                            {name: "code_id",                       fieldType: "STRING"},
+                            {name: "type",                          fieldType: "STRING"},
+                            {name: "arguments",                     fieldType: "STRING"},
+                            {name: "status",                        fieldType: "STRING"}
                         ]})
 
 
