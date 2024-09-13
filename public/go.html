@@ -10458,7 +10458,7 @@
 
 
                 await yz.createAlaSqlTable({
-                    tableName: "ui_system_properties",
+                    tableName: "ui_global_vars",
                     fields: [
                         {name: "prop_id",        fieldType: "STRING"},
                         {name: "prop_type",      fieldType: "STRING"},
@@ -10476,8 +10476,21 @@
                         {name: "status",            fieldType: "STRING"}
                     ]})
 
+                    await yz.createAlaSqlTable({
+                        tableName: "ui_loaded_apps",
+                        fields: [
+                            {name: "id",                fieldType: "INT PRIMARY KEY AUTOINCREMENT"},
+                            {name: "instance_uuid",     fieldType: "STRING"},
+                            {name: "created",           fieldType: "INTEGER"},
+                            {name: "base_component_id", fieldType: "STRING"},
+                            {name: "code_id",           fieldType: "STRING"},
+                            {name: "type",              fieldType: "STRING"},
+                            {name: "arguments",         fieldType: "STRING"},
+                            {name: "status",            fieldType: "STRING"}
+                        ]})
 
-                // add a trigger to process new commands
+
+                    // add a trigger to process new commands
                 alasql.fn.processNewCommand = async function(r) {
                     //debugger
                     return true;
