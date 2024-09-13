@@ -217,7 +217,7 @@
                 border: 0px solid black;
                 scroll-behavior2: smooth;
             }
-            #infinite-list {
+            #main_yazz_vue_root_html_element {
             }
             /* Optional eye candy below: */
             li {
@@ -10100,7 +10100,7 @@ Loaded Method: {{ yz.componentsAPI.vue.getComponentLoadedMethod({codeId: loadedC
                         }
 
                         if (Vue.version.startsWith("2")) {
-                            vueAppStructure.el = "#infinite-list"
+                            vueAppStructure.el = "#main_yazz_vue_root_html_element"
                             yz.mainVars.mainVueApp = new Vue(vueAppStructure);
                             Vue.component('card_component', cardComponentStructure);
                             mainVueAppVm = yz.mainVars.mainVueApp
@@ -10109,7 +10109,7 @@ Loaded Method: {{ yz.componentsAPI.vue.getComponentLoadedMethod({codeId: loadedC
                             yz.mainVars.mainVueApp = Vue.createApp(vueAppStructure);
                             yz.mainVars.mainVueApp.component('card_component', cardComponentStructure);
                             yz.mainVars.mainVueApp.config.compilerOptions.whitespace = 'condense';
-                            mainVueAppVm = yz.mainVars.mainVueApp.mount("#infinite-list")
+                            mainVueAppVm = yz.mainVars.mainVueApp.mount("#main_yazz_vue_root_html_element")
                         }
 
 
@@ -12092,10 +12092,10 @@ Loaded Method: {{ yz.componentsAPI.vue.getComponentLoadedMethod({codeId: loadedC
                 onmouseup='yz.onemouseup()'
                 onwheel='yz.onemousedown()'     >
 
-            <div    id='infinite-list'
+            <div    id='main_yazz_vue_root_html_element'
                     style='overflow-y: none;' >
             </div>
-        </div>
+        </div>                                     <!-- Wraps the editor/apps, etc -->
 
         <script id="web_worker_1" type="javascript/worker">
 
@@ -12161,6 +12161,6 @@ Loaded Method: {{ yz.componentsAPI.vue.getComponentLoadedMethod({codeId: loadedC
                 })
             };
             // Rest of your worker code goes here.
-    </script>
+    </script>       <!-- Web worker used to save .vjs code in the background -->
     </body>
 </html>
