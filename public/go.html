@@ -9549,13 +9549,19 @@
                                     <template   v-for="item  in  [loadedAppMetaData]" >
                                         <div    v-bind:style='"left:0px; top:0px; height:100%; width: 100vw ;z-index: 200000;background-color: white;overflow-y:hidden;overflow-x: hidden;display:" + (is_static?"":"")'>
 
-                                            <card_component :item='item'
-                                                            :element_id='"card_" + item.id'
-                                                            :full_screen='item.id == selected_card'
-                                                            :is_static='is_static'
-                                                            :appCodeId='appCodeId'
-                                                            :card_selected='(item.id == selected_card)'>
-                                            </card_component>
+                                            <span   v-bind:id='"card_" + item.id'
+                                                    v-bind:style="'padding:0px;position: relative; margin: auto;height:100%;width:100%;border:0px; overflow-y:none;'"
+                                                    class='container' >
+
+                                                <div  v-bind:style="'; padding:0px; font-family: Helvetica ;  width: 100vw ;' ">
+
+                                                    <div    v-if='(item.id == selected_card) && (item.type == "app")'>
+                                                        <component      v-bind:is='appCodeId'></component>
+                                                    </div>
+
+                                                </div>
+                                            </span>
+
 
                                         </div>
                                     </template>
