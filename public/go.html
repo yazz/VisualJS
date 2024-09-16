@@ -9482,6 +9482,7 @@
                     //alert(yz.useHostname + ":" +  yz.usePort)
                 },
                 initYazzApplication:                async function              (  )                                            {
+                    console.log("await initYazzApplication( async function() {  entered ...")
                     //----------------------------------------------------------------------------------
                     //
                     //                    /-------------------------------------/
@@ -9686,6 +9687,7 @@
                         myDropzone.on("complete", function(file) {
                             myDropzone.removeFile(file);
                         })
+                        console.log("... left initYazzApplication( async function() {  ")
 
 
                     },100)
@@ -11557,7 +11559,7 @@
                         // add a trigger to process new commands
                         alasql.fn.processNewCommand = async function(r) {
                             if (r.command == "UPDATE_APPS_FROM_APPSTORE") {
-                                debugger
+                                //debugger
                             }
                             return true;
                         };

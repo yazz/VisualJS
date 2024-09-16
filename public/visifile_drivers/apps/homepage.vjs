@@ -777,6 +777,7 @@ disableHighlightEditableApp:            {{ disableHighlightEditableApp }}
                                          |__________________________________ */
 
                 await yz.onPageInitialized( async function() {
+                    console.log("await yz.onPageInitialized( async function() { entered ... ")
                     setTimeout(function(){
                         mm.sendCommand()
                     },1000)
@@ -1049,6 +1050,7 @@ disableHighlightEditableApp:            {{ disableHighlightEditableApp }}
                         mm.highlightEditableComponent(highlightAppOnStartup)
 
                     }
+                    console.log("... left await yz.onPageInitialized( async function() {  ")
 
                 })
 
