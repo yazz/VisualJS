@@ -9496,7 +9496,7 @@
                     console.log("Called initYazzApplication()")
                     setTimeout(async function(){
 
-                        await yz.setupAlaSqlDatabase()
+                        await yz.uiDb.setupAlaSqlDatabase()
 
 
                         let vueAppStructure = {
@@ -10416,145 +10416,6 @@
                         baseComponentId:    baseComponentId,
                         codeId:             sha1sum
                     })
-            },
-                asql:                               function                    (  sql  ,  params  )                            {
-                let ret = alasql(sql  ,  params)
-                if ((typeof $DEBUGUI !== 'undefined') && ($DEBUGUI == "true")) {
-                    let startOfSql = sql.toLowerCase()
-                    if (startOfSql.startsWith("insert") || startOfSql.startsWith("update") || startOfSql.startsWith("delete")) {
-                        ((async function () {
-                            let oursql = sql
-                            let ourparams = params
-                            let resultsCode = await yz.postToYazzReturnJson(
-                                "/http_post_browser_sql_write_operation",
-                                {
-                                    browser_write_sql: oursql,
-                                    sql_params: ourparams
-                                })
-
-                        })())
-                    }
-                }
-                return ret
-            },
-                setupAlaSqlDatabase:                async function              (  )                                            {
-                alasql("CREATE TABLE ui_tables (table_name STRING)");
-                alasql("CREATE TABLE ui_fields (table_name STRING, field_name STRING, field_type STRING)");
-                    yz.asql("select * from ui_tables")
-                await yz.createAlaSqlTable({
-                    tableName: "ui_components",
-                    fields: [
-                        {name: "id",        fieldType: "INT"},
-                        {name: "comp_name", fieldType: "STRING"}
-                    ]})
-
-                await yz.createAlaSqlTable({
-                    tableName: "ui_test",
-                    fields: [
-                        {name: "id",        fieldType: "INT"},
-                        {name: "comp_name", fieldType: "STRING"},
-                        {name: "another",   fieldType: "STRING"}
-                    ]})
-
-
-                await yz.createAlaSqlTable({
-                    tableName: "ui_global_vars",
-                    fields: [
-                        {name: "prop_id",        fieldType: "STRING"},
-                        {name: "prop_type",      fieldType: "STRING"},
-                        {name: "prop_value",     fieldType: "STRING"}
-                    ]})
-
-                await yz.createAlaSqlTable({
-                    tableName: "ui_commands",
-                    fields: [
-                        {name: "id",                fieldType: "INT PRIMARY KEY AUTOINCREMENT"},
-                        {name: "debug_code",        fieldType: "STRING"},
-                        {name: "created",           fieldType: "INTEGER"},
-                        {name: "command",           fieldType: "STRING"},
-                        {name: "arguments",         fieldType: "STRING"},
-                        {name: "status",            fieldType: "STRING"}
-                    ]})
-
-                await yz.createAlaSqlTable({
-                    tableName: "ui_loaded_apps",
-                    fields: [
-                        {name: "id",                        fieldType: "INT PRIMARY KEY AUTOINCREMENT"},
-                        {name: "instance_uuid",             fieldType: "STRING"},
-                        {name: "fk_subapp_instance_uuid",   fieldType: "STRING"},
-                        {name: "created",                   fieldType: "INTEGER"},
-                        {name: "base_component_id",         fieldType: "STRING"},
-                        {name: "code_id",                   fieldType: "STRING"},
-                        {name: "type",                      fieldType: "STRING"},
-                        {name: "arguments",                 fieldType: "STRING"},
-                        {name: "status",                    fieldType: "STRING"}
-                    ]})
-
-                await yz.createAlaSqlTable({
-                    tableName: "ui_loaded_subapps",
-                    fields: [
-                        {name: "id",                            fieldType: "INT PRIMARY KEY AUTOINCREMENT"},
-                        {name: "subapp_instance_uuid",          fieldType: "STRING"},
-                        {name: "parent_subapp_instance_uuid",   fieldType: "STRING"},
-                        {name: "created",                       fieldType: "INTEGER"},
-                        {name: "base_component_id",             fieldType: "STRING"},
-                        {name: "code_id",                       fieldType: "STRING"},
-                        {name: "type",                          fieldType: "STRING"},
-                        {name: "arguments",                     fieldType: "STRING"},
-                        {name: "status",                        fieldType: "STRING"}
-                    ]})
-
-
-                    // add a trigger to process new commands
-                alasql.fn.processNewCommand = async function(r) {
-                    //debugger
-                    return true;
-                };
-                alasql('CREATE TRIGGER processNewCommand BEFORE INSERT ON  ui_commands  processNewCommand');
-
-            },
-                createCommand:                      async function              (  command  ,  params  ,  debugCode  )          {
-                let paramsString = JSON.stringify(params)
-                    yz.asql("INSERT INTO ui_commands (  created  ,  command  ,  arguments  ,  debug_code  ) VALUES (?,?,?,?)", [Date.now(), command, paramsString, debugCode]);
-            },
-                setupAlaSqlSync:                    async function              (  )                                            {
-                if ((typeof $DEBUGUI !== 'undefined') && ($DEBUGUI == "true")) {
-                    let tables = alasql("select * from ui_tables")
-                    for (table of tables) {
-                        let fields = alasql("select * from ui_fields where table_name = ?", table.table_name)
-                        let fieldList  = []
-                        for (field of fields) {
-                            fieldList.push({name: field.field_name, type: field.field_type})
-                        }
-
-
-                        let resultsCode = await yz.postToYazzReturnJson(
-                            "/http_post_create_browser_table",
-                            {
-                                table_name: table.table_name,
-                                fields:     fieldList
-                            })
-                    }
-                }
-            },
-                createAlaSqlTable:                  async function              (  {  tableName  ,  fields  }  )                {
-                let alaSqlCreateString = "create table " + tableName + "("
-
-                let alaSqlInsertString = "insert into ui_tables (table_name) values (?)"
-                alasql(alaSqlInsertString, tableName);
-                for (let fieldIndex = 0;  fieldIndex < fields.length ; fieldIndex++) {
-                    let field = fields[fieldIndex]
-                    let alaSqlCreateFieldsString = "insert into ui_fields (table_name, field_name, field_type) values (?,?,?)"
-                    alasql(alaSqlCreateFieldsString, [tableName, field.name, field.fieldType]);
-
-                    alaSqlCreateString = alaSqlCreateString + field.name + " " + field.fieldType
-                    if (fieldIndex < ( fields.length - 1)) {
-                        alaSqlCreateString = alaSqlCreateString + ","
-                    }
-                }
-                alaSqlCreateString = alaSqlCreateString + ")"
-                alasql(alaSqlCreateString);
-
             },
 
                 isValidObject:                      function                    (   variable   )                                {
@@ -11596,6 +11457,148 @@
                     }
                 },
 
+                uiDb:
+                {
+                    asql:                               function                    (  sql  ,  params  )                            {
+                        let ret = alasql(sql  ,  params)
+                        if ((typeof $DEBUGUI !== 'undefined') && ($DEBUGUI == "true")) {
+                            let startOfSql = sql.toLowerCase()
+                            if (startOfSql.startsWith("insert") || startOfSql.startsWith("update") || startOfSql.startsWith("delete")) {
+                                ((async function () {
+                                    let oursql = sql
+                                    let ourparams = params
+                                    let resultsCode = await yz.postToYazzReturnJson(
+                                        "/http_post_browser_sql_write_operation",
+                                        {
+                                            browser_write_sql: oursql,
+                                            sql_params: ourparams
+                                        })
+
+                                })())
+                            }
+                        }
+                        return ret
+                    },
+                    setupAlaSqlDatabase:                async function              (  )                                            {
+                        alasql("CREATE TABLE ui_tables (table_name STRING)");
+                        alasql("CREATE TABLE ui_fields (table_name STRING, field_name STRING, field_type STRING)");
+                        yz.uiDb.asql("select * from ui_tables")
+                        await yz.uiDb.createAlaSqlTable({
+                            tableName: "ui_components",
+                            fields: [
+                                {name: "id",        fieldType: "INT"},
+                                {name: "comp_name", fieldType: "STRING"}
+                            ]})
+
+                        await yz.uiDb.createAlaSqlTable({
+                            tableName: "ui_test",
+                            fields: [
+                                {name: "id",        fieldType: "INT"},
+                                {name: "comp_name", fieldType: "STRING"},
+                                {name: "another",   fieldType: "STRING"}
+                            ]})
+
+
+                        await yz.uiDb.createAlaSqlTable({
+                            tableName: "ui_global_vars",
+                            fields: [
+                                {name: "prop_id",        fieldType: "STRING"},
+                                {name: "prop_type",      fieldType: "STRING"},
+                                {name: "prop_value",     fieldType: "STRING"}
+                            ]})
+
+                        await yz.uiDb.createAlaSqlTable({
+                            tableName: "ui_commands",
+                            fields: [
+                                {name: "id",                fieldType: "INT PRIMARY KEY AUTOINCREMENT"},
+                                {name: "debug_code",        fieldType: "STRING"},
+                                {name: "created",           fieldType: "INTEGER"},
+                                {name: "command",           fieldType: "STRING"},
+                                {name: "arguments",         fieldType: "STRING"},
+                                {name: "status",            fieldType: "STRING"}
+                            ]})
+
+                        await yz.uiDb.createAlaSqlTable({
+                            tableName: "ui_loaded_apps",
+                            fields: [
+                                {name: "id",                        fieldType: "INT PRIMARY KEY AUTOINCREMENT"},
+                                {name: "instance_uuid",             fieldType: "STRING"},
+                                {name: "fk_subapp_instance_uuid",   fieldType: "STRING"},
+                                {name: "created",                   fieldType: "INTEGER"},
+                                {name: "base_component_id",         fieldType: "STRING"},
+                                {name: "code_id",                   fieldType: "STRING"},
+                                {name: "type",                      fieldType: "STRING"},
+                                {name: "arguments",                 fieldType: "STRING"},
+                                {name: "status",                    fieldType: "STRING"}
+                            ]})
+
+                        await yz.uiDb.createAlaSqlTable({
+                            tableName: "ui_loaded_subapps",
+                            fields: [
+                                {name: "id",                            fieldType: "INT PRIMARY KEY AUTOINCREMENT"},
+                                {name: "subapp_instance_uuid",          fieldType: "STRING"},
+                                {name: "parent_subapp_instance_uuid",   fieldType: "STRING"},
+                                {name: "created",                       fieldType: "INTEGER"},
+                                {name: "base_component_id",             fieldType: "STRING"},
+                                {name: "code_id",                       fieldType: "STRING"},
+                                {name: "type",                          fieldType: "STRING"},
+                                {name: "arguments",                     fieldType: "STRING"},
+                                {name: "status",                        fieldType: "STRING"}
+                            ]})
+
+
+                        // add a trigger to process new commands
+                        alasql.fn.processNewCommand = async function(r) {
+                            //debugger
+                            return true;
+                        };
+                        alasql('CREATE TRIGGER processNewCommand BEFORE INSERT ON  ui_commands  processNewCommand');
+
+                    },
+                    createCommand:                      async function              (  command  ,  params  ,  debugCode  )          {
+                        let paramsString = JSON.stringify(params)
+                        yz.uiDb.asql("INSERT INTO ui_commands (  created  ,  command  ,  arguments  ,  debug_code  ) VALUES (?,?,?,?)", [Date.now(), command, paramsString, debugCode]);
+                    },
+                    setupAlaSqlSync:                    async function              (  )                                            {
+                        if ((typeof $DEBUGUI !== 'undefined') && ($DEBUGUI == "true")) {
+                            let tables = alasql("select * from ui_tables")
+                            for (table of tables) {
+                                let fields = alasql("select * from ui_fields where table_name = ?", table.table_name)
+                                let fieldList  = []
+                                for (field of fields) {
+                                    fieldList.push({name: field.field_name, type: field.field_type})
+                                }
+
+
+                                let resultsCode = await yz.postToYazzReturnJson(
+                                    "/http_post_create_browser_table",
+                                    {
+                                        table_name: table.table_name,
+                                        fields:     fieldList
+                                    })
+                            }
+                        }
+                    },
+                    createAlaSqlTable:                  async function              (  {  tableName  ,  fields  }  )                {
+                        let alaSqlCreateString = "create table " + tableName + "("
+
+                        let alaSqlInsertString = "insert into ui_tables (table_name) values (?)"
+                        alasql(alaSqlInsertString, tableName);
+                        for (let fieldIndex = 0;  fieldIndex < fields.length ; fieldIndex++) {
+                            let field = fields[fieldIndex]
+                            let alaSqlCreateFieldsString = "insert into ui_fields (table_name, field_name, field_type) values (?,?,?)"
+                            alasql(alaSqlCreateFieldsString, [tableName, field.name, field.fieldType]);
+
+                            alaSqlCreateString = alaSqlCreateString + field.name + " " + field.fieldType
+                            if (fieldIndex < ( fields.length - 1)) {
+                                alaSqlCreateString = alaSqlCreateString + ","
+                            }
+                        }
+                        alaSqlCreateString = alaSqlCreateString + ")"
+                        alasql(alaSqlCreateString);
+
+                    },
+                },
 
 
 
@@ -11916,7 +11919,7 @@
             (async function() {
                 await yz.populateStaticCodeCache()
                 setTimeout(
-                    yz.setupAlaSqlSync, 1000 )
+                    yz.uiDb.setupAlaSqlSync, 1000 )
             })()
 
         </script> <!-- Startup code -->
