@@ -11652,7 +11652,6 @@
 
                                 for (let fieldIndex = 0; fieldIndex < fields.length; fieldIndex++) {
                                     let field = fields[fieldIndex]
-                                    debugger
                                     fieldNames += field.field_name
                                     fieldQuestionMarks = fieldQuestionMarks + "?"
                                     fieldValues.push(r[field.field_name])
@@ -11664,14 +11663,12 @@
                                 }
                                 let browserWriteSql = "insert into " + tableName + "(" + fieldNames + ")" +
                                     " values (" + fieldQuestionMarks + ")"
-                                debugger
                                 let resultsCode = await yz.postToYazzReturnJson(
                                     "/http_post_browser_sql_write_operation",
                                     {
                                         browser_write_sql: browserWriteSql,
                                         sql_params: fieldValues
                                     })
-                                debugger
                                 return true;
                             };
                             alasql("CREATE TRIGGER process" + triggerName + " AFTER INSERT ON  " + tableName + "  " + triggerName);
@@ -11695,8 +11692,9 @@
                                 for (let thisApp of responseJson) {
                                     let alreadyExists = yz.uiDb.asql("select * from ui_appstore_apps where code_id = ?", [thisApp.content_hash])
                                     if (alreadyExists.length == 0) {
-                                        yz.uiDb.asql(   "insert into ui_appstore_apps (code_id  ,  base_component_id) values (?,?)",
-                                                        [thisApp.content_hash,thisApp.base_component_id])
+                                        debugger
+                                        yz.uiDb.asql(   "insert into ui_appstore_apps (code_id  ,  base_component_id, logo_url, display_name,type) values (?,?,?,?,?)",
+                                                        [thisApp.content_hash,thisApp.base_component_id,thisApp.logo, thisApp.display_name, thisApp.component_type])
                                     }
                                 }
                                 //mm.appstore_apps.push(responseJson[rt])
