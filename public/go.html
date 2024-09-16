@@ -11580,26 +11580,6 @@
                         let paramsString = JSON.stringify(params)
                         yz.uiDb.asql("INSERT INTO ui_commands (  created  ,  command  ,  arguments  ,  debug_code  ) VALUES (?,?,?,?)", [Date.now(), command, paramsString, debugCode]);
                     },
-                    setupAlaSqlSync:                    async function              (  )                                            {
-                        if ((typeof $DEBUGUI !== 'undefined') && ($DEBUGUI == "true")) {
-                            let tables = alasql("select * from ui_tables")
-                            for (table of tables) {
-                                let fields = alasql("select * from ui_fields where table_name = ?", table.table_name)
-                                let fieldList  = []
-                                for (field of fields) {
-                                    fieldList.push({name: field.field_name, type: field.field_type})
-                                }
-
-
-                                let resultsCode = await yz.postToYazzReturnJson(
-                                    "/http_post_create_browser_table",
-                                    {
-                                        table_name: table.table_name,
-                                        fields:     fieldList
-                                    })
-                            }
-                        }
-                    },
                     createAlaSqlTable:                  async function              (  {  tableName  ,  fields  }  )                {
                         let alaSqlCreateString = "create table " + tableName + "("
 
@@ -11617,6 +11597,60 @@
                         }
                         alaSqlCreateString = alaSqlCreateString + ")"
                         alasql(alaSqlCreateString);
+
+
+                        //IF WE ARE RUNNING IN DEBUG MODE
+                        if ((typeof $DEBUGUI !== 'undefined') && ($DEBUGUI == "true")) {
+
+                            //
+                            // create the table on the server
+                            //
+                            let fields = alasql("select * from ui_fields where table_name = ?", tableName)
+                            let fieldList  = []
+                            for (field of fields) {
+                                fieldList.push({name: field.field_name, type: field.field_type})
+                            }
+
+                            let resultsCode2 = await yz.postToYazzReturnJson(
+                                "/http_post_create_browser_table",
+                                {
+                                    table_name: tableName,
+                                    fields:     fieldList
+                                })
+
+
+return
+                            //
+                            // create the table on the server
+                            //
+                            let fieldNames = ""
+                            let fieldQuestionMarks = ""
+                            let fieldValues = []
+
+                            for (let fieldIndex = 0; fieldIndex < fields.length; fieldIndex++) {
+                                let field = fields[fieldIndex]
+                                fieldNames += field.name
+                                fieldQuestionMarks = fieldQuestionMarks + "?"
+                                fieldValues.push(1)
+
+                                if (fieldIndex < (fields.length - 1)) {
+                                    fieldNames = fieldNames + ","
+                                    fieldQuestionMarks = fieldQuestionMarks + ","
+                                }
+                            }
+                            let browserWriteSql = "insert into " + tableName + "(" + fieldNames + ")" +
+                                " values (" + fieldQuestionMarks + ")"
+                            debugger
+                            let resultsCode = await yz.postToYazzReturnJson(
+                                "/http_post_browser_sql_write_operation",
+                                {
+                                    browser_write_sql: browserWriteSql,
+                                    sql_params: fieldValues
+                                })
+                            debugger
+
+                        }
+
 
                     },
                 },
@@ -11966,8 +12000,6 @@
             }
             (async function() {
                 await yz.populateStaticCodeCache()
-                setTimeout(
-                    yz.uiDb.setupAlaSqlSync, 1000 )
             })()
 
         </script> <!-- Startup code -->
