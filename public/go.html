@@ -11555,18 +11555,27 @@
                                 {name: "status",                        fieldType: "STRING"}
                             ]})
 
+                        await yz.uiDb.createAlaSqlTable({
+                            tableName: "ui_appstore_apps",
+                            fields: [
+                                {name: "id",                            fieldType: "INT PRIMARY KEY AUTOINCREMENT"},
+                                {name: "base_component_id",             fieldType: "STRING"},
+                                {name: "code_id",                       fieldType: "STRING"},
+                                {name: "logo_url",                      fieldType: "STRING"},
+                                {name: "type",                          fieldType: "STRING"}
+                            ]})
 
                         // add a trigger to process new commands
                         alasql.fn.processNewCommand = async function(r) {
                             if (r.command == "UPDATE_APPS_FROM_APPSTORE") {
-                                //debugger
+                                await yz.updateAppsFromAppStore()
                             }
                             return true;
                         };
                         alasql('CREATE TRIGGER processNewCommand BEFORE INSERT ON  ui_commands  processNewCommand');
 
                     },
-                    createCommand:                      function              (  command  ,  params  ,  debugCode  )          {
+                    createCommand:                      function                    (  command  ,  params  ,  debugCode  )          {
                         let paramsString = JSON.stringify(params)
                         yz.uiDb.asql("INSERT INTO ui_commands (  created  ,  command  ,  arguments  ,  debug_code  ) VALUES (?,?,?,?)", [Date.now(), command, paramsString, debugCode]);
                     },
@@ -11610,7 +11619,9 @@
 
                     },
                 },
+                updateAppsFromAppStore:                 async function              (  )                                            {
 
+                },
 
 
 
