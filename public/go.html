@@ -11619,7 +11619,17 @@
                                 })
 
 
-return
+                            //
+                            // delete all table records
+                            //
+                            let resultsCode3 = await yz.postToYazzReturnJson(
+                                "/http_post_browser_sql_write_operation",
+                                {
+                                    browser_write_sql: "delete from " + tableName
+                                })
+
+
+//return
                             //
                             // create the table on the server
                             //
@@ -11629,7 +11639,8 @@ return
 
                             for (let fieldIndex = 0; fieldIndex < fields.length; fieldIndex++) {
                                 let field = fields[fieldIndex]
-                                fieldNames += field.name
+                                debugger
+                                fieldNames += field.field_name
                                 fieldQuestionMarks = fieldQuestionMarks + "?"
                                 fieldValues.push(1)
 
