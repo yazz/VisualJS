@@ -11457,8 +11457,15 @@
                     }
                 },
 
-                uiDb:
-                {
+                uiDb:                               {
+                    //
+                    // asql()                       - replaces all SQL commands so that debug data can be synced with server
+                    // createCommand()              - create a command to alter the system
+                    // setupAlaSqlDatabase()        - sets up the UI DB tables using AlaSQL
+                    //      createAlaSqlTable()
+                    // setupAlaSqlSync()            - used to sync data from UI to server side Sqlite for debugging purposes
+                    //
+
                     asql:                               function                    (  sql  ,  params  )                            {
                         let ret = alasql(sql  ,  params)
                         if ((typeof $DEBUGUI !== 'undefined') && ($DEBUGUI == "true")) {
@@ -11549,13 +11556,15 @@
 
                         // add a trigger to process new commands
                         alasql.fn.processNewCommand = async function(r) {
-                            //debugger
+                            if (r.command == "UPDATE_APPS_FROM_APPSTORE") {
+                                debugger
+                            }
                             return true;
                         };
                         alasql('CREATE TRIGGER processNewCommand BEFORE INSERT ON  ui_commands  processNewCommand');
 
                     },
-                    createCommand:                      async function              (  command  ,  params  ,  debugCode  )          {
+                    createCommand:                      function              (  command  ,  params  ,  debugCode  )          {
                         let paramsString = JSON.stringify(params)
                         yz.uiDb.asql("INSERT INTO ui_commands (  created  ,  command  ,  arguments  ,  debug_code  ) VALUES (?,?,?,?)", [Date.now(), command, paramsString, debugCode]);
                     },
@@ -11863,6 +11872,7 @@
             var capitalizeFirstLetter   = yz.capitalizeFirstLetter
             var timeDiffLater           = yz.timeDiffLater
             var refresh                 = yz.refresh
+            var asql                    = yz.uiDb.asql
 
             var injectedVars = {
                 isValidObject:                  isValidObject,

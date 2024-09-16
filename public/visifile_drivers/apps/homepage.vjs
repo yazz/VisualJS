@@ -1045,6 +1045,8 @@ disableHighlightEditableApp:            {{ disableHighlightEditableApp }}
 
                     }
                 })
+
+                yz.uiDb.createCommand(  "UPDATE_APPS_FROM_APPSTORE"  ,  {}  ,  "ghdfjsjhdfsgkdhjkfsgjkhxsdfnjxfdskfnxgkjdfsx"  )
               },
             methods:    {
                 // local filesystem stuff
