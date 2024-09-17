@@ -84,10 +84,6 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
                 `
 <div    v-bind:refresh='refresh' style="overflow-y:auto;overflow-x: auto;width:100vw;height:100%;position: fixed; left:0px">
 
-<pre  v-if='yz'  >
-dfsfds
-{{JSON.stringify(  getUiDbData(  { tableName: "ui_appstore_apps" } )  ,null,2)}}
-</pre>
 
 <!--   ----------------------------------------    Show the debug mode    ---------------------------------------- -->
 <!-- 
@@ -211,8 +207,7 @@ disableHighlightEditableApp:            {{ disableHighlightEditableApp }}
                     
                     
                     
-                    
-                    
+
                     
                     
                     
@@ -468,14 +463,7 @@ disableHighlightEditableApp:            {{ disableHighlightEditableApp }}
                     
                     
                     
-                    
-                    
-                    
-                    
-                    
-    
-    
-    
+
     
     <!-- -------------------------------------  Show the apps available in the appstore ------------------------------------------------ -->
     <!-- 
@@ -483,13 +471,15 @@ disableHighlightEditableApp:            {{ disableHighlightEditableApp }}
     
     
     
-    
+            '(item, index) in getUiDbData(  { tableName: "ui_appstore_apps" } )'
+
     
     
     -->
     <!--   ----------------------------------------------------------------------------------------------------------- -->
     <div    class=""
             v-bind:refresh='refresh'
+            v-if='yz'
             style='position: relative; padding:0;margin:0; width: 100%; background-color: black;height:auto;'>
             
         <div    v-bind:refresh='refresh'
