@@ -778,9 +778,7 @@ disableHighlightEditableApp:            {{ disableHighlightEditableApp }}
 
                 await yz.onPageInitialized( async function() {
                     console.log("await yz.onPageInitialized( async function() { entered ... ")
-                    setTimeout(function(){
-                        mm.sendCommand()
-                    },1000)
+                    mm.sendCommand()
 
 
                     if (typeof($HIDEIMPORTBUTTONS) !== 'undefined') {
