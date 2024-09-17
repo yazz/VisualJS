@@ -11559,6 +11559,22 @@
                                 {name: "status",                        fieldType: "STRING"}
                             ]})
 
+
+                        /*
+                        appstore_apps - This is a list of the apps and components in the appstore that are available, but they may not
+                        -------------   have been downloaded to thew browser for running or editing yet
+                            [
+                            {
+                                old_id:               "demo_timer"
+                                base_component_id:    "demo_timer"
+                                logo:                 "data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAS..."
+                                content_hash:            "QmNkg8wo4X6L8LHtS1Pjbcpj8pgeNvZS2orHPBD23QuhjU"
+                                display_name:         "Timer demo"
+                            }
+                            ]
+
+                         */
+
                         await yz.uiDb.createAlaSqlTable({
                             tableName: "ui_appstore_apps",
                             fields: [
