@@ -12158,10 +12158,14 @@
 
                  */
 
-            let rr= Vue.ref(1)
+
+            // test out Vue ref and reactive
+            var rr= Vue.ref({a: 1, b: 2})
             console.log("******* rr ****")
-            Vue.watch(rr,async function(a,b){console.log(a + " -> " + b)})
-            rr.value =2
+            Vue.watch(rr,async function(a,b){console.log(JSON.stringify(a) + " -> " + JSON.stringify(b))},  { deep: true })
+            rr.value = {a: 1, b: 1}
+            rr.value.a = "hello Vue ref"
+
 
         </script> <!-- Comments on how VisualJS works -->
 
