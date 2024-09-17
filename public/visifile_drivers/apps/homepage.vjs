@@ -1053,7 +1053,7 @@ disableHighlightEditableApp:            {{ disableHighlightEditableApp }}
 
                     Vue.watch(  yz.uiDb.uiDbTableChangeEvents["ui_appstore_apps"].refEventCounter,
                                 function(nv){
-                                    console.log("record inserted on : ui_appstore_apps : " + JSON.stringify(nv))
+                                    console.log("Table 'ui_appstore_apps' changed : " + JSON.stringify(nv))
                                 })
                 })
 
