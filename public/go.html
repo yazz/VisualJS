@@ -11677,6 +11677,14 @@
 
 
                         //
+                        // Store the table data in a cache, ordered by ID
+                        //
+                        yz.uiDb.uiDbTableData[tableName] = {
+                            data: []
+                        }
+
+
+                        //
                         // create an event object when data changes
                         //
                         yz.uiDb.uiDbTableChangeEvents[tableName] = {
@@ -11685,6 +11693,7 @@
 
                         let insertEventTriggerName = "insert_event_table_" + tableName
                         alasql.fn[insertEventTriggerName] = async function(r) {
+                            yz.uiDb.uiDbTableData[tableName].data = alasql("select * from " + tableName + " order by id asc")
                             yz.uiDb.uiDbTableChangeEvents[tableName].refEventCounter.value = yz.uiDb.uiDbTickCounter++
                         }
                         alasql("CREATE TRIGGER process" + insertEventTriggerName + " AFTER INSERT ON  " + tableName + "  " + insertEventTriggerName);
@@ -11692,20 +11701,26 @@
 
                         let updateEventTriggerName = "update_event_table_" + tableName
                         alasql.fn[updateEventTriggerName] = async function(r) {
+                            yz.uiDb.uiDbTableData[tableName].data = alasql("select * from " + tableName + " order by id asc")
                             yz.uiDb.uiDbTableChangeEvents[tableName].refEventCounter.value = yz.uiDb.uiDbTickCounter++
                         }
                         alasql("CREATE TRIGGER process" + updateEventTriggerName + " AFTER UPDATE ON  " + tableName + "  " + updateEventTriggerName);
 
                         let deleteEventTriggerName = "delete_event_table_" + tableName
                         alasql.fn[deleteEventTriggerName] = async function(r) {
+                            yz.uiDb.uiDbTableData[tableName].data = alasql("select * from " + tableName + " order by id asc")
                             yz.uiDb.uiDbTableChangeEvents[tableName].refEventCounter.value = yz.uiDb.uiDbTickCounter++
                         }
                         alasql("CREATE TRIGGER process" + deleteEventTriggerName + " AFTER DELETE ON  " + tableName + "  " + deleteEventTriggerName);
+
+
+
 
                     },
 
                     uiDbTickCounter:                    0,
                     uiDbTableChangeEvents:              {},
+                    uiDbTableData:                      {},
                 },
                 updateAppsFromAppStore:                 async function              (  )                                            {
                     let openfileurl = "http" + (($HOSTPORT == 443)?"s":"") + "://" + $HOST + "/http_post_load_topapps"
