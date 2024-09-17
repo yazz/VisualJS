@@ -46,7 +46,7 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
         -------------   have been downloaded to thew browser for running or editing yet
         [
             {
-                id:                   "demo_timer"
+                old_id:               "demo_timer"
                 base_component_id:    "demo_timer"
                 logo:                 "data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAS..."
                 content_hash:            "QmNkg8wo4X6L8LHtS1Pjbcpj8pgeNvZS2orHPBD23QuhjU"
@@ -494,7 +494,7 @@ disableHighlightEditableApp:            {{ disableHighlightEditableApp }}
                     class='app_card'>
                     
                 <div    v-bind:refresh='refresh'
-                        v-bind:style='"-webkit-box-shadow: 10px 10px 300px -45px rgba(69,67,47,1);-moz-box-shadow: 10px 10px 300px -45px rgba(69,67,47,1);box-shadow: 10px 10px 300px -45px rgba(69,67,47,1);border-radius: 0px;border-width: 0px;margin:0px;padding:0px;width:100%;height:100%;" + (((currentlyHighlightedAppstoreBCI == item.id) )?"background-color:white;":"background-color:black;")'>
+                        v-bind:style='"-webkit-box-shadow: 10px 10px 300px -45px rgba(69,67,47,1);-moz-box-shadow: 10px 10px 300px -45px rgba(69,67,47,1);box-shadow: 10px 10px 300px -45px rgba(69,67,47,1);border-radius: 0px;border-width: 0px;margin:0px;padding:0px;width:100%;height:100%;" + (((currentlyHighlightedAppstoreBCI == item.old_id) )?"background-color:white;":"background-color:black;")'>
     
                     <div    v-if='(currentlyHighlightedAppstoreBCI == item.base_component_id) && (!editingBaseComponentId)'
                             v-bind:refresh='refresh'
@@ -549,19 +549,19 @@ disableHighlightEditableApp:            {{ disableHighlightEditableApp }}
                     </div>
 
 
-                    <div    v-if="currentlyHighlightedAppstoreBCI != item.id"
+                    <div    v-if="currentlyHighlightedAppstoreBCI != item.old_id"
                             style='border-radius: 0px;padding:0px; margin:0;'
-                            v-on:click='$event.stopPropagation();editApp(item.id)'>
+                            v-on:click='$event.stopPropagation();editApp(item.old_id)'>
     
-                        <img    v-if='(app_store_component_logos_by_BCI[item.id] && (app_store_component_logos_by_BCI[item.id] != ""))'
-                                v-bind:src='app_store_component_logos_by_BCI[item.id]'
+                        <img    v-if='(app_store_component_logos_by_BCI[item.old_id] && (app_store_component_logos_by_BCI[item.old_id] != ""))'
+                                v-bind:src='app_store_component_logos_by_BCI[item.old_id]'
                                 style='position:relative;max-width: 75%; left:0px; top: 10px;max-height: 150px;margin-left: auto;margin-right: auto;display: block;'
-                                v-bind:alt='app_store_component_logos_by_BCI[item.id]'
-                                v-on:click='$event.stopPropagation();editApp(item.id)'
+                                v-bind:alt='app_store_component_logos_by_BCI[item.old_id]'
+                                v-on:click='$event.stopPropagation();editApp(item.old_id)'
                                 />
 
 
-                        <a  v-on:click='$event.stopPropagation();editApp(item.id)'
+                        <a  v-on:click='$event.stopPropagation();editApp(item.old_id)'
                             class="nav-link active" href="#" style="position: absolute; bottom:0px;font-style:bold;width:90%;overflow-x: hidden;white-space: nowrap;font-size: 20px;color:white;">
 
                             {{item.display_name}}
@@ -1293,14 +1293,15 @@ disableHighlightEditableApp:            {{ disableHighlightEditableApp }}
                         .then(function(responseJson)
                         {
                             for (let rt=0;rt<responseJson.length; rt++) {
-
+                                responseJson[rt].old_id = responseJson[rt].id
+                                responseJson[rt].id = null
                                 for (let thisApp of mm.appstore_apps) {
-                                    if (thisApp.base_component_id ==  responseJson[rt].id) {
+                                    if (thisApp.base_component_id ==  responseJson[rt].old_id) {
                                         continue
                                     }
                                 }
                                 mm.appstore_apps.push(responseJson[rt])
-                                mm.app_store_component_logos_by_BCI[responseJson[rt].id] = responseJson[rt].logo
+                                mm.app_store_component_logos_by_BCI[responseJson[rt].old_id] = responseJson[rt].logo
                             }
 
                         }).catch(err => {
@@ -1308,7 +1309,7 @@ disableHighlightEditableApp:            {{ disableHighlightEditableApp }}
                     })
                 },
                 highlightEditableComponent:         function        ( baseComponentId, codeid ) {
-                    /*  highlightEditableComponent shows an editable componnent as larger on the home screen, like when selected
+                    /*  highlightEditableComponent shows an editable component as larger on the home screen, like when selected
                     __________
                     | PARAMS |______________________________________________________________
                     |
