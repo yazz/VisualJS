@@ -11684,14 +11684,23 @@
                         }
 
                         let insertEventTriggerName = "insert_event_table_" + tableName
-                        let updateEventTriggerName = "update_event_table_" + tableName
-                        let deleteEventTriggerName = "delete_event_table_" + tableName
                         alasql.fn[insertEventTriggerName] = async function(r) {
                             yz.uiDb.uiDbTableChangeEvents[tableName].refEventCounter.value = yz.uiDb.uiDbTickCounter++
                         }
                         alasql("CREATE TRIGGER process" + insertEventTriggerName + " AFTER INSERT ON  " + tableName + "  " + insertEventTriggerName);
 
 
+                        let updateEventTriggerName = "update_event_table_" + tableName
+                        alasql.fn[updateEventTriggerName] = async function(r) {
+                            yz.uiDb.uiDbTableChangeEvents[tableName].refEventCounter.value = yz.uiDb.uiDbTickCounter++
+                        }
+                        alasql("CREATE TRIGGER process" + updateEventTriggerName + " AFTER UPDATE ON  " + tableName + "  " + updateEventTriggerName);
+
+                        let deleteEventTriggerName = "delete_event_table_" + tableName
+                        alasql.fn[deleteEventTriggerName] = async function(r) {
+                            yz.uiDb.uiDbTableChangeEvents[tableName].refEventCounter.value = yz.uiDb.uiDbTickCounter++
+                        }
+                        alasql("CREATE TRIGGER process" + deleteEventTriggerName + " AFTER DELETE ON  " + tableName + "  " + deleteEventTriggerName);
 
                     },
 
