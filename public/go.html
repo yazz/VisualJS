@@ -11563,6 +11563,7 @@
                             tableName: "ui_appstore_apps",
                             fields: [
                                 {name: "id",                            fieldType: "INT PRIMARY KEY AUTOINCREMENT"},
+                                {name: "old_id",                        fieldType: "STRING"},
                                 {name: "base_component_id",             fieldType: "STRING"},
                                 {name: "content_hash",                  fieldType: "STRING"},
                                 {name: "logo",                          fieldType: "STRING"},
@@ -11740,20 +11741,16 @@
                                 for (let thisApp of responseJson) {
                                     let alreadyExists = yz.uiDb.asql("select * from ui_appstore_apps where content_hash = ?", [thisApp.content_hash])
                                     if (alreadyExists.length == 0) {
-                                        yz.uiDb.asql(   "insert  into  ui_appstore_apps  (  content_hash  ,  base_component_id, logo, display_name,component_type) values (?,?,?,?,?)",
-                                                        [thisApp.content_hash,thisApp.base_component_id,thisApp.logo, thisApp.display_name, thisApp.component_type])
+                                        yz.uiDb.asql(   "insert  into  ui_appstore_apps  (  old_id, content_hash  ,  base_component_id, logo, display_name,component_type) values (?,?,?,?,?,?)",
+                                                        [thisApp.base_component_id, thisApp.content_hash,thisApp.base_component_id,thisApp.logo, thisApp.display_name, thisApp.component_type])
                                     }
                                 }
                                 //mm.appstore_apps.push(responseJson[rt])
                                 //mm.app_store_component_logos_by_BCI[responseJson[rt].id] = responseJson[rt].logo
                             }
-
                         }).catch(err => {
                         })
-
                 },
-
-
 
 
 
