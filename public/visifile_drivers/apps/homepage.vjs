@@ -1022,16 +1022,6 @@ disableHighlightEditableApp:            {{ disableHighlightEditableApp }}
                         });
 
 
-                    /*
-                    ____________________________________________________________
-                    |    mounted
-                    |_________________________
-                                             | Load apps from the app store
-                                             |__________________________________ */
-                    await mm.loadAppStoreApps()
-
-
-
 
                     /*
                     ____________________________________________________________
