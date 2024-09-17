@@ -1354,28 +1354,27 @@ disableHighlightEditableApp:            {{ disableHighlightEditableApp }}
                     |     ---------------
                     |________________________________________________________________________ */
                     let mm = this
-
+                    let logoToReturn = ""
 debugger
-//mm.sqlui("select * from ui_appstore_apps")
-                    let results2 = await yz.sqliteQuery(
-                        `select  
-                            base_component_id,  
-                            logo_url   
-                        from  
-                            level_2_released_components  
-                        where 
+                    let results2 = sqlui(
+                        `select
+                            base_component_id,
+                            logo                as logo_url
+                        from
+                            ui_appstore_apps
+                        where
                             component_type = 'app'
-                                and 
+                                and
                             base_component_id = '${baseComponentId}'`)
 
                     if (results2.length > 0) {
-                        mm.app_store_component_logos_by_BCI[baseComponentId] = results2[0].logo_url
+                        logoToReturn = results2[0].logo_url
                     } else {
-                        mm.app_store_component_logos_by_BCI[baseComponentId] = "/driver_icons/blocks.png"
+                        logoToReturn = "/driver_icons/blocks.png"
                     }
 
                     mm.refresh++
-                    return mm.app_store_component_logos_by_BCI[baseComponentId]
+                    return logoToReturn
                 },
 
                 // amend the edited apps
