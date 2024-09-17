@@ -740,6 +740,7 @@ disableHighlightEditableApp:            {{ disableHighlightEditableApp }}
                 mm.hideProgressBar  = Vue.inject('hideProgressBar')
                 mm.$DEBUGUI         = Vue.inject('$DEBUGUI')
                 mm.getUiDbData      = Vue.inject('getUiDbData')
+                mm.sqlui             = Vue.inject('sqlui')
 
 
 
@@ -1354,6 +1355,8 @@ disableHighlightEditableApp:            {{ disableHighlightEditableApp }}
                     |________________________________________________________________________ */
                     let mm = this
 
+debugger
+//mm.sqlui("select * from ui_appstore_apps")
                     let results2 = await yz.sqliteQuery(
                         `select  
                             base_component_id,  

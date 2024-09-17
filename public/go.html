@@ -11459,14 +11459,14 @@
 
                 uiDb:                               {
                     //
-                    // asql()                       - replaces all SQL commands so that debug data can be synced with server
+                    // sqlui()                       - replaces all SQL commands so that debug data can be synced with server
                     // createCommand()              - create a command to alter the system
                     // setupAlaSqlDatabase()        - sets up the UI DB tables using AlaSQL
                     //      createAlaSqlTable()
                     // setupAlaSqlSync()            - used to sync data from UI to server side Sqlite for debugging purposes
                     //
 
-                    asql:                               function                    (  sql  ,  params  )                            {
+                    sqlui:                               function                    (  sql  ,  params  )                            {
                         let ret = alasql(sql  ,  params)
                         if ((typeof $DEBUGUI !== 'undefined') && ($DEBUGUI == "true")) {
                             let startOfSql = sql.toLowerCase()
@@ -11495,7 +11495,7 @@
                     setupAlaSqlDatabase:                async function              (  )                                            {
                         alasql("CREATE TABLE ui_tables (table_name STRING)");
                         alasql("CREATE TABLE ui_fields (table_name STRING, field_name STRING, field_type STRING)");
-                        yz.uiDb.asql("select * from ui_tables")
+                        yz.uiDb.sqlui("select * from ui_tables")
                         await yz.uiDb.createAlaSqlTable({
                             tableName: "ui_components",
                             fields: [
@@ -11599,7 +11599,7 @@
                     },
                     createCommand:                      function                    (  command  ,  params  ,  debugCode  )          {
                         let paramsString = JSON.stringify(params)
-                        yz.uiDb.asql("INSERT INTO ui_commands (  created  ,  command  ,  arguments  ,  debug_code  ) VALUES (?,?,?,?)", [Date.now(), command, paramsString, debugCode]);
+                        yz.uiDb.sqlui("INSERT INTO ui_commands (  created  ,  command  ,  arguments  ,  debug_code  ) VALUES (?,?,?,?)", [Date.now(), command, paramsString, debugCode]);
                     },
                     createAlaSqlTable:                  async function              (  {  tableName  ,  fields  }  )                {
                         let alaSqlCreateString = "create table " + tableName + "("
@@ -11755,9 +11755,9 @@
                             for (let rt=0;rt<responseJson.length; rt++) {
 
                                 for (let thisApp of responseJson) {
-                                    let alreadyExists = yz.uiDb.asql("select * from ui_appstore_apps where content_hash = ?", [thisApp.content_hash])
+                                    let alreadyExists = yz.uiDb.sqlui("select * from ui_appstore_apps where content_hash = ?", [thisApp.content_hash])
                                     if (alreadyExists.length == 0) {
-                                        yz.uiDb.asql(   "insert  into  ui_appstore_apps  (  old_id, content_hash  ,  base_component_id, logo, display_name,component_type) values (?,?,?,?,?,?)",
+                                        yz.uiDb.sqlui(   "insert  into  ui_appstore_apps  (  old_id, content_hash  ,  base_component_id, logo, display_name,component_type) values (?,?,?,?,?,?)",
                                                         [thisApp.base_component_id, thisApp.content_hash,thisApp.base_component_id,thisApp.logo, thisApp.display_name, thisApp.component_type])
                                     }
                                 }
@@ -12026,7 +12026,7 @@
             var capitalizeFirstLetter   = yz.capitalizeFirstLetter
             var timeDiffLater           = yz.timeDiffLater
             var refresh                 = yz.refresh
-            var asql                    = yz.uiDb.asql
+            var sqlui                    = yz.uiDb.sqlui
             var uiDbTickCounter         = yz.uiDb.uiDbTickCounter
             var getUiDbData             = yz.uiDb.getUiDbData
 
@@ -12040,7 +12040,8 @@
                 capitalizeFirstLetter:          capitalizeFirstLetter,
                 timeDiffLater:                  timeDiffLater,
                 $DEBUGUI:                       (function() { return $DEBUGUI}),
-                getUiDbData:                    getUiDbData
+                getUiDbData:                    getUiDbData,
+                sqlui:                           sqlui
             }
 
             /*use_local_sqlite_start*/let localAppshareApp = false/*use_local_sqlite_end*/
