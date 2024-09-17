@@ -11675,7 +11675,18 @@
                         }
 
 
+
+                        //
+                        // create an event object when data changes
+                        //
+                        yz.uiDb.uiDbTableChangeEvents[tableName] = {
+                            refEventCounter:   Vue.ref(yz.uiDb.uiDbTickCounter)
+                        }
+
                     },
+
+                    uiDbTickCounter:                    0,
+                    uiDbTableChangeEvents:              {},
                 },
                 updateAppsFromAppStore:                 async function              (  )                                            {
                     let openfileurl = "http" + (($HOSTPORT == 443)?"s":"") + "://" + $HOST + "/http_post_load_topapps"
@@ -11968,6 +11979,7 @@
             var timeDiffLater           = yz.timeDiffLater
             var refresh                 = yz.refresh
             var asql                    = yz.uiDb.asql
+            var uiDbTickCounter         = yz.uiDb.uiDbTickCounter
 
             var injectedVars = {
                 isValidObject:                  isValidObject,
