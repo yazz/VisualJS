@@ -84,6 +84,11 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
                 `
 <div    v-bind:refresh='refresh' style="overflow-y:auto;overflow-x: auto;width:100vw;height:100%;position: fixed; left:0px">
 
+<pre  v-if='yz'  >
+dfsfds
+{{JSON.stringify(  getUiDbData(  { tableName: "ui_appstore_apps" } )  ,null,2)}}
+</pre>
+
 <!--   ----------------------------------------    Show the debug mode    ---------------------------------------- -->
 <!-- 
 
@@ -744,6 +749,8 @@ disableHighlightEditableApp:            {{ disableHighlightEditableApp }}
                 mm.showProgressBar  = Vue.inject('showProgressBar')
                 mm.hideProgressBar  = Vue.inject('hideProgressBar')
                 mm.$DEBUGUI         = Vue.inject('$DEBUGUI')
+                mm.getUiDbData      = Vue.inject('getUiDbData')
+
 
 
                 /*
@@ -1054,6 +1061,7 @@ disableHighlightEditableApp:            {{ disableHighlightEditableApp }}
                     Vue.watch(  yz.uiDb.uiDbTableChangeEvents["ui_appstore_apps"].refEventCounter,
                                 function(nv){
                                     console.log("Table 'ui_appstore_apps' changed : " + JSON.stringify(nv))
+                                    mm.refresh ++
                                 })
                 })
 

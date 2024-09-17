@@ -7859,8 +7859,6 @@
             var mainVueAppVm
             var yz =
             {
-                // ********* FUNTIONS ***************
-
                 getNetworkHostName:                 function                    (   ) {
                     let networkHostName = location.hostname
                     if (networkHostName == "127.0.0.1") {
@@ -11717,12 +11715,16 @@
 
 
                     },
+                    getUiDbData:                        function                    (  {  tableName  }  )                           {
+                        return yz.uiDb.uiDbTableData[tableName].data
+                    },
+
 
                     uiDbTickCounter:                    0,
                     uiDbTableChangeEvents:              {},
                     uiDbTableData:                      {},
                 },
-                updateAppsFromAppStore:                 async function              (  )                                            {
+                updateAppsFromAppStore:             async function              (  )                                            {
                     let openfileurl = "http" + (($HOSTPORT == 443)?"s":"") + "://" + $HOST + "/http_post_load_topapps"
                     fetch(openfileurl,
                         {
@@ -11754,8 +11756,6 @@
 
 
 
-
-                // ********* VARS ***************
 
                 //
                 // maps the base component ID to the commit ID
@@ -12014,6 +12014,7 @@
             var refresh                 = yz.refresh
             var asql                    = yz.uiDb.asql
             var uiDbTickCounter         = yz.uiDb.uiDbTickCounter
+            var getUiDbData             = yz.uiDb.getUiDbData
 
             var injectedVars = {
                 isValidObject:                  isValidObject,
@@ -12024,7 +12025,8 @@
                 msToTime:                       msToTime,
                 capitalizeFirstLetter:          capitalizeFirstLetter,
                 timeDiffLater:                  timeDiffLater,
-                $DEBUGUI:                       (function() { return $DEBUGUI})
+                $DEBUGUI:                       (function() { return $DEBUGUI}),
+                getUiDbData:                    getUiDbData
             }
 
             /*use_local_sqlite_start*/let localAppshareApp = false/*use_local_sqlite_end*/
