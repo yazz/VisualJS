@@ -11738,7 +11738,7 @@
                             for (let rt=0;rt<responseJson.length; rt++) {
 
                                 for (let thisApp of responseJson) {
-                                    let alreadyExists = yz.uiDb.asql("select * from ui_appstore_apps where code_id = ?", [thisApp.content_hash])
+                                    let alreadyExists = yz.uiDb.asql("select * from ui_appstore_apps where content_hash = ?", [thisApp.content_hash])
                                     if (alreadyExists.length == 0) {
                                         yz.uiDb.asql(   "insert  into  ui_appstore_apps  (  content_hash  ,  base_component_id, logo, display_name,component_type) values (?,?,?,?,?)",
                                                         [thisApp.content_hash,thisApp.base_component_id,thisApp.logo, thisApp.display_name, thisApp.component_type])
