@@ -1645,7 +1645,6 @@ async function  setUpComponentsLocally                  (  ) {
     await releaseComponentFromPath( '/all_system_components/appEditorV3.vjs')
 
     await evalHtmlComponentFromPath( '/apps/homepage.vjs')
-    await evalHtmlComponentFromPath( '/apps/mobilehomepage.vjs')
     await releaseComponentFromPath( '/all_system_components/yazz_blank.vjs')
     await releaseComponentFromPath( '/all_system_components/control_preview_container_app.vjs')
 
@@ -1934,7 +1933,8 @@ function        getRoot                                 (  req  ,  res  ,  next 
     //let homepageUrl = serverProtocol + '://www.yazz.com'
     let homepageUrl = 'https://yazz.com/app/homepage.html'
     if (isMobile) {
-        homepageUrl = 'https://yazz.com/app/mobilehomepage.html'
+        //homepageUrl = 'https://yazz.com/app/mobilehomepage.html'
+        homepageUrl = 'https://yazz.com/app/homepage.html'
     }
     //console.log("req.headers.host: " + req.headers.host)
 	if (req.headers.host) {
@@ -2043,7 +2043,8 @@ function        getRoot                                 (  req  ,  res  ,  next 
     } else {
 
         if (isMobile) {
-            homepage = path.join( userData, 'apps/mobilehomepage.html' )
+            //homepage = path.join( userData, 'apps/mobilehomepage.html' )
+            homepage = path.join( userData, 'apps/homepage.html' )
         } else {
             homepage = path.join( userData, 'apps/homepage.html' )
         }
