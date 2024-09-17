@@ -3987,7 +3987,7 @@ async function  startServices                           (  ) {
         ));
 
     });
-    app.post(   '/http_post_load_topapps',                                  async function (req, res) {
+    app.post(   '/http_post_load_top_apps',                                  async function (req, res) {
         let topApps = []
 
         let promise = new Promise(async function(returnfn) {
