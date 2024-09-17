@@ -1050,6 +1050,11 @@ disableHighlightEditableApp:            {{ disableHighlightEditableApp }}
                     }
                     console.log("... left await yz.onPageInitialized( async function() {  ")
 
+
+                    Vue.watch(  yz.uiDb.uiDbTableChangeEvents["ui_appstore_apps"].refEventCounter,
+                                function(nv){
+                                    console.log(JSON.stringify(nv))
+                                })
                 })
 
               },

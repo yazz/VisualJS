@@ -11683,6 +11683,16 @@
                             refEventCounter:   Vue.ref(yz.uiDb.uiDbTickCounter)
                         }
 
+                        let insertEventTriggerName = "insert_event_table_" + tableName
+                        let updateEventTriggerName = "update_event_table_" + tableName
+                        let deleteEventTriggerName = "delete_event_table_" + tableName
+                        alasql.fn[insertEventTriggerName] = async function(r) {
+                            yz.uiDb.uiDbTableChangeEvents[tableName].refEventCounter.value = yz.uiDb.uiDbTickCounter++
+                        }
+                        alasql("CREATE TRIGGER process" + insertEventTriggerName + " AFTER INSERT ON  " + tableName + "  " + insertEventTriggerName);
+
+
+
                     },
 
                     uiDbTickCounter:                    0,
