@@ -63,7 +63,6 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
         lastHighlightedEditableCodeId:          null
         currentlyHighlightedEditableCodeId:     null
         currentlyHighlightedAppstoreBCI:        null
-        app_store_component_logos_by_BCI:       new Object()
         hideImportButtons:                      true
         refresh:                                0
         showFilePicker:                         false
@@ -119,7 +118,6 @@ appstore_apps:
 {{ appstore_apps }}
                         
                         
-app_store_component_logos_by_BCI:       {{ app_store_component_logos_by_BCI }}
 homepageDebugViewName:                  {{ homepageDebugViewName }}
 hideImportButtons:                      {{ hideImportButtons }}
 refresh:                                {{ refresh }}
@@ -699,7 +697,6 @@ disableHighlightEditableApp:            {{ disableHighlightEditableApp }}
                             // apps  not downloaded but in the appstore
                             currentlyHighlightedAppstoreBCI:        null,
                             appstore_apps:                          [],
-                            app_store_component_logos_by_BCI:       new Object(),
 
                             // file load from disk options
                             hideImportButtons:                      true,
@@ -1261,44 +1258,6 @@ disableHighlightEditableApp:            {{ disableHighlightEditableApp }}
                     xmlhttp.send(formData);
                 },
 
-                // load apps from app store
-                loadAppStoreApps:                   async function  ( ) {
-                    //----------------------------------------------------------------------------------
-                    //
-                    //                    /-------------------------------------/
-                    //                   /         loadAppStoreApps            /
-                    //                  /-------------------------------------/
-                    //
-                    //----------------------------------------------------------------------------
-                    // Load the apps from the app store
-                    //--------------------------------------------------------------------
-                    let mm = this
-
-                    let openfileurl = "http" + (($HOSTPORT == 443)?"s":"") + "://" + $HOST + "/http_post_load_top_apps"
-                    fetch(openfileurl,
-                        {
-                            method: 'post',
-                            credentials: "include"
-                        })
-                        .then((response) => response.json())
-                        .then(function(responseJson)
-                        {
-                            for (let rt=0;rt<responseJson.length; rt++) {
-                                responseJson[rt].old_id = responseJson[rt].id
-                                responseJson[rt].id = null
-                                for (let thisApp of mm.appstore_apps) {
-                                    if (thisApp.base_component_id ==  responseJson[rt].old_id) {
-                                        continue
-                                    }
-                                }
-                                mm.appstore_apps.push(responseJson[rt])
-                                mm.app_store_component_logos_by_BCI[responseJson[rt].old_id] = responseJson[rt].logo
-                            }
-
-                        }).catch(err => {
-                        //error block
-                    })
-                },
                 highlightEditableComponent:         function        ( baseComponentId, codeid ) {
                     /*  highlightEditableComponent shows an editable component as larger on the home screen, like when selected
                     __________
@@ -1328,15 +1287,13 @@ disableHighlightEditableApp:            {{ disableHighlightEditableApp }}
                     },150)
                 },
                 addLogoForApp:                      async function  ( baseComponentId) {
-                    /* Given the base component ID of a component, insert the logo image into the
-                    local cache stored in "app_store_component_logos_by_BCI"
+                    /*
                     ________________________________________
                     |                                      |
                     |           addLogoForApp              |
                     |                                      |
                     |______________________________________|
-                    Given the base component ID of a component, insert the logo image into the
-                    local cache stored in "app_store_component_logos_by_BCI"
+
                     __________
                     | PARAMS |______________________________________________________________
                     |
@@ -1345,7 +1302,7 @@ disableHighlightEditableApp:            {{ disableHighlightEditableApp }}
                     |________________________________________________________________________ */
                     let mm = this
                     let logoToReturn = ""
-debugger
+
                     let results2 = sqlui(
                         `select
                             base_component_id,
