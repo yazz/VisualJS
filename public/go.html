@@ -11704,6 +11704,7 @@
                         }
                         alasql("CREATE TRIGGER process" + updateEventTriggerName + " AFTER UPDATE ON  " + tableName + "  " + updateEventTriggerName);
 
+                        // note "delete TABLE_NAME" doesn't work.... needs "delete TABLE_NAME where 1=1" to work
                         let deleteEventTriggerName = "delete_event_table_" + tableName
                         alasql.fn[deleteEventTriggerName] = async function(r) {
                             yz.uiDb.uiDbTableData[tableName].data = alasql("select * from " + tableName + " order by id asc")
