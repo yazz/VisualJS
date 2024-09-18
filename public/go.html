@@ -11559,6 +11559,14 @@
                                 {name: "status",                        fieldType: "STRING"}
                             ]})
 
+                        await yz.uiDb.createAlaSqlTable({
+                            tableName: "ui_table_recent_apps",
+                            fields: [
+                                {name: "id",                            fieldType: "INT PRIMARY KEY AUTOINCREMENT"},
+                                {name: "base_component_id",             fieldType: "STRING"},
+                                {name: "code_id",                       fieldType: "STRING"}
+                            ]})
+
 
                         /*
                         appstore_apps - This is a list of the apps and components in the appstore that are available, but they may not
