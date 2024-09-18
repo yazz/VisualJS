@@ -11552,30 +11552,35 @@
                             ]})
 
                         await yz.uiDb.createAlaSqlTable({
+                            /* ui_table_recent_apps
+                            -----------------------
+
+                            base_component_id:    "demo_timer"
+                            logo:                 "data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAS..."
+                            content_hash:            "QmNkg8wo4X6L8LHtS1Pjbcpj8pgeNvZS2orHPBD23QuhjU"
+                            display_name:         "Timer demo"
+                            */
                             tableName: "ui_table_recent_apps",
                             fields: [
                                 {name: "id",                            fieldType: "INT PRIMARY KEY AUTOINCREMENT"},
                                 {name: "base_component_id",             fieldType: "STRING"},
-                                {name: "code_id",                       fieldType: "STRING"}
+                                {name: "code_id",                       fieldType: "STRING"},
+                                {name: "logo",                          fieldType: "STRING"},
+                                {name: "display_name",                  fieldType: "STRING"},
+                                {name: "component_type",                fieldType: "STRING"}
                             ]})
 
 
-                        /*
-                        appstore_apps - This is a list of the apps and components in the appstore that are available, but they may not
-                        -------------   have been downloaded to thew browser for running or editing yet
-                            [
-                            {
-                                old_id:               "demo_timer"
-                                base_component_id:    "demo_timer"
-                                logo:                 "data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAS..."
-                                content_hash:            "QmNkg8wo4X6L8LHtS1Pjbcpj8pgeNvZS2orHPBD23QuhjU"
-                                display_name:         "Timer demo"
-                            }
-                            ]
-
-                         */
-
                         await yz.uiDb.createAlaSqlTable({
+                            /* ui_table_appstore_apps   This is a list of the apps and components in the appstore that are available, but they may not
+                            -------------------------   have been downloaded to the browser for running or editing yet
+
+                            old_id:               "demo_timer"
+                            base_component_id:    "demo_timer"
+                            logo:                 "data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAS..."
+                            content_hash:            "QmNkg8wo4X6L8LHtS1Pjbcpj8pgeNvZS2orHPBD23QuhjU"
+                            display_name:         "Timer demo"
+                            */
                             tableName: "ui_table_appstore_apps",
                             fields: [
                                 {name: "id",                            fieldType: "INT PRIMARY KEY AUTOINCREMENT"},

@@ -762,7 +762,7 @@ disableHighlightEditableApp:            {{ disableHighlightEditableApp }}
 
                 await yz.onPageInitialized( async function() {
                     console.log("await yz.onPageInitialized( async function() { entered ... ")
-                    mm.sendCommand()
+                    mm.sendCommandUpdateAppStoreApps()
 
 
                     if (typeof($HIDEIMPORTBUTTONS) !== 'undefined') {
@@ -1025,17 +1025,34 @@ disableHighlightEditableApp:            {{ disableHighlightEditableApp }}
                     console.log("... left await yz.onPageInitialized( async function() {  ")
 
 
+
+                    /*
+                    ____________________________________________________________
+                    |    mounted
+                    |_________________________
+                                             | Watch the global UI DB for changes
+                                             |__________________________________ */
                     Vue.watch(  yz.uiDb.uiDbTableChangeEvents["ui_table_appstore_apps"].refEventCounter,
                                 function(nv){
                                     console.log("Table 'ui_table_appstore_apps' changed : " + JSON.stringify(nv))
                                     mm.refresh ++
                                 })
+
+                    Vue.watch(  yz.uiDb.uiDbTableChangeEvents["ui_table_recent_apps"].refEventCounter,
+                                function(nv){
+                                    console.log("Table 'ui_table_recent_apps' changed : " + JSON.stringify(nv))
+                                    mm.refresh ++
+                                })
+
                 })
 
               },
             methods:    {
-                sendCommand:                        function()          {
+                sendCommandUpdateAppStoreApps:                        function(  )        {
                     yz.uiDb.createCommand(  "UPDATE_APPS_FROM_APPSTORE"  ,  {}  ,  "ghdfjsjhdfsgkdhjkfsgjkhxsdfnjxfdskfnxgkjdfsx"  )
+                },
+                sendCommandAddApp:                                    function(  app  )   {
+                    yz.uiDb.createCommand(  "UPDATE_ADD_RECENT_APP"  ,  {app: app}  ,  "hjkdashkjdsahkjashkashdksahdkasdhkdhkdhklashkl"  )
                 },
                 // local filesystem stuff
                 openFile:                           async function  ( ) {
@@ -1367,6 +1384,7 @@ disableHighlightEditableApp:            {{ disableHighlightEditableApp }}
                         }
 
                         mm.recent_app_list.push( app  )
+                        mm.sendCommandAddApp(app)
                     }
 
                     return null
