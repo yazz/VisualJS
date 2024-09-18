@@ -11594,11 +11594,18 @@
 
                         // add a trigger to process new commands
                         alasql.fn.processNewCommand = async function(r) {
+                            let commandArguments = {}
+                            if (r.arguments) {
+                                try {
+                                    commandArguments = JSON.parse(r.arguments)
+                                } catch (err) {
+
+                                }
+                            }
                             if (r.command == "UPDATE_APPS_FROM_APPSTORE") {
                                 await yz.updateAppsFromAppStore()
                             } else if (r.command == "ADD_RECENT_APP") {
-                                debugger
-                                await yz.addRecentApp(r.app)
+                                await yz.addRecentApp(commandArguments.app)
                             }
                             return true;
                         };
@@ -11775,8 +11782,8 @@
                         }).catch(err => {
                         })
                 },
-                addRecentApp:             async function              (  appc   )                                          {
-
+                addRecentApp:             async function              (  app   )                                          {
+                    debugger
                 },
 
 
