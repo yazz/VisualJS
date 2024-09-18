@@ -575,7 +575,7 @@ disableHighlightEditableApp:            {{ disableHighlightEditableApp }}
                 class='force_scrollbars'
                 style='position: relative;background-color: black; color: black; padding-top: 0px;padding-bottom: 20px;overflow-y:hidden; overflow-x: auto;white-space: nowrap;height:400px;padding-right:200px;margin-left:0px;margin-right:0px;z-index:0;margin-bottom:80px;'>
                 
-            <div    v-for='(item, index) in getUiDbData(  { tableName: "ui_appstore_apps" } )'
+            <div    v-for='(item, index) in getUiDbData(  { tableName: "ui_table_appstore_apps" } )'
                     v-bind:refresh='refresh'
                     v-on:mouseenter=" currentlyHighlightedAppstoreBCI = item.base_component_id;"
                     v-on:mouseleave=" currentlyHighlightedAppstoreBCI = null;"
@@ -1025,9 +1025,9 @@ disableHighlightEditableApp:            {{ disableHighlightEditableApp }}
                     console.log("... left await yz.onPageInitialized( async function() {  ")
 
 
-                    Vue.watch(  yz.uiDb.uiDbTableChangeEvents["ui_appstore_apps"].refEventCounter,
+                    Vue.watch(  yz.uiDb.uiDbTableChangeEvents["ui_table_appstore_apps"].refEventCounter,
                                 function(nv){
-                                    console.log("Table 'ui_appstore_apps' changed : " + JSON.stringify(nv))
+                                    console.log("Table 'ui_table_appstore_apps' changed : " + JSON.stringify(nv))
                                     mm.refresh ++
                                 })
                 })
@@ -1297,7 +1297,7 @@ disableHighlightEditableApp:            {{ disableHighlightEditableApp }}
                             base_component_id,
                             logo                as logo_url
                         from
-                            ui_appstore_apps
+                            ui_table_appstore_apps
                         where
                             component_type = 'app'
                                 and
