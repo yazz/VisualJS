@@ -1052,7 +1052,7 @@ disableHighlightEditableApp:            {{ disableHighlightEditableApp }}
                     yz.uiDb.createCommand(  "UPDATE_APPS_FROM_APPSTORE"  ,  {}  ,  "ghdfjsjhdfsgkdhjkfsgjkhxsdfnjxfdskfnxgkjdfsx"  )
                 },
                 sendCommandAddApp:                                    function(  app  )   {
-                    yz.uiDb.createCommand(  "UPDATE_ADD_RECENT_APP"  ,  {app: app}  ,  "hjkdashkjdsahkjashkashdksahdkasdhkdhkdhklashkl"  )
+                    yz.uiDb.createCommand(  "ADD_RECENT_APP"  ,  {app: app}  ,  "hjkdashkjdsahkjashkashdksahdkasdhkdhkdhklashkl"  )
                 },
                 // local filesystem stuff
                 openFile:                           async function  ( ) {

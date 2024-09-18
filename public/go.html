@@ -11596,6 +11596,9 @@
                         alasql.fn.processNewCommand = async function(r) {
                             if (r.command == "UPDATE_APPS_FROM_APPSTORE") {
                                 await yz.updateAppsFromAppStore()
+                            } else if (r.command == "ADD_RECENT_APP") {
+                                debugger
+                                await yz.addRecentApp(r.app)
                             }
                             return true;
                         };
@@ -11771,6 +11774,9 @@
                             }
                         }).catch(err => {
                         })
+                },
+                addRecentApp:             async function              (  appc   )                                          {
+
                 },
 
 
