@@ -11784,6 +11784,11 @@
                 },
                 addRecentApp:             async function              (  app   )                                          {
                     debugger
+                    let alreadyExists = yz.uiDb.sqlui("select * from  ui_table_recent_apps  where code_id = ?", [app.code_id])
+                    if (alreadyExists.length == 0) {
+                        yz.uiDb.sqlui(   "insert  into  ui_table_recent_apps  (  code_id  ,  base_component_id, logo, display_name,component_type) values (?,?,?,?,?)",
+                            [app.code_id,app.base_component_id,app.logo_url, app.displayName, app.component_type])
+                    }
                 },
 
 
