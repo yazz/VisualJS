@@ -9501,12 +9501,11 @@
                         let mainVueOperatingSystemStructure = {
                             template: `
                             <div>
+                                <!-- --------------------------------------------------------------------
+                                                                  NEW V2 DEBUG HEADER
+                                 ------------------------------------------------------------------------ -->
                                 <div    v-if="globalDebuggerOn"
-                                        style="position:absolute;width:100%;height:100%;left:0px;top:0px;color: black; opacity: 1; z-index: 2000000;background-color:white"
-                                >
-                                    <!-- --------------------------------------------------------------------
-                                                                      DEBUG HEADER
-                                         -------------------------------------------------------------------- -->
+                                        style="position:absolute;width:100%;height:100%;left:0px;top:0px;color: black; opacity: 1; z-index: 2000000;background-color:white">
                                     <div style='height:40px; padding:4px;background-color:lightblue;'>
                                         <span
                                                 style='float: left;height:100%;margin-right:10px;vertical-align:middle;'
@@ -9524,26 +9523,35 @@
                                             Close
                                         </button>
                                     </div>
-
-
-                                    <!-- --------------------------------------------------------------------
-                                                                      DEBUG BODY
-                                         -------------------------------------------------------------------- -->
-                                    //zzz
-
-
                                 </div>
 
+
+                                <!-- --------------------------------------------------------------------
+                                                                  OLD DEBUG HEADER
+                                 ------------------------------------------------------------------------ -->
+                                <debug_header   :visible='true'
+                                                :is_static='is_static'
+                                                :appCodeId='appCodeId'>
+                                </debug_header>
+
+
+
+
+                                <!-- --------------------------------------------------------------------
+                                                                  SHOW LOADING SPINNER
+                                 ------------------------------------------------------------------------ -->
                                 <div    v-if="show_loader"
                                         v-bind:style='show_loader?"":"display:none;"'
                                         class="loader">
                                 </div>
 
 
-                                <debug_header   :visible='true'
-                                                :is_static='is_static'
-                                                :appCodeId='appCodeId'>
-                                </debug_header>
+
+
+
+                                <!-- --------------------------------------------------------------------
+                                                                  SHOW THE RUNNING APPS
+                                 ------------------------------------------------------------------------ -->
                                 <div v-if="loadedAppMetaData">
                                     <template   v-for="item  in  [loadedAppMetaData]" >
                                         <div    v-bind:style='"left:0px; top:0px; height:100%; width: 100vw ;z-index: 200000;background-color: white;overflow-y:hidden;overflow-x: hidden;display:" + (is_static?"":"")'>
