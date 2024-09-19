@@ -1036,7 +1036,7 @@ ___________
         methods:            {
             // editor actions
             openGlobalDebugger:              async function  (  ) {
-                mainVueAppVm.globalDebuggerOn = true
+                mainVueOperatingSystemVm.globalDebuggerOn = true
             },
             copyAppPressed:                  async function  (  ) {
                 let mm = this

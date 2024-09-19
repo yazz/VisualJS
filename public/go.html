@@ -7856,7 +7856,7 @@
         </script> <!-- EsGen JS Generator -->
 
         <script>
-            var mainVueAppVm
+            var mainVueOperatingSystemVm
             var yz =
             {
                 getNetworkHostName:                 function                    (   ) {
@@ -8918,7 +8918,7 @@
                         }
 
                         let vueComponentCreation = null
-                        vueComponentCreation = "yz.mainVars.mainVueApp"
+                        vueComponentCreation = "yz.mainVars.mainVueOperatingSystem"
 
 
                         let codeIdVueObjectCode = trcode2.toString().replaceAll(
@@ -9498,7 +9498,7 @@
                         await yz.uiDb.setupAlaSqlDatabase()
 
 
-                        let vueAppStructure = {
+                        let mainVueOperatingSystemStructure = {
                             template: `
                             <div>
                                 <div    v-if="globalDebuggerOn"
@@ -9591,15 +9591,15 @@
                             },
                             methods: {
                                 closeDebugV2: async function() {
-                                    mainVueAppVm.globalDebuggerOn = false
+                                    mainVueOperatingSystemVm.globalDebuggerOn = false
                                 }
                             }
                         }
 
-                        yz.mainVars.mainVueApp = Vue.createApp(vueAppStructure);
-                        yz.mainVars.mainVueApp.component('debug_header', yz.getDebugHeaderStructure());
-                        yz.mainVars.mainVueApp.config.compilerOptions.whitespace = 'condense';
-                        mainVueAppVm = yz.mainVars.mainVueApp.mount("#main_yazz_vue_root_html_element")
+                        yz.mainVars.mainVueOperatingSystem = Vue.createApp(mainVueOperatingSystemStructure);
+                        yz.mainVars.mainVueOperatingSystem.component('debug_header', yz.getDebugHeaderStructure());
+                        yz.mainVars.mainVueOperatingSystem.config.compilerOptions.whitespace = 'condense';
+                        mainVueOperatingSystemVm = yz.mainVars.mainVueOperatingSystem.mount("#main_yazz_vue_root_html_element")
 
 
 
@@ -9612,7 +9612,7 @@
                         if (yz.isStaticHtmlPageApp) {
                             let nid = yz.mainVars.nextGlobalAppId++;
                             let ccy = document.getElementById('wrapper').scrollTop
-                            mainVueAppVm.loadedAppMetaData =
+                            mainVueOperatingSystemVm.loadedAppMetaData =
                                 {
                                     id:                 nid,
                                     name:               "***STATIC_NAME***",
@@ -9625,7 +9625,7 @@
                                 document.getElementById('wrapper').scrollTop = ccy
                             },100)
 
-                            mainVueAppVm.show_loader = false
+                            mainVueOperatingSystemVm.show_loader = false
                             yz.mainVars.autoScroll = false
                             setTimeout(async function() {
                                 await yz.selectAppbyId(nid)
@@ -9646,17 +9646,17 @@
                         if (yz.mainVars.webpageParams.goto) {
                             yz.mainVars.wait_and_select_app = yz.mainVars.webpageParams.goto.replaceAll("%20"," ").toLowerCase()
                             yz.mainVars.autoScroll = false;
-                            mainVueAppVm.show_loader = true
+                            mainVueOperatingSystemVm.show_loader = true
                         } else if (yz.mainVars.webpageParams.embed) {
                             yz.mainVars.wait_and_select_app = yz.mainVars.webpageParams.embed.replaceAll("%20"," ").toLowerCase()
                             yz.mainVars.autoScroll = false;
-                            mainVueAppVm.show_loader = true
+                            mainVueOperatingSystemVm.show_loader = true
                         } else if (!yz.isStaticHtmlPageApp) {
                             setTimeout(async function() {
                                 await yz.selectAppbyId(1)
                             },200)
                         } else if (yz.isStaticHtmlPageApp) {
-                            mainVueAppVm.is_static = true
+                            mainVueOperatingSystemVm.is_static = true
                         }
 
 
@@ -9784,7 +9784,7 @@
 
                             },
                             debugV2:                       async function(  ) {
-                                mainVueAppVm.globalDebuggerOn = true
+                                mainVueOperatingSystemVm.globalDebuggerOn = true
                             },
                             openInfo:                       async function(  useTab  ) {
                                 //debugger
@@ -10425,10 +10425,10 @@
                 return false
             },
                 showProgressBar:                    function                    (   )                                           {
-                mainVueAppVm.show_loader = true
+                mainVueOperatingSystemVm.show_loader = true
             },
                 hideProgressBar:                    function                    (   )                                           {
-                mainVueAppVm.show_loader = false
+                mainVueOperatingSystemVm.show_loader = false
             },
                 msToTime:                           function                    (  duration  ,  options  )                      {
                 if (!duration) {
@@ -10643,7 +10643,7 @@
                     console.log("****prepareApp")
                     yz.base_component_id_of_loaded_app = bbase_component_id
 
-                    if ((mainVueAppVm.loadedAppMetaData.base_component_id != yz.base_component_id_of_loaded_app) ||
+                    if ((mainVueOperatingSystemVm.loadedAppMetaData.base_component_id != yz.base_component_id_of_loaded_app) ||
                         (!yz.newAppArgs[id]))
                     {
                         yz.newAppArgs[id] = args
@@ -10653,19 +10653,19 @@
                     // loadAppIntoElement
                     //
                     await yz.makeSureUiComponentLoadedV6(yz.base_component_id_of_loaded_app)
-                    if (mainVueAppVm.loadedAppMetaData.base_component_id == yz.base_component_id_of_loaded_app) {
+                    if (mainVueOperatingSystemVm.loadedAppMetaData.base_component_id == yz.base_component_id_of_loaded_app) {
 
                         let codeIdOfComponent = yz.baseComponentIdReturnsCommitId[yz.base_component_id_of_loaded_app]
                         yz.code_id_of_loaded_app = codeIdOfComponent
 
-                        mainVueAppVm.appCodeId = codeIdOfComponent
+                        mainVueOperatingSystemVm.appCodeId = codeIdOfComponent
                     }
                 },
                 selectAppbyId:                        async function              (  id  ) {
                     //
                     // if the app is already visible then do nothing
                     //
-                    if (mainVueAppVm.visibleAppId == id) {
+                    if (mainVueOperatingSystemVm.visibleAppId == id) {
                         return;
                     }
 
@@ -10676,11 +10676,11 @@
                         let elmnt = document.querySelector('#card_' + id);
                         if (elmnt) {
                             if (yz.isStaticHtmlPageApp) {
-                                mainVueAppVm.visibleAppId = id;
+                                mainVueOperatingSystemVm.visibleAppId = id;
                                 setTimeout(async function() {
-                                    let thisApp = mainVueAppVm.loadedAppMetaData
-                                    if (mainVueAppVm.loadedAppMetaData.fn) {
-                                        setTimeout( mainVueAppVm.loadedAppMetaData.fn, 3000)
+                                    let thisApp = mainVueOperatingSystemVm.loadedAppMetaData
+                                    if (mainVueOperatingSystemVm.loadedAppMetaData.fn) {
+                                        setTimeout( mainVueOperatingSystemVm.loadedAppMetaData.fn, 3000)
                                     }
                                     if (thisApp.base_component_id) {
                                         await yz.prepareApp(  thisApp.id,   thisApp.base_component_id,   thisApp.args  )
@@ -10689,11 +10689,11 @@
                             } else {
                                 setTimeout(function()
                                 {
-                                    mainVueAppVm.visibleAppId = id;
+                                    mainVueOperatingSystemVm.visibleAppId = id;
                                     setTimeout(async function() {
-                                        let thisApp = mainVueAppVm.loadedAppMetaData
-                                        if (mainVueAppVm.loadedAppMetaData.fn) {
-                                            setTimeout( mainVueAppVm.loadedAppMetaData.fn, 3000)
+                                        let thisApp = mainVueOperatingSystemVm.loadedAppMetaData
+                                        if (mainVueOperatingSystemVm.loadedAppMetaData.fn) {
+                                            setTimeout( mainVueOperatingSystemVm.loadedAppMetaData.fn, 3000)
                                         }
                                         if (thisApp.base_component_id) {
                                             await yz.prepareApp(  thisApp.id,   thisApp.base_component_id,   thisApp.args  )
@@ -10721,7 +10721,7 @@
                     yz.mainVars.mousedown = false
                 },
                 refresh:                            function                    (  ) {
-                    mainVueAppVm.count += 1;
+                    mainVueOperatingSystemVm.count += 1;
                 },
 
 
@@ -11843,7 +11843,7 @@
                 refTest:                                        Vue.ref({a: 1}),
 
                 mainVars:                                       {
-                    mainVueApp:                 null,
+                    mainVueOperatingSystem:     null,
                     visJsloaded:                false,
                     mousedown:                  false,
                     ipfs:                       null,
