@@ -9554,7 +9554,7 @@
 
                                                 <div  v-bind:style="'; padding:0px; font-family: Helvetica ;  width: 100vw ;' ">
 
-                                                    <div    v-if='(item.id == selected_card) && (item.type == "app")'>
+                                                    <div    v-if='(item.id == visibleAppId) && (item.type == "app")'>
                                                         <component      v-bind:is='appCodeId'></component>
                                                     </div>
 
@@ -9575,7 +9575,7 @@
                             data: function() {
                                 return {
                                     count:                  1,
-                                    selected_card:          -1,
+                                    visibleAppId:          -1,
                                     loadedAppMetaData:      null,
                                     show_loader:            false,
                                     is_static:              false,
@@ -10662,7 +10662,7 @@
                     }
                 },
                 select_card:                        async function              (  id  ) {
-                    if (mainVueAppVm.selected_card == id) {
+                    if (mainVueAppVm.visibleAppId == id) {
                         return;
                     }
 
@@ -10670,7 +10670,7 @@
                         let elmnt = document.querySelector('#card_' + id);
                         if (elmnt) {
                             if (yz.isStaticHtmlPageApp) {
-                                mainVueAppVm.selected_card = id;
+                                mainVueAppVm.visibleAppId = id;
                                 setTimeout(async function() {
                                     let thisApp = mainVueAppVm.loadedAppMetaData
                                     if (mainVueAppVm.loadedAppMetaData.fn) {
@@ -10683,7 +10683,7 @@
                             } else {
                                 setTimeout(function()
                                 {
-                                    mainVueAppVm.selected_card = id;
+                                    mainVueAppVm.visibleAppId = id;
                                     setTimeout(async function() {
                                         let thisApp = mainVueAppVm.loadedAppMetaData
                                         if (mainVueAppVm.loadedAppMetaData.fn) {
