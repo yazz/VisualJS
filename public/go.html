@@ -9628,7 +9628,7 @@
                             mainVueAppVm.show_loader = false
                             yz.mainVars.autoScroll = false
                             setTimeout(async function() {
-                                await yz.select_card(nid)
+                                await yz.selectAppbyId(nid)
                             },20)
                             refresh();
                         }
@@ -9653,7 +9653,7 @@
                             mainVueAppVm.show_loader = true
                         } else if (!yz.isStaticHtmlPageApp) {
                             setTimeout(async function() {
-                                await yz.select_card(1)
+                                await yz.selectAppbyId(1)
                             },200)
                         } else if (yz.isStaticHtmlPageApp) {
                             mainVueAppVm.is_static = true
@@ -10661,7 +10661,7 @@
                         mainVueAppVm.appCodeId = codeIdOfComponent
                     }
                 },
-                select_card:                        async function              (  id  ) {
+                selectAppbyId:                        async function              (  id  ) {
                     if (mainVueAppVm.visibleAppId == id) {
                         return;
                     }
