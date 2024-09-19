@@ -9695,7 +9695,7 @@
                 },
                 getDebugHeaderStructure:            function                    (  )                                            {
                     let debugHeaderStructure = {
-                        props:      [   "visible"   ,   "element_id"   ,   "full_screen"   ,   "card_selected"   ,   "is_static"   ,  "appCodeId"],
+                        props:      [   "visible"   ,   "element_id"   ,   "full_screen"   ,   "is_static"   ,  "appCodeId"],
                         mounted:    async function() {
                             let mm = this
                             mm.isValidObject                    = Vue.inject('isValidObject')
@@ -9920,7 +9920,7 @@
                         template:   `
     <span   id='main_debug_header'
                                          v-bind:style="'padding:0px;position: relative; margin: auto;height:100%;width:100%;border:0px; overflow-y:none;'"
-                                         v-bind:class='card_selected?(is_static?"container":" container"):" container"' >
+                                         v-bind:class='container' >
 
                                     <div
                                         v-if="showSettings"
@@ -10662,10 +10662,16 @@
                     }
                 },
                 selectAppbyId:                        async function              (  id  ) {
+                    //
+                    // if the app is already visible then do nothing
+                    //
                     if (mainVueAppVm.visibleAppId == id) {
                         return;
                     }
 
+                    //
+                    // select the app
+                    //
                     if (id != -1) {
                         let elmnt = document.querySelector('#card_' + id);
                         if (elmnt) {
