@@ -11524,22 +11524,7 @@
                             ]})
 
                         await yz.uiDb.createAlaSqlTable({
-                            tableName: "ui_table_running_apps",
-                            fields: [
-                                {name: "id",                                fieldType: "INT PRIMARY KEY AUTOINCREMENT"},
-                                {name: "instance_uuid",                     fieldType: "STRING"},
-                                {name: "fk_root_subapp_instance_uuid",      fieldType: "STRING"},
-                                {name: "fk_current_subapp_instance_uuid",   fieldType: "STRING"},
-                                {name: "created",                           fieldType: "INTEGER"},
-                                {name: "base_component_id",                 fieldType: "STRING"},
-                                {name: "code_id",                           fieldType: "STRING"},
-                                {name: "type",                              fieldType: "STRING"},
-                                {name: "arguments",                         fieldType: "STRING"},
-                                {name: "status",                            fieldType: "STRING"}
-                            ]})
-
-                        await yz.uiDb.createAlaSqlTable({
-                            /* ui_table_running_subapps
+                            /* ui_table_running_apps
                             -----------------------
 
                             base_component_id:    "demo_timer"
@@ -11547,11 +11532,12 @@
                             content_hash:            "QmNkg8wo4X6L8LHtS1Pjbcpj8pgeNvZS2orHPBD23QuhjU"
                             display_name:         "Timer demo"
                             */
-                            tableName: "ui_table_running_subapps",
+                            tableName: "ui_table_running_apps",
                             fields: [
                                 {name: "id",                            fieldType: "INT PRIMARY KEY AUTOINCREMENT"},
-                                {name: "subapp_instance_uuid",          fieldType: "STRING"},
-                                {name: "parent_subapp_instance_uuid",   fieldType: "STRING"},
+                                {name: "app_instance_id",               fieldType: "STRING"},
+                                {name: "fk_root_app_instance_id",       fieldType: "STRING"},
+                                {name: "parent_app_instance_id",        fieldType: "STRING"},
                                 {name: "created",                       fieldType: "INTEGER"},
                                 {name: "base_component_id",             fieldType: "STRING"},
                                 {name: "tags",                          fieldType: "STRING"},
@@ -11599,7 +11585,7 @@
                             if (r.command == "UPDATE_APPS_FROM_APPSTORE") {
                                 await yz.updateAppsFromAppStore()
                             } else if (r.command == "ADD_RECENT_APP") {
-                                await yz.addRunningSubApp(commandArguments.app)
+                                await yz.addRunningApp(commandArguments.app)
                             }
                             return true;
                         };
@@ -11776,11 +11762,11 @@
                         }).catch(err => {
                         })
                 },
-                addRunningSubApp:             async function              (  app   )                                          {
+                addRunningApp:             async function              (  app   )                                          {
                     debugger
-                    let alreadyExists = yz.uiDb.sqlui("select * from  ui_table_running_subapps  where code_id = ?", [app.code_id])
+                    let alreadyExists = yz.uiDb.sqlui("select * from  ui_table_running_apps  where code_id = ?", [app.code_id])
                     if (alreadyExists.length == 0) {
-                        yz.uiDb.sqlui(   "insert  into  ui_table_running_subapps  (  code_id  ,  base_component_id, logo, display_name,component_type) values (?,?,?,?,?)",
+                        yz.uiDb.sqlui(   "insert  into  ui_table_running_apps  (  code_id  ,  base_component_id, logo, display_name,component_type) values (?,?,?,?,?)",
                             [app.code_id,app.base_component_id,app.logo_url, app.displayName, app.component_type])
                     }
                 },

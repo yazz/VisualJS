@@ -1038,9 +1038,9 @@ disableHighlightEditableApp:            {{ disableHighlightEditableApp }}
                                     mm.refresh ++
                                 })
 
-                    Vue.watch(  yz.uiDb.uiDbTableChangeEvents["ui_table_running_subapps"].refEventCounter,
+                    Vue.watch(  yz.uiDb.uiDbTableChangeEvents["ui_table_running_apps"].refEventCounter,
                                 function(nv){
-                                    console.log("Table 'ui_table_running_subapps' changed : " + JSON.stringify(nv))
+                                    console.log("Table 'ui_table_running_apps' changed : " + JSON.stringify(nv))
                                     mm.refresh ++
                                 })
 
