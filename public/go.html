@@ -11527,10 +11527,11 @@
                             /* ui_table_running_apps
                             -----------------------
 
-                            base_component_id:    "demo_timer"
-                            logo:                 "data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAS..."
-                            content_hash:            "QmNkg8wo4X6L8LHtS1Pjbcpj8pgeNvZS2orHPBD23QuhjU"
-                            display_name:         "Timer demo"
+                            base_component_id:      "demo_timer"
+                            logo:                   "data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAS..."
+                            content_hash:           "QmNkg8wo4X6L8LHtS1Pjbcpj8pgeNvZS2orHPBD23QuhjU"
+                            display_name:           "Timer demo"
+                            ui_host:                MAIN/PREVIEW/EDITOR
                             */
                             tableName: "ui_table_running_apps",
                             fields: [
@@ -11538,6 +11539,7 @@
                                 {name: "app_instance_id",               fieldType: "STRING"},
                                 {name: "fk_root_app_instance_id",       fieldType: "STRING"},
                                 {name: "parent_app_instance_id",        fieldType: "STRING"},
+                                {name: "ui_host",                       fieldType: "STRING"},
                                 {name: "created",                       fieldType: "INTEGER"},
                                 {name: "base_component_id",             fieldType: "STRING"},
                                 {name: "tags",                          fieldType: "STRING"},
@@ -11550,6 +11552,26 @@
                                 {name: "component_type",                fieldType: "STRING"}
                             ]})
 
+
+                        await yz.uiDb.createAlaSqlTable({
+                            /* ui_table_installed_apps   This is a list of the apps and components in the appstore that are available
+                            --------------------------   to run
+
+                            base_component_id:    "demo_timer"
+                            logo:                 "data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAS..."
+                            content_hash:            "QmNkg8wo4X6L8LHtS1Pjbcpj8pgeNvZS2orHPBD23QuhjU"
+                            display_name:         "Timer demo"
+                            */
+                            tableName: "ui_table_installed_apps",
+                            fields: [
+                                {name: "id",                            fieldType: "INT PRIMARY KEY AUTOINCREMENT"},
+                                {name: "icon_position",                 fieldType: "STRING"},
+                                {name: "base_component_id",             fieldType: "STRING"},
+                                {name: "content_hash",                  fieldType: "STRING"},
+                                {name: "logo",                          fieldType: "STRING"},
+                                {name: "display_name",                  fieldType: "STRING"},
+                                {name: "component_type",                fieldType: "STRING"}
+                            ]})
 
                         await yz.uiDb.createAlaSqlTable({
                             /* ui_table_appstore_apps   This is a list of the apps and components in the appstore that are available, but they may not
