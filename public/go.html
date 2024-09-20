@@ -9549,6 +9549,19 @@
 
 
 
+
+                                <!-- --------------------------------------------------------------------
+                                                                  SHOW THE OS SCREEN
+                                 ------------------------------------------------------------------------ -->
+
+                                 OS:
+                                 <br>visibleAppId: {{visibleAppId}}
+                                 <br>editingBaseComponentId: {{editingBaseComponentId}}
+                                 <br>editor_component2: {{editor_component2}}
+                                 <br>is_static: {{is_static}}
+
+
+
                                 <!-- --------------------------------------------------------------------
                                                                   SHOW THE RUNNING APPS
                                  ------------------------------------------------------------------------ -->
@@ -9606,6 +9619,7 @@
 
                         yz.mainVars.mainVueOperatingSystem = Vue.createApp(mainVueOperatingSystemStructure);
                         yz.mainVars.mainVueOperatingSystem.component('debug_header', yz.getDebugHeaderStructure());
+                        yz.mainVars.mainVueOperatingSystem.component('os_screen', yz.getOSVueComponentStructure());
                         yz.mainVars.mainVueOperatingSystem.config.compilerOptions.whitespace = 'condense';
                         mainVueOperatingSystemVm = yz.mainVars.mainVueOperatingSystem.mount("#main_yazz_vue_root_html_element")
 
@@ -10161,6 +10175,1593 @@
                                 </span>`
                     }
                     return debugHeaderStructure
+                },
+                getOSVueComponentStructure:         function                    (  )                                            {
+                    let osStructure = {
+                                template:
+                                    `
+    <div    v-bind:refresh='refresh' style="overflow-y:auto;overflow-x: auto;width:100vw;height:100%;position: fixed; left:0px">
+
+
+    <!--   ----------------------------------------    Show the debug mode    ---------------------------------------- -->
+    <!--
+
+    -->
+    <!--   ----------------------------------------------------------------------------------------------------------- -->
+        <div v-if="debugMode" style="background-color: whitesmoke; padding: 20px;">
+            <button style="margin: 20px;"
+                    class='btn btn-lg btn-danger'
+                    v-on:click='homepageDebugViewName = "homepage_vars"'>
+
+                Show homepage vars
+
+            </button>
+
+    <!--   --------------------------------------  Homepage vars  ------------------------------------>
+    <!--                                                                                               -->
+    <div v-if='homepageDebugViewName=="homepage_vars"' style="">
+    <pre>
+    <div style="font-size:60px;font-weight: bold;">Homepage Vars</div>
+    lastEditedBaseComponentId:              {{ lastEditedBaseComponentId }}
+    lastEditedCodeId:                       {{ lastEditedCodeId }}
+    editingBaseComponentId:                 {{ editingBaseComponentId }}
+    editingCodeId:                          {{ editingCodeId }}
+    currentlyHighlightedEditableCodeId:     {{ currentlyHighlightedEditableCodeId }}
+    lastHighlightedEditableCodeId           {{ lastHighlightedEditableCodeId }}
+
+    edited_app_list:
+    {{ edited_app_list }}
+
+    currentlyHighlightedAppstoreBCI:        {{ currentlyHighlightedAppstoreBCI }}
+
+
+    homepageDebugViewName:                  {{ homepageDebugViewName }}
+    hideImportButtons:                      {{ hideImportButtons }}
+    refresh:                                {{ refresh }}
+    showFilePicker:                         {{ showFilePicker }}
+    open_file_path:                         {{ open_file_path }}
+    open_file_list:                         {{ open_file_list }}
+    open_file_name:                         {{ open_file_name }}
+    disableHighlightEditableApp:            {{ disableHighlightEditableApp }}
+    </pre>
+    </div>
+        </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+        <!--   --------------------------------------  Show the currently edited app in the code editor   ------------------------------------>
+        <!--                                                                                               -->
+
+
+        <!--   ----------------------------------------------------------------------------------------------------------- -->
+        <template    v-for="(item, index) in edited_app_list"   v-bind:refresh='refresh'>
+            <div    v-bind:refresh='refresh'
+                    v-if="(editingBaseComponentId == item.base_component_id)"
+                    v-on:mouseenter="currentlyHighlightedEditableCodeId = item.code_id;"
+                    v-on:mouseleave="currentlyHighlightedEditableCodeId = null;"
+                    style='display: inline-block; margin: 20px;position: relative;border:0px solid lightgray;vertical-align: text-top;'
+                    class='app_card'>
+
+                    <!--   -----------------------------------
+                    |                                      |
+                    |    Show the list of editable apps    |
+                    |                                      |
+                    --------------------------------------
+
+                    Iterate through the apps in "edited_app_list"
+
+                    --------
+                    | Params |
+                    ------------------------------------------------------------------
+                    |
+                    |     edited_app_list: [
+                    |     ----------------      base_component_id:  The "baseComponentId" or Type of the
+                    |                           ------------------  app
+                    |
+                    |                           code_id:            The commit ID of the app. Sometimes the app
+                    |                           --------            is not the latest version of the app, which
+                    |                                               is why this is needed
+                    |                         ]
+                    |
+                    ------------------------------------------------------------------------------ -->
+
+                <div    v-if="(editingBaseComponentId == item.base_component_id)"
+                        v-bind:refresh='refresh'
+                        style="position: fixed; left:0px; top:0px; height:100%; width: 100vw ;z-index: 200000;background-color: white;overflow-y:none; padding: 0px;">
+
+                    <component  id="editor_component2"
+                                v-if='isValidObject(item)'
+                                :is='yz.baseComponentIdReturnsCommitId["app_editor_3"]'
+                                v-bind:arg_edit_base_component_id='item.base_component_id'
+                                v-bind:arg_edit_code_id='item.code_id'>
+                    </component>
+                </div>
+            </div>
+        </template>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        <!-- -------------------------------------  Show the Yazz logo and top tabs   ------------------------------------------------ -->
+        <!--
+
+
+         -->
+        <!--   ----------------------------------------------------------------------------------------------------------- -->
+        <div    style='vertical-align:top;padding:10px; margin:0;padding-top: 15px;padding-bottom: 0px;padding-bottom:0px; background-color: black;font-weight: bold;padding-left: 27px;'
+                v-if="(!editingBaseComponentId)"
+                v-bind:refresh='refresh'>
+
+            <div    v-bind:refresh='refresh'
+                    style="display: inline-block;border:0px; padding: 0px; margin: 0px;padding-left:15px;width:36px;height:36px;;position:relative;">
+
+                <div    style="display: inline-block;border:0px; padding: 0px; margin: 0px;background-color: black;position:absolute;width:10px;height:10px;left:0px;top:0px;background-color:red;"></div>
+
+                <div    style="display: inline-block;border:0px; padding: 0px; margin: 0px;background-color: black;position:absolute;width:10px;height:10px;left:20px;top:0px;background-color:red;"></div>
+
+                <div    style="display: inline-block;border:0px; padding: 0px; margin: 0px;background-color: black;position:absolute;width:10px;height:10px;left:10px;top:10px;background-color:red;"></div>
+
+                <div    style="display: inline-block;border:0px; padding: 0px; margin: 0px;background-color: black;position:absolute;width:10px;height:10px;left:0px;top:20px;background-color:red;"></div>
+
+            </div>
+
+
+            <div    v-bind:refresh='refresh'
+                    style="border:0px; padding: 0px; margin: 0px;padding-left:15px;font-family: Helvetica;color: darkgray;font-weight: bold;letter-spacing: 0px;font-size: 9px;line-height: 1;display: inline-block;top:-10px;position:relative;left:-20px;">
+
+                <div    v-bind:refresh='refresh'
+                        style="border:0px; padding: 0px; margin: 0px;padding-left:15px;font-family: Helvetica;color: darkgray;font-weight: bold;letter-spacing: 0px;font-size: 16px;line-height: 1;display: inline-block;top:0px;left:-20px;">
+
+                    <a      href="https://yazz.com"
+                            target=new
+                            v-bind:refresh='refresh'
+                            style='font-size:2rem;color:white;'>
+
+                        VisualJS
+
+                    </a>
+                </div>
+            </div>
+
+
+            <span>
+                <a      href="https://yazzapps.com"
+                      target=new
+                      v-bind:refresh='refresh'
+                      style='text-align: left;display: inline-block;color:white;position:relative;left:30px;height:40px;padding:5px;top: -10px;'>
+
+                    Company
+                </a>
+            </span>
+
+
+            <span>
+                <a      href="https://discord.gg/7cauwRN9QB"
+                      target=new
+                      v-bind:refresh='refresh'
+                      style='text-align: left;display: inline-block;color:white;position:relative;left:30px;height:40px;padding:5px;top: -10px;'>
+
+                    Discord
+
+                </a>
+            </span>
+
+
+            <span>
+                  <iframe src="https://ghbtns.com/github-btn.html?user=yazz&repo=VisualJS&type=star&count=true"
+                          frameborder="0" scrolling="0" width="150" height="25" title="GitHub"
+                          style="margin-left:40px"></iframe>
+
+            </span>
+        </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        <!-- ------------------------------------   Show the top buttons, New App, etc    -->
+        <!--
+
+
+         -->
+        <!--   ----------------------------------------------------------------------------------------------------------- -->
+        <div    style='vertical-align:top;padding:10px; margin:0;padding-top: 15px;padding-bottom: 0px;padding-bottom:0px; background-color: black;font-weight: bold;padding-left: 27px;'
+                v-if="(!editingBaseComponentId)"
+                v-bind:refresh='refresh'>
+
+            <h1 style='width:100%;vertical-align:top;display:inline-block;font-size:100px; text-align: center;margin: 0px;padding-left:70px;'></h1>
+
+
+
+
+            <button style='opacity:0.7;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);border-radius: 40px;margin-top:30;
+                    margin-bottom:10px;margin-left:80px;padding:25px;font-size:60px;font-weight: bold;left:30%;'
+                    class='btn btn-lg'
+                    v-if="hideImportButtons"
+                    v-on:click='$event.stopPropagation();copyAndEditApp({base_component_id: "yazz_blank"})'>
+
+                <img    src='/driver_icons/blocks.png'
+                        style='position:relative;max-width: 100px; left:0px; top: 0px;max-height: 90px;margin-left: auto;margin-right: auto;display: inline-block;'
+                 />
+
+                    New App
+            </button>
+
+
+            <button style='opacity:0.7;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);border-radius: 40px;margin-bottom:10px;margin-left:40px;padding:25px;font-size:45px;font-weight: bold;'
+                    class='btn btn-lg'
+                    v-if="!hideImportButtons"
+                    v-on:click='$event.stopPropagation();copyAndEditApp({base_component_id: "yazz_blank"})'>
+
+                <img    src='/driver_icons/blocks.png'
+                        style='position:relative;max-width: 70px; left:0px; top: 0px;max-height: 70px;margin-left: auto;margin-right: auto;display: inline-block;' />
+
+                    New App
+            </button>
+
+
+
+            <form       id="uploadfilefromhomepageform"
+                        method="POST"
+                        style="display:none;"
+                        enctype="multipart/form-data"
+                        action="/http_post_file_upload_single"  >
+
+                <input  type="file"
+                        id="uploadfilefromhomepage"
+                        name="uploadfilefromhomepage"
+                        multiple
+                        style="display:none;"
+                        v-on:change="submitFormAjax();"
+                        />
+            </form>
+
+
+            <form       id="openfilefromhomepageform"
+                        method="POST"
+                        style="display:none;"
+                        enctype="multipart/form-data"
+                        action="/http_post_file_open_single"  >
+
+                <input  type="file"
+                        id="openfilefromhomepage"
+                        name="openfilefromhomepage"
+                        multiple
+                        style="display:none;"
+                        v-on:change="openFileChange();"
+                        />
+            </form>
+
+            <div    v-if="showFilePicker"
+                    style="position: fixed;left:10vw;top:5vh;width:80vw;height:80vh; z-index: 200000;opacity:1;background-color: white;font-size: 20px;">
+
+                <div    style="font-size: 40px;">
+                        Choose a .vjs file
+                </div>
+
+                <div style="width:80vw;height:5vh; background-color: black;color:white;font-size: 30px;" class="text-left">
+                    <button     class="btn btn"
+                                style='margin:2px;margin-right:50px;background-color: darkgray;'
+                                v-on:click="chosenFolderUp();">
+
+                        Up
+                    </button>
+
+                    {{open_file_path}}
+                </div>
+
+                <div    style="width:80vw;height:50vh; background-color: white; overflow:scroll;"
+                        class="text-left">
+
+                    <div    v-for="(file_or_folder_item, index) in open_file_list"
+                            v-bind:refresh='refresh'
+                            v-bind:style='"background-color: " + (file_or_folder_item.type == "folder"?"darkgray":"lightgray") + "; margin:0px;height:auto;"'
+                            v-on:click='selectOpenFileOrFolder(file_or_folder_item)'
+                            class="text-left"
+                            >
+                                {{file_or_folder_item.name}}
+                    </div>
+                </div>
+
+
+
+                <div>
+                    <button     class="btn btn-danger btn-lg"
+                                style='opacity:0.7;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);border-radius: 40px;margin-bottom:10px;margin-left:40px;padding:25px;font-size:45px;font-weight: bold; background-color:lightgray;color:black;display:inline;'
+                                v-on:click="showFilePicker=false">
+
+                        <img    src='/driver_icons/cancel.svg'
+                                style='position:relative;max-width: 70px; bottom:0px; left: 0px;max-height: 70px;margin-left: auto;margin-right: auto;display: inline-block;'
+                                 />
+
+
+                            Cancel
+                    </button>
+                </div>
+
+
+
+
+                <button class="btn btn-danger btn-lg"
+                        style='opacity:0.7;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);border-radius: 40px;margin-bottom:10px;margin-left:40px;padding:25px;font-size:45px;font-weight: bold; background-color:lightgray;color:black;'
+                        v-on:click="importApp();"
+                        v-if="!hideImportButtons"
+                        >
+
+                    <img    src='/driver_icons/import.svg'
+                            style='position:relative;max-width: 70px; left:0px; top: 0px;max-height: 70px;margin-left: auto;margin-right: auto;display: inline-block;'
+                             />
+                    Import
+                </button>
+
+
+                <button class="btn btn-danger btn-lg"
+                        style='opacity:0.7;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);border-radius: 40px;margin-bottom:10px;margin-left:40px;padding:25px;font-size:45px;font-weight: bold; background-color:lightgray;color:black;'
+                        v-on:click="openFile();"
+                        v-if="!hideImportButtons">
+
+                    <img    src='/driver_icons/fileopen.png'
+                            style='position:relative;max-width: 70px; left:0px; top: 0px;max-height: 70px;margin-left: auto;margin-right: auto;display: inline-block;'
+                             />
+
+                    Open file
+                </button>
+            </div>
+        </div>
+
+
+
+
+
+
+
+
+
+
+
+
+            <!-- -----------------------------------    Show the "Editable" apps ------------------------------------------------ -->
+            <!--
+
+
+            -->
+            <!--   ----------------------------------------------------------------------------------------------------------- -->
+            <div    class="" v-bind:refresh='refresh' style='position: relative; padding:0;margin:0; width: 100%; background-color: black;height:auto;'>
+
+                <span style="font-size: 60px; color: white;">Edited Apps</span>
+
+                <!-- ---------------------------  Loop through the "Editable apps" and show clickable icons ------------------------------------------------ -->
+                <div v-bind:refresh='refresh'
+                     class='force_scrollbars'
+                     id="downloaded_apps"
+                     style='offsetleft:200;position: relative;background-color: black; color: black; padding-top: 0px;padding-bottom: 20px;overflow-y:hidden; overflow-x: auto;white-space: nowrap;height:400px;padding-right:200px;margin-left:0px;margin-right:0px;z-index:0;'>
+
+                    <div      v-for="(item, index) in edited_app_list"
+                              v-bind:refresh='refresh'
+                              v-bind:id='"appid_" + item.code_id'
+                              v-on:mouseenter="if (!disableHighlightEditableApp) {currentlyHighlightedEditableCodeId = item.code_id;}"
+                              v-bind:style='"display: inline-block; margin: 20px;position: relative;border:0px solid lightgray;vertical-align: text-top;  " + ((currentlyHighlightedEditableCodeId == item.code_id)?"top:0px;width:  330px;height: 330px;":"top:100px;width:  200px;height: 200px;")'>
+
+                        <div    v-bind:refresh='refresh'
+                                v-bind:style='"-webkit-box-shadow: 10px 10px 300px -45px rgba(69,67,47,1);-moz-box-shadow: 10px 10px 300px -45px rgba(69,67,47,1);box-shadow: 10px 10px 300px -45px rgba(69,67,47,1);border-radius: 0px;border-width: 0px;margin:0px;padding:0px;width:100%;height:100%;" + (((currentlyHighlightedAppstoreBCI == item.base_component_id) )?"background-color:white;":"background-color:black;")'>
+
+                            <div    v-if='(currentlyHighlightedEditableCodeId == item.code_id) && (!editingCodeId)'
+                                    v-bind:refresh='refresh'
+                                    style="position:relative;left:0px;top;0px;color:black;background-color:white;background:white;width:100%;height:100%;overflow: auto;">
+
+                                <div    v-if='(currentlyHighlightedEditableCodeId == item.code_id) '
+                                        v-bind:refresh='refresh'
+                                        v-on:mouseover="$event.stopPropagation();$event.preventDefault();"
+                                        v-on:click="$event.stopPropagation();$event.preventDefault();"
+                                        v-on:mousedown="$event.stopPropagation();$event.preventDefault();"
+                                        v-on:mouseup="$event.stopPropagation();$event.preventDefault();"
+                                        style="opacity:.7;z-index:2147483647;position:absolute;left:0px;top;0px;color:black;background-color:lightblue;width:100%;height:100%;">
+
+                                    <div style="padding: 10px;">
+                                        {{item.displayName}} {{(item.visibility?" - "+item.visibility:"")}}
+                                    </div>
+
+                                    <div    v-if="item.code_id"
+                                            style="padding: 10px;">
+
+                                        {{item.code_id.substring(0,5)}}...
+                                    </div>
+
+                                    <img      v-if='(currentlyHighlightedEditableCodeId == item.code_id)'
+                                              v-bind:src='item.logo_url'
+                                              style='position:relative;max-width: 75%; left:0px; top: 10px;max-height: 150px;margin-left: auto;margin-right: auto;display: block;z-index:0;'
+                                              v-bind:alt='item.base_component_id'
+                                              v-on:click='$event.stopPropagation();editApp(item.base_component_id, item.code_id)' />
+
+
+                                    <button   style='position:absolute;top:250px;left:20px;opacity:0.9;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);border-radius: 5px;margin-bottom:10px;margin-left:40px;padding:10px;font-size:20px;z-index:2147483647;'
+                                              class='btn btn-sm'
+                                              v-if="item.component_type=='app'"
+                                              v-on:click='runAppInNewBrowserTab(item.base_component_id);'>
+
+                                        <img    src='/driver_icons/play.png'
+                                                style='position:relative;max-width: 40px; left:0px; top: 0px;max-height: 40px;margin-left: auto;margin-right: auto;display: inline-block;' />
+
+                                            Play
+                                    </button>
+
+                                    <button   style='position:absolute;top:250px;left:140px;opacity:0.9;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);border-radius: 5px;margin-bottom:10px;margin-left:40px;padding:10px;font-size:20px;z-index:2147483647;'
+                                              class='btn btn-sm'
+                                              v-on:click='showProgressBar();$event.stopPropagation();editApp(item.base_component_id,item.code_id)'>
+
+                                        <img    src='/driver_icons/edit.png'
+                                                style='position:relative;max-width: 40px; left:0px; top: 0px;max-height: 40px;margin-left: auto;margin-right: auto;display: inline-block;' />
+
+                                            Edit
+                                    </button>
+                                </div>
+                            </div>
+
+
+                            <div    v-if="currentlyHighlightedEditableCodeId != item.code_id"
+                                    style='border-radius: 0px;padding:0px; margin:0;'
+                                    v-on:click='$event.stopPropagation();editApp(item.base_component_id,item.code_id)'>
+
+                                <img  v-if='item.logo_url'
+                                      v-bind:src='item.logo_url'
+                                      style='position:relative;max-width: 75%; left:0px; top: 10px;max-height: 150px;margin-left: auto;margin-right: auto;display: block;'
+                                      v-bind:alt='item.displayName'
+                                      v-on:click='$event.stopPropagation();editApp(item.base_component_id,item.code_id)' />
+
+
+                                <a  v-on:click='$event.stopPropagation();editApp(item.base_component_id,item.code_id)'
+                                    class="nav-link active" href="#" style="position: absolute; bottom:0px;font-style:bold;width:90%;overflow-x: hidden;white-space: nowrap;font-size: 20px;color:white;">
+
+                                    {{item.displayName}}
+                                </a>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        <!-- -------------------------------------  Show the apps available in the appstore ------------------------------------------------ -->
+        <!--
+
+
+
+
+
+
+
+
+        -->
+        <!--   ----------------------------------------------------------------------------------------------------------- -->
+        <div    class=""
+                v-bind:refresh='refresh'
+                v-if='yz'
+                style='position: relative; padding:0;margin:0; width: 100%; background-color: black;height:auto;'>
+
+            <div    v-bind:refresh='refresh'
+                    class='force_scrollbars'
+                    style='position: relative;background-color: black; color: black; padding-top: 0px;padding-bottom: 20px;overflow-y:hidden; overflow-x: auto;white-space: nowrap;height:400px;padding-right:200px;margin-left:0px;margin-right:0px;z-index:0;margin-bottom:80px;'>
+
+                <div    v-for='(item, index) in getUiDbData(  { tableName: "ui_table_appstore_apps" } )'
+                        v-bind:refresh='refresh'
+                        v-on:mouseenter=" currentlyHighlightedAppstoreBCI = item.base_component_id;"
+                        v-on:mouseleave=" currentlyHighlightedAppstoreBCI = null;"
+                        style='display: inline-block; margin: 20px;position: relative;border:0px solid lightgray;vertical-align: text-top;'
+                        class='app_card'>
+
+                    <div    v-bind:refresh='refresh'
+                            v-bind:style='"-webkit-box-shadow: 10px 10px 300px -45px rgba(69,67,47,1);-moz-box-shadow: 10px 10px 300px -45px rgba(69,67,47,1);box-shadow: 10px 10px 300px -45px rgba(69,67,47,1);border-radius: 0px;border-width: 0px;margin:0px;padding:0px;width:100%;height:100%;" + (((currentlyHighlightedAppstoreBCI == item.old_id) )?"background-color:white;":"background-color:black;")'>
+
+                        <div    v-if='(currentlyHighlightedAppstoreBCI == item.base_component_id) && (!editingBaseComponentId)'
+                                v-bind:refresh='refresh'
+                                style="position:relative;left:0px;top;0px;color:black;background-color:white;background:white;width:100%;height:100%;overflow: auto;">
+
+
+                            <div    v-if='(currentlyHighlightedAppstoreBCI == item.base_component_id) '
+                                    v-bind:refresh='refresh'
+                                    v-on:mouseover="$event.stopPropagation();$event.preventDefault();"
+                                    v-on:click="$event.stopPropagation();$event.preventDefault();"
+                                    v-on:mousedown="$event.stopPropagation();$event.preventDefault();"
+                                    v-on:mouseup="$event.stopPropagation();$event.preventDefault();"
+                                    style="opacity:.7;z-index:2147483647;position:absolute;left:0px;top;0px;color:black;background-color:lightblue;width:100%;height:100%;">
+
+                                <div style="padding: 10px;">
+                                    {{item.display_name}}
+                                </div>
+
+                                <img    v-if='(currentlyHighlightedAppstoreBCI == item.base_component_id) '
+                                        v-bind:src='item.logo'
+                                        style='position:relative;max-width: 75%; left:0px; top: 10px;max-height: 150px;margin-left: auto;margin-right: auto;display: block;z-index:0;'
+                                        v-bind:alt='item.logo'
+                                        v-on:click='$event.stopPropagation();editApp(item.base_component_id)' />
+
+
+
+                                <button style='position:absolute;top:250px;left:0px;opacity:0.9;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);border-radius: 5px;margin-bottom:10px;margin-left:40px;padding:10px;font-size:20px;z-index:2147483647;'
+                                        class='btn btn-sm'
+                                        v-if="item.component_type == 'app' "
+                                        v-on:click='showProgressBar();$event.stopPropagation();(async function() {await downloadAndRunApp(item.content_hash)})()'>
+
+                                    <img    src='/driver_icons/play.png'
+                                            style='position:relative;max-width: 60px; left:0px; top: 0px;max-height: 40px;margin-left: auto;margin-right: auto;display: inline-block;'
+                                            />
+
+                                    Play
+                                </button>
+
+
+                                <button style='position:absolute;top:250px;left:160px;opacity:0.9;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);border-radius: 5px;margin-bottom:10px;margin-left:40px;padding:10px;font-size:20px;z-index:2147483647;'
+                                        class='btn  btn-sm'
+                                        v-on:click='showProgressBar();$event.stopPropagation();addToEditableAppsAndEdit(item.content_hash)'>
+                                        <img    src='/driver_icons/edit.png'
+                                        style='position:relative;max-width: 60px; left:0px; top: 0px;max-height: 40px;margin-left: auto;margin-right: auto;display: inline-block;'
+                                        />
+
+                                    Edit
+                                </button>
+
+
+                            </div>
+                        </div>
+
+
+                        <div    v-if="currentlyHighlightedAppstoreBCI != item.old_id"
+                                style='border-radius: 0px;padding:0px; margin:0;'
+                                v-on:click='$event.stopPropagation();editApp(item.old_id)'>
+
+                            <img    v-if='item.logo && (item.logo != "")'
+                                    v-bind:src='item.logo'
+                                    style='position:relative;max-width: 75%; left:0px; top: 10px;max-height: 150px;margin-left: auto;margin-right: auto;display: block;'
+                                    v-bind:alt='item.logo'
+                                    v-on:click='$event.stopPropagation();editApp(item.old_id)'
+                                    />
+
+
+                            <a  v-on:click='$event.stopPropagation();editApp(item.old_id)'
+                                class="nav-link active" href="#" style="position: absolute; bottom:0px;font-style:bold;width:90%;overflow-x: hidden;white-space: nowrap;font-size: 20px;color:white;">
+
+                                {{item.display_name}}
+                            </a>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+
+
+
+
+
+
+
+
+        </div>
+    </div>`,
+                                data:       function() {
+                                    // data for the Vue object - see top of file for more info
+                                    return {
+                                        // editable apps
+                                        editingBaseComponentId:                 null,
+                                        editingCodeId:                          null,
+                                        lastEditedBaseComponentId:              null,
+                                        lastEditedCodeId:                       null,
+                                        edited_app_list:                      [],
+                                        lastHighlightedEditableCodeId:          null,
+                                        currentlyHighlightedEditableCodeId:     null,
+
+                                        // apps  not downloaded but in the appstore
+                                        currentlyHighlightedAppstoreBCI:        null,
+
+                                        // file load from disk options
+                                        hideImportButtons:                      true,
+                                        refresh:                                0,
+                                        showFilePicker:                         false,
+                                        open_file_path:                         "/",
+                                        open_file_list:                         [],
+                                        open_file_name:                         "",
+                                        disableHighlightEditableApp:            false,
+
+                                        // debug helpers
+                                        listenerD:                              null,
+                                        debugMode:                              false,
+                                        homepageDebugViewName:                  null
+                                    }
+                                },
+                                setup:      function() {
+
+                                },
+                                mounted:    async function() {
+                                    /* mounted - when the homepage Vue component is first loaded
+                                    ________________________________________
+                                    |                                      |
+                                    |             mounted                  |
+                                    |                                      |
+                                    |______________________________________|
+
+                                    __________
+                                    | PARAMS |______________________________________________________________
+                                    |
+                                    |     NONE
+                                    |     ----
+                                    |________________________________________________________________________ */
+                                    let mm = this
+                                    mm.isValidObject    = Vue.inject('isValidObject')
+                                    mm.yz               = Vue.inject('yz')
+                                    mm.showProgressBar  = Vue.inject('showProgressBar')
+                                    mm.hideProgressBar  = Vue.inject('hideProgressBar')
+                                    mm.$DEBUGUI         = Vue.inject('$DEBUGUI')
+                                    mm.getUiDbData      = Vue.inject('getUiDbData')
+                                    mm.sqlui             = Vue.inject('sqlui')
+
+
+
+                                    /*
+                                    ____________________________________________________________
+                                    |    mounted
+                                    |_________________________
+                                                             |  Set the "d" key to allow debug view
+                                                             | to be shown if we are not in the
+                                                             | editor
+                                                             |__________________________________ */
+                                    mm.listenerD = function(event) {
+                                        if (!yz.editor.inEditor) {
+                                            if (event.keyCode == 100) {
+                                                mm.debugMode = !mm.debugMode
+                                            }
+                                        }
+                                    };
+                                    document.addEventListener("keypress", mm.listenerD)
+
+
+
+
+
+
+                                    /*
+                                    ____________________________________________________________
+                                    |    mounted
+                                    |_________________________
+                                                             | Hide the more complex buttons by
+                                                             | default
+                                                             |__________________________________ */
+
+                                    await yz.onPageInitialized( async function() {
+                                        console.log("await yz.onPageInitialized( async function() { entered ... ")
+                                        mm.sendCommandUpdateAppStoreApps()
+
+
+                                        if (typeof($HIDEIMPORTBUTTONS) !== 'undefined') {
+                                            if ($HIDEIMPORTBUTTONS == 'true') {
+                                                mm.hideImportButtons = true
+                                            } else {
+                                                mm.hideImportButtons = false
+                                            }
+                                        } else {
+                                            mm.hideImportButtons = false
+                                        }
+                                        await mm.reloadEditedAppsFromServer();
+
+
+                                        /*
+                                        ____________________________________________________________
+                                        |    mounted
+                                        |_________________________
+                                                                 | Add some events which update the
+                                                                 | apps on the homepage
+                                                                 |__________________________________ */
+                                        yz.globalEventBus.on('message', async function(text) {
+                                            if (text.type == "insert_editable_component_on_homepage") {
+                                                await mm.addEditableComponentToHomepage(
+                                                    text.base_component_id,
+                                                    text.display_name,
+                                                    {
+                                                        codeId:         text.content_hash,
+                                                        logoUrl:        text.logo_url,
+                                                        componentType: "app"
+                                                    })
+
+                                                mm.lastEditedBaseComponentId        = mm.editingBaseComponentId
+                                                mm.editingBaseComponentId           = text.base_component_id
+                                                mm.lastEditedCodeId                 = mm.editingCodeId
+                                                mm.editingCodeId                    = text.code_id
+                                                mm.currentlyHighlightedAppstoreBCI  = null
+                                                mm.refresh++
+                                            }
+
+
+                                            /*
+                                            ____________________________________________________________
+                                            |    mounted
+                                            |_________________________
+                                                                     | Rename an app on the
+                                                                     | homepage
+                                                                     |__________________________________ */
+                                            if (text.type == "update_editable_components_on_homepage") {
+                                                await mm.reloadEditedAppsFromServer()
+                                                mm.refresh++
+                                            }
+
+
+
+                                            /*
+                                            ____________________________________________________________
+                                            |    mounted
+                                            |_________________________
+                                                                     | Called when we close the currently
+                                                                     | edited app
+                                                                     |__________________________________ */
+                                            if (text.type == "close_app") {
+                                                mm.lastEditedBaseComponentId    = mm.editingBaseComponentId
+                                                mm.editingBaseComponentId       = null;
+                                                mm.lastEditedCodeId             = mm.editingCodeId
+                                                mm.editingCodeId                = null
+                                                mm.open_file_name               = ""
+                                                mm.open_file_path               = "/"
+                                                yz.saveCodeToFile                  = null
+                                                yz.globalEventBus.emit('show_settings', {});
+                                                mm.refresh++
+                                            }
+
+
+
+
+
+                                            /*
+                                            ____________________________________________________________
+                                            |    mounted
+                                            |_________________________
+                                                                     | When we try to fork a component
+                                                                     | while already editing an app
+                                                                     |__________________________________ */
+                                            if (text.type == "fork_component") {
+                                                mm.lastEditedBaseComponentId        = mm.editingBaseComponentId
+                                                mm.editingBaseComponentId           = null;
+                                                mm.lastEditedCodeId                 = mm.editingCodeId
+                                                mm.editingCodeId                    = null
+                                                mm.open_file_name                   = ""
+                                                mm.open_file_path                   = "/"
+                                                yz.saveCodeToFile                      = null
+                                                yz.globalEventBus.emit('show_settings', {});
+
+                                                setTimeout(async function() {
+                                                    let bci = text.base_component_id
+                                                    let cid = text.code_id
+                                                    if (!isValidObject(cid)) {
+                                                        cid = yz.baseComponentIdReturnsCommitId[bci]
+                                                    }
+                                                    let fid = text.form_id
+                                                    let cni = text.control_name
+                                                    yz.editor.originalFormIdOfEditedUiControl           = fid
+                                                    yz.editor.originalNameOfEditedUiControl             = cni
+                                                    yz.editor.originalBaseComponentIdOfEditedUiControl  = bci
+                                                    yz.editor.originalCodeIdOfEditedUiControl           = cid
+                                                    await mm.copyAndEditApp(
+                                                        {base_component_id: bci  ,  code_id: cid})
+                                                },200)
+                                            }
+
+                                            /*
+                                            ____________________________________________________________
+                                            |    mounted
+                                            |_________________________
+                                                                     | When we try to edit a component
+                                                                     | while already editing an app
+                                                                     |__________________________________ */
+                                            if (text.type == "return_from_fork_component") {
+                                                mm.lastEditedBaseComponentId = mm.editingBaseComponentId
+                                                mm.editingBaseComponentId   = null;
+                                                mm.lastEditedCodeId         = mm.editingCodeId
+                                                mm.editingCodeId            = null
+                                                mm.open_file_name           = ""
+                                                mm.open_file_path           = "/"
+                                                yz.saveCodeToFile              = null
+                                                yz.globalEventBus.emit('show_settings', {});
+
+                                                setTimeout(function() {
+                                                    let bci = text.base_component_id
+                                                    let cid = text.code_id
+                                                    let fid = text.form_id
+                                                    let cni = text.control_name
+                                                    //yz.editor.originalFormIdOfEditedUiControl           = fid
+                                                    //yz.editor.originalNameOfEditedUiControl             = cni
+                                                    yz.editor.originalBaseComponentIdOfEditedUiControl  = bci
+                                                    yz.editor.originalCodeIdOfEditedUiControl           = cid
+                                                    setTimeout(async function() {
+                                                        await mm.editApp(bci,  text.code_id)
+                                                    },50)
+                                                },200)
+                                            }
+
+
+
+
+
+
+
+
+                                            /*
+                                            ____________________________________________________________
+                                            |    mounted
+                                            |_________________________
+                                                                     | When we try to fork a component
+                                                                     | while already editing an app
+                                                                     |__________________________________ */
+                                            if (text.type == "edit_component") {
+                                                mm.lastEditedBaseComponentId    = mm.editingBaseComponentId
+                                                mm.editingBaseComponentId       = null;
+                                                mm.lastEditedCodeId             = mm.editingCodeId
+                                                mm.editingCodeId                = null
+                                                mm.open_file_name               = ""
+                                                mm.open_file_path               = "/"
+                                                yz.saveCodeToFile                  = null
+                                                yz.globalEventBus.emit('show_settings', {});
+
+                                                setTimeout(async function() {
+                                                    let bci = text.base_component_id
+                                                    let cid = text.code_id
+                                                    if ((!isValidObject(cid)) || (cid == "")) {
+                                                        cid = yz.baseComponentIdReturnsCommitId[bci]
+                                                    }
+                                                    let fid = text.form_id
+                                                    let cni = text.control_name
+                                                    yz.editor.originalFormIdOfEditedUiControl           = fid
+                                                    yz.editor.originalNameOfEditedUiControl             = cni
+                                                    yz.editor.originalBaseComponentIdOfEditedUiControl  = bci
+                                                    yz.editor.originalCodeIdOfEditedUiControl           = cid
+                                                    await mm.addToEditableAppsAndEdit(cid)
+                                                },200)
+                                            }
+
+                                            /*
+                                            ____________________________________________________________
+                                            |    mounted
+                                            |_________________________
+                                                                     | When we try to edit a component
+                                                                     | while already editing an app
+                                                                     |__________________________________ */
+                                            if (text.type == "return_from_edit_component") {
+                                                mm.lastEditedBaseComponentId = mm.editingBaseComponentId
+                                                mm.editingBaseComponentId   = null;
+                                                mm.lastEditedCodeId         = mm.editingCodeId
+                                                mm.editingCodeId            = null
+                                                mm.open_file_name           = ""
+                                                mm.open_file_path           = "/"
+                                                yz.saveCodeToFile              = null
+                                                yz.globalEventBus.emit('show_settings', {});
+
+                                                setTimeout(function() {
+                                                    let bci = text.base_component_id
+                                                    let cid = text.code_id
+                                                    let fid = text.form_id
+                                                    let cni = text.control_name
+                                                    //yz.editor.originalFormIdOfEditedUiControl           = fid
+                                                    //yz.editor.originalNameOfEditedUiControl             = cni
+                                                    yz.editor.originalBaseComponentIdOfEditedUiControl  = bci
+                                                    yz.editor.originalCodeIdOfEditedUiControl           = cid
+                                                    setTimeout(async function() {
+                                                        await mm.editApp(bci,  text.code_id)
+                                                    },50)
+                                                },200)
+                                            }
+
+
+
+                                        })
+
+                                        /*
+                                        ____________________________________________________________
+                                        |    mounted
+                                        |_________________________
+                                                                 | When we try to drag drop an app
+                                                                 | into the Yazz editor
+                                                                 |__________________________________ */
+                                        yz.globalEventBus.on('new-appshare-app-uploaded',
+                                            async function({baseComponentId, codeId, logoUrl, displayName}) {
+
+                                                await mm.addEditableComponentToHomepage(
+                                                    baseComponentId,
+                                                    displayName,
+                                                    {
+                                                        codeId:         codeId,
+                                                        logoUrl:        logoUrl,
+                                                        componentType: "app"
+                                                    })
+
+                                                setTimeout(async function() {
+                                                    await mm.editApp(baseComponentId, codeId)
+                                                },250)
+                                            });
+
+
+
+                                        /*
+                                        ____________________________________________________________
+                                        |    mounted
+                                        |_________________________
+                                                                 | Highlight an app when this page
+                                                                 | is loaded by looking for "id" in
+                                                                 | the URL
+                                                                 |__________________________________ */
+                                        let highlightAppOnStartup =yz. getUrlParam("id")
+                                        if (highlightAppOnStartup) {
+                                            mm.highlightEditableComponent(highlightAppOnStartup)
+
+                                        }
+                                        console.log("... left await yz.onPageInitialized( async function() {  ")
+
+
+
+                                        /*
+                                        ____________________________________________________________
+                                        |    mounted
+                                        |_________________________
+                                                                 | Watch the global UI DB for changes
+                                                                 |__________________________________ */
+                                        Vue.watch(  yz.uiDb.uiDbTableChangeEvents["ui_table_appstore_apps"].refEventCounter,
+                                            function(nv){
+                                                console.log("Table 'ui_table_appstore_apps' changed : " + JSON.stringify(nv))
+                                                mm.refresh ++
+                                            })
+
+                                        Vue.watch(  yz.uiDb.uiDbTableChangeEvents["ui_table_running_apps"].refEventCounter,
+                                            function(nv){
+                                                console.log("Table 'ui_table_running_apps' changed : " + JSON.stringify(nv))
+                                                mm.refresh ++
+                                            })
+
+                                    })
+
+                                },
+                                methods:    {
+                                    sendCommandUpdateAppStoreApps:                        function(  )        {
+                                        yz.uiDb.createCommand(  "UPDATE_APPS_FROM_APPSTORE"  ,  {}  ,  "ghdfjsjhdfsgkdhjkfsgjkhxsdfnjxfdskfnxgkjdfsx"  )
+                                    },
+                                    sendCommandAddApp:                                    function(  app  )   {
+                                        yz.uiDb.createCommand(  "ADD_RECENT_APP"  ,  {app: app}  ,  "hjkdashkjdsahkjashkashdksahdkasdhkdhkdhklashkl"  )
+                                    },
+                                    // local filesystem stuff
+                                    openFile:                           async function  ( ) {
+                                        /* Show the file open dialog box
+                                        ________________________________________
+                                        |                                      |
+                                        |                   openFile           |
+                                        |                                      |
+                                        |______________________________________|
+                                        Show the file open dialog box. This is mostly used for Electron or desktop
+                                        applications
+                                        __________
+                                        | PARAMS |______________________________________________________________
+                                        |
+                                        |     NONE
+                                        |________________________________________________________________________ */
+                                        //alert(1)
+                                        //document.getElementById("openfilefromhomepage").click();
+                                        this.showFilePicker = true
+                                        let result = await yz.callComponent(
+                                            {
+                                                base_component_id: "serverGetHomeDir" }
+                                            ,{ })
+                                        if (result) {
+                                            this.open_file_path = result.value
+                                        }
+                                        let result2 = await yz.callComponent(
+                                            {
+                                                base_component_id: "serverFolderContents"  }
+                                            ,{
+                                                path: this.open_file_path
+                                            })
+                                        if (result2) {
+                                            this.open_file_list = result2
+                                        }
+                                    },
+                                    openFileChange:                     function        ( ) {
+                                        /* openFileChange
+                                        ________________________________________
+                                        |                                      |
+                                        |      openFileChange                  |
+                                        |                                      |
+                                        |______________________________________|
+                                        Related to accessing components stored in files
+                                        __________
+                                        | PARAMS |______________________________________________________________
+                                        |
+                                        |     NONE
+                                        |________________________________________________________________________ */
+                                        let xmlhttp= window.XMLHttpRequest ?
+                                            new XMLHttpRequest() : new ActiveXObject("Microsoft.XMLHTTP");
+
+                                        let form = document.getElementById('openfilefromhomepageform');
+                                        let formData = new FormData(form);
+
+                                        xmlhttp.open("POST","/http_post_file_open_single",true);
+                                        xmlhttp.send(formData);
+                                    },
+                                    selectOpenFileOrFolder:             async function  ( fileOrFolder ) {
+                                        /* selectOpenFileOrFolder
+                                        ________________________________________
+                                        |                                      |
+                                        |          selectOpenFileOrFolder      |
+                                        |                                      |
+                                        |______________________________________|
+                                        Navigate when opening a file. This is mostly used for Electron or desktop
+                                        applications
+                                        __________
+                                        | PARAMS |______________________________________________________________
+                                        |
+                                        |     NONE
+                                        |________________________________________________________________________ */
+                                        //
+                                        // if this is a folder
+                                        //
+                                        if (fileOrFolder.type == "folder") {
+                                            if (yz.isWin) {
+                                                this.open_file_path += "\\" + fileOrFolder.name
+                                            } else {
+                                                this.open_file_path += "/" + fileOrFolder.name
+                                            }
+                                            let result2 = await yz.callComponent(
+                                                {
+                                                    base_component_id: "serverFolderContents"}
+                                                ,{
+                                                    path: this.open_file_path
+                                                })
+                                            if (result2) {
+                                                this.open_file_list = result2
+                                            }
+
+
+                                            //
+                                            // otherwise if this is a file
+                                            //
+                                        } else {
+                                            this.showFilePicker=false
+                                            this.open_file_name = this.open_file_path + "/" + fileOrFolder.name
+
+
+                                            //alert(this.open_file_name)
+                                            yz.saveCodeToFile = this.open_file_name
+
+                                            yz.file_upload_uuid = yz.uuidv4()
+                                            let openfileurl = "/http_get_file_name_load?http_get_file_name_load=" + encodeURI(yz.saveCodeToFile) + "&client_file_upload_id=" + encodeURI(yz.file_upload_uuid)
+                                            //console.log("openfileurl:= " + openfileurl)
+                                            yz.callAjax( openfileurl,
+                                                function(res) {
+                                                    console.log(res)
+                                                })
+
+                                        }
+
+                                        //
+                                    },
+                                    chosenFolderUp:                     async function  ( ) {
+                                        /* Navigate when opening a file
+                                        ________________________________________
+                                        |                                      |
+                                        |          chosenFolderUp              |
+                                        |                                      |
+                                        |______________________________________|
+                                        Navigate when opening a file. This is mostly used for Electron or desktop
+                                        applications
+                                        __________
+                                        | PARAMS |______________________________________________________________
+                                        |
+                                        |     NONE
+                                        |________________________________________________________________________ */
+                                        //alert(1)
+                                        //document.getElementById("openfilefromhomepage").click();
+                                        let lastFolderIndex = null
+                                        //debugger
+
+                                        if (yz.isWin) {
+                                            lastFolderIndex = this.open_file_path.lastIndexOf("\\")
+                                            if (lastFolderIndex == (this.open_file_path.length - 1)) {
+                                                this.open_file_path = this.open_file_path.substring(0,this.open_file_path.length - 1)
+                                                lastFolderIndex = this.open_file_path.lastIndexOf("\\")
+                                            }
+
+                                            //
+                                            // if we have gone all the way up to c: then we may not find a
+                                            // final backslash (\) symbol
+                                            //
+                                            if (lastFolderIndex == -1) {
+                                                this.open_file_path = this.open_file_path.substring(0,2) + "\\"
+
+
+                                            } else {
+                                                this.open_file_path = this.open_file_path.substring(0,lastFolderIndex) + "\\"
+                                            }
+                                        } else {
+                                            lastFolderIndex = this.open_file_path.lastIndexOf("/")
+                                            this.open_file_path = this.open_file_path.substring(0,lastFolderIndex)
+                                        }
+
+
+                                        let result2 = await yz.callComponent(
+                                            {
+                                                base_component_id: "serverFolderContents"}
+                                            ,{
+                                                path: this.open_file_path
+                                            })
+                                        if (result2) {
+                                            this.open_file_list = result2
+                                        }
+
+
+                                    },
+                                    importApp:                          function        ( ) {
+                                        /* Import a file. This is mostly used for Electron or desktop
+                                        applications
+                                        ________________________________________
+                                        |                                      |
+                                        |               importApp              |
+                                        |                                      |
+                                        |______________________________________|
+                                        Import a file. This is mostly used for Electron or desktop
+                                        applications
+                                        __________
+                                        | PARAMS |______________________________________________________________
+                                        |
+                                        |     NONE
+                                        |________________________________________________________________________ */
+                                        yz.saveCodeToFile = null
+                                        document.getElementById("uploadfilefromhomepage").click();
+                                    },
+                                    submitFormAjax:                     function        ( ) {
+                                        /* submitFormAjax
+                                        ________________________________________
+                                        |                                      |
+                                        |      submitFormAjax                  |
+                                        |                                      |
+                                        |______________________________________|
+                                        Used when uploading a file
+                                        __________
+                                        | PARAMS |______________________________________________________________
+                                        |
+                                        |     NONE
+                                        |________________________________________________________________________ */
+                                        let xmlhttp= window.XMLHttpRequest ?
+                                            new XMLHttpRequest() : new ActiveXObject("Microsoft.XMLHTTP");
+
+                                        let form = document.getElementById('uploadfilefromhomepageform');
+                                        let formData = new FormData(form);
+
+                                        xmlhttp.open("POST","/http_post_file_upload_single",true);
+                                        xmlhttp.send(formData);
+                                    },
+
+                                    highlightEditableComponent:         function        ( baseComponentId, codeid ) {
+                                        /*  highlightEditableComponent shows an editable component as larger on the home screen, like when selected
+                                        __________
+                                        | PARAMS |______________________________________________________________
+                                        |
+                                        |     baseComponentId   The base component ID of the highlighted app
+                                        |     ---------------
+                                        |
+                                        |________________________________________________________________________ */
+                                        let mm = this
+                                        setTimeout(function() {
+                                            mm.lastHighlightedEditableCodeId        = mm.currentlyHighlightedEditableCodeId
+                                            mm.currentlyHighlightedEditableCodeId   = codeId
+                                            let a = document.getElementById("downloaded_apps")
+                                            if (!a) {
+                                                return
+                                            }
+                                            let itemLeft = document.getElementById("appid_" + codeId)
+                                            if (!itemLeft) {
+                                                return
+                                            }
+                                            a.scrollLeft = itemLeft.offsetLeft
+                                            mm.disableHighlightEditableApp = true
+                                            setTimeout(function() {
+                                                mm.disableHighlightEditableApp = false
+                                            },4000)
+                                        },150)
+                                    },
+                                    addLogoForApp:                      async function  ( baseComponentId) {
+                                        /*
+                                        ________________________________________
+                                        |                                      |
+                                        |           addLogoForApp              |
+                                        |                                      |
+                                        |______________________________________|
+
+                                        __________
+                                        | PARAMS |______________________________________________________________
+                                        |
+                                        |     baseComponentId
+                                        |     ---------------
+                                        |________________________________________________________________________ */
+                                        let mm = this
+                                        let logoToReturn = ""
+
+                                        let results2 = sqlui(
+                                            `select
+                                base_component_id,
+                                logo                as logo_url
+                            from
+                                ui_table_appstore_apps
+                            where
+                                component_type = 'app'
+                                    and
+                                base_component_id = '${baseComponentId}'`)
+
+                                        if (results2.length > 0) {
+                                            logoToReturn = results2[0].logo_url
+                                        } else {
+                                            logoToReturn = "/driver_icons/blocks.png"
+                                        }
+
+                                        mm.refresh++
+                                        return logoToReturn
+                                    },
+
+                                    // amend the edited apps
+                                    addEditableComponentToHomepage:     async function  ( baseComponentId, displayName, other) {
+                                        //----------------------------------------------------------------------------------
+                                        //
+                                        //                    /-------------------------------------/
+                                        //                   /   addEditableComponentToHomepage    /
+                                        //                  /-------------------------------------/
+                                        //
+                                        //----------------------------------------------------------------------------
+                                        // Given the base component ID of an app, a new display name, and
+                                        // some other data, add a new editable app to the homepage
+                                        //
+                                        //     baseComponentId
+                                        //     ---------------
+                                        //
+                                        //     displayName
+                                        //     -----------
+                                        //
+                                        //     other
+                                        //     -----
+                                        //           logo_url
+                                        //           codeId
+                                        //--------------------------------------------------------------------
+
+                                        let mm = this
+                                        // add the app to the list of BCI apps
+                                        if (baseComponentId) {
+                                            for (let thisApp of mm.edited_app_list) {
+                                                if (thisApp.code_id == other.codeId) {
+                                                    //debugger
+                                                    thisApp.delete = false
+                                                    return
+                                                }
+                                            }
+                                            let app = {
+                                                base_component_id:          baseComponentId,
+                                                displayName:                displayName
+                                            }
+                                            if (other) {
+                                                if (other.visibility) {
+                                                    app.visibility = other.visibility
+                                                }
+                                                if (other.codeId) {
+                                                    app.code_id = other.codeId
+                                                }
+                                                if (other.logoUrl) {
+                                                    app.logo_url = other.logoUrl
+                                                }
+                                                if (other.componentType) {
+                                                    app.component_type = other.componentType
+                                                }
+                                            }
+
+                                            mm.edited_app_list.push( app  )
+                                            mm.sendCommandAddApp(app)
+                                        }
+
+                                        return null
+                                    },
+                                    addToEditableAppsAndEdit:           async function  ( contentHash ) {
+                                        //----------------------------------------------------------------------------------
+                                        //
+                                        //                    /-------------------------------------/
+                                        //                   /         addToEditableAppsAndEdit    /
+                                        //                  /-------------------------------------/
+                                        //
+                                        //----------------------------------------------------------------------------
+                                        // Given the commit ID of an app in the app store, download it and edit it
+                                        //
+                                        //     contentHash
+                                        //     --------
+                                        //
+                                        // --------------------------------------------------------------------
+
+                                        let mm                = this
+                                        this.open_file_name   = ""
+                                        this.open_file_path   = "/"
+                                        yz.saveCodeToFile        = null
+
+                                        let result = (await yz.sqliteQuery(
+                                            `select
+                                base_component_id
+                            from
+                                level_2_system_code
+                            where
+                                id = '${contentHash}'`))[0]
+
+
+                                        await yz.getFromYazzReturnJson("/http_get_point_edit_marker_at_commit",
+                                            {
+                                                sha1sum:            contentHash,
+                                                baseComponentId:    result.base_component_id
+                                            })
+
+                                        await mm.reloadEditedAppsFromServer()
+
+                                        setTimeout(async function() {
+                                            hideProgressBar()
+                                            mm.highlightEditableComponent(result.base_component_id)
+                                            await mm.editApp(result.base_component_id , contentHash)
+                                        },50)
+                                    },
+                                    copyAndEditApp:                     async function  ( compInfo ) {
+                                        /* copyAndEditApp
+                                        ________________________________________
+                                        |                                      |
+                                        |        copyAndEditApp                |
+                                        |                                      |
+                                        |______________________________________|
+                                        Given some app info, take an existing app and make a new copy of it, and edit
+                                        that copy
+                                        __________
+                                        | PARAMS |______________________________________________________________
+                                        |
+                                        |     compInfo    A map containing optional items:
+                                        |     --------    {
+                                        |                       base_component_id
+                                        |                       code_id
+                                        |                 }
+                                        |________________________________________________________________________ */
+                                        let mm                = this
+                                        let baseComponentId   = compInfo.base_component_id
+                                        let codeId            = compInfo.code_id
+
+                                        yz.globalEventBus.emit('hide_settings', {});
+
+                                        this.open_file_name   = ""
+                                        this.open_file_path   = "/"
+                                        yz.saveCodeToFile        = null
+
+                                        let result = await yz.getFromYazzReturnJson("/http_get_copy_component",
+                                            {
+                                                base_component_id:  baseComponentId,
+                                                code_id:            codeId?codeId:""
+                                            })
+
+                                        let componentType = "app"
+                                        if (result.component_type == "COMPONENT") {
+                                            componentType = "component"
+                                        }
+
+                                        await mm.addEditableComponentToHomepage(
+                                            result.base_component_id,
+                                            result.new_display_name,
+                                            {
+                                                codeId:         result.code_id,
+                                                logoUrl:        result.logo_url,
+                                                componentType:  result.component_type
+                                            })
+
+                                        setTimeout(async function() {
+                                            await mm.editApp(result.base_component_id, result.code_id)
+                                        },50)
+                                    },
+                                    runAppInNewBrowserTab:              async function  ( baseComponentId, code_id ) {
+                                        /* Given the base component ID of an app, open that app in a separate
+                                        browser tab as an app
+                                        ________________________________________
+                                        |                                      |
+                                        |      runAppInNewBrowserTab           |
+                                        |                                      |
+                                        |______________________________________|
+                                        Given the base component ID of an app, open that app in a separate
+                                        browser tab as an app
+                                        __________
+                                        | PARAMS |______________________________________________________________
+                                        |
+                                        |     baseComponentId
+                                        |     ---------------
+                                        |________________________________________________________________________ */
+                                        let mm = this
+                                        window.open(
+                                            location.protocol +
+                                            "//" + location.hostname + ":" +
+                                            location.port + "/app/" + baseComponentId + ".html"
+                                            ,
+                                            baseComponentId)
+                                        mm.refresh++
+                                    },
+                                    downloadAndRunApp:                  async function  ( contentHash ) {
+                                        //----------------------------------------------------------------------------------
+                                        //
+                                        //                    /-------------------------------------/
+                                        //                   /         downloadAndRunApp           /
+                                        //                  /-------------------------------------/
+                                        //
+                                        //----------------------------------------------------------------------------
+                                        // Given the commit ID of an app in the app store, download it and run it
+                                        //--------------------------------------------------------------------
+                                        let mm                = this
+                                        this.open_file_name   = ""
+                                        this.open_file_path   = "/"
+                                        yz.saveCodeToFile        = null
+
+                                        let result = (await yz.sqliteQuery(
+                                            `select
+                                id,
+                                base_component_id,
+                                display_name
+                            from
+                                level_2_system_code
+                            where
+                                id = '${contentHash}'`))[0]
+
+                                        let logoUrl = await mm.addLogoForApp(result.base_component_id)
+
+                                        await mm.addEditableComponentToHomepage(
+                                            result.base_component_id,
+                                            result.display_name,
+                                            {
+                                                codeId:         result.id,
+                                                logoUrl:        logoUrl,
+                                                componentType:  "app"
+                                            }
+                                        )
+                                        setTimeout(async function() {
+                                            hideProgressBar()
+                                            await mm.highlightEditableComponent(result.base_component_id)
+                                            await mm.runAppInNewBrowserTab(result.base_component_id)
+
+                                        },50)
+                                    },
+                                    editApp:                            async function  ( baseComponentId, codeId) {
+                                        //----------------------------------------------------------------------------------
+                                        //
+                                        //                    /-------------------------------------/
+                                        //                   /              editApp                /
+                                        //                  /-------------------------------------/
+                                        //
+                                        //----------------------------------------------------------------------------
+                                        // Allows an app to be edited given either the base component ID or
+                                        // the commit ID
+                                        //
+                                        //     baseComponentId
+                                        //     ---------------  The "base_component_id" of the app to load
+                                        //
+                                        //     codeId
+                                        //     ------           The "commit ID" of the app to load
+                                        //
+                                        //--------------------------------------------------------------------
+                                        let mm = this
+
+                                        yz.globalEventBus.emit('hide_settings', {});
+
+                                        await yz.makeSureUiComponentLoadedV6([{baseComponentId: "app_editor_3"}])
+
+                                        if (codeId) {
+                                            await yz.makeSureUiComponentLoadedV6([{codeId: codeId}])
+                                        } else if (baseComponentId) {
+                                            if (!yz.isComponentTypeCached(baseComponentId)) {
+                                                await yz.makeSureUiComponentLoadedV6([{baseComponentId: baseComponentId}])
+                                            }
+                                        }
+
+                                        mm.lastEditedBaseComponentId        = mm.editingBaseComponentId
+                                        mm.editingBaseComponentId           = baseComponentId;
+                                        mm.lastEditedCodeId                 = mm.editingCodeId
+                                        mm.editingCodeId                    = codeId
+                                        mm.currentlyHighlightedAppstoreBCI  = null
+                                        mm.refresh ++
+                                    },
+                                    reloadEditedAppsFromServer:         async function  ( ) {
+                                        //----------------------------------------------------------------------------------
+                                        //
+                                        //                    /-------------------------------------/
+                                        //                   /     reloadEditedAppsFromServer      /
+                                        //                  /-------------------------------------/
+                                        //
+                                        //----------------------------------------------------------------------------
+                                        // This updates the list of apps that can be edited on the homepage.
+                                        // It does this by getting the apps from the server
+                                        //--------------------------------------------------------------------
+                                        let mm = this
+                                        let openfileurl =   "http" + (($HOSTPORT == 443) ? "s" : "") + "://" + $HOST +
+                                            "/http_post_load_editable_apps"
+
+                                        fetch(openfileurl,
+                                            {
+                                                method:         'post',
+                                                credentials:    "include"
+                                            })
+                                            .then((response) => response.json())
+                                            .then(async function (responseJson) {
+                                                // first mark all editable components as deletable
+                                                for (let editableItem of mm.edited_app_list) {
+                                                    editableItem.delete = true
+                                                }
+
+                                                // add all the items to the homepage
+                                                for (let rt = 0; rt < responseJson.length; rt++) {
+                                                    await mm.addEditableComponentToHomepage(
+                                                        responseJson[rt].base_component_id,
+                                                        responseJson[rt].display_name,
+                                                        {
+                                                            codeId:         responseJson[rt].content_hash,
+                                                            logoUrl:        responseJson[rt].logo_url,
+                                                            componentType:  responseJson[rt].component_type
+                                                        })
+                                                }
+
+                                                // delete any items that should not be there
+                                                for (let editableItem of mm.edited_app_list) {
+                                                    mm.edited_app_list = mm.edited_app_list.filter(
+                                                        editableItem => !editableItem.delete)
+                                                }
+
+                                            }).catch(err => {
+                                            //error block
+                                        })
+                                        mm.refresh++
+                                    }
+
+                                }
+                            }
+
+                    return osStructure
+
                 },
                 sendToServerViaWebSocket:           async function              (  msg  )                                       {
                     let isThisAppOnline = true
