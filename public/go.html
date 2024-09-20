@@ -9618,7 +9618,7 @@
                         }
 
                         yz.mainVars.mainVueOperatingSystem = Vue.createApp(mainVueOperatingSystemStructure);
-                        yz.mainVars.mainVueOperatingSystem.component('debug_header', yz.getDebugHeaderStructure());
+                        yz.mainVars.mainVueOperatingSystem.component('debug_header', yz.getDebugHeaderVueComponentStructure());
                         yz.mainVars.mainVueOperatingSystem.component('os_screen', yz.getOSVueComponentStructure());
                         yz.mainVars.mainVueOperatingSystem.config.compilerOptions.whitespace = 'condense';
                         mainVueOperatingSystemVm = yz.mainVars.mainVueOperatingSystem.mount("#main_yazz_vue_root_html_element")
@@ -9715,7 +9715,7 @@
                 populateStaticCodeCache:            async function              (  )                                            {
                     //***ADD_STATIC_CODE
                 },
-                getDebugHeaderStructure:            function                    (  )                                            {
+                getDebugHeaderVueComponentStructure:            function        (  )                                            {
                     let debugHeaderStructure = {
                         props:      [   "visible"   ,   "element_id"   ,   "full_screen"   ,   "is_static"   ,  "appCodeId"],
                         mounted:    async function() {
@@ -10176,7 +10176,7 @@
                     }
                     return debugHeaderStructure
                 },
-                getOSVueComponentStructure:         function                    (  )                                            {
+                getOSVueComponentStructure:                     function        (  )                                            {
                     let osStructure = {
                                 template:
                                     `
@@ -11763,6 +11763,7 @@
                     return osStructure
 
                 },
+
                 sendToServerViaWebSocket:           async function              (  msg  )                                       {
                     let isThisAppOnline = true
                     if (localAppshareApp) {
