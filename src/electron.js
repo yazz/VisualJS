@@ -3954,7 +3954,7 @@ async function  startServices                           (  ) {
                                     "base_component_id":    "homepage",
                                     "displayName":          "homepage",
                                     "code_id":              appstoreRecord.id,
-                                    "logo_url":             "/driver_icons/appstore.jpeg",
+                                    "logo_url":             "/driver_icons/appstore.png",
                                     "component_type":       "app"
                                 })
                             if (!err) {
