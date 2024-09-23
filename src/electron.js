@@ -3940,6 +3940,23 @@ async function  startServices                           (  ) {
                         ,
                         async function(err, rows) {
                             let returnRows = []
+                            let appstoreRecord = await yz.getQuickSqlOneRow(dbsearch,
+                                `SELECT 
+                                    id
+                                FROM
+                                    level_2_system_code
+                                WHERE
+                                    base_component_id = ?         
+                                    `,
+                                ["homepage"])
+                            returnRows.push(
+                                {
+                                    "base_component_id":    "homepage",
+                                    "displayName":          "homepage",
+                                    "code_id":              appstoreRecord.id,
+                                    "logo_url":             "/driver_icons/appstore.jpeg",
+                                    "component_type":       "app"
+                                })
                             if (!err) {
                                 try {
                                     if (rows.length > 0) {
@@ -3953,7 +3970,7 @@ async function  startServices                           (  ) {
                                                 {
                                                     base_component_id:  thisRow.base_component_id,
                                                     logo:               "",
-                                                    content_hash:          thisRow.id,
+                                                    content_hash:       thisRow.id,
                                                     display_name:       thisRow.display_name,
                                                     logo_url:           thisRow.logo_url,
                                                     component_type:     componentType
