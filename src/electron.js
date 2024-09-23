@@ -2044,9 +2044,11 @@ function        getRoot                                 (  req  ,  res  ,  next 
 
         if (isMobile) {
             //homepage = path.join( userData, 'apps/mobilehomepage.html' )
-            homepage = path.join( userData, 'apps/homepage.html' )
+            //homepage = path.join( userData, 'apps/homepage.html' )
+            homepage = path.join(__dirname, '../public/go.html')
         } else {
-            homepage = path.join( userData, 'apps/homepage.html' )
+            //homepage = path.join( userData, 'apps/homepage.html' )
+            homepage = path.join(__dirname, '../public/go.html')
         }
         runOnPageExists(req,res,homepage)
         return
