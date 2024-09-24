@@ -9991,7 +9991,6 @@
                                         </span>
 
 
-
                                         <button class='btn btn-sm'
                                                 style="float:right;margin-right:0px"
                                                 v-on:click='showProgressBar();$event.stopPropagation();(async function() {await downloadAndRunApp(item.content_hash)})()'>
@@ -9999,7 +9998,23 @@
                                             <img    src='/driver_icons/launch.png'
                                                     style='position:relative;max-width: 60px; left:0px; top: 0px;max-height: 20px;margin-left: auto;margin-right: auto;display: inline-block;'
                                                     />
+                                        </button>
 
+
+                                        <button class='btn btn-sm'
+                                                style="float:right;margin-right:20px"
+                                                v-on:click='showProgressBar();$event.stopPropagation();(async function() {await downloadAndRunApp(item.content_hash)})()'>
+
+                                            Close
+                                        </button>
+
+
+
+                                        <button class='btn btn-sm'
+                                                style="float:right;margin-right:20px"
+                                                v-on:click='showProgressBar();$event.stopPropagation();(async function() {await downloadAndRunApp(item.content_hash)})()'>
+
+                                            Minimise
                                         </button>
 
 
