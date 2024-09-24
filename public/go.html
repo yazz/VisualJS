@@ -13038,6 +13038,9 @@
                             ]})
 
 
+                        //
+                        // global vars
+                        //
                         await yz.uiDb.createAlaSqlTable({
                             tableName: "ui_table_global_vars",
                             fields: [
@@ -13056,8 +13059,11 @@
                             yz.uiDb.callUiDbGlobalVarEventListeners(r.prop_id, r.prop_value)
                         }
                         alasql("CREATE TRIGGER process" + changeGlobalVarTrigger2 + " AFTER UPDATE ON  ui_table_global_vars   " + changeGlobalVarTrigger2);
+                        yz.uiDb.createGlobalVars()
 
-
+                        //
+                        // table commands
+                        //
                         await yz.uiDb.createAlaSqlTable({
                             tableName: "ui_table_commands",
                             fields: [
@@ -13296,7 +13302,7 @@
 
 
                     },
-                    getUiDbData:                        function                    (  {  tableName  }  )                           {
+                    getUiDbData:                        function                    (  {  tableName  }  ) {
                         return yz.uiDb.uiDbTableData[tableName].data
                     },
 
@@ -13309,6 +13315,10 @@
                             }
                         }
 
+                    },
+
+                    createGlobalVars:                   function                    () {
+                        sqlui("insert into  ui_table_global_vars  (prop_id, prop_type, prop_value) values (?,?,?)",["visible_app_id", "INTEGER", -1])
                     },
 
 
