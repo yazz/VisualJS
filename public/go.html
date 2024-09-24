@@ -13047,17 +13047,13 @@
                             ]})
                         let changeGlobalVarTrigger1 = "insert_global_var_trigger"
                         alasql.fn[changeGlobalVarTrigger1] = async function(r) {
-                            alert(1)
-                            //yz.uiDb.uiDbTableData[tableName].data = alasql("select * from " + tableName + " order by id asc")
-                            //yz.uiDb.uiDbTableChangeEvents[tableName].refEventCounter.value = yz.uiDb.uiDbTickCounter++
+                            yz.uiDb.callUiDbGlobalVarEventListeners(r.prop_id, r.prop_value)
                         }
                         alasql("CREATE TRIGGER process" + changeGlobalVarTrigger1 + " AFTER INSERT ON  ui_table_global_vars   " + changeGlobalVarTrigger1);
 
                         let changeGlobalVarTrigger2 = "update_global_var_trigger"
                         alasql.fn[changeGlobalVarTrigger2] = async function(r) {
-                            alert(2)
-                            //yz.uiDb.uiDbTableData[tableName].data = alasql("select * from " + tableName + " order by id asc")
-                            //yz.uiDb.uiDbTableChangeEvents[tableName].refEventCounter.value = yz.uiDb.uiDbTickCounter++
+                            yz.uiDb.callUiDbGlobalVarEventListeners(r.prop_id, r.prop_value)
                         }
                         alasql("CREATE TRIGGER process" + changeGlobalVarTrigger2 + " AFTER UPDATE ON  ui_table_global_vars   " + changeGlobalVarTrigger2);
 
@@ -13304,10 +13300,22 @@
                         return yz.uiDb.uiDbTableData[tableName].data
                     },
 
+                    callUiDbGlobalVarEventListeners:    function                    (  varName  ,  varValue) {
+                        if (yz.uiDb.uiDbGlobalVarChangeEvents[varName]) {
+                            yz.uiDb.uiDbGlobalVarChangeEvents[varName].refGlobalVarUpdatedValue.value = varValue
+                        } else {
+                            yz.uiDb.uiDbGlobalVarChangeEvents[varName] = {
+                                refGlobalVarUpdatedValue:   Vue.ref(varValue)
+                            }
+                        }
+
+                    },
+
 
                     uiDbTickCounter:                    0,
                     uiDbTableChangeEvents:              {},
                     uiDbTableData:                      {},
+                    uiDbGlobalVarChangeEvents:          {},
                 },
                 updateAppsFromAppStore:             async function              (  ) {
                     let openfileurl = "http" + (($HOSTPORT == 443)?"s":"") + "://" + $HOST + "/http_post_load_top_apps"
