@@ -13335,9 +13335,19 @@
                     uiDbTableData:                      {},
                     uiDbGlobalVarChangeEvents:          {},
                 },
-                setSystemGlobalVar:                 function(  propId   ,  propValue  ) {
+                setGlobalVar:                 function(  propId   ,  propValue  ) {
                     let dbPropValue = propValue
-                    let propType = "INTEGER"
+                    let propType = null
+                    if (typeof propValue == "string") {
+                        propType = "STRING"
+                    } else if (typeof propValue == "integer") {
+                        propType = "INTEGER"
+                    } else if (typeof propValue == "object") {
+                        propType = "OBJECT"
+                        dbPropValue = JSON.stringify(propValue,null,2)
+                    }
+
+
                     let exists = sqlui("select  prop_id  from ui_table_global_vars  where  prop_id = ?", [propId])
                     if (exists.length > 0) {
                         sqlui("update  ui_table_global_vars  set prop_value = ?  where  prop_id = ?",[dbPropValue,propId])
@@ -13345,6 +13355,24 @@
                         sqlui("insert into  ui_table_global_vars  (prop_id  ,  prop_type   ,  prop_value)  values  (?,?,?)",
                         [propId, propType, dbPropValue])
                     }
+                },
+                getGlobalVar:                 function(  propId  ) {
+                    let exists = sqlui("select  *  from ui_table_global_vars  where  prop_id = ?", [propId])
+                    if (exists.length == 0) {
+                        return null
+                    }
+
+                    let dbPropValue = null
+                    let propType = exists[0].prop_type
+
+                    if (propType == "STRING") {
+                        dbPropValue = exists[0].prop_value
+                    } else if (propType == "INTEGER") {
+                        dbPropValue = parseInt(exists[0].prop_value)
+                    } else if (propType == "OBJECT") {
+                        dbPropValue = JSON.parse(exists[0].prop_value)
+                    }
+                    return dbPropValue
                 },
                 updateAppsFromAppStore:             async function              (  ) {
                     let openfileurl = "http" + (($HOSTPORT == 443)?"s":"") + "://" + $HOST + "/http_post_load_top_apps"
