@@ -13338,6 +13338,7 @@
                 setGlobalVar:                 function(  propId   ,  propValue  ) {
                     let dbPropValue = propValue
                     let propType = null
+
                     if (typeof propValue == "string") {
                         propType = "STRING"
                     } else if (typeof propValue == "integer") {
@@ -13345,6 +13346,8 @@
                     } else if (typeof propValue == "object") {
                         propType = "OBJECT"
                         dbPropValue = JSON.stringify(propValue,null,2)
+                    } else if (typeof propValue == "number") {
+                        propType = "NUMBER"
                     }
 
 
@@ -13369,6 +13372,8 @@
                         dbPropValue = exists[0].prop_value
                     } else if (propType == "INTEGER") {
                         dbPropValue = parseInt(exists[0].prop_value)
+                    } else if (propType == "NUMBER") {
+                        dbPropValue = Number(exists[0].prop_value)
                     } else if (propType == "OBJECT") {
                         dbPropValue = JSON.parse(exists[0].prop_value)
                     }
