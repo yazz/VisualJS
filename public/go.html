@@ -11077,6 +11077,14 @@
                                                 mm.refresh ++
                                             })
 
+                                            //debugger
+                                        Vue.watch(  yz.uiDb.uiDbGlobalVarChangeEvents["visible_app_id"].refGlobalVarUpdatedValue,
+                                            function(nv){
+                                                console.log("Global var 'visible_app_id' changed : " + JSON.stringify(nv))
+                                                mm.refresh ++
+                                            })
+
+
                                     })
 
                                 },
@@ -13326,6 +13334,17 @@
                     uiDbTableChangeEvents:              {},
                     uiDbTableData:                      {},
                     uiDbGlobalVarChangeEvents:          {},
+                },
+                setSystemGlobalVar:                 function(  propId   ,  propValue  ) {
+                    let dbPropValue = propValue
+                    let propType = "INTEGER"
+                    let exists = sqlui("select  prop_id  from ui_table_global_vars  where  prop_id = ?", [propId])
+                    if (exists.length > 0) {
+                        sqlui("update  ui_table_global_vars  set prop_value = ?  where  prop_id = ?",[dbPropValue,propId])
+                    } else {
+                        sqlui("insert into  ui_table_global_vars  (prop_id  ,  prop_type   ,  prop_value)  values  (?,?,?)",
+                        [propId, propType, dbPropValue])
+                    }
                 },
                 updateAppsFromAppStore:             async function              (  ) {
                     let openfileurl = "http" + (($HOSTPORT == 443)?"s":"") + "://" + $HOST + "/http_post_load_top_apps"
