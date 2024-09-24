@@ -300,6 +300,9 @@ disableHighlightEditableApp:            {{ disableHighlightEditableApp }}
             v-bind:refresh='refresh'
             v-if='yz'
             style='position: relative; padding:0;margin:0; width: 100%; background-color: black;height:auto;'>
+
+            <span style="font-size: 60px; color: white;">Popular apps</span>
+
             
         <div    v-bind:refresh='refresh'
                 class='force_scrollbars'
