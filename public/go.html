@@ -13059,13 +13059,13 @@
                             ]})
                         let changeGlobalVarTrigger1 = "insert_global_var_trigger"
                         alasql.fn[changeGlobalVarTrigger1] = async function(r) {
-                            yz.uiDb.callUiDbGlobalVarEventListeners(r.prop_id, r.prop_value)
+                            yz.uiDb.callUiDbGlobalVarEventListeners(r.prop_id, r.prop_type, r.prop_value)
                         }
                         alasql("CREATE TRIGGER process" + changeGlobalVarTrigger1 + " AFTER INSERT ON  ui_table_global_vars   " + changeGlobalVarTrigger1);
 
                         let changeGlobalVarTrigger2 = "update_global_var_trigger"
                         alasql.fn[changeGlobalVarTrigger2] = async function(r) {
-                            yz.uiDb.callUiDbGlobalVarEventListeners(r.prop_id, r.prop_value)
+                            yz.uiDb.callUiDbGlobalVarEventListeners(r.prop_id, r.prop_type, r.prop_value)
                         }
                         alasql("CREATE TRIGGER process" + changeGlobalVarTrigger2 + " AFTER UPDATE ON  ui_table_global_vars   " + changeGlobalVarTrigger2);
                         yz.uiDb.createGlobalVars()
@@ -13315,15 +13315,32 @@
                         return yz.uiDb.uiDbTableData[tableName].data
                     },
 
-                    callUiDbGlobalVarEventListeners:    function                    (  varName  ,  varValue) {
+                    convertUiDbStringToVal:    function(propType,propValue) {
+                        let dbPropValue = null
+
+                        if (propType == "STRING") {
+                            dbPropValue = propValue
+                        } else if (propType == "INTEGER") {
+                            dbPropValue = parseInt(propValue)
+                        } else if (propType == "NUMBER") {
+                            dbPropValue = Number(propValue)
+                        } else if (propType == "OBJECT") {
+                            dbPropValue = JSON.parse(propValue)
+                        }
+                        return dbPropValue
+
+                    },
+                    callUiDbGlobalVarEventListeners:    function                    (  varName  ,  propType,  varValue) {
+                        let realVarValue = yz.uiDb.convertUiDbStringToVal(propType,varValue)
+
                         if (yz.uiDb.uiDbGlobalVarChangeEvents[varName]) {
-                            yz.uiDb.uiDbGlobalVarChangeEvents[varName].refGlobalVarUpdatedValue.value = varValue
+                            yz.uiDb.uiDbGlobalVarChangeEvents[varName].refGlobalVarUpdatedValue.value = realVarValue
                         } else {
                             yz.uiDb.uiDbGlobalVarChangeEvents[varName] = {
-                                refGlobalVarUpdatedValue:   Vue.ref(varValue)
+                                refGlobalVarUpdatedValue:   Vue.ref(realVarValue)
                             }
                         }
-                        yz.uiDb.uiDbGlobalVars[varName] = varValue
+                        yz.uiDb.uiDbGlobalVars[varName] = realVarValue
 
                     },
 
@@ -13368,18 +13385,9 @@
                         return null
                     }
 
-                    let dbPropValue = null
                     let propType = exists[0].prop_type
+                    let dbPropValue = yz.uiDb.convertUiDbStringToVal(propType,exists[0].prop_value)
 
-                    if (propType == "STRING") {
-                        dbPropValue = exists[0].prop_value
-                    } else if (propType == "INTEGER") {
-                        dbPropValue = parseInt(exists[0].prop_value)
-                    } else if (propType == "NUMBER") {
-                        dbPropValue = Number(exists[0].prop_value)
-                    } else if (propType == "OBJECT") {
-                        dbPropValue = JSON.parse(exists[0].prop_value)
-                    }
                     return dbPropValue
                 },
                 updateAppsFromAppStore:             async function              (  ) {
