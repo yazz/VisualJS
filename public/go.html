@@ -12202,6 +12202,7 @@
                     // if the app is already visible then do nothing
                     //
                     if (mainVueOperatingSystemVm.visibleAppId == id) {
+                        //yz.uiDb.uiDbGlobalVars["visible_app_id"]
                         return;
                     }
 
@@ -13322,6 +13323,7 @@
                                 refGlobalVarUpdatedValue:   Vue.ref(varValue)
                             }
                         }
+                        yz.uiDb.uiDbGlobalVars[varName] = varValue
 
                     },
 
@@ -13334,6 +13336,7 @@
                     uiDbTableChangeEvents:              {},
                     uiDbTableData:                      {},
                     uiDbGlobalVarChangeEvents:          {},
+                    uiDbGlobalVars:                     {},
                 },
                 setGlobalVar:                 function(  propId   ,  propValue  ) {
                     let dbPropValue = propValue
