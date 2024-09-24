@@ -7857,8 +7857,7 @@
 
         <script>
             var mainVueOperatingSystemVm
-            var yz =
-            {
+            var yz = {
                 getNetworkHostName:                 function                    (   ) {
                     let networkHostName = location.hostname
                     if (networkHostName == "127.0.0.1") {
@@ -13046,6 +13045,22 @@
                                 {name: "prop_type",      fieldType: "STRING"},
                                 {name: "prop_value",     fieldType: "STRING"}
                             ]})
+                        let changeGlobalVarTrigger1 = "insert_global_var_trigger"
+                        alasql.fn[changeGlobalVarTrigger1] = async function(r) {
+                            alert(1)
+                            //yz.uiDb.uiDbTableData[tableName].data = alasql("select * from " + tableName + " order by id asc")
+                            //yz.uiDb.uiDbTableChangeEvents[tableName].refEventCounter.value = yz.uiDb.uiDbTickCounter++
+                        }
+                        alasql("CREATE TRIGGER process" + changeGlobalVarTrigger1 + " AFTER INSERT ON  ui_table_global_vars   " + changeGlobalVarTrigger1);
+
+                        let changeGlobalVarTrigger2 = "update_global_var_trigger"
+                        alasql.fn[changeGlobalVarTrigger2] = async function(r) {
+                            alert(2)
+                            //yz.uiDb.uiDbTableData[tableName].data = alasql("select * from " + tableName + " order by id asc")
+                            //yz.uiDb.uiDbTableChangeEvents[tableName].refEventCounter.value = yz.uiDb.uiDbTickCounter++
+                        }
+                        alasql("CREATE TRIGGER process" + changeGlobalVarTrigger2 + " AFTER UPDATE ON  ui_table_global_vars   " + changeGlobalVarTrigger2);
+
 
                         await yz.uiDb.createAlaSqlTable({
                             tableName: "ui_table_commands",
@@ -13294,7 +13309,7 @@
                     uiDbTableChangeEvents:              {},
                     uiDbTableData:                      {},
                 },
-                updateAppsFromAppStore:             async function              (  )                                            {
+                updateAppsFromAppStore:             async function              (  ) {
                     let openfileurl = "http" + (($HOSTPORT == 443)?"s":"") + "://" + $HOST + "/http_post_load_top_apps"
                     fetch(openfileurl,
                         {
@@ -13319,7 +13334,7 @@
                         }).catch(err => {
                         })
                 },
-                addRunningApp:             async function              (  app   )                                          {
+                addRunningApp:                      async function              (  app   ) {
                     //debugger
                     let alreadyExists = yz.uiDb.sqlui("select * from  ui_table_running_apps  where code_id = ?", [app.code_id])
                     if (alreadyExists.length == 0) {
