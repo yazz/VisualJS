@@ -704,7 +704,7 @@ module.exports = {
         return !isNaN(str) && // use type coercion to parse the _entirety_ of the string (`parseFloat` alone does not do this)...
             !isNaN(parseFloat(str)) // ...and ensure strings of whitespace fail
     },
-    setGlobalVar:                   async function  (  thisDb  ,  key  ,  type,  value  ) {
+    setServerSideGlobalVar:                   async function  (  thisDb  ,  key  ,  type,  value  ) {
         let mm              = this
         let valueToStore    = null
         let typeToStore     = null
@@ -717,7 +717,7 @@ module.exports = {
             valueToStore = value
             typeToStore = "STRING"
         } else {
-            console.log("Error in setGlobalVar")
+            console.log("Error in setServerSideGlobalVar")
         }
         await mm.executeQuickSql(thisDb,
             `INSERT OR REPLACE INTO  
@@ -1923,7 +1923,7 @@ module.exports = {
             let previousMasterTime = await mm.getGlobalVar(thisDb,"RELEASED_MAX_MASTER_TIME_MS").value
             if (previousMasterTime && (previousMasterTime > masterTime)) {
             } else {
-                await mm.setGlobalVar(thisDb,"RELEASED_MAX_MASTER_TIME_MS","INTEGER",masterTime)
+                await mm.setServerSideGlobalVar(thisDb,"RELEASED_MAX_MASTER_TIME_MS","INTEGER",masterTime)
             }
 
 
@@ -2884,7 +2884,7 @@ module.exports = {
                         let previousMasterTime = await mm.getGlobalVar(thisDb,"RELEASED_MAX_MASTER_TIME_MS").value
                         if (previousMasterTime && (previousMasterTime > nextIpfsQueueRecord.master_time_millis)) {
                         } else {
-                            await mm.setGlobalVar(thisDb,"RELEASED_MAX_MASTER_TIME_MS","INTEGER",nextIpfsQueueRecord.master_time_millis)
+                            await mm.setServerSideGlobalVar(thisDb,"RELEASED_MAX_MASTER_TIME_MS","INTEGER",nextIpfsQueueRecord.master_time_millis)
                         }
                         if (contentAlreadyExists) {
                             debugContent = contentAlreadyExists.yazz_content
