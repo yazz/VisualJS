@@ -9505,7 +9505,7 @@
                                                                   NEW V2 DEBUG HEADER
                                  ------------------------------------------------------------------------ -->
                                 <div    v-if="globalDebuggerOn"
-                                        style="position:absolute;width:100%;height:100%;left:0px;top:0px;color: black; opacity: 1; z-index: 2000000;background-color:white">
+                                        style="position:absolute;width:100%;height:100%;left:0px;top:0px;color: black; opacity: 1; z-index: 2000000;background-color:white;overflow: hidden">
                                     <div style='height:40px; padding:4px;background-color:lightblue;'>
                                         <span
                                                 style='float: left;height:100%;margin-right:10px;vertical-align:middle;'
@@ -9993,7 +9993,7 @@
 
 
                                         <button class='btn btn-sm'
-                                                style="float:right;margin-right:30px"
+                                                style="float:right;margin-right:0px"
                                                 v-on:click='showProgressBar();$event.stopPropagation();(async function() {await downloadAndRunApp(item.content_hash)})()'>
 
                                             <img    src='/driver_icons/launch.png'
@@ -13284,7 +13284,7 @@
                         })
                 },
                 addRunningApp:             async function              (  app   )                                          {
-                    debugger
+                    //debugger
                     let alreadyExists = yz.uiDb.sqlui("select * from  ui_table_running_apps  where code_id = ?", [app.code_id])
                     if (alreadyExists.length == 0) {
                         yz.uiDb.sqlui(   "insert  into  ui_table_running_apps  (  code_id  ,  base_component_id, logo, display_name,component_type) values (?,?,?,?,?)",
@@ -13765,7 +13765,9 @@
                 onscroll='yz.onscrolled()'
                 onmousedown='yz.onemousedown()'
                 onmouseup='yz.onemouseup()'
-                onwheel='yz.onemousedown()'     >
+                onwheel='yz.onemousedown()'
+                style="overflow: hidden;"
+        >
 
             <div    id='main_yazz_vue_root_html_element'
                     style='overflow-y: none;' >
