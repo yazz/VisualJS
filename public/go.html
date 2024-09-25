@@ -9500,120 +9500,17 @@
                         let mainVueOperatingSystemStructure = {
                             template: `
                             <div>
-                                <!-- --------------------------------------------------------------------
-                                                                  NEW V2 DEBUG HEADER
-                                 ------------------------------------------------------------------------ -->
-                                <div    v-if="globalDebuggerOn"
-                                        style="position:absolute;width:100%;height:100%;left:0px;top:0px;color: black; opacity: 1; z-index: 2000000;background-color:white;overflow: hidden">
-                                    <div style='height:40px; padding:4px;background-color:lightblue;'>
-                                        <span
-                                                style='float: left;height:100%;margin-right:10px;vertical-align:middle;'
-                                        >
-                                            Debugger V2
-                                        </span>
-
-                                        <button
-                                                type="button"
-                                                v-on:click='closeDebugV2()'
-                                                class="btn btn-sm btn-info"
-                                                v-on:touchstart='closeDebugV2()'
-                                                style='float: right;height:100%;margin-left:200px;vertical-align:top;right: 0px;color: blue;'
-                                        >
-                                            Close
-                                        </button>
-                                    </div>
-                                </div>
-
-
-                                <!-- --------------------------------------------------------------------
-                                                                  OLD DEBUG HEADER
-                                 ------------------------------------------------------------------------ -->
-                                <debug_header   :visible='true'
-                                                :is_static='is_static'
-                                                :appCodeId='appCodeId'>
-                                </debug_header>
-
-
-
-
-                                <!-- --------------------------------------------------------------------
-                                                                  SHOW LOADING SPINNER
-                                 ------------------------------------------------------------------------ -->
-                                <div    v-if="show_loader"
-                                        v-bind:style='show_loader?"":"display:none;"'
-                                        class="loader">
-                                </div>
-
-
-
-
-
-
-                                <!-- --------------------------------------------------------------------
-                                                                  SHOW THE OS SCREEN
-                                 ------------------------------------------------------------------------ -->
-
-                                 <os_screen  v-if='(visibleAppId == null) || (visibleAppId == -1)'></os_screen>
-
-
-
-
-                                <!-- --------------------------------------------------------------------
-                                                                  SHOW THE RUNNING APPS
-                                 ------------------------------------------------------------------------ -->
-                                <div v-if="loadedAppMetaData">
-                                    <template   v-for="item  in  [loadedAppMetaData]" >
-                                        <div    v-bind:style='"left:0px; top:0px; height:100%; width: 100vw ;z-index: 200000;background-color: white;overflow-y:hidden;overflow-x: hidden;display:" + (is_static?"":"")'>
-
-                                            <span   v-bind:id='"card_" + item.id'
-                                                    v-bind:style="'padding:0px;position: relative; margin: auto;height:100%;width:100%;border:0px; overflow-y:none;'"
-                                                    class='container' >
-
-                                                <div  v-bind:style="'; padding:0px; font-family: Helvetica ;  width: 100vw ;' ">
-
-                                                    <div    v-if='(item.id == visibleAppId) && (item.type == "app")'>
-                                                        <component      v-bind:is='appCodeId'></component>
-                                                    </div>
-
-                                                </div>
-                                            </span>
-
-
-                                        </div>
-                                    </template>
-                                </div>
-
-
-                                <div style="height: 200px;">
-                                </div>
+                                <main_app_component></main_app_component>
                             </div>
                         `
                             ,
-                            data: function() {
-                                return {
-                                    count:                  1,
-                                    visibleAppId:          -1,
-                                    loadedAppMetaData:      null,
-                                    show_loader:            false,
-                                    is_static:              false,
-                                    appCodeId:              "ZIO",
-                                    globalDebuggerOn:       false
-                                }
-                            }
-                            ,
                             provide: function() {
                                 return injectedVars
-                            },
-                            mounted: async function(){
-                            },
-                            methods: {
-                                closeDebugV2: async function() {
-                                    mainVueOperatingSystemVm.globalDebuggerOn = false
-                                }
                             }
                         }
 
                         yz.mainVars.mainVueOperatingSystem = Vue.createApp(mainVueOperatingSystemStructure);
+                        yz.mainVars.mainVueOperatingSystem.component('main_app_component', yz.getMainAppVueComponentStructure());
                         yz.mainVars.mainVueOperatingSystem.component('debug_header', yz.getDebugHeaderVueComponentStructure());
                         yz.mainVars.mainVueOperatingSystem.component('os_screen', yz.getOSVueComponentStructure());
                         yz.mainVars.mainVueOperatingSystem.config.compilerOptions.whitespace = 'condense';
@@ -9710,6 +9607,136 @@
                 },
                 populateStaticCodeCache:            async function              (  )                                            {
                     //***ADD_STATIC_CODE
+                },
+                getMainAppVueComponentStructure:                function        (  ) {
+                    let mainAppVueComponentStructure = {
+                        template: `
+                            <div>
+                                <!-- --------------------------------------------------------------------
+                                                                  NEW V2 DEBUG HEADER
+                                 ------------------------------------------------------------------------ -->
+                                <div    v-if="globalDebuggerOn"
+                                        style="position:absolute;width:100%;height:100%;left:0px;top:0px;color: black; opacity: 1; z-index: 2000000;background-color:white;overflow: hidden">
+                                    <div style='height:40px; padding:4px;background-color:lightblue;'>
+                                        <span
+                                                style='float: left;height:100%;margin-right:10px;vertical-align:middle;'
+                                        >
+                                            Debugger V2
+                                        </span>
+
+                                        <button
+                                                type="button"
+                                                v-on:click='closeDebugV2()'
+                                                class="btn btn-sm btn-info"
+                                                v-on:touchstart='closeDebugV2()'
+                                                style='float: right;height:100%;margin-left:200px;vertical-align:top;right: 0px;color: blue;'
+                                        >
+                                            Close
+                                        </button>
+                                    </div>
+                                </div>
+
+
+                                <!-- --------------------------------------------------------------------
+                                                                  OLD DEBUG HEADER
+                                 ------------------------------------------------------------------------ -->
+                                <debug_header   :visible='true'
+                                                :is_static='is_static'
+                                                :appCodeId='appCodeId'>
+                                </debug_header>
+
+
+
+
+                                <!-- --------------------------------------------------------------------
+                                                                  SHOW LOADING SPINNER
+                                 ------------------------------------------------------------------------ -->
+                                <div    v-if="show_loader"
+                                        v-bind:style='show_loader?"":"display:none;"'
+                                        class="loader">
+                                </div>
+
+
+                                <!-- --------------------------------------------------------------------
+                                                                  SHOW THE OS SCREEN
+                                 ------------------------------------------------------------------------ -->
+
+                                 <os_screen  v-if='(visibleAppId == null) || (visibleAppId == -1)'></os_screen>
+
+
+
+
+                                <!-- --------------------------------------------------------------------
+                                                                  SHOW THE RUNNING APPS
+                                 ------------------------------------------------------------------------ -->
+                                <div v-if="loadedAppMetaData">
+                                    <template   v-for="item  in  [loadedAppMetaData]" >
+                                        <div    v-bind:style='"left:0px; top:0px; height:100%; width: 100vw ;z-index: 200000;background-color: white;overflow-y:hidden;overflow-x: hidden;display:" + (is_static?"":"")'>
+
+                                            <span   v-bind:id='"card_" + item.id'
+                                                    v-bind:style="'padding:0px;position: relative; margin: auto;height:100%;width:100%;border:0px; overflow-y:none;'"
+                                                    class='container' >
+
+                                                <div  v-bind:style="'; padding:0px; font-family: Helvetica ;  width: 100vw ;' ">
+
+                                                    <div    v-if='(item.id == visibleAppId) && (item.type == "app")'>
+                                                        <component      v-bind:is='appCodeId'></component>
+                                                    </div>
+
+                                                </div>
+                                            </span>
+
+
+                                        </div>
+                                    </template>
+                                </div>
+
+
+                                <div style="height: 200px;">
+                                </div>
+                            </div>
+                        `
+                            ,
+                            data: function() {
+                        return {
+                            count:                  1,
+                            visibleAppId:          -1,
+                            loadedAppMetaData:      null,
+                            show_loader:            false,
+                            is_static:              false,
+                            appCodeId:              "ZIO",
+                            globalDebuggerOn:       false
+                        }
+                    }
+                    ,
+                        provide: function() {
+                            return injectedVars
+                        },
+                        mounted: async function(){
+                            let mm = this
+                            mm.isValidObject    = Vue.inject('isValidObject')
+                            mm.yz               = Vue.inject('yz')
+                            mm.showProgressBar  = Vue.inject('showProgressBar')
+                            mm.hideProgressBar  = Vue.inject('hideProgressBar')
+                            mm.$DEBUGUI         = Vue.inject('$DEBUGUI')
+                            mm.getGlobalVar         = Vue.inject('getGlobalVar')
+                            mm.getUiDbData      = Vue.inject('getUiDbData')
+                            mm.sqlui             = Vue.inject('sqlui')
+
+                        },
+                        methods: {
+
+                            alert2: function(a) {
+                                let mm = this
+                                alert(mm.getGlobalVar("visible_app_id"))
+
+                            },
+                            closeDebugV2: async function() {
+                                mainVueOperatingSystemVm.globalDebuggerOn = false
+                            }
+                        }
+                    }
+                    return mainAppVueComponentStructure
                 },
                 getDebugHeaderVueComponentStructure:            function        (  )                                            {
                     let debugHeaderStructure = {
@@ -13685,6 +13712,7 @@
             var sqlui                    = yz.uiDb.sqlui
             var uiDbTickCounter         = yz.uiDb.uiDbTickCounter
             var getUiDbData             = yz.uiDb.getUiDbData
+            var getGlobalVar            = yz.getGlobalVar
 
             var injectedVars = {
                 isValidObject:                  isValidObject,
@@ -13697,7 +13725,8 @@
                 timeDiffLater:                  timeDiffLater,
                 $DEBUGUI:                       (function() { return $DEBUGUI}),
                 getUiDbData:                    getUiDbData,
-                sqlui:                           sqlui
+                sqlui:                           sqlui,
+                getGlobalVar:                    yz.getGlobalVar
             }
 
             /*use_local_sqlite_start*/let localAppshareApp = false/*use_local_sqlite_end*/
