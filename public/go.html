@@ -9500,12 +9500,34 @@
                         let mainVueOperatingSystemStructure = {
                             template: `
                             <div>
-                                <main_app_component></main_app_component>
+                                <main_app_component
+                                    :count='count'
+                                    :visibleAppId='visibleAppId'
+                                    :loadedAppMetaData='loadedAppMetaData'
+                                    :show_loader='show_loader'
+                                    :is_static='is_static'
+                                    :appCodeId='appCodeId'
+                                    :globalDebuggerOn='globalDebuggerOn'
+                                >
+
+                                </main_app_component>
+
                             </div>
                         `
                             ,
                             provide: function() {
                                 return injectedVars
+                            },
+                            data:       function        (  ) {
+                                return {
+                                    count:                  1,
+                                    visibleAppId:          -1,
+                                    loadedAppMetaData:      null,
+                                    show_loader:            false,
+                                    is_static:              false,
+                                    appCodeId:              "ZIO",
+                                    globalDebuggerOn:       false
+                                }
                             }
                         }
 
@@ -9611,6 +9633,7 @@
                 
                 getMainAppVueComponentStructure:                function        (  )                                            {
                     let mainAppVueComponentStructure = {
+                        props:      [  "count"  ,  "visibleAppId"  ,  "loadedAppMetaData"  ,  "show_loader"  ,  "is_static"  ,  "appCodeId"  ,  "globalDebuggerOn"  ],
                         template:   `
                             <div>
                                 <!-- --------------------------------------------------------------------
@@ -9697,17 +9720,6 @@
                                 </div>
                             </div>
                         `,
-                        data:       function        (  ) {
-                        return {
-                            count:                  1,
-                            visibleAppId:          -1,
-                            loadedAppMetaData:      null,
-                            show_loader:            false,
-                            is_static:              false,
-                            appCodeId:              "ZIO",
-                            globalDebuggerOn:       false
-                        }
-                    },
                         mounted:    async function  (  ) {
                             let mm = this
                             mm.isValidObject    = Vue.inject('isValidObject')
