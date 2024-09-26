@@ -9502,7 +9502,6 @@
                             <div>
                                 <main_app_component
                                     :count='count'
-                                    :visibleAppId='visibleAppId'
                                     :loadedAppMetaData='loadedAppMetaData'
                                     :show_loader='show_loader'
                                     :is_static='is_static'
@@ -9521,7 +9520,6 @@
                             data:       function        (  ) {
                                 return {
                                     count:                  1,
-                                    visibleAppId:          -1,
                                     loadedAppMetaData:      null,
                                     show_loader:            false,
                                     is_static:              false,
@@ -9633,9 +9631,9 @@
                 
                 getMainAppVueComponentStructure:                function        (  )                                            {
                     let mainAppVueComponentStructure = {
-                        props:      [  "count"  ,  "visibleAppId"  ,  "loadedAppMetaData"  ,  "show_loader"  ,  "is_static"  ,  "appCodeId"  ,  "globalDebuggerOn"  ],
+                        props:      [  "count"  ,   "loadedAppMetaData"  ,  "show_loader"  ,  "is_static"  ,  "appCodeId"  ,  "globalDebuggerOn"  ],
                         template:   `
-                            <div v-bind:refresh="refresh">
+                            <div v-bind:refresh="refresh"><div v-if="yz">
                                 <!-- --------------------------------------------------------------------
                                                                   NEW V2 DEBUG HEADER
                                  ------------------------------------------------------------------------ -->
@@ -9685,7 +9683,7 @@
                                                                   SHOW THE OS SCREEN
                                  ------------------------------------------------------------------------ -->
 
-                                 <os_screen  v-if='(visibleAppId == null) || (visibleAppId == -1)'></os_screen>
+                                 <os_screen  v-if='(yz.uiDb.uiDbGlobalVars["visible_app_id"] == null) || (yz.uiDb.uiDbGlobalVars["visible_app_id"] == -1)'></os_screen>
 
 
 
@@ -9703,7 +9701,7 @@
 
                                                 <div  v-bind:style="'; padding:0px; font-family: Helvetica ;  width: 100vw ;' ">
 
-                                                    <div    v-if='(item.id == visibleAppId) && (item.type == "app")'>
+                                                    <div    v-if='(item.id == yz.uiDb.uiDbGlobalVars["visible_app_id"]) && (item.type == "app")'>
                                                         <component      v-bind:is='appCodeId'></component>
                                                     </div>
 
@@ -9718,7 +9716,7 @@
 
                                 <div style="height: 200px;">
                                 </div>
-                            </div>
+                            </div></div>
                         `,
                         mounted:    async function  (  ) {
                             let mm = this
@@ -9727,16 +9725,16 @@
                             mm.showProgressBar  = Vue.inject('showProgressBar')
                             mm.hideProgressBar  = Vue.inject('hideProgressBar')
                             mm.$DEBUGUI         = Vue.inject('$DEBUGUI')
-                            mm.getGlobalVar         = Vue.inject('getGlobalVar')
+                            mm.getGlobalVar     = Vue.inject('getGlobalVar')
                             mm.getUiDbData      = Vue.inject('getUiDbData')
-                            mm.sqlui             = Vue.inject('sqlui')
+                            mm.sqlui            = Vue.inject('sqlui')
 
                             Vue.watch(  yz.uiDb.uiDbGlobalVarChangeEvents["visible_app_id"].refGlobalVarUpdatedValue,
                                 function(nv){
                                     console.log("Global var 'visible_app_id' changed : " + JSON.stringify(nv))
                                     mm.refresh ++
                                 })
-
+                            mm.refresh++
                         },
                         methods:    {
                             closeDebugV2: async function() {
@@ -12239,7 +12237,7 @@
                     //
                     // if the app is already visible then do nothing
                     //
-                    if (mainVueOperatingSystemVm.visibleAppId == id) {
+                    if (yz.uiDb.uiDbGlobalVars["visible_app_id"] == id) {
                         //yz.uiDb.uiDbGlobalVars["visible_app_id"]
                         return;
                     }
@@ -12251,7 +12249,7 @@
                         let elmnt = document.querySelector('#card_' + id);
                         if (elmnt) {
                             if (yz.isStaticHtmlPageApp) {
-                                mainVueOperatingSystemVm.visibleAppId = id;
+                                yz.setGlobalVar("visible_app_id",id)
                                 setTimeout(async function() {
                                     let thisApp = mainVueOperatingSystemVm.loadedAppMetaData
                                     if (mainVueOperatingSystemVm.loadedAppMetaData.fn) {
@@ -12264,7 +12262,7 @@
                             } else {
                                 setTimeout(function()
                                 {
-                                    mainVueOperatingSystemVm.visibleAppId = id;
+                                    yz.setGlobalVar("visible_app_id",id)
                                     setTimeout(async function() {
                                         let thisApp = mainVueOperatingSystemVm.loadedAppMetaData
                                         if (mainVueOperatingSystemVm.loadedAppMetaData.fn) {
