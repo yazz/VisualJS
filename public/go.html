@@ -10070,7 +10070,7 @@
 
                                         <button class='btn btn-sm'
                                                 style="float:right;margin-right:20px;margin-top:2px;"
-                                                v-on:click='showProgressBar();$event.stopPropagation();(async function() {await (item.content_hash)})()'>
+                                                v-on:click='$event.stopPropagation();(async function() {await yz.showHomePage()})()'>
 
                                             Home
                                         </button>
@@ -11725,6 +11725,10 @@
 
                     return osStructure
 
+                },
+
+                showHomePage:                                   function        (  ) {
+                    yz.setGlobalVar("visible_app_id",-1)
                 },
 
                 sendToServerViaWebSocket:           async function              (  msg  )                                       {
@@ -13449,7 +13453,7 @@
                         }).catch(err => {
                         })
                 },
-                addInstalledApp:                      async function              (  app   ) {
+                addInstalledApp:                    async function              (  app   ) {
                     //debugger
                     let alreadyExists = yz.uiDb.sqlui("select * from  ui_table_installed_apps  where code_id = ?", [app.code_id])
                     if (alreadyExists.length == 0) {
