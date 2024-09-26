@@ -10030,7 +10030,7 @@
 
                                         <button class='btn btn-sm'
                                                 style="float:right;margin-right:0px;margin-top:2px;"
-                                                v-on:click='showProgressBar();$event.stopPropagation();(async function() {await downloadAndRunApp(item.content_hash)})()'>
+                                                v-on:click='showProgressBar();$event.stopPropagation();(async function() {await openAppInnewTab(item.content_hash)})()'>
 
                                             <img    src='/driver_icons/launch.png'
                                                     style='position:relative;max-width: 60px; left:0px; top: 0px;max-height: 15px;margin-left: auto;margin-right: auto;display: inline-block;'
@@ -10042,7 +10042,7 @@
 
                                         <button class='btn btn-sm'
                                                 style="float:right;margin-right:20px;margin-top:2px;"
-                                                v-on:click='showProgressBar();$event.stopPropagation();(async function() {await downloadAndRunApp(item.content_hash)})()'>
+                                                v-on:click='showProgressBar();$event.stopPropagation();(async function() {await (item.content_hash)})()'>
 
                                             Stop
                                         </button>
@@ -10052,7 +10052,7 @@
 
                                         <button class='btn btn-sm'
                                                 style="float:right;margin-right:20px;margin-top:2px;"
-                                                v-on:click='showProgressBar();$event.stopPropagation();(async function() {await downloadAndRunApp(item.content_hash)})()'>
+                                                v-on:click='showProgressBar();$event.stopPropagation();(async function() {await (item.content_hash)})()'>
 
                                             Edit
                                         </button>
@@ -10061,7 +10061,7 @@
 
                                         <button class='btn btn-sm'
                                                 style="float:right;margin-right:20px;margin-top:2px;"
-                                                v-on:click='showProgressBar();$event.stopPropagation();(async function() {await downloadAndRunApp(item.content_hash)})()'>
+                                                v-on:click='showProgressBar();$event.stopPropagation();(async function() {await (item.content_hash)})()'>
 
                                             Running apps
                                         </button>
@@ -10070,7 +10070,7 @@
 
                                         <button class='btn btn-sm'
                                                 style="float:right;margin-right:20px;margin-top:2px;"
-                                                v-on:click='showProgressBar();$event.stopPropagation();(async function() {await downloadAndRunApp(item.content_hash)})()'>
+                                                v-on:click='showProgressBar();$event.stopPropagation();(async function() {await (item.content_hash)})()'>
 
                                             Home
                                         </button>
@@ -11587,11 +11587,11 @@
                                             baseComponentId)
                                         mm.refresh++
                                     },
-                                    downloadAndRunApp:                  async function  ( contentHash ) {
+                                    openAppInNewTab:                  async function  ( contentHash ) {
                                         //----------------------------------------------------------------------------------
                                         //
                                         //                    /-------------------------------------/
-                                        //                   /         downloadAndRunApp           /
+                                        //                   /           openAppInNewTab           /
                                         //                  /-------------------------------------/
                                         //
                                         //----------------------------------------------------------------------------
@@ -11602,15 +11602,16 @@
                                         this.open_file_path   = "/"
                                         yz.saveCodeToFile        = null
 
+
                                         let result = (await yz.sqliteQuery(
                                             `select
-                                id,
-                                base_component_id,
-                                display_name
-                            from
-                                level_2_system_code
-                            where
-                                id = '${contentHash}'`))[0]
+                                                id,
+                                                base_component_id,
+                                                display_name
+                                            from
+                                                level_2_system_code
+                                            where
+                                                id = '${contentHash}'`))[0]
 
                                         let logoUrl = await mm.addLogoForApp(result.base_component_id)
 
