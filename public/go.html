@@ -10061,7 +10061,7 @@
 
                                         <button class='btn btn-sm'
                                                 style="float:right;margin-right:20px;margin-top:2px;"
-                                                v-on:click='showProgressBar();$event.stopPropagation();(async function() {await (item.content_hash)})()'>
+                                                v-on:click='$event.stopPropagation();(async function() {await yz.showRunningApps()})()'>
 
                                             Running apps
                                         </button>
@@ -11730,6 +11730,12 @@
                 showHomePage:                                   function        (  ) {
                     yz.setGlobalVar("visible_app_id",-1)
                 },
+                showRunningApps:                                function        (  ) {
+                    let visAppId = yz.getGlobalVar("visible_app_id")
+                    yz.setGlobalVar("last_visible_app_id",visAppId)
+                    yz.setGlobalVar("visible_app_id",-1)
+                    yz.setGlobalVar("show_running_apps",true)
+                },
 
                 sendToServerViaWebSocket:           async function              (  msg  )                                       {
                     let isThisAppOnline = true
@@ -13368,6 +13374,14 @@
                             dbPropValue = Number(propValue)
                         } else if (propType == "OBJECT") {
                             dbPropValue = JSON.parse(propValue)
+                        } else if (propType == "BOOLEAN") {
+                            if (propValue == "TRUE") {
+                                dbPropValue = true
+                            } else if (propValue == "FALSE") {
+                                dbPropValue = false
+                            } else {
+                                dbPropValue = null
+                            }
                         }
                         return dbPropValue
 
@@ -13408,6 +13422,15 @@
                         dbPropValue = JSON.stringify(propValue,null,2)
                     } else if (typeof propValue == "number") {
                         propType = "NUMBER"
+                    } else if (typeof propValue == "boolean") {
+                        propType = "BOOLEAN"
+                        if (propValue == true) {
+                            dbPropValue = "TRUE"
+                        } else if (propValue == false) {
+                            dbPropValue = "FALSE"
+                        } else {
+                            dbPropValue = null
+                        }
                     }
 
 
