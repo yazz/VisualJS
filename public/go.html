@@ -13042,7 +13042,6 @@
                     // setupAlaSqlSync()            - used to sync data from UI to server side Sqlite for debugging purposes
                     //
 
-                    sqlui:                               function                    (  sql  ,  params  )                            {
                     sqlui:                              function                    (  sql  ,  params  )                            {
                         let ret = alasql(sql  ,  params)
                         if ((typeof $DEBUGUI !== 'undefined') && ($DEBUGUI == "true")) {
