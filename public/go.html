@@ -9530,9 +9530,9 @@
                         }
 
                         yz.mainVars.mainVueOperatingSystem = Vue.createApp(mainVueOperatingSystemStructure);
-                        yz.mainVars.mainVueOperatingSystem.component('main_app_component', yz.getMainAppVueComponentStructure());
-                        yz.mainVars.mainVueOperatingSystem.component('debug_header', yz.getDebugHeaderVueComponentStructure());
-                        yz.mainVars.mainVueOperatingSystem.component('os_screen', yz.getOSVueComponentStructure());
+                        yz.mainVars.mainVueOperatingSystem.component('main_app_component',  yz.getMainAppVueComponentStructure());
+                        yz.mainVars.mainVueOperatingSystem.component('debug_header',        yz.getDebugHeaderVueComponentStructure());
+                        yz.mainVars.mainVueOperatingSystem.component('os_screen',           yz.getOSVueComponentStructure());
                         yz.mainVars.mainVueOperatingSystem.config.compilerOptions.whitespace = 'condense';
                         mainVueOperatingSystemVm = yz.mainVars.mainVueOperatingSystem.mount("#main_yazz_vue_root_html_element")
 
@@ -10260,8 +10260,9 @@
                 },
                 getOSVueComponentStructure:                     function        (  )                                            {
                     let osStructure = {
-                                template:   `
-    <div    v-bind:refresh='refresh' style="overflow-y:auto;overflow-x: auto;width:100vw;height:100%;position: fixed; left:0px;background-color: black;">
+                                template:   `<div v-bind:refresh="refresh"><div v-if="yz">
+    <div    style="overflow-y:auto;overflow-x: auto;width:100vw;height:100%;position: fixed; left:0px;background-color: black;">
+
 
 
     <!--   ----------------------------------------    Show the debug mode    ---------------------------------------- -->
@@ -10379,15 +10380,6 @@
 
 
 
-
-
-
-
-
-
-
-
-
         <!-- -------------------------------------  Show the Yazz logo and top tabs   ------------------------------------------------ -->
         <!--
 
@@ -10475,6 +10467,41 @@
 
 
 
+        <!-- -------------------------------------  Show the running apps   ------------------------------------------------ -->
+        <!--
+
+
+         -->
+        <!--   ----------------------------------------------------------------------------------------------------------- -->
+        <div    style='vertical-align:top;padding:10px; margin:0;padding-top: 15px;padding-bottom: 0px;padding-bottom:0px; background-color: black;font-weight: bold;padding-left: 27px;'
+                v-bind:refresh="refresh"
+                v-if="yz.uiDb.uiDbGlobalVars.show_running_apps"
+                >
+
+                RUNNING APPS
+
+
+                <div v-for="runningApp in yz.uiDb.uiDbTableData.ui_table_running_apps.data">
+                    <div v-on:click="openAppInstanceById(runningApp.id)">
+                        {{runningApp.base_component_id}}
+
+                    </div>
+                </div>
+        </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
         <!-- ------------------------------------   Show the top buttons, New App, etc    -->
         <!--
 
@@ -10482,7 +10509,7 @@
          -->
         <!--   ----------------------------------------------------------------------------------------------------------- -->
         <div    style='vertical-align:top;padding:10px; margin:0;padding-top: 15px;padding-bottom: 0px;padding-bottom:0px; background-color: black;font-weight: bold;padding-left: 27px;'
-                v-if="(!editingBaseComponentId)"
+                v-if="(!editingBaseComponentId) && yz.uiDb.uiDbGlobalVars.show_installed_apps"
                 v-bind:refresh='refresh'>
 
             <h1 style='width:100%;vertical-align:top;display:inline-block;font-size:100px; text-align: center;margin: 0px;padding-left:70px;'></h1>
@@ -10642,7 +10669,8 @@
 
             -->
             <!--   ----------------------------------------------------------------------------------------------------------- -->
-            <div    class="" v-bind:refresh='refresh' style='position: relative; padding:0;margin:0; width: 100%; background-color: black;height:auto;'>
+            <div    class="" v-bind:refresh='refresh' style='position: relative; padding:0;margin:0; width: 100%; background-color: black;height:auto;'
+                    v-if="yz.uiDb.uiDbGlobalVars.show_installed_apps">
 
                 <!-- ---------------------------  Loop through the "Editable apps" and show clickable icons ------------------------------------------------ -->
                 <div v-bind:refresh='refresh'
@@ -10740,7 +10768,9 @@
 
 
 
-        </div>
+    </div>
+      </div>
+    </div>
     </div>`,
                                 data:       function        () {
                                     // data for the Vue object - see top of file for more info
@@ -10796,7 +10826,10 @@
                                     mm.hideProgressBar  = Vue.inject('hideProgressBar')
                                     mm.$DEBUGUI         = Vue.inject('$DEBUGUI')
                                     mm.getUiDbData      = Vue.inject('getUiDbData')
-                                    mm.sqlui             = Vue.inject('sqlui')
+                                    mm.sqlui            = Vue.inject('sqlui')
+
+                                    mm.refresh++
+                                    debugger
 
 
 
@@ -11121,11 +11154,20 @@
                                                 mm.refresh ++
                                             })
 
+                                        Vue.watch(  yz.uiDb.uiDbGlobalVarChangeEvents["show_running_apps"].refGlobalVarUpdatedValue,
+                                            function(nv){
+                                                console.log("Global var 'show_running_apps' changed : " + JSON.stringify(nv))
+                                                mm.refresh ++
+                                            })
+
 
                                     })
 
                                 },
                                 methods:    {
+                                    openAppInstanceById:                function        ( id ) {
+                                        yz.setGlobalVar("visible_app_id", id)
+                                    },
                                     sendCommandUpdateAppStoreApps:      function        (  ) {
                                         yz.uiDb.createCommand(  "UPDATE_APPS_FROM_APPSTORE"  ,  {}  ,  "ghdfjsjhdfsgkdhjkfsgjkhxsdfnjxfdskfnxgkjdfsx"  )
                                     },
@@ -11729,12 +11771,16 @@
 
                 showHomePage:                                   function        (  ) {
                     yz.setGlobalVar("visible_app_id",-1)
+                    yz.setGlobalVar("show_running_apps",false)
+                    yz.setGlobalVar("show_installed_apps",true)
+
                 },
                 showRunningApps:                                function        (  ) {
                     let visAppId = yz.getGlobalVar("visible_app_id")
                     yz.setGlobalVar("last_visible_app_id",visAppId)
                     yz.setGlobalVar("visible_app_id",-1)
                     yz.setGlobalVar("show_running_apps",true)
+                    yz.setGlobalVar("show_installed_apps",false)
                 },
 
                 sendToServerViaWebSocket:           async function              (  msg  )                                       {
@@ -13401,6 +13447,8 @@
                     },
                     createGlobalVars:                   function                    () {
                         sqlui("insert into  ui_table_global_vars  (prop_id, prop_type, prop_value) values (?,?,?)",["visible_app_id", "INTEGER", -1])
+                        yz.setGlobalVar("show_running_apps", false)
+                        yz.setGlobalVar("show_installed_apps", true)
                     },
 
                     uiDbTickCounter:                    0,
