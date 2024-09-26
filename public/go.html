@@ -13043,6 +13043,7 @@
                     //
 
                     sqlui:                               function                    (  sql  ,  params  )                            {
+                    sqlui:                              function                    (  sql  ,  params  )                            {
                         let ret = alasql(sql  ,  params)
                         if ((typeof $DEBUGUI !== 'undefined') && ($DEBUGUI == "true")) {
                             let startOfSql = sql.toLowerCase()
@@ -13347,8 +13348,7 @@
                     getUiDbData:                        function                    (  {  tableName  }  ) {
                         return yz.uiDb.uiDbTableData[tableName].data
                     },
-
-                    convertUiDbStringToVal:    function(propType,propValue) {
+                    convertUiDbStringToVal:             function                    (  propType  ,  propValue  ) {
                         let dbPropValue = null
 
                         if (propType == "STRING") {
@@ -13376,11 +13376,9 @@
                         yz.uiDb.uiDbGlobalVars[varName] = realVarValue
 
                     },
-
                     createGlobalVars:                   function                    () {
                         sqlui("insert into  ui_table_global_vars  (prop_id, prop_type, prop_value) values (?,?,?)",["visible_app_id", "INTEGER", -1])
                     },
-
 
                     uiDbTickCounter:                    0,
                     uiDbTableChangeEvents:              {},
@@ -13388,7 +13386,7 @@
                     uiDbGlobalVarChangeEvents:          {},
                     uiDbGlobalVars:                     {},
                 },
-                setGlobalVar:                 function(  propId   ,  propValue  ) {
+                setGlobalVar:                       function                    (  propId   ,  propValue  ) {
                     let dbPropValue = propValue
                     let propType = null
 
@@ -13412,7 +13410,7 @@
                         [propId, propType, dbPropValue])
                     }
                 },
-                getGlobalVar:                 function(  propId  ) {
+                getGlobalVar:                       function                    (  propId  ) {
                     let exists = sqlui("select  *  from ui_table_global_vars  where  prop_id = ?", [propId])
                     if (exists.length == 0) {
                         return null
@@ -13715,7 +13713,7 @@
             var capitalizeFirstLetter   = yz.capitalizeFirstLetter
             var timeDiffLater           = yz.timeDiffLater
             var refresh                 = yz.refresh
-            var sqlui                    = yz.uiDb.sqlui
+            var sqlui                   = yz.uiDb.sqlui
             var uiDbTickCounter         = yz.uiDb.uiDbTickCounter
             var getUiDbData             = yz.uiDb.getUiDbData
             var getGlobalVar            = yz.getGlobalVar
@@ -13731,8 +13729,7 @@
                 timeDiffLater:                  timeDiffLater,
                 $DEBUGUI:                       (function() { return $DEBUGUI}),
                 getUiDbData:                    getUiDbData,
-                sqlui:                           sqlui,
-                getGlobalVar:                    yz.getGlobalVar
+                sqlui:                          sqlui
             }
 
             /*use_local_sqlite_start*/let localAppshareApp = false/*use_local_sqlite_end*/
