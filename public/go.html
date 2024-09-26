@@ -9635,7 +9635,7 @@
                     let mainAppVueComponentStructure = {
                         props:      [  "count"  ,  "visibleAppId"  ,  "loadedAppMetaData"  ,  "show_loader"  ,  "is_static"  ,  "appCodeId"  ,  "globalDebuggerOn"  ],
                         template:   `
-                            <div>
+                            <div v-bind:refresh="refresh">
                                 <!-- --------------------------------------------------------------------
                                                                   NEW V2 DEBUG HEADER
                                  ------------------------------------------------------------------------ -->
@@ -9731,16 +9731,21 @@
                             mm.getUiDbData      = Vue.inject('getUiDbData')
                             mm.sqlui             = Vue.inject('sqlui')
 
+                            Vue.watch(  yz.uiDb.uiDbGlobalVarChangeEvents["visible_app_id"].refGlobalVarUpdatedValue,
+                                function(nv){
+                                    console.log("Global var 'visible_app_id' changed : " + JSON.stringify(nv))
+                                    mm.refresh ++
+                                })
+
                         },
                         methods:    {
-
-                            alert2: function(a) {
-                                let mm = this
-                                alert(mm.getGlobalVar("visible_app_id"))
-
-                            },
                             closeDebugV2: async function() {
                                 mainVueOperatingSystemVm.globalDebuggerOn = false
+                            }
+                        },
+                        data: function() {
+                            return {
+                                refresh: 1
                             }
                         }
                     }
