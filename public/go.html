@@ -12262,6 +12262,7 @@
                                     }
                                     if (thisApp.base_component_id) {
                                         await yz.prepareApp(  thisApp.id,   thisApp.base_component_id,   thisApp.args  )
+                                        await yz.addRunningApp(thisApp)
                                     }
                                 },200)
                             } else {
@@ -12275,6 +12276,7 @@
                                         }
                                         if (thisApp.base_component_id) {
                                             await yz.prepareApp(  thisApp.id,   thisApp.base_component_id,   thisApp.args  )
+                                            await yz.addRunningApp(thisApp)
                                         }
                                     },200)
                                 },1000)
@@ -13458,6 +13460,14 @@
                     let alreadyExists = yz.uiDb.sqlui("select * from  ui_table_installed_apps  where code_id = ?", [app.code_id])
                     if (alreadyExists.length == 0) {
                         yz.uiDb.sqlui(   "insert  into  ui_table_installed_apps  (  code_id  ,  base_component_id, logo, display_name,component_type) values (?,?,?,?,?)",
+                            [app.code_id,app.base_component_id,app.logo_url, app.displayName, app.component_type])
+                    }
+                },
+                addRunningApp:                    async function              (  app   ) {
+                    //debugger
+                    let alreadyExists = yz.uiDb.sqlui("select * from  ui_table_running_apps  where code_id = ?", [app.code_id])
+                    if (alreadyExists.length == 0) {
+                        yz.uiDb.sqlui(   "insert  into  ui_table_running_apps  (  code_id  ,  base_component_id, logo, display_name,component_type) values (?,?,?,?,?)",
                             [app.code_id,app.base_component_id,app.logo_url, app.displayName, app.component_type])
                     }
                 },
