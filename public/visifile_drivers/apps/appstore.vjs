@@ -289,9 +289,137 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
 
 
 
+                        /*
+                        ____________________________________________________________
+                        |    mounted
+                        |_________________________
+                                                 | When we try to fork a component
+                                                 | while already editing an app
+                                                 |__________________________________ */
+                        if (text.type == "fork_component") {
+                            mm.lastEditedBaseComponentId        = mm.editingBaseComponentId
+                            mm.editingBaseComponentId           = null;
+                            mm.lastEditedCodeId                 = mm.editingCodeId
+                            mm.editingCodeId                    = null
+                            mm.open_file_name                   = ""
+                            mm.open_file_path                   = "/"
+                            yz.saveCodeToFile                      = null
+                            yz.globalEventBus.emit('show_settings', {});
+
+                            setTimeout(async function() {
+                                let bci = text.base_component_id
+                                let cid = text.code_id
+                                if (!isValidObject(cid)) {
+                                    cid = yz.baseComponentIdReturnsCommitId[bci]
+                                }
+                                let fid = text.form_id
+                                let cni = text.control_name
+                                yz.editor.originalFormIdOfEditedUiControl           = fid
+                                yz.editor.originalNameOfEditedUiControl             = cni
+                                yz.editor.originalBaseComponentIdOfEditedUiControl  = bci
+                                yz.editor.originalCodeIdOfEditedUiControl           = cid
+                                await mm.copyAndEditApp(
+                                    {base_component_id: bci  ,  code_id: cid})
+                            },200)
+                        }
+
+                        /*
+                        ____________________________________________________________
+                        |    mounted
+                        |_________________________
+                                                 | When we try to edit a component
+                                                 | while already editing an app
+                                                 |__________________________________ */
+                        if (text.type == "return_from_fork_component") {
+                            mm.lastEditedBaseComponentId = mm.editingBaseComponentId
+                            mm.editingBaseComponentId   = null;
+                            mm.lastEditedCodeId         = mm.editingCodeId
+                            mm.editingCodeId            = null
+                            mm.open_file_name           = ""
+                            mm.open_file_path           = "/"
+                            yz.saveCodeToFile              = null
+                            yz.globalEventBus.emit('show_settings', {});
+
+                            setTimeout(function() {
+                                let bci = text.base_component_id
+                                let cid = text.code_id
+                                let fid = text.form_id
+                                let cni = text.control_name
+                                //yz.editor.originalFormIdOfEditedUiControl           = fid
+                                //yz.editor.originalNameOfEditedUiControl             = cni
+                                yz.editor.originalBaseComponentIdOfEditedUiControl  = bci
+                                yz.editor.originalCodeIdOfEditedUiControl           = cid
+                                setTimeout(async function() {
+                                    await mm.editApp(bci,  text.code_id)
+                                },50)
+                            },200)
+                        }
+
+
+
+
+
+
+
+                        /*
+                        ____________________________________________________________
+                        |    mounted
+                        |_________________________
+                                                 | When we try to edit a component
+                                                 | while already editing an app
+                                                 |__________________________________ */
+                        if (text.type == "return_from_edit_component") {
+                            mm.lastEditedBaseComponentId = mm.editingBaseComponentId
+                            mm.editingBaseComponentId   = null;
+                            mm.lastEditedCodeId         = mm.editingCodeId
+                            mm.editingCodeId            = null
+                            mm.open_file_name           = ""
+                            mm.open_file_path           = "/"
+                            yz.saveCodeToFile              = null
+                            yz.globalEventBus.emit('show_settings', {});
+
+                            setTimeout(function() {
+                                let bci = text.base_component_id
+                                let cid = text.code_id
+                                let fid = text.form_id
+                                let cni = text.control_name
+                                //yz.editor.originalFormIdOfEditedUiControl           = fid
+                                //yz.editor.originalNameOfEditedUiControl             = cni
+                                yz.editor.originalBaseComponentIdOfEditedUiControl  = bci
+                                yz.editor.originalCodeIdOfEditedUiControl           = cid
+                                setTimeout(async function() {
+                                    await mm.editApp(bci,  text.code_id)
+                                },50)
+                            },200)
+                        }
+
+
 
                     })
 
+                    /*
+                    ____________________________________________________________
+                    |    mounted
+                    |_________________________
+                                             | When we try to drag drop an app
+                                             | into the Yazz editor
+                                             |__________________________________ */
+                    yz.globalEventBus.on('new-appshare-app-uploaded',
+                        async function({baseComponentId, codeId, logoUrl, displayName}) {
+
+                            await mm.addEditableComponentToHomepage(
+                                baseComponentId,
+                                displayName,
+                                {
+                                    codeId:         codeId,
+                                    logoUrl:        logoUrl,
+                                    componentType: "app"
+                                })
+
+                            setTimeout(async function() {
+                                await mm.editApp(baseComponentId, codeId)
+                            },250)
+                        });
 
 
 
