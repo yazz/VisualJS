@@ -201,23 +201,6 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
 
 
 
-                /*
-                ____________________________________________________________
-                |    mounted
-                |_________________________
-                                         |  Set the "d" key to allow debug view
-                                         | to be shown if we are not in the
-                                         | editor
-                                         |__________________________________ */
-                mm.listenerD = function(event) {
-                    if (!yz.editor.inEditor) {
-                        if (event.keyCode == 100) {
-                            mm.debugMode = !mm.debugMode
-                        }
-                    }
-                };
-                document.addEventListener("keypress", mm.listenerD)
-
 
 
 
@@ -232,45 +215,8 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
                                          |__________________________________ */
 
                 await yz.onPageInitialized( async function() {
-                    console.log("await yz.onPageInitialized( async function() { entered ... ")
-                    mm.sendCommandUpdateAppStoreApps()
-
-
-                    if (typeof($HIDEIMPORTBUTTONS) !== 'undefined') {
-                        if ($HIDEIMPORTBUTTONS == 'true') {
-                            mm.hideImportButtons = true
-                        } else {
-                            mm.hideImportButtons = false
-                        }
-                    } else {
-                        mm.hideImportButtons = false
-                    }
                     await mm.reloadEditedAppsFromServer();
 
-
-                    /*
-                    ____________________________________________________________
-                    |    mounted
-                    |_________________________
-                                             | When we try to drag drop an app
-                                             | into the Yazz editor
-                                             |__________________________________ */
-                    yz.globalEventBus.on('new-appshare-app-uploaded',
-                        async function({baseComponentId, codeId, logoUrl, displayName}) {
-
-                            await mm.addEditableComponentToHomepage(
-                                baseComponentId,
-                                displayName,
-                                {
-                                    codeId:         codeId,
-                                    logoUrl:        logoUrl,
-                                    componentType: "app"
-                                })
-
-                            setTimeout(async function() {
-                                await mm.editApp(baseComponentId, codeId)
-                            },250)
-                        });
 
 
 
@@ -353,158 +299,6 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
                     if (result2) {
                         this.open_file_list = result2
                     }
-                },
-                openFileChange:                     function        ( ) {
-                    /* openFileChange
-                    ________________________________________
-                    |                                      |
-                    |      openFileChange                  |
-                    |                                      |
-                    |______________________________________|
-                    Related to accessing components stored in files
-                    __________
-                    | PARAMS |______________________________________________________________
-                    |
-                    |     NONE
-                    |________________________________________________________________________ */
-                    let xmlhttp= window.XMLHttpRequest ?
-                        new XMLHttpRequest() : new ActiveXObject("Microsoft.XMLHTTP");
-
-                    let form = document.getElementById('openfilefromhomepageform');
-                    let formData = new FormData(form);
-
-                    xmlhttp.open("POST","/http_post_file_open_single",true);
-                    xmlhttp.send(formData);
-                },
-                selectOpenFileOrFolder:             async function  ( fileOrFolder ) {
-                    /* selectOpenFileOrFolder
-                    ________________________________________
-                    |                                      |
-                    |          selectOpenFileOrFolder      |
-                    |                                      |
-                    |______________________________________|
-                    Navigate when opening a file. This is mostly used for Electron or desktop
-                    applications
-                    __________
-                    | PARAMS |______________________________________________________________
-                    |
-                    |     NONE
-                    |________________________________________________________________________ */
-                    //
-                    // if this is a folder
-                    //
-                    if (fileOrFolder.type == "folder") {
-                        if (yz.isWin) {
-                            this.open_file_path += "\\" + fileOrFolder.name
-                        } else {
-                            this.open_file_path += "/" + fileOrFolder.name
-                        }
-                        let result2 = await yz.callComponent(
-                            {
-                                base_component_id: "serverFolderContents"}
-                            ,{
-                                path: this.open_file_path
-                            })
-                        if (result2) {
-                            this.open_file_list = result2
-                        }
-
-
-                        //
-                        // otherwise if this is a file
-                        //
-                    } else {
-                        this.showFilePicker=false
-                        this.open_file_name = this.open_file_path + "/" + fileOrFolder.name
-
-
-                        //alert(this.open_file_name)
-                        yz.saveCodeToFile = this.open_file_name
-
-                        yz.file_upload_uuid = yz.uuidv4()
-                        let openfileurl = "/http_get_file_name_load?http_get_file_name_load=" + encodeURI(yz.saveCodeToFile) + "&client_file_upload_id=" + encodeURI(yz.file_upload_uuid)
-                        //console.log("openfileurl:= " + openfileurl)
-                        yz.callAjax( openfileurl,
-                            function(res) {
-                                console.log(res)
-                            })
-
-                    }
-
-                    //
-                },
-                chosenFolderUp:                     async function  ( ) {
-                    /* Navigate when opening a file
-                    ________________________________________
-                    |                                      |
-                    |          chosenFolderUp              |
-                    |                                      |
-                    |______________________________________|
-                    Navigate when opening a file. This is mostly used for Electron or desktop
-                    applications
-                    __________
-                    | PARAMS |______________________________________________________________
-                    |
-                    |     NONE
-                    |________________________________________________________________________ */
-                    //alert(1)
-                    //document.getElementById("openfilefromhomepage").click();
-                    let lastFolderIndex = null
-                    //debugger
-
-                    if (yz.isWin) {
-                        lastFolderIndex = this.open_file_path.lastIndexOf("\\")
-                        if (lastFolderIndex == (this.open_file_path.length - 1)) {
-                            this.open_file_path = this.open_file_path.substring(0,this.open_file_path.length - 1)
-                            lastFolderIndex = this.open_file_path.lastIndexOf("\\")
-                        }
-
-                        //
-                        // if we have gone all the way up to c: then we may not find a
-                        // final backslash (\) symbol
-                        //
-                        if (lastFolderIndex == -1) {
-                            this.open_file_path = this.open_file_path.substring(0,2) + "\\"
-
-
-                        } else {
-                            this.open_file_path = this.open_file_path.substring(0,lastFolderIndex) + "\\"
-                        }
-                    } else {
-                        lastFolderIndex = this.open_file_path.lastIndexOf("/")
-                        this.open_file_path = this.open_file_path.substring(0,lastFolderIndex)
-                    }
-
-
-                    let result2 = await yz.callComponent(
-                        {
-                            base_component_id: "serverFolderContents"}
-                        ,{
-                            path: this.open_file_path
-                        })
-                    if (result2) {
-                        this.open_file_list = result2
-                    }
-
-
-                },
-                importApp:                          function        ( ) {
-                    /* Import a file. This is mostly used for Electron or desktop
-                    applications
-                    ________________________________________
-                    |                                      |
-                    |               importApp              |
-                    |                                      |
-                    |______________________________________|
-                    Import a file. This is mostly used for Electron or desktop
-                    applications
-                    __________
-                    | PARAMS |______________________________________________________________
-                    |
-                    |     NONE
-                    |________________________________________________________________________ */
-                    yz.saveCodeToFile = null
-                    document.getElementById("uploadfilefromhomepage").click();
                 },
                 submitFormAjax:                     function        ( ) {
                     /* submitFormAjax
