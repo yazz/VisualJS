@@ -10496,6 +10496,16 @@
                             No running apps
                     </div>
                 </div>
+
+
+
+                <button class='btn btn-sm'
+                        style="position:absolute;bottom:20px;right:20px;"
+                        v-on:click='$event.stopPropagation();(async function() {await yz.showHomePage()})()'>
+
+                    Close
+                </button>
+
         </div>
 
 
