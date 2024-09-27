@@ -57,7 +57,7 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
                 <div    v-bind:refresh='refresh'
                         v-bind:style='"-webkit-box-shadow: 10px 10px 300px -45px rgba(69,67,47,1);-moz-box-shadow: 10px 10px 300px -45px rgba(69,67,47,1);box-shadow: 10px 10px 300px -45px rgba(69,67,47,1);border-radius: 0px;border-width: 0px;margin:0px;padding:0px;width:100%;height:100%;" + (((currentlyHighlightedAppstoreBCI == item.old_id) )?"background-color:white;":"background-color:black;")'>
     
-                    <div    v-if='(currentlyHighlightedAppstoreBCI == item.base_component_id) && (!editingBaseComponentId)'
+                    <div    v-if='(currentlyHighlightedAppstoreBCI == item.base_component_id)'
                             v-bind:refresh='refresh'
                             style="position:relative;left:0px;top;0px;color:black;background-color:white;background:white;width:100%;height:100%;overflow: auto;">
     
@@ -134,31 +134,8 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
             data:       function() {
                 // data for the Vue object - see top of file for more info
                 return {
-                            // editable apps
-                            editingBaseComponentId:                 null,
-                            editingCodeId:                          null,
-                            lastEditedBaseComponentId:              null,
-                            lastEditedCodeId:                       null,
-                            edited_app_list:                      [],
-                            lastHighlightedEditableCodeId:          null,
-                            currentlyHighlightedEditableCodeId:     null,
-
-                            // apps  not downloaded but in the appstore
                             currentlyHighlightedAppstoreBCI:        null,
-
-                            // file load from disk options
-                            hideImportButtons:                      true,
-                            refresh:                                0,
-                            showFilePicker:                         false,
-                            open_file_path:                         "/",
-                            open_file_list:                         [],
-                            open_file_name:                         "",
-                            disableHighlightEditableApp:            false,
-
-                            // debug helpers
-                            listenerD:                              null,
-                            debugMode:                              false,
-                            homepageDebugViewName:                  null
+                            refresh:                                0
                         }
             },
             setup:      function() {
@@ -247,44 +224,6 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
                     xmlhttp.send(formData);
                 },
 
-                addLogoForApp:                      async function  ( baseComponentId) {
-                    /*
-                    ________________________________________
-                    |                                      |
-                    |           addLogoForApp              |
-                    |                                      |
-                    |______________________________________|
-
-                    __________
-                    | PARAMS |______________________________________________________________
-                    |
-                    |     baseComponentId
-                    |     ---------------
-                    |________________________________________________________________________ */
-                    let mm = this
-                    let logoToReturn = ""
-
-                    let results2 = sqlui(
-                        `select
-                            base_component_id,
-                            logo                as logo_url
-                        from
-                            ui_table_appstore_apps
-                        where
-                            component_type = 'app'
-                                and
-                            base_component_id = '${baseComponentId}'`)
-
-                    if (results2.length > 0) {
-                        logoToReturn = results2[0].logo_url
-                    } else {
-                        logoToReturn = "/driver_icons/blocks.png"
-                    }
-
-                    mm.refresh++
-                    return logoToReturn
-                },
-
                 // amend the edited apps
                 addEditableComponentToHomepage:     async function  ( baseComponentId, displayName, other) {
                     //----------------------------------------------------------------------------------
@@ -357,7 +296,7 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
                     //--------------------------------------------------------------------
                     let mm                = this
                     this.open_file_name   = ""
-                    this.open_file_path   = "/"
+                    //this.open_file_path   = "/"
                     yz.saveCodeToFile        = null
 
                     let result = (await yz.sqliteQuery(
