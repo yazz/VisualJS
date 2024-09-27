@@ -19,19 +19,12 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
                 `
 <div    v-bind:refresh='refresh' style="overflow-y:auto;overflow-x: auto;width:100vw;height:100%;position: fixed; left:0px">
 
-                    
 
-    
     <!-- -------------------------------------  Show the apps available in the appstore ------------------------------------------------ -->
     <!-- 
-    
-    
-    
-    
 
 
-    
-    
+
     -->
     <!--   ----------------------------------------------------------------------------------------------------------- -->
     <div    class=""
@@ -119,59 +112,21 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
             </div>
         </div>
 
-
-
-
-
-
-
-
-            
-
     </div>
 </div>`,
             data:       function() {
                 // data for the Vue object - see top of file for more info
                 return {
                             appstore_app_list:                      [],
-                            lastHighlightedEditableCodeId:          null,
-                            currentlyHighlightedEditableCodeId:     null,
-
-                            // apps  not downloaded but in the appstore
                             currentlyHighlightedAppstoreBCI:        null,
-
-                            // file load from disk options
-                            hideImportButtons:                      true,
-                            refresh:                                0,
-                            showFilePicker:                         false,
-                            open_file_path:                         "/",
-                            open_file_list:                         [],
-                            open_file_name:                         "",
-                            disableHighlightEditableApp:            false,
-
-                            // debug helpers
-                            listenerD:                              null,
-                            debugMode:                              false,
-                            homepageDebugViewName:                  null
+                            refresh:                                0
                         }
             },
             setup:      function() {
 
             },
             mounted:    async function() {
-                /* mounted - when the homepage Vue component is first loaded
-                ________________________________________
-                |                                      |
-                |             mounted                  |
-                |                                      |
-                |______________________________________|
 
-                __________
-                | PARAMS |______________________________________________________________
-                |
-                |     NONE
-                |     ----
-                |________________________________________________________________________ */
                 let mm = this
                 mm.isValidObject    = Vue.inject('isValidObject')
                 mm.yz               = Vue.inject('yz')
@@ -183,36 +138,8 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
 
 
 
-
-
-
-
-
-                /*
-                ____________________________________________________________
-                |    mounted
-                |_________________________
-                                         | Hide the more complex buttons by
-                                         | default
-                                         |__________________________________ */
-
                 await yz.onPageInitialized( async function() {
                     await mm.reloadAppstoreAppsFromServer();
-
-
-
-
-                    /*
-                    ____________________________________________________________
-                    |    mounted
-                    |_________________________
-                                             | Highlight an app when this page
-                                             | is loaded by looking for "id" in
-                                             | the URL
-                                             |__________________________________ */
-                    let highlightAppOnStartup =yz. getUrlParam("id")
-
-
 
                     /*
                     ____________________________________________________________
@@ -220,6 +147,7 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
                     |_________________________
                                              | Watch the global UI DB for changes
                                              |__________________________________ */
+
                     Vue.watch(  yz.uiDb.uiDbTableChangeEvents["ui_table_appstore_apps"].refEventCounter,
                                 function(nv){
                                     console.log("Table 'ui_table_appstore_apps' changed : " + JSON.stringify(nv))
@@ -241,41 +169,6 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
                 },
                 sendCommandAddApp:                                    function(  app  )   {
                     yz.uiDb.createCommand(  "ADD_RECENT_APP"  ,  {app: app}  ,  "hjkdashkjdsahkjashkashdksahdkasdhkdhkdhklashkl"  )
-                },
-                // local filesystem stuff
-                openFile:                           async function  ( ) {
-                    /* Show the file open dialog box
-                    ________________________________________
-                    |                                      |
-                    |                   openFile           |
-                    |                                      |
-                    |______________________________________|
-                    Show the file open dialog box. This is mostly used for Electron or desktop
-                    applications
-                    __________
-                    | PARAMS |______________________________________________________________
-                    |
-                    |     NONE
-                    |________________________________________________________________________ */
-                    //alert(1)
-                    //document.getElementById("openfilefromhomepage").click();
-                    this.showFilePicker = true
-                    let result = await yz.callComponent(
-                        {
-                            base_component_id: "serverGetHomeDir" }
-                        ,{ })
-                    if (result) {
-                        this.open_file_path = result.value
-                    }
-                    let result2 = await yz.callComponent(
-                        {
-                            base_component_id: "serverFolderContents"  }
-                        ,{
-                            path: this.open_file_path
-                        })
-                    if (result2) {
-                        this.open_file_list = result2
-                    }
                 },
                 submitFormAjax:                     function        ( ) {
                     /* submitFormAjax
@@ -299,68 +192,7 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
                     xmlhttp.open("POST","/http_post_file_upload_single",true);
                     xmlhttp.send(formData);
                 },
-
-                addLogoForApp:                      async function  ( baseComponentId) {
-                    /*
-                    ________________________________________
-                    |                                      |
-                    |           addLogoForApp              |
-                    |                                      |
-                    |______________________________________|
-
-                    __________
-                    | PARAMS |______________________________________________________________
-                    |
-                    |     baseComponentId
-                    |     ---------------
-                    |________________________________________________________________________ */
-                    let mm = this
-                    let logoToReturn = ""
-
-                    let results2 = sqlui(
-                        `select
-                            base_component_id,
-                            logo                as logo_url
-                        from
-                            ui_table_appstore_apps
-                        where
-                            component_type = 'app'
-                                and
-                            base_component_id = '${baseComponentId}'`)
-
-                    if (results2.length > 0) {
-                        logoToReturn = results2[0].logo_url
-                    } else {
-                        logoToReturn = "/driver_icons/blocks.png"
-                    }
-
-                    mm.refresh++
-                    return logoToReturn
-                },
-
-                // amend the edited apps
                 addEditableComponentToHomepage:     async function  ( baseComponentId, displayName, other) {
-                    //----------------------------------------------------------------------------------
-                    //
-                    //                    /-------------------------------------/
-                    //                   /   addEditableComponentToHomepage    /
-                    //                  /-------------------------------------/
-                    //
-                    //----------------------------------------------------------------------------
-                    // Given the base component ID of an app, a new display name, and
-                    // some other data, add a new editable app to the homepage
-                    //
-                    //     baseComponentId
-                    //     ---------------
-                    //
-                    //     displayName
-                    //     -----------
-                    //
-                    //     other
-                    //     -----
-                    //           logo_url
-                    //           codeId
-                    //--------------------------------------------------------------------
 
                     let mm = this
                     // add the app to the list of BCI apps
