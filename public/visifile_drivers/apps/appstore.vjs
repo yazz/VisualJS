@@ -78,7 +78,7 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
                                     v-bind:src='item.logo'
                                     style='position:relative;max-width: 75%; left:0px; top: 10px;max-height: 150px;margin-left: auto;margin-right: auto;display: block;z-index:0;'
                                     v-bind:alt='item.logo'
-                                    v-on:click='$event.stopPropagation();editApp(item.base_component_id)' />
+                                    v-on:click='$event.stopPropagation();doNothing(item.base_component_id)' />
 
 
 
@@ -99,17 +99,17 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
 
                     <div    v-if="currentlyHighlightedAppstoreBCI != item.old_id"
                             style='border-radius: 0px;padding:0px; margin:0;'
-                            v-on:click='$event.stopPropagation();editApp(item.old_id)'>
+                            v-on:click='$event.stopPropagation();doNothing(item.old_id)'>
     
                         <img    v-if='item.logo && (item.logo != "")'
                                 v-bind:src='item.logo'
                                 style='position:relative;max-width: 75%; left:0px; top: 10px;max-height: 150px;margin-left: auto;margin-right: auto;display: block;'
                                 v-bind:alt='item.logo'
-                                v-on:click='$event.stopPropagation();editApp(item.old_id)'
+                                v-on:click='$event.stopPropagation();doNothing(item.old_id)'
                                 />
 
 
-                        <a  v-on:click='$event.stopPropagation();editApp(item.old_id)'
+                        <a  v-on:click='$event.stopPropagation();doNothing(item.old_id)'
                             class="nav-link active" href="#" style="position: absolute; bottom:0px;font-style:bold;width:90%;overflow-x: hidden;white-space: nowrap;font-size: 20px;color:white;">
 
                             {{item.display_name}}
@@ -189,110 +189,10 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
 
 
 
-                /*
-                ____________________________________________________________
-                |    mounted
-                |_________________________
-                                         |  Set the "d" key to allow debug view
-                                         | to be shown if we are not in the
-                                         | editor
-                                         |__________________________________ */
-                mm.listenerD = function(event) {
-                    if (!yz.editor.inEditor) {
-                        if (event.keyCode == 100) {
-                            mm.debugMode = !mm.debugMode
-                        }
-                    }
-                };
-                document.addEventListener("keypress", mm.listenerD)
-
-
-
-
-
-
-                /*
-                ____________________________________________________________
-                |    mounted
-                |_________________________
-                                         | Hide the more complex buttons by
-                                         | default
-                                         |__________________________________ */
 
                 await yz.onPageInitialized( async function() {
                     console.log("await yz.onPageInitialized( async function() { entered ... ")
                     mm.sendCommandUpdateAppStoreApps()
-
-
-
-                    /*
-                    ____________________________________________________________
-                    |    mounted
-                    |_________________________
-                                             | Add some events which update the
-                                             | apps on the homepage
-                                             |__________________________________ */
-                    yz.globalEventBus.on('message', async function(text) {
-                        if (text.type == "insert_editable_component_on_homepage") {
-                            await mm.addEditableComponentToHomepage(
-                                text.base_component_id,
-                                text.display_name,
-                                {
-                                    codeId:         text.content_hash,
-                                    logoUrl:        text.logo_url,
-                                    componentType: "app"
-                                })
-
-                            mm.lastEditedBaseComponentId        = mm.editingBaseComponentId
-                            mm.editingBaseComponentId           = text.base_component_id
-                            mm.lastEditedCodeId                 = mm.editingCodeId
-                            mm.editingCodeId                    = text.code_id
-                            mm.currentlyHighlightedAppstoreBCI  = null
-                            mm.refresh++
-                        }
-
-
-                        /*
-                        ____________________________________________________________
-                        |    mounted
-                        |_________________________
-                                                 | Rename an app on the
-                                                 | homepage
-                                                 |__________________________________ */
-                        if (text.type == "update_editable_components_on_homepage") {
-                            await mm.reloadEditedAppsFromServer()
-                            mm.refresh++
-                        }
-
-
-
-                        /*
-                        ____________________________________________________________
-                        |    mounted
-                        |_________________________
-                                                 | Called when we close the currently
-                                                 | edited app
-                                                 |__________________________________ */
-                        if (text.type == "close_app") {
-                            mm.lastEditedBaseComponentId    = mm.editingBaseComponentId
-                            mm.editingBaseComponentId       = null;
-                            mm.lastEditedCodeId             = mm.editingCodeId
-                            mm.editingCodeId                = null
-                            mm.open_file_name               = ""
-                            mm.open_file_path               = "/"
-                            yz.saveCodeToFile                  = null
-                            yz.globalEventBus.emit('show_settings', {});
-                            mm.refresh++
-                        }
-
-
-
-
-
-
-                    })
-
-
 
 
                     /*
@@ -724,7 +624,7 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
                         })
 
                     setTimeout(async function() {
-                        await mm.editApp(result.base_component_id, result.code_id)
+                        await mm.doNothing(result.base_component_id, result.code_id)
                     },50)
                 },
                 runAppInNewBrowserTab:              async function  ( baseComponentId, code_id ) {
@@ -795,44 +695,8 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
 
                     },50)
                 },
-                editApp:                            async function  ( baseComponentId, codeId) {
-                    //----------------------------------------------------------------------------------
-                    //
-                    //                    /-------------------------------------/
-                    //                   /              editApp                /
-                    //                  /-------------------------------------/
-                    //
-                    //----------------------------------------------------------------------------
-                    // Allows an app to be edited given either the base component ID or
-                    // the commit ID
-                    //
-                    //     baseComponentId
-                    //     ---------------  The "base_component_id" of the app to load
-                    //
-                    //     codeId
-                    //     ------           The "commit ID" of the app to load
-                    //
-                    //--------------------------------------------------------------------
-                    let mm = this
+                doNothing:                            async function  ( baseComponentId, codeId) {
 
-                    yz.globalEventBus.emit('hide_settings', {});
-
-                    await yz.makeSureUiComponentLoadedV6([{baseComponentId: "app_editor_3"}])
-
-                    if (codeId) {
-                        await yz.makeSureUiComponentLoadedV6([{codeId: codeId}])
-                    } else if (baseComponentId) {
-                        if (!yz.isComponentTypeCached(baseComponentId)) {
-                            await yz.makeSureUiComponentLoadedV6([{baseComponentId: baseComponentId}])
-                        }
-                    }
-
-                    mm.lastEditedBaseComponentId        = mm.editingBaseComponentId
-                    mm.editingBaseComponentId           = baseComponentId;
-                    mm.lastEditedCodeId                 = mm.editingCodeId
-                    mm.editingCodeId                    = codeId
-                    mm.currentlyHighlightedAppstoreBCI  = null
-                    mm.refresh ++
                 },
 
 }
