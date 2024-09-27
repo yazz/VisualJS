@@ -9967,13 +9967,27 @@
                                 |
                                 |________________________________________________________________________ */
                                 let mm = this
-                                window.open(
-                                    location.protocol +
+
+                                // app selected
+                                if (yz.base_component_id_of_loaded_app) {
+                                    window.open(
+                                        location.protocol +
                                         "//" + location.hostname + ":" +
                                         location.port + "/app/" + yz.base_component_id_of_loaded_app + ".html"
-                                    ,
-                                    (yz.base_component_id_of_loaded_app + "_" + Math.floor(Math.random() * 11))
-                                )
+                                        ,
+                                        (yz.base_component_id_of_loaded_app + "_" + Math.floor(Math.random() * 11))
+                                    )
+
+                                // no app selected so just show the main page
+                                } else {
+                                    window.open(
+                                        location.protocol +
+                                        "//" + location.hostname + ":" +
+                                        location.port
+                                        ,
+                                        ("main_page_" + Math.floor(Math.random() * 11))
+                                    )
+                                }
                                 mm.refresh++
                             }
 
