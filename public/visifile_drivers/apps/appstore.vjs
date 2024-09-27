@@ -84,7 +84,7 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
                             <button style='position:absolute;top:250px;left:0px;opacity:0.9;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);border-radius: 5px;margin-bottom:10px;margin-left:40px;padding:10px;font-size:20px;z-index:2147483647;'
                                     class='btn btn-sm'
                                     v-if="item.component_type == 'app' "
-                                    v-on:click='showProgressBar();$event.stopPropagation();(async function() {await downloadAndRunApp(item.content_hash)})()'>
+                                    v-on:click='showProgressBar();$event.stopPropagation();(async function() {await installApp(item.content_hash)})()'>
                                     
                                 <img    src='/driver_icons/play.png'
                                         style='position:relative;max-width: 60px; left:0px; top: 0px;max-height: 40px;margin-left: auto;margin-right: auto;display: inline-block;'
@@ -147,7 +147,6 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
                 // data for the Vue object - see top of file for more info
                 return {
                             // editable apps
-                            lastEditedBaseComponentId:              null,
                             edited_app_list:                      [],
                             lastHighlightedEditableCodeId:          null,
                             currentlyHighlightedEditableCodeId:     null,
@@ -486,58 +485,6 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
                         hideProgressBar()
                         mm.highlightEditableComponent(result.base_component_id)
                         await mm.editApp(result.base_component_id , contentHash)
-                    },50)
-                },
-                copyAndEditApp:                     async function  ( compInfo ) {
-                    /* copyAndEditApp
-                    ________________________________________
-                    |                                      |
-                    |        copyAndEditApp                |
-                    |                                      |
-                    |______________________________________|
-                    Given some app info, take an existing app and make a new copy of it, and edit
-                    that copy
-                    __________
-                    | PARAMS |______________________________________________________________
-                    |
-                    |     compInfo    A map containing optional items:
-                    |     --------    {
-                    |                       base_component_id
-                    |                       code_id
-                    |                 }
-                    |________________________________________________________________________ */
-                    let mm                = this
-                    let baseComponentId   = compInfo.base_component_id
-                    let codeId            = compInfo.code_id
-
-                    yz.globalEventBus.emit('hide_settings', {});
-
-                    this.open_file_name   = ""
-                    this.open_file_path   = "/"
-                    yz.saveCodeToFile        = null
-
-                    let result = await yz.getFromYazzReturnJson("/http_get_copy_component",
-                        {
-                            base_component_id:  baseComponentId,
-                            code_id:            codeId?codeId:""
-                        })
-
-                    let componentType = "app"
-                    if (result.component_type == "COMPONENT") {
-                        componentType = "component"
-                    }
-
-                    await mm.addEditableComponentToHomepage(
-                        result.base_component_id,
-                        result.new_display_name,
-                        {
-                            codeId:         result.code_id,
-                            logoUrl:        result.logo_url,
-                            componentType:  result.component_type
-                        })
-
-                    setTimeout(async function() {
-                        await mm.editApp(result.base_component_id, result.code_id)
                     },50)
                 },
                 runAppInNewBrowserTab:              async function  ( baseComponentId, code_id ) {
