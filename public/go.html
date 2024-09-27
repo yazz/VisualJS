@@ -9951,7 +9951,33 @@
                                             //test_transaction_text   //password?
                                         ],
                                     });
-                            }
+                            },
+                            runCurrentAppInNewBrowserTab:              async function  (  ) {
+                                /* Given the base component ID of an app, open that app in a separate
+                                browser tab as an app
+                                ________________________________________
+                                |                                      |
+                                |      runAppInNewBrowserTab           |
+                                |                                      |
+                                |______________________________________|
+                                Given the base component ID of an app, open that app in a separate
+                                browser tab as an app
+                                __________
+                                | PARAMS |______________________________________________________________
+                                |
+                                |     baseComponentId
+                                |     ---------------
+                                |________________________________________________________________________ */
+                                let mm = this
+                                window.open(
+                                    location.protocol +
+                                    "//" + location.hostname + ":" +
+                                    location.port + "/app/" + yz.base_component_id_of_loaded_app + ".html"
+                                    ,
+                                    baseComponentId + Math.floor(Math.random() * 11)
+                                mm.refresh++
+                            },
+
 
                         },
                         data:       function () {
@@ -10030,7 +10056,7 @@
 
                                         <button class='btn btn-sm'
                                                 style="float:right;margin-right:0px;margin-top:2px;"
-                                                v-on:click='showProgressBar();$event.stopPropagation();(async function() {await openAppInnewTab(item.content_hash)})()'>
+                                                v-on:click='showProgressBar();$event.stopPropagation();(async function() {await runCurrentAppInNewBrowserTab )})()'>
 
                                             <img    src='/driver_icons/launch.png'
                                                     style='position:relative;max-width: 60px; left:0px; top: 0px;max-height: 15px;margin-left: auto;margin-right: auto;display: inline-block;'
@@ -13823,6 +13849,7 @@
             var uiDbTickCounter         = yz.uiDb.uiDbTickCounter
             var getUiDbData             = yz.uiDb.getUiDbData
             var getGlobalVar            = yz.getGlobalVar
+            var initSystem              = yz.initSystem
 
             var injectedVars = {
                 isValidObject:                  isValidObject,
@@ -14029,7 +14056,7 @@
         </script> <!-- Comments on how VisualJS works -->
 
     </head>
-    <body onload='yz.initSystem()' id='mydropzone' style='border: 0px; margin: 0px;padding: 0px;height: 100%;'>
+    <body onload='initSystem()' id='mydropzone' style='border: 0px; margin: 0px;padding: 0px;height: 100%;'>
 
         <div    id='wrapper'
                 onscroll='yz.onscrolled()'
