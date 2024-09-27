@@ -133,8 +133,7 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
             data:       function() {
                 // data for the Vue object - see top of file for more info
                 return {
-                            // editable apps
-                            edited_app_list:                      [],
+                            appstore_app_list:                      [],
                             lastHighlightedEditableCodeId:          null,
                             currentlyHighlightedEditableCodeId:     null,
 
@@ -198,7 +197,7 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
                                          |__________________________________ */
 
                 await yz.onPageInitialized( async function() {
-                    await mm.reloadEditedAppsFromServer();
+                    await mm.reloadAppstoreAppsFromServer();
 
 
 
@@ -212,11 +211,6 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
                                              | the URL
                                              |__________________________________ */
                     let highlightAppOnStartup =yz. getUrlParam("id")
-                    if (highlightAppOnStartup) {
-                        mm.highlightEditableComponent(highlightAppOnStartup)
-
-                    }
-                    console.log("... left await yz.onPageInitialized( async function() {  ")
 
 
 
@@ -306,34 +300,6 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
                     xmlhttp.send(formData);
                 },
 
-                highlightEditableComponent:         function        ( baseComponentId, codeid ) {
-                    /*  highlightEditableComponent shows an editable component as larger on the home screen, like when selected
-                    __________
-                    | PARAMS |______________________________________________________________
-                    |
-                    |     baseComponentId   The base component ID of the highlighted app
-                    |     ---------------
-                    |
-                    |________________________________________________________________________ */
-                    let mm = this
-                    setTimeout(function() {
-                        mm.lastHighlightedEditableCodeId        = mm.currentlyHighlightedEditableCodeId
-                        mm.currentlyHighlightedEditableCodeId   = codeId
-                        let a = document.getElementById("downloaded_apps")
-                        if (!a) {
-                            return
-                        }
-                        let itemLeft = document.getElementById("appid_" + codeId)
-                        if (!itemLeft) {
-                            return
-                        }
-                        a.scrollLeft = itemLeft.offsetLeft
-                        mm.disableHighlightEditableApp = true
-                        setTimeout(function() {
-                            mm.disableHighlightEditableApp = false
-                        },4000)
-                    },150)
-                },
                 addLogoForApp:                      async function  ( baseComponentId) {
                     /*
                     ________________________________________
@@ -399,7 +365,7 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
                     let mm = this
                     // add the app to the list of BCI apps
                     if (baseComponentId) {
-                        for (let thisApp of mm.edited_app_list) {
+                        for (let thisApp of mm.appstore_app_list) {
                             if (thisApp.code_id == other.codeId) {
                                 //debugger
                                 thisApp.delete = false
@@ -425,7 +391,7 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
                             }
                         }
 
-                        mm.edited_app_list.push( app  )
+                        mm.appstore_app_list.push( app  )
                         mm.sendCommandAddApp(app)
                     }
 
@@ -466,11 +432,10 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
                             baseComponentId:    result.base_component_id
                         })
 
-                    await mm.reloadEditedAppsFromServer()
+                    await mm.reloadAppstoreAppsFromServer()
 
                     setTimeout(async function() {
                         hideProgressBar()
-                        mm.highlightEditableComponent(result.base_component_id)
                         await mm.editApp(result.base_component_id , contentHash)
                     },50)
                 },
@@ -512,7 +477,6 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
                     )
                     setTimeout(async function() {
                         hideProgressBar()
-                        await mm.highlightEditableComponent(result.base_component_id)
                         await mm.runAppInNewBrowserTab(result.base_component_id)
 
                     },50)
@@ -552,11 +516,11 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
                     mm.currentlyHighlightedAppstoreBCI  = null
                     mm.refresh ++
                 },
-                reloadEditedAppsFromServer:         async function  ( ) {
+                reloadAppstoreAppsFromServer:         async function  ( ) {
                     //----------------------------------------------------------------------------------
                     //
                     //                    /-------------------------------------/
-                    //                   /     reloadEditedAppsFromServer      /
+                    //                   /     reloadAppstoreAppsFromServer      /
                     //                  /-------------------------------------/
                     //
                     //----------------------------------------------------------------------------
@@ -575,7 +539,7 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
                         .then((response) => response.json())
                         .then(async function (responseJson) {
                             // first mark all editable components as deletable
-                            for (let editableItem of mm.edited_app_list) {
+                            for (let editableItem of mm.appstore_app_list) {
                                 editableItem.delete = true
                             }
 
@@ -592,8 +556,8 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
                             }
 
                             // delete any items that should not be there
-                            for (let editableItem of mm.edited_app_list) {
-                                mm.edited_app_list = mm.edited_app_list.filter(
+                            for (let editableItem of mm.appstore_app_list) {
+                                mm.appstore_app_list = mm.appstore_app_list.filter(
                                     editableItem => !editableItem.delete)
                             }
 
