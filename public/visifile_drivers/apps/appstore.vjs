@@ -56,7 +56,7 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
                 <div    v-bind:refresh='refresh'
                         v-bind:style='"-webkit-box-shadow: 10px 10px 300px -45px rgba(69,67,47,1);-moz-box-shadow: 10px 10px 300px -45px rgba(69,67,47,1);box-shadow: 10px 10px 300px -45px rgba(69,67,47,1);border-radius: 0px;border-width: 0px;margin:0px;padding:0px;width:100%;height:100%;" + (((currentlyHighlightedAppstoreBCI == item.old_id) )?"background-color:white;":"background-color:black;")'>
     
-                    <div    v-if='(currentlyHighlightedAppstoreBCI == item.base_component_id) && (!editingBaseComponentId)'
+                    <div    v-if='(currentlyHighlightedAppstoreBCI == item.base_component_id) '
                             v-bind:refresh='refresh'
                             style="position:relative;left:0px;top;0px;color:black;background-color:white;background:white;width:100%;height:100%;overflow: auto;">
     
@@ -147,10 +147,7 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
                 // data for the Vue object - see top of file for more info
                 return {
                             // editable apps
-                            editingBaseComponentId:                 null,
-                            editingCodeId:                          null,
                             lastEditedBaseComponentId:              null,
-                            lastEditedCodeId:                       null,
                             edited_app_list:                      [],
                             lastHighlightedEditableCodeId:          null,
                             currentlyHighlightedEditableCodeId:     null,
@@ -643,10 +640,6 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
                         }
                     }
 
-                    mm.lastEditedBaseComponentId        = mm.editingBaseComponentId
-                    mm.editingBaseComponentId           = baseComponentId;
-                    mm.lastEditedCodeId                 = mm.editingCodeId
-                    mm.editingCodeId                    = codeId
                     mm.currentlyHighlightedAppstoreBCI  = null
                     mm.refresh ++
                 },
