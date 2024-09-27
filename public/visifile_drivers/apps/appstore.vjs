@@ -352,7 +352,7 @@ disableHighlightEditableApp:            {{ disableHighlightEditableApp }}
                                         style='position:relative;max-width: 60px; left:0px; top: 0px;max-height: 40px;margin-left: auto;margin-right: auto;display: inline-block;'
                                         />
 
-                                Play
+                                Try
                             </button>
 
 
@@ -363,7 +363,7 @@ disableHighlightEditableApp:            {{ disableHighlightEditableApp }}
                                     style='position:relative;max-width: 60px; left:0px; top: 0px;max-height: 40px;margin-left: auto;margin-right: auto;display: inline-block;'
                                     />
 
-                                Edit
+                                Install
                             </button>
 
 
