@@ -195,22 +195,6 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
                     mm.sendCommandUpdateAppStoreApps()
 
 
-                    /*
-                    ____________________________________________________________
-                    |    mounted
-                    |_________________________
-                                             | Highlight an app when this page
-                                             | is loaded by looking for "id" in
-                                             | the URL
-                                             |__________________________________ */
-                    let highlightAppOnStartup =yz. getUrlParam("id")
-                    if (highlightAppOnStartup) {
-                        mm.highlightEditableComponent(highlightAppOnStartup)
-
-                    }
-                    console.log("... left await yz.onPageInitialized( async function() {  ")
-
-
 
                     /*
                     ____________________________________________________________
@@ -240,193 +224,6 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
                 sendCommandAddApp:                                    function(  app  )   {
                     yz.uiDb.createCommand(  "ADD_RECENT_APP"  ,  {app: app}  ,  "hjkdashkjdsahkjashkashdksahdkasdhkdhkdhklashkl"  )
                 },
-                // local filesystem stuff
-                openFile:                           async function  ( ) {
-                    /* Show the file open dialog box
-                    ________________________________________
-                    |                                      |
-                    |                   openFile           |
-                    |                                      |
-                    |______________________________________|
-                    Show the file open dialog box. This is mostly used for Electron or desktop
-                    applications
-                    __________
-                    | PARAMS |______________________________________________________________
-                    |
-                    |     NONE
-                    |________________________________________________________________________ */
-                    //alert(1)
-                    //document.getElementById("openfilefromhomepage").click();
-                    this.showFilePicker = true
-                    let result = await yz.callComponent(
-                        {
-                            base_component_id: "serverGetHomeDir" }
-                        ,{ })
-                    if (result) {
-                        this.open_file_path = result.value
-                    }
-                    let result2 = await yz.callComponent(
-                        {
-                            base_component_id: "serverFolderContents"  }
-                        ,{
-                            path: this.open_file_path
-                        })
-                    if (result2) {
-                        this.open_file_list = result2
-                    }
-                },
-                openFileChange:                     function        ( ) {
-                    /* openFileChange
-                    ________________________________________
-                    |                                      |
-                    |      openFileChange                  |
-                    |                                      |
-                    |______________________________________|
-                    Related to accessing components stored in files
-                    __________
-                    | PARAMS |______________________________________________________________
-                    |
-                    |     NONE
-                    |________________________________________________________________________ */
-                    let xmlhttp= window.XMLHttpRequest ?
-                        new XMLHttpRequest() : new ActiveXObject("Microsoft.XMLHTTP");
-
-                    let form = document.getElementById('openfilefromhomepageform');
-                    let formData = new FormData(form);
-
-                    xmlhttp.open("POST","/http_post_file_open_single",true);
-                    xmlhttp.send(formData);
-                },
-                selectOpenFileOrFolder:             async function  ( fileOrFolder ) {
-                    /* selectOpenFileOrFolder
-                    ________________________________________
-                    |                                      |
-                    |          selectOpenFileOrFolder      |
-                    |                                      |
-                    |______________________________________|
-                    Navigate when opening a file. This is mostly used for Electron or desktop
-                    applications
-                    __________
-                    | PARAMS |______________________________________________________________
-                    |
-                    |     NONE
-                    |________________________________________________________________________ */
-                    //
-                    // if this is a folder
-                    //
-                    if (fileOrFolder.type == "folder") {
-                        if (yz.isWin) {
-                            this.open_file_path += "\\" + fileOrFolder.name
-                        } else {
-                            this.open_file_path += "/" + fileOrFolder.name
-                        }
-                        let result2 = await yz.callComponent(
-                            {
-                                base_component_id: "serverFolderContents"}
-                            ,{
-                                path: this.open_file_path
-                            })
-                        if (result2) {
-                            this.open_file_list = result2
-                        }
-
-
-                        //
-                        // otherwise if this is a file
-                        //
-                    } else {
-                        this.showFilePicker=false
-                        this.open_file_name = this.open_file_path + "/" + fileOrFolder.name
-
-
-                        //alert(this.open_file_name)
-                        yz.saveCodeToFile = this.open_file_name
-
-                        yz.file_upload_uuid = yz.uuidv4()
-                        let openfileurl = "/http_get_file_name_load?http_get_file_name_load=" + encodeURI(yz.saveCodeToFile) + "&client_file_upload_id=" + encodeURI(yz.file_upload_uuid)
-                        //console.log("openfileurl:= " + openfileurl)
-                        yz.callAjax( openfileurl,
-                            function(res) {
-                                console.log(res)
-                            })
-
-                    }
-
-                    //
-                },
-                chosenFolderUp:                     async function  ( ) {
-                    /* Navigate when opening a file
-                    ________________________________________
-                    |                                      |
-                    |          chosenFolderUp              |
-                    |                                      |
-                    |______________________________________|
-                    Navigate when opening a file. This is mostly used for Electron or desktop
-                    applications
-                    __________
-                    | PARAMS |______________________________________________________________
-                    |
-                    |     NONE
-                    |________________________________________________________________________ */
-                    //alert(1)
-                    //document.getElementById("openfilefromhomepage").click();
-                    let lastFolderIndex = null
-                    //debugger
-
-                    if (yz.isWin) {
-                        lastFolderIndex = this.open_file_path.lastIndexOf("\\")
-                        if (lastFolderIndex == (this.open_file_path.length - 1)) {
-                            this.open_file_path = this.open_file_path.substring(0,this.open_file_path.length - 1)
-                            lastFolderIndex = this.open_file_path.lastIndexOf("\\")
-                        }
-
-                        //
-                        // if we have gone all the way up to c: then we may not find a
-                        // final backslash (\) symbol
-                        //
-                        if (lastFolderIndex == -1) {
-                            this.open_file_path = this.open_file_path.substring(0,2) + "\\"
-
-
-                        } else {
-                            this.open_file_path = this.open_file_path.substring(0,lastFolderIndex) + "\\"
-                        }
-                    } else {
-                        lastFolderIndex = this.open_file_path.lastIndexOf("/")
-                        this.open_file_path = this.open_file_path.substring(0,lastFolderIndex)
-                    }
-
-
-                    let result2 = await yz.callComponent(
-                        {
-                            base_component_id: "serverFolderContents"}
-                        ,{
-                            path: this.open_file_path
-                        })
-                    if (result2) {
-                        this.open_file_list = result2
-                    }
-
-
-                },
-                importApp:                          function        ( ) {
-                    /* Import a file. This is mostly used for Electron or desktop
-                    applications
-                    ________________________________________
-                    |                                      |
-                    |               importApp              |
-                    |                                      |
-                    |______________________________________|
-                    Import a file. This is mostly used for Electron or desktop
-                    applications
-                    __________
-                    | PARAMS |______________________________________________________________
-                    |
-                    |     NONE
-                    |________________________________________________________________________ */
-                    yz.saveCodeToFile = null
-                    document.getElementById("uploadfilefromhomepage").click();
-                },
                 submitFormAjax:                     function        ( ) {
                     /* submitFormAjax
                     ________________________________________
@@ -450,34 +247,6 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
                     xmlhttp.send(formData);
                 },
 
-                highlightEditableComponent:         function        ( baseComponentId, codeid ) {
-                    /*  highlightEditableComponent shows an editable component as larger on the home screen, like when selected
-                    __________
-                    | PARAMS |______________________________________________________________
-                    |
-                    |     baseComponentId   The base component ID of the highlighted app
-                    |     ---------------
-                    |
-                    |________________________________________________________________________ */
-                    let mm = this
-                    setTimeout(function() {
-                        mm.lastHighlightedEditableCodeId        = mm.currentlyHighlightedEditableCodeId
-                        mm.currentlyHighlightedEditableCodeId   = codeId
-                        let a = document.getElementById("downloaded_apps")
-                        if (!a) {
-                            return
-                        }
-                        let itemLeft = document.getElementById("appid_" + codeId)
-                        if (!itemLeft) {
-                            return
-                        }
-                        a.scrollLeft = itemLeft.offsetLeft
-                        mm.disableHighlightEditableApp = true
-                        setTimeout(function() {
-                            mm.disableHighlightEditableApp = false
-                        },4000)
-                    },150)
-                },
                 addLogoForApp:                      async function  ( baseComponentId) {
                     /*
                     ________________________________________
@@ -575,83 +344,7 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
 
                     return null
                 },
-                copyAndEditApp:                     async function  ( compInfo ) {
-                    /* copyAndEditApp
-                    ________________________________________
-                    |                                      |
-                    |        copyAndEditApp                |
-                    |                                      |
-                    |______________________________________|
-                    Given some app info, take an existing app and make a new copy of it, and edit
-                    that copy
-                    __________
-                    | PARAMS |______________________________________________________________
-                    |
-                    |     compInfo    A map containing optional items:
-                    |     --------    {
-                    |                       base_component_id
-                    |                       code_id
-                    |                 }
-                    |________________________________________________________________________ */
-                    let mm                = this
-                    let baseComponentId   = compInfo.base_component_id
-                    let codeId            = compInfo.code_id
 
-                    yz.globalEventBus.emit('hide_settings', {});
-
-                    this.open_file_name   = ""
-                    this.open_file_path   = "/"
-                    yz.saveCodeToFile        = null
-
-                    let result = await yz.getFromYazzReturnJson("/http_get_copy_component",
-                        {
-                            base_component_id:  baseComponentId,
-                            code_id:            codeId?codeId:""
-                        })
-
-                    let componentType = "app"
-                    if (result.component_type == "COMPONENT") {
-                        componentType = "component"
-                    }
-
-                    await mm.addEditableComponentToHomepage(
-                        result.base_component_id,
-                        result.new_display_name,
-                        {
-                            codeId:         result.code_id,
-                            logoUrl:        result.logo_url,
-                            componentType:  result.component_type
-                        })
-
-                    setTimeout(async function() {
-                        await mm.doNothing(result.base_component_id, result.code_id)
-                    },50)
-                },
-                runAppInNewBrowserTab:              async function  ( baseComponentId, code_id ) {
-                    /* Given the base component ID of an app, open that app in a separate
-                    browser tab as an app
-                    ________________________________________
-                    |                                      |
-                    |      runAppInNewBrowserTab           |
-                    |                                      |
-                    |______________________________________|
-                    Given the base component ID of an app, open that app in a separate
-                    browser tab as an app
-                    __________
-                    | PARAMS |______________________________________________________________
-                    |
-                    |     baseComponentId
-                    |     ---------------
-                    |________________________________________________________________________ */
-                    let mm = this
-                    window.open(
-                        location.protocol +
-                        "//" + location.hostname + ":" +
-                        location.port + "/app/" + baseComponentId + ".html"
-                        ,
-                        baseComponentId)
-                    mm.refresh++
-                },
                 downloadAndRunApp:                  async function  ( contentHash ) {
                     //----------------------------------------------------------------------------------
                     //
@@ -690,8 +383,8 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
                     )
                     setTimeout(async function() {
                         hideProgressBar()
-                        await mm.highlightEditableComponent(result.base_component_id)
-                        await mm.runAppInNewBrowserTab(result.base_component_id)
+                        //await mm.highlightEditableComponent(result.base_component_id)
+                        //await mm.runAppInNewBrowserTab(result.base_component_id)
 
                     },50)
                 },
