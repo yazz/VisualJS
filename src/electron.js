@@ -1644,7 +1644,7 @@ async function  setUpComponentsLocally                  (  ) {
     //
     await releaseComponentFromPath( '/all_system_components/appEditorV3.vjs')
 
-    await evalHtmlComponentFromPath( '/apps/homepage.vjs')
+    await evalHtmlComponentFromPath( '/apps/appstore.vjs')
     await releaseComponentFromPath( '/all_system_components/yazz_blank.vjs')
     await releaseComponentFromPath( '/all_system_components/control_preview_container_app.vjs')
 
@@ -1653,7 +1653,7 @@ async function  setUpComponentsLocally                  (  ) {
     //await releaseComponentFromPath( '/apps/oculus_go.vjs')
     //await releaseComponentFromPath( '/apps/nft_art.vjs')
     //await releaseComponentFromPath( '/apps/game.vjs')
-    //await releaseComponentFromPath('/apps/oldhomepage.vjs')
+    //await releaseComponentFromPath('/apps/oldappstore.vjs')
     //await releaseComponentFromPath( '/apps/multi_vr.vjs')
     //await releaseComponentFromPath( '/apps/hologram.vjs')
     //await releaseComponentFromPath( '/apps/kinetic.vjs')
@@ -1931,10 +1931,10 @@ function        getRoot                                 (  req  ,  res  ,  next 
     let homepage = path.join(__dirname, '../public/go.html')
     //let homepageUrl = serverProtocol + '://yazz.com/visifile/index.html?time=' + new Date().getTime()
     //let homepageUrl = serverProtocol + '://www.yazz.com'
-    let homepageUrl = 'https://yazz.com/app/homepage.html'
+    let homepageUrl = 'https://yazz.com/app/appstore.html'
     if (isMobile) {
         //homepageUrl = 'https://yazz.com/app/mobilehomepage.html'
-        homepageUrl = 'https://yazz.com/app/homepage.html'
+        homepageUrl = 'https://yazz.com/app/appstore.html'
     }
     //console.log("req.headers.host: " + req.headers.host)
 	if (req.headers.host) {
@@ -3948,11 +3948,11 @@ async function  startServices                           (  ) {
                                 WHERE
                                     base_component_id = ?         
                                     `,
-                                ["homepage"])
+                                ["appstore"])
                             returnRows.push(
                                 {
-                                    "base_component_id":    "homepage",
-                                    "displayName":          "homepage",
+                                    "base_component_id":    "appstore",
+                                    "displayName":          "appstore",
                                     "code_id":              appstoreRecord.id,
                                     "logo_url":             "/driver_icons/appstore.png",
                                     "component_type":       "app"

@@ -1314,7 +1314,7 @@ module.exports = {
                             //
                             // Add the subcomponents code
                             //
-                            if (baseComponentId == "homepage") {
+                            if (baseComponentId == "appstore") {
                                 //debugger
                             }
 

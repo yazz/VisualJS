@@ -131,7 +131,7 @@ Browse to http://0.0.0.0:80 to open VisualJS
 
 
 ## Useful links:
-- Demo which works on desktop web browsers here: https://yazz.com/app/homepage.html
+- Demo which works on desktop web browsers here: https://yazz.com/app/appstore.html
 - Link to PDF docs: https://yazz.com/visifile/docs/yazz_march_2020.pdf
 - Link to Hacker News Post (when it was known as Yazz Pilot): https://news.ycombinator.com/item?id=21734845
 - Link to Kubernetes Operator (Previous name was AppShare) https://github.com/leskil/appshare-operator
@@ -165,8 +165,8 @@ Browse to http://0.0.0.0:80 to open VisualJS
     --port                        Which port should I listen on? Default 80 or 3000 (if not run as sudo)
     --private                     Private HTTPS key location
     --public                      Public HTTPS certificate location
-    --runapp                      Run the app with ID as the homepage (default not set)
-    --runhtml                     Run using a local HTML page as the homepage (default not set)
+    --runapp                      Run the app with ID as the appstore (default not set)
+    --runhtml                     Run using a local HTML page as the appstore (default not set)
     --showdebug                   Allow to show debug info (default false)
     --statsinterval               Allow to show debug info every x seconds (default 10 seconds)
     --showprogress                Show progress when starting VisualJS (default false)
