@@ -1,5 +1,5 @@
 async function(args) {
-/* The homepage app shows all the apps and components that are being edited
+/* The appstore app shows all the apps and components that can be installed
 created_timestamp(-1)
 base_component_id("appstore")
 is_app(true)
@@ -70,7 +70,7 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
                                     v-bind:src='item.logo'
                                     style='position:relative;max-width: 75%; left:0px; top: 10px;max-height: 150px;margin-left: auto;margin-right: auto;display: block;z-index:0;'
                                     v-bind:alt='item.logo'
-                                    v-on:click='$event.stopPropagation();editApp(item.base_component_id)' />
+                                    v-on:click='$event.stopPropagation();installAppNow(item.base_component_id)' />
 
 
 
@@ -91,17 +91,17 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
 
                     <div    v-if="currentlyHighlightedAppstoreBCI != item.old_id"
                             style='border-radius: 0px;padding:0px; margin:0;'
-                            v-on:click='$event.stopPropagation();editApp(item.old_id)'>
+                            v-on:click='$event.stopPropagation();installAppNow(item.old_id)'>
     
                         <img    v-if='item.logo && (item.logo != "")'
                                 v-bind:src='item.logo'
                                 style='position:relative;max-width: 75%; left:0px; top: 10px;max-height: 150px;margin-left: auto;margin-right: auto;display: block;'
                                 v-bind:alt='item.logo'
-                                v-on:click='$event.stopPropagation();editApp(item.old_id)'
+                                v-on:click='$event.stopPropagation();installAppNow(item.old_id)'
                                 />
 
 
-                        <a  v-on:click='$event.stopPropagation();editApp(item.old_id)'
+                        <a  v-on:click='$event.stopPropagation();installAppNow(item.old_id)'
                             class="nav-link active" href="#" style="position: absolute; bottom:0px;font-style:bold;width:90%;overflow-x: hidden;white-space: nowrap;font-size: 20px;color:white;">
 
                             {{item.display_name}}
@@ -192,7 +192,7 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
                     xmlhttp.open("POST","/http_post_file_upload_single",true);
                     xmlhttp.send(formData);
                 },
-                addEditableComponentToHomepage:     async function  ( baseComponentId, displayName, other) {
+                addInstallableComponent:     async function  ( baseComponentId, displayName, other) {
 
                     let mm = this
                     // add the app to the list of BCI apps
@@ -237,7 +237,7 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
                     //                  /-------------------------------------/
                     //
                     //----------------------------------------------------------------------------
-                    // This updates the list of apps that can be edited on the homepage.
+                    // This updates the list of apps that can be run from the OS.
                     // It does this by getting the apps from the server
                     //--------------------------------------------------------------------
                     let mm = this
@@ -251,14 +251,14 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
                         })
                         .then((response) => response.json())
                         .then(async function (responseJson) {
-                            // first mark all editable components as deletable
-                            for (let editableItem of mm.appstore_app_list) {
-                                editableItem.delete = true
+                            // first mark all installable components as deletable
+                            for (let installableItem of mm.appstore_app_list) {
+                                installableItem.delete = true
                             }
 
                             // add all the items to the homepage
                             for (let rt = 0; rt < responseJson.length; rt++) {
-                                await mm.addEditableComponentToHomepage(
+                                await mm.addInstallableComponent(
                                     responseJson[rt].base_component_id,
                                     responseJson[rt].display_name,
                                     {
@@ -269,9 +269,9 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
                             }
 
                             // delete any items that should not be there
-                            for (let editableItem of mm.appstore_app_list) {
+                            for (let installableItem of mm.appstore_app_list) {
                                 mm.appstore_app_list = mm.appstore_app_list.filter(
-                                    editableItem => !editableItem.delete)
+                                    installableItem => !installableItem.delete)
                             }
 
                         }).catch(err => {
