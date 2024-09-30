@@ -117,7 +117,6 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
             data:       function() {
                 // data for the Vue object - see top of file for more info
                 return {
-                            appstore_app_list:                      [],
                             currentlyHighlightedAppstoreBCI:        null,
                             refresh:                                0
                         }
@@ -135,8 +134,6 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
                 mm.$DEBUGUI         = Vue.inject('$DEBUGUI')
                 mm.getUiDbData      = Vue.inject('getUiDbData')
                 mm.sqlui             = Vue.inject('sqlui')
-
-
 
                 await yz.onPageInitialized( async function() {
                     mm.refresh++
@@ -162,53 +159,7 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
 
                 })
 
-              },
-            methods:    {
-                sendCommandUpdateAppStoreApps:                        function(  )        {
-                    yz.uiDb.createCommand(  "UPDATE_APPS_FROM_APPSTORE"  ,  {}  ,  "ghdfjsjhdfsgkdhjkfsgjkhxsdfnjxfdskfnxgkjdfsx"  )
-                },
-                sendCommandAddApp:                                    function(  app  )   {
-                    yz.uiDb.createCommand(  "ADD_RECENT_APP"  ,  {app: app}  ,  "hjkdashkjdsahkjashkashdksahdkasdhkdhkdhklashkl"  )
-                },
-                addInstallableComponent:     async function  ( baseComponentId, displayName, other) {
-
-                    let mm = this
-                    // add the app to the list of BCI apps
-                    if (baseComponentId) {
-                        for (let thisApp of mm.appstore_app_list) {
-                            if (thisApp.code_id == other.codeId) {
-                                //debugger
-                                thisApp.delete = false
-                                return
-                            }
-                        }
-                        let app = {
-                            base_component_id:          baseComponentId,
-                            displayName:                displayName
-                        }
-                        if (other) {
-                            if (other.visibility) {
-                                app.visibility = other.visibility
-                            }
-                            if (other.codeId) {
-                                app.code_id = other.codeId
-                            }
-                            if (other.logoUrl) {
-                                app.logo_url = other.logoUrl
-                            }
-                            if (other.componentType) {
-                                app.component_type = other.componentType
-                            }
-                        }
-
-                        mm.appstore_app_list.push( app  )
-                        mm.sendCommandAddApp(app)
-                    }
-
-                    return null
-                }
-
-            }
+              }
         }
     )
 }
