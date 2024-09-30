@@ -147,7 +147,7 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
 
                 Vue.watch(  yz.uiDb.uiDbTableChangeEvents["ui_table_appstore_apps"].refEventCounter,
                             function(nv){
-                                console.log("Table 'ui_table_appstore_apps' changed : " + JSON.stringify(nv))
+                                console.log("appstore.vjs: Table 'ui_table_appstore_apps' changed : " + JSON.stringify(nv))
                                 mm.refresh ++
                             })
               }
