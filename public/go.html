@@ -10858,7 +10858,7 @@
 
                                 },
                                 mounted:    async function  () {
-                                    /* mounted - when the homepage Vue component is first loaded
+                                    /*
                                     ________________________________________
                                     |                                      |
                                     |             mounted                  |
@@ -10910,8 +10910,8 @@
                                     ____________________________________________________________
                                     |    mounted
                                     |_________________________
-                                                             | Hide the more complex buttons by
-                                                             | default
+                                                             | - Hide more complex buttons by default
+                                                             | -
                                                              |__________________________________ */
 
                                     await yz.onPageInitialized( async function() {
@@ -10928,7 +10928,7 @@
                                         } else {
                                             mm.hideImportButtons = false
                                         }
-                                        await mm.reloadEditedAppsFromServer();
+                                        await mm.reloadInstalledAppsForUserFromServer();
 
 
                                         /*
@@ -10964,7 +10964,7 @@
                                                                      | homepage
                                                                      |__________________________________ */
                                             if (text.type == "update_editable_components_on_homepage") {
-                                                await mm.reloadEditedAppsFromServer()
+                                                await mm.reloadInstalledAppsForUserFromServer()
                                                 mm.refresh++
                                             }
 
@@ -11582,7 +11582,7 @@
                                                 baseComponentId:    result.base_component_id
                                             })
 
-                                        await mm.reloadEditedAppsFromServer()
+                                        await mm.reloadInstalledAppsForUserFromServer()
 
                                         setTimeout(async function() {
                                             hideProgressBar()
@@ -11748,12 +11748,12 @@
                                         mm.currentlyHighlightedAppstoreBCI  = null
                                         mm.refresh ++
                                     },
-                                    reloadEditedAppsFromServer:         async function  ( ) {
+                                    reloadInstalledAppsForUserFromServer:         async function  ( ) {
                                         //----------------------------------------------------------------------------------
                                         //
-                                        //                    /-------------------------------------/
-                                        //                   /     reloadEditedAppsFromServer      /
-                                        //                  /-------------------------------------/
+                                        //                    /-----------------------------------------------/
+                                        //                   /     reloadInstalledAppsForUserFromServer      /
+                                        //                  /-----------------------------------------------/
                                         //
                                         //----------------------------------------------------------------------------
                                         // This updates the list of apps that can be edited on the homepage.
