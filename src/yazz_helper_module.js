@@ -903,7 +903,7 @@ module.exports = {
                     "CREATE INDEX IF NOT EXISTS users_id_idx                        ON level_4_users (id);",
                     "INSERT OR REPLACE INTO     table_versions                      (table_name  ,  version_number) VALUES ('level_4_users',1);",
 
-                    "CREATE TABLE IF NOT EXISTS level_4_installed_apps              (id TEXT, fk_user_id TEXT, fk_code_id);",
+                    "CREATE TABLE IF NOT EXISTS level_4_installed_apps              (id TEXT, fk_user_id TEXT, fk_code_id, base_component_id TEXT );",
                     "CREATE INDEX IF NOT EXISTS level_4_installed_apps_id_idx       ON level_4_installed_apps (id);",
                     "INSERT OR REPLACE INTO     table_versions                      (table_name  ,  version_number) VALUES ('level_4_installed_apps',1);",
 
