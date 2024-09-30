@@ -10330,8 +10330,8 @@
     currentlyHighlightedEditableCodeId:     {{ currentlyHighlightedEditableCodeId }}
     lastHighlightedEditableCodeId           {{ lastHighlightedEditableCodeId }}
 
-    edited_app_list:
-    {{ edited_app_list }}
+    installed_app_list:
+    {{ installed_app_list }}
 
     currentlyHighlightedAppstoreBCI:        {{ currentlyHighlightedAppstoreBCI }}
 
@@ -10365,7 +10365,7 @@
 
 
         <!--   ----------------------------------------------------------------------------------------------------------- -->
-        <template    v-for="(item, index) in edited_app_list"   v-bind:refresh='refresh'>
+        <template    v-for="(item, index) in installed_app_list"   v-bind:refresh='refresh'>
             <div    v-bind:refresh='refresh'
                     v-if="(editingBaseComponentId == item.base_component_id)"
                     v-on:mouseenter="currentlyHighlightedEditableCodeId = item.code_id;"
@@ -10379,13 +10379,13 @@
                     |                                      |
                     --------------------------------------
 
-                    Iterate through the apps in "edited_app_list"
+                    Iterate through the apps in "installed_app_list"
 
                     --------
                     | Params |
                     ------------------------------------------------------------------
                     |
-                    |     edited_app_list: [
+                    |     installed_app_list: [
                     |     ----------------      base_component_id:  The "baseComponentId" or Type of the
                     |                           ------------------  app
                     |
@@ -10736,7 +10736,7 @@
                      id="downloaded_apps"
                      style='offsetleft:200;position: relative;background-color: black; color: black; padding-top: 0px;padding-bottom: 20px;overflow-y:hidden; overflow-x: auto;white-space: nowrap;height:400px;padding-right:200px;margin-left:0px;margin-right:0px;z-index:0;'>
 
-                    <div      v-for="(item, index) in edited_app_list"
+                    <div      v-for="(item, index) in installed_app_list"
                               v-bind:refresh='refresh'
                               v-bind:id='"appid_" + item.code_id'
                               v-on:mouseenter="if (!disableHighlightEditableApp) {currentlyHighlightedEditableCodeId = item.code_id;}"
@@ -10838,7 +10838,7 @@
                                         editingCodeId:                          null,
                                         lastEditedBaseComponentId:              null,
                                         lastEditedCodeId:                       null,
-                                        edited_app_list:                      [],
+                                        installed_app_list:                      [],
                                         lastHighlightedEditableCodeId:          null,
                                         currentlyHighlightedEditableCodeId:     null,
 
@@ -11534,7 +11534,7 @@
                                         let mm = this
                                         // add the app to the list of BCI apps
                                         if (baseComponentId) {
-                                            for (let thisApp of mm.edited_app_list) {
+                                            for (let thisApp of mm.installed_app_list) {
                                                 if (thisApp.code_id == other.codeId) {
                                                     //debugger
                                                     thisApp.delete = false
@@ -11560,7 +11560,7 @@
                                                 }
                                             }
 
-                                            mm.edited_app_list.push( app  )
+                                            mm.installed_app_list.push( app  )
                                             mm.sendCommandAddApp(app)
                                         }
 
@@ -11792,7 +11792,7 @@
                                             .then((response) => response.json())
                                             .then(async function (responseJson) {
                                                 // first mark all editable components as deletable
-                                                for (let editableItem of mm.edited_app_list) {
+                                                for (let editableItem of mm.installed_app_list) {
                                                     editableItem.delete = true
                                                 }
 
@@ -11809,8 +11809,8 @@
                                                 }
 
                                                 // delete any items that should not be there
-                                                for (let editableItem of mm.edited_app_list) {
-                                                    mm.edited_app_list = mm.edited_app_list.filter(
+                                                for (let editableItem of mm.installed_app_list) {
+                                                    mm.installed_app_list = mm.installed_app_list.filter(
                                                         editableItem => !editableItem.delete)
                                                 }
 
