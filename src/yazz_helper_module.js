@@ -1807,6 +1807,51 @@ module.exports = {
                 [  uuidv1()   ,      baseComponentId   ,     "EDIT"      ,     userId   ,   sha1sum     ,      userId    ]
             )
         }
+
+
+
+        existingCodeTags = await mm.getQuickSqlOneRow(
+            thisDb,
+
+            `select
+                * 
+            from 
+                level_4_installed_apps 
+            where 
+                base_component_id = ? 
+                    and 
+                fk_user_id = ?`,
+
+            [baseComponentId, userId])
+
+        if (existingCodeTags) {
+            await mm.executeQuickSql(
+                thisDb,
+                `
+                update
+                   level_4_installed_apps
+                set  
+                    fk_code_id = ?
+                where
+                    base_component_id = ? 
+                        and 
+                    fk_user_id = ?
+               `,
+                [    sha1sum   ,   baseComponentId  ,   userId   ])
+        } else {
+            await mm.executeQuickSql(
+                thisDb
+                ,
+                `
+                insert or ignore
+                    into
+                level_4_installed_apps
+                    (   id   ,   base_component_id   ,   fk_code_id   ,   fk_user_id   ) 
+                values ( ?, ?, ?, ? )`
+                ,
+                [  uuidv1()   ,      baseComponentId  ,   sha1sum     ,      userId    ]
+            )
+        }
     },
     createLogoUrlData:              async function  (  logo  ) {
         /*
