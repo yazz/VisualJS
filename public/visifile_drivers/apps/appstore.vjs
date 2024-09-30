@@ -170,28 +170,6 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
                 sendCommandAddApp:                                    function(  app  )   {
                     yz.uiDb.createCommand(  "ADD_RECENT_APP"  ,  {app: app}  ,  "hjkdashkjdsahkjashkashdksahdkasdhkdhkdhklashkl"  )
                 },
-                submitFormAjax:                     function        ( ) {
-                    /* submitFormAjax
-                    ________________________________________
-                    |                                      |
-                    |      submitFormAjax                  |
-                    |                                      |
-                    |______________________________________|
-                    Used when uploading a file
-                    __________
-                    | PARAMS |______________________________________________________________
-                    |
-                    |     NONE
-                    |________________________________________________________________________ */
-                    let xmlhttp= window.XMLHttpRequest ?
-                        new XMLHttpRequest() : new ActiveXObject("Microsoft.XMLHTTP");
-
-                    let form = document.getElementById('uploadfilefromhomepageform');
-                    let formData = new FormData(form);
-
-                    xmlhttp.open("POST","/http_post_file_upload_single",true);
-                    xmlhttp.send(formData);
-                },
                 addInstallableComponent:     async function  ( baseComponentId, displayName, other) {
 
                     let mm = this
