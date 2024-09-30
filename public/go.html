@@ -10326,7 +10326,6 @@
     editingBaseComponentId:                 {{ editingBaseComponentId }}
     editingCodeId:                          {{ editingCodeId }}
     currentlyHighlightedEditableCodeId:     {{ currentlyHighlightedEditableCodeId }}
-    lastHighlightedEditableCodeId           {{ lastHighlightedEditableCodeId }}
 
     installed_app_list:
     {{ installed_app_list }}
@@ -10835,7 +10834,6 @@
                                         editingBaseComponentId:                 null,
                                         editingCodeId:                          null,
                                         installed_app_list:                      [],
-                                        lastHighlightedEditableCodeId:          null,
                                         currentlyHighlightedEditableCodeId:     null,
 
                                         // apps  not downloaded but in the appstore
@@ -11436,7 +11434,6 @@
                                         |________________________________________________________________________ */
                                         let mm = this
                                         setTimeout(function() {
-                                            mm.lastHighlightedEditableCodeId        = mm.currentlyHighlightedEditableCodeId
                                             mm.currentlyHighlightedEditableCodeId   = codeId
                                             let a = document.getElementById("downloaded_apps")
                                             if (!a) {
