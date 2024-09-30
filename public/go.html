@@ -13300,6 +13300,8 @@
                                 await yz.updateAppsFromAppStore()
                             } else if (r.command == "ADD_RECENT_APP") {
                                 await yz.addInstalledApp(commandArguments.app)
+                            } else if (r.command == "INSTALL_APP_FROM_APPSTORE") {
+                                await yz.installAppFromAppstore({baseComponentId: commandArguments.baseComponentId, codeId: commandArguments.codeId})
                             }
                             return true;
                         };
@@ -13569,6 +13571,9 @@
                         yz.uiDb.sqlui(   "insert  into  ui_table_installed_apps  (  code_id  ,  base_component_id, logo, display_name,component_type) values (?,?,?,?,?)",
                             [app.code_id,app.base_component_id,app.logo_url, app.displayName, app.component_type])
                     }
+                },
+                installAppFromAppstore:           async function              (  {  baseComponentId  ,  codeId  }  ) {
+                    alert("installAppFromAppstore: " + baseComponentId  + " : "  + codeId  )
                 },
                 addRunningApp:                    async function              (  app   ) {
                     //debugger

@@ -154,7 +154,11 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
               ,
               methods: {
                 installAppNow:          async function ( appInstanceId ) {
-                    alert(appInstanceId)
+                    debugger
+                    yz.uiDb.createCommand(  "INSTALL_APP_FROM_APPSTORE"  ,  {  baseComponentId: 3  ,  codeId:334  }  ,  "ghdfjsjhdfsgkdhjkfsgjkhxsdfnjxfdskfnxgkjdfsx"  )
+                    //appInstanceId = UI only ID
+                    //item.base_component_id
+                    //item.content_hash
                 }
               }
         }
