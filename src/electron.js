@@ -3913,7 +3913,7 @@ async function  startServices                           (  ) {
     }
 
     //------------------------- HOMEPAGE STUFF -------------------------
-    app.post(   '/http_post_load_editable_apps',                            async function (req, res) {
+    app.post(   '/http_post_load_installed_apps',                            async function (req, res) {
         let editableApps    = []
         let userId          = await getUserId(req)
         let promise         = new Promise(async function(returnfn) {
