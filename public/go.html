@@ -10323,7 +10323,6 @@
     <div v-if='homepageDebugViewName=="homepage_vars"' style="">
     <pre>
     <div style="font-size:60px;font-weight: bold;">Homepage Vars</div>
-    lastEditedCodeId:                       {{ lastEditedCodeId }}
     editingBaseComponentId:                 {{ editingBaseComponentId }}
     editingCodeId:                          {{ editingCodeId }}
     currentlyHighlightedEditableCodeId:     {{ currentlyHighlightedEditableCodeId }}
@@ -10835,7 +10834,6 @@
                                         // editable apps
                                         editingBaseComponentId:                 null,
                                         editingCodeId:                          null,
-                                        lastEditedCodeId:                       null,
                                         installed_app_list:                      [],
                                         lastHighlightedEditableCodeId:          null,
                                         currentlyHighlightedEditableCodeId:     null,
@@ -10954,7 +10952,6 @@
                                                     })
 
                                                 mm.editingBaseComponentId           = text.base_component_id
-                                                mm.lastEditedCodeId                 = mm.editingCodeId
                                                 mm.editingCodeId                    = text.code_id
                                                 mm.currentlyHighlightedAppstoreBCI  = null
                                                 mm.refresh++
@@ -10984,7 +10981,6 @@
                                                                      |__________________________________ */
                                             if (text.type == "close_app") {
                                                 mm.editingBaseComponentId       = null;
-                                                mm.lastEditedCodeId             = mm.editingCodeId
                                                 mm.editingCodeId                = null
                                                 mm.open_file_name               = ""
                                                 mm.open_file_path               = "/"
@@ -11006,7 +11002,6 @@
                                                                      |__________________________________ */
                                             if (text.type == "fork_component") {
                                                 mm.editingBaseComponentId           = null;
-                                                mm.lastEditedCodeId                 = mm.editingCodeId
                                                 mm.editingCodeId                    = null
                                                 mm.open_file_name                   = ""
                                                 mm.open_file_path                   = "/"
@@ -11039,7 +11034,6 @@
                                                                      |__________________________________ */
                                             if (text.type == "return_from_fork_component") {
                                                 mm.editingBaseComponentId   = null;
-                                                mm.lastEditedCodeId         = mm.editingCodeId
                                                 mm.editingCodeId            = null
                                                 mm.open_file_name           = ""
                                                 mm.open_file_path           = "/"
@@ -11077,7 +11071,6 @@
                                                                      |__________________________________ */
                                             if (text.type == "edit_component") {
                                                 mm.editingBaseComponentId       = null;
-                                                mm.lastEditedCodeId             = mm.editingCodeId
                                                 mm.editingCodeId                = null
                                                 mm.open_file_name               = ""
                                                 mm.open_file_path               = "/"
@@ -11109,7 +11102,6 @@
                                                                      |__________________________________ */
                                             if (text.type == "return_from_edit_component") {
                                                 mm.editingBaseComponentId   = null;
-                                                mm.lastEditedCodeId         = mm.editingCodeId
                                                 mm.editingCodeId            = null
                                                 mm.open_file_name           = ""
                                                 mm.open_file_path           = "/"
@@ -11755,7 +11747,6 @@
                                         }
 
                                         mm.editingBaseComponentId           = baseComponentId;
-                                        mm.lastEditedCodeId                 = mm.editingCodeId
                                         mm.editingCodeId                    = codeId
                                         mm.currentlyHighlightedAppstoreBCI  = null
                                         mm.refresh ++
