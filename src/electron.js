@@ -3928,13 +3928,11 @@ async function  startServices                           (  ) {
                                         level_2_system_code.display_name,
                                         level_2_system_code.logo_url
                                    FROM
-                                        level_4_code_tags_table, level_2_system_code
+                                        level_4_installed_apps, level_2_system_code
                                     WHERE
-                                        level_4_code_tags_table.fk_user_id = ?
+                                        level_4_installed_apps.fk_user_id = ?
                                             AND
-                                        level_4_code_tags_table.fk_system_code_id = level_2_system_code.id
-                                            AND
-                                        level_4_code_tags_table.code_tag = "EDIT"`
+                                        level_4_installed_apps.fk_code_id = level_2_system_code.id`
                         ,
                         [userId]
                         ,
