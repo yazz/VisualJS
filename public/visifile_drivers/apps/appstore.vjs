@@ -139,7 +139,7 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
 
 
                 await yz.onPageInitialized( async function() {
-                    await mm.reloadAppstoreAppsFromServer();
+                    mm.refresh++
 
                     /*
                     ____________________________________________________________
@@ -206,59 +206,9 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
                     }
 
                     return null
-                },
-                reloadAppstoreAppsFromServer:         async function  ( ) {
-                    //----------------------------------------------------------------------------------
-                    //
-                    //                    /-------------------------------------/
-                    //                   /     reloadAppstoreAppsFromServer      /
-                    //                  /-------------------------------------/
-                    //
-                    //----------------------------------------------------------------------------
-                    // This updates the list of apps that can be run from the OS.
-                    // It does this by getting the apps from the server
-                    //--------------------------------------------------------------------
-                    let mm = this
-                    let openfileurl =   "http" + (($HOSTPORT == 443) ? "s" : "") + "://" + $HOST +
-                                        "/http_post_load_editable_apps"
-
-                    fetch(openfileurl,
-                        {
-                            method:         'post',
-                            credentials:    "include"
-                        })
-                        .then((response) => response.json())
-                        .then(async function (responseJson) {
-                            // first mark all installable components as deletable
-                            for (let installableItem of mm.appstore_app_list) {
-                                installableItem.delete = true
-                            }
-
-                            // add all the items to the homepage
-                            for (let rt = 0; rt < responseJson.length; rt++) {
-                                await mm.addInstallableComponent(
-                                    responseJson[rt].base_component_id,
-                                    responseJson[rt].display_name,
-                                    {
-                                        codeId:         responseJson[rt].content_hash,
-                                        logoUrl:        responseJson[rt].logo_url,
-                                        componentType:  responseJson[rt].component_type
-                                    })
-                            }
-
-                            // delete any items that should not be there
-                            for (let installableItem of mm.appstore_app_list) {
-                                mm.appstore_app_list = mm.appstore_app_list.filter(
-                                    installableItem => !installableItem.delete)
-                            }
-
-                        }).catch(err => {
-                        //error block
-                    })
-                    mm.refresh++
                 }
 
-}
+            }
         }
     )
 }
