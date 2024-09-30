@@ -135,30 +135,21 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
                 mm.getUiDbData      = Vue.inject('getUiDbData')
                 mm.sqlui             = Vue.inject('sqlui')
 
-                await yz.onPageInitialized( async function() {
-                    mm.refresh++
+                mm.refresh++
 
-                    /*
-                    ____________________________________________________________
-                    |    mounted
-                    |_________________________
-                                             | Watch the global UI DB for changes
-                                             |__________________________________ */
+                /*
+                ____________________________________________________________
+                |    mounted
+                |_________________________
+                                         | Watch the global UI DB for changes
+                                         | to the apps
+                                         |__________________________________ */
 
-                    Vue.watch(  yz.uiDb.uiDbTableChangeEvents["ui_table_appstore_apps"].refEventCounter,
-                                function(nv){
-                                    console.log("Table 'ui_table_appstore_apps' changed : " + JSON.stringify(nv))
-                                    mm.refresh ++
-                                })
-
-                    Vue.watch(  yz.uiDb.uiDbTableChangeEvents["ui_table_running_apps"].refEventCounter,
-                                function(nv){
-                                    console.log("Table 'ui_table_running_apps' changed : " + JSON.stringify(nv))
-                                    mm.refresh ++
-                                })
-
-                })
-
+                Vue.watch(  yz.uiDb.uiDbTableChangeEvents["ui_table_appstore_apps"].refEventCounter,
+                            function(nv){
+                                console.log("Table 'ui_table_appstore_apps' changed : " + JSON.stringify(nv))
+                                mm.refresh ++
+                            })
               }
         }
     )
