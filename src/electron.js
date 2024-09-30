@@ -3294,7 +3294,7 @@ async function  getRowForCommit                         (  commitId  ) {
     let thisCommit              = await yz.getQuickSqlOneRow(dbsearch,  "select  *  from   level_2_system_code  where   id = ? ", [  commitId  ])
     let getFutureCommitsSql     = "select  id  from   level_2_system_code  where  parent_id = ? "
     let parentCommits           = await yz.getQuickSql(dbsearch,  getFutureCommitsSql, [  commitId  ])
-    let getCodeTagsSql          = "select  code_tag, main_score  from  level_4_code_tips  where fk_system_code_id = ?  "
+    let getCodeTagsSql          = "select  code_tag, main_score  from  level_4_code_tags_table  where fk_system_code_id = ?  "
     let codeTags                = await yz.getQuickSql(dbsearch,  getCodeTagsSql, [  commitId  ])
 
     if (thisCommit) {
@@ -3928,13 +3928,13 @@ async function  startServices                           (  ) {
                                         level_2_system_code.display_name,
                                         level_2_system_code.logo_url
                                    FROM
-                                        level_4_code_tips, level_2_system_code
+                                        level_4_code_tags_table, level_2_system_code
                                     WHERE
-                                        level_4_code_tips.fk_user_id = ?
+                                        level_4_code_tags_table.fk_user_id = ?
                                             AND
-                                        level_4_code_tips.fk_system_code_id = level_2_system_code.id
+                                        level_4_code_tags_table.fk_system_code_id = level_2_system_code.id
                                             AND
-                                        level_4_code_tips.code_tag = "EDIT"`
+                                        level_4_code_tags_table.code_tag = "EDIT"`
                         ,
                         [userId]
                         ,
@@ -4459,7 +4459,7 @@ async function  startServices                           (  ) {
             `select  
                 fk_system_code_id  
             from  
-                level_4_code_tips  
+                level_4_code_tags_table  
             where  
                 base_component_id = ? 
                     and 
@@ -4502,7 +4502,7 @@ async function  startServices                           (  ) {
                 dbsearch,
 
                 `update 
-                    level_4_code_tips  
+                    level_4_code_tags_table  
                 set  
                     main_score = ?  
                 where  
@@ -4527,7 +4527,7 @@ async function  startServices                           (  ) {
             `select  
                 fk_system_code_id  , main_score
             from  
-                level_4_code_tips  
+                level_4_code_tags_table  
             where  
                 base_component_id = ? 
                     and 

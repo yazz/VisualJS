@@ -453,7 +453,7 @@ module.exports = {
         let dateTime = new Date().getTime()
         await this.executeQuickSql(thisDb,
             `insert into 
-                level_4_code_tips 
+                level_4_code_tags_table 
             (id , base_component_id , code_tag , code_tag_value, fk_system_code_id)
                 values
             (?,?,?,?,?) 
@@ -907,9 +907,9 @@ module.exports = {
                     "CREATE INDEX IF NOT EXISTS level_4_installed_apps_id_idx       ON level_4_installed_apps (id);",
                     "INSERT OR REPLACE INTO     table_versions                      (table_name  ,  version_number) VALUES ('level_4_installed_apps',1);",
 
-                    "CREATE TABLE IF NOT EXISTS level_4_code_tips             (id TEXT, base_component_id TEXT, code_tag TEXT, code_tag_value TEXT, fk_system_code_id TEXT, fk_user_id TEXT, main_score INTEGER);",
-                    "CREATE INDEX IF NOT EXISTS code_tags_id_idx                    ON level_4_code_tips (id);",
-                    "INSERT OR REPLACE INTO     table_versions                      (table_name  ,  version_number) VALUES ('level_4_code_tips',1);",
+                    "CREATE TABLE IF NOT EXISTS level_4_code_tags_table                   (id TEXT, base_component_id TEXT, code_tag TEXT, code_tag_value TEXT, fk_system_code_id TEXT, fk_user_id TEXT, main_score INTEGER);",
+                    "CREATE INDEX IF NOT EXISTS code_tags_id_idx                    ON level_4_code_tags_table (id);",
+                    "INSERT OR REPLACE INTO     table_versions                      (table_name  ,  version_number) VALUES ('level_4_code_tags_table',1);",
 
                     "CREATE TABLE IF NOT EXISTS level_4_global_vars_table           (global_key TEXT, global_value_type TEXT, global_value TEXT  ,  UNIQUE(global_key));",
                     "CREATE INDEX IF NOT EXISTS code_tags_id_idx                    ON level_4_global_vars_table (global_key);",
@@ -1670,7 +1670,7 @@ module.exports = {
             `select 
                 id 
             from  
-                level_4_code_tips  
+                level_4_code_tags_table  
             where 
                 fk_system_code_id = ? 
                     and 
@@ -1683,7 +1683,7 @@ module.exports = {
                 thisDb
                 ,
                 `delete from 
-                    level_4_code_tips  
+                    level_4_code_tags_table  
                 where 
                     fk_system_code_id = ? 
                         and 
@@ -1712,7 +1712,7 @@ module.exports = {
                 thisDb
                 ,
                 `delete from 
-                    level_4_code_tips  
+                    level_4_code_tags_table  
                 where 
                     fk_system_code_id = ? 
                         and 
@@ -1725,7 +1725,7 @@ module.exports = {
                 thisDb
                 ,
                 `insert into 
-                    level_4_code_tips 
+                    level_4_code_tags_table 
                     (   id   ,    base_component_id   ,   code_tag   ,   code_tag_value   ,   fk_system_code_id   ,   fk_user_id   ) 
                  values  
                      (?,?,?,?,?,?)
@@ -1767,7 +1767,7 @@ module.exports = {
             `select
                 * 
             from 
-                level_4_code_tips 
+                level_4_code_tags_table 
             where 
                 base_component_id = ? 
                     and 
@@ -1782,7 +1782,7 @@ module.exports = {
                 thisDb,
                 `
                 update
-                   level_4_code_tips
+                   level_4_code_tags_table
                 set  
                     fk_system_code_id = ?
                 where
@@ -1800,7 +1800,7 @@ module.exports = {
                 `
                 insert or ignore
                     into
-                level_4_code_tips
+                level_4_code_tags_table
                     (   id   ,   base_component_id   ,   code_tag   ,   code_tag_value   ,   fk_system_code_id   ,   fk_user_id   ) 
                 values ( ?, ?, ?, ?, ? , ?)`
                 ,
