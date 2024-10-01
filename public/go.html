@@ -9896,7 +9896,6 @@
                                                         if (responseJson2.error) {
                                                             mm.login_error_message =  responseJson2.error
                                                         } else {
-                                                            mm.cryptoWalletAccountNo = accs[0]
                                                             yz.setGlobalVar("crypto_wallet_account_number",accs[0])
                                                             mm.show_page_info   = false;
                                                             mm.tab              = ""
@@ -9907,7 +9906,6 @@
                                                     .catch(err => {
                                                         //error block
                                                     })
-                                                mm.cryptoWalletAccountNo = accs[0]
                                                 yz.setGlobalVar("crypto_wallet_account_number",accs[0])
 
                                             })
@@ -9996,7 +9994,6 @@
                         data:       function () {
                             return {
                                 show_page_info:         false,
-                                cryptoWalletAccountNo:          null,
                                 comments:               [],
                                 rating:                 0,
                                 new_rating:             0,
