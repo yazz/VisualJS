@@ -9771,6 +9771,7 @@
                                 async function() {
                                     mm.showSettings = true
                                 });
+                            mm.refresh ++
                         },
                         methods:    {
                             updateComments:                 async function (  ) {
@@ -10007,15 +10008,18 @@
                                 tab:                    "",
                                 debug_sign_tx_out:      "",
                                 showSettings:           true,
-                                debugView:              null
+                                debugView:              null,
+                                refresh:                0,
 
                             }
                         },
                         template:   `
     <span   id='main_debug_header'
                                          v-bind:style="'padding:0px;position: relative; margin: auto;height:100%;width:100%;border:0px; overflow-y:none;'"
-                                         v-bind:class='container' >
-                                <div v-if="yz">
+                                         v-bind:class='container'
+                                         v-bind:refresh='refresh'>
+
+                                <div v-if="yz" >
                                     <div
                                         v-if="showSettings"
                                         style='background-color:navy;height:5vh;width: 100vw;color:white;'>
@@ -10135,8 +10139,8 @@
                                         ------------------------------------------------ -->
                                         <div v-if='tab=="login"'>
 
-                                        <div v-if='cryptoWalletAccountNo'>Metamask Account Number: {{cryptoWalletAccountNo}}</div>
-                                        <div v-else='cryptoWalletAccountNo'>Logging in to Metamask will bring the Metamask popup and you will be
+                                        <div v-if='yz.uiDb.uiDbGlobalVars["crypto_wallet_account_number"]'>Metamask Account Number: {{yz.uiDb.uiDbGlobalVars["crypto_wallet_account_number"]}}</div>
+                                        <div v-else='yz.uiDb.uiDbGlobalVars["crypto_wallet_account_number"]'>Logging in to Metamask will bring the Metamask popup and you will be
                                         requested to authorise the login</div>
 
                                         <div style='color:red' id='login_error'>{{login_error_message}}</div>
@@ -10256,7 +10260,7 @@
 
                             <div v-if="debugView=='debug_view_metamask'">
 
-                                        <div v-if='!cryptoWalletAccountNo'>
+                                        <div v-if='!yz.uiDb.uiDbGlobalVars["crypto_wallet_account_number"]'>
                                             You are not signed into Metamask. Please login first
                                         </div>
 
@@ -10266,7 +10270,7 @@
 
                                         <button type=button
                                                 class='btn btn-primary'
-                                                v-bind:disabled='cryptoWalletAccountNo?false:true'
+                                                v-bind:disabled='yz.uiDb.uiDbGlobalVars["crypto_wallet_account_number"]?false:true'
                                                 style='margin-left: 10px;width:40vw;height:15vh;'
                                                 v-on:click='signMetamaskTransaction()'>
 
