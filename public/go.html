@@ -13166,6 +13166,14 @@
                         }
                         return ret
                     },
+                    sqlui1:                             function                    (  sql  ,  params  )                            {
+                        let res = null
+                        let resBack = yz.uiDb.sqlui(  sql  ,  params  )
+                        if (resBack && resBack.length > 0) {
+                            res = resBack[0]
+                        }
+                        return res
+                    },
                     setupAlaSqlDatabase:                async function              (  )                                            {
                         alasql("CREATE TABLE ui_tables (table_name STRING)");
                         alasql("CREATE TABLE ui_fields (table_name STRING, field_name STRING, field_type STRING)");
@@ -13843,6 +13851,7 @@
             var timeDiffLater           = yz.timeDiffLater
             var refresh                 = yz.refresh
             var sqlui                   = yz.uiDb.sqlui
+            var sqlui1                  = yz.uiDb.sqlui1
             var uiDbTickCounter         = yz.uiDb.uiDbTickCounter
             var getUiDbData             = yz.uiDb.getUiDbData
             var getGlobalVar            = yz.getGlobalVar
@@ -13859,7 +13868,8 @@
                 timeDiffLater:                  timeDiffLater,
                 $DEBUGUI:                       (function() { return $DEBUGUI}),
                 getUiDbData:                    getUiDbData,
-                sqlui:                          sqlui
+                sqlui:                          sqlui,
+                sqlui1:                         sqlui1
             }
 
             /*use_local_sqlite_start*/let localAppshareApp = false/*use_local_sqlite_end*/

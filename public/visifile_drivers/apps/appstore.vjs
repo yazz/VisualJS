@@ -133,7 +133,8 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
                 mm.hideProgressBar  = Vue.inject('hideProgressBar')
                 mm.$DEBUGUI         = Vue.inject('$DEBUGUI')
                 mm.getUiDbData      = Vue.inject('getUiDbData')
-                mm.sqlui             = Vue.inject('sqlui')
+                mm.sqlui            = Vue.inject('sqlui')
+                mm.sqlui1           = Vue.inject('sqlui1')
 
                 mm.refresh++
 
@@ -155,7 +156,8 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
               methods: {
                 installAppNow:          async function ( appInstanceId ) {
                     debugger
-                    yz.uiDb.createCommand(  "INSTALL_APP_FROM_APPSTORE"  ,  {  baseComponentId: 3  ,  codeId:334  }  ,  "ghdfjsjhdfsgkdhjkfsgjkhxsdfnjxfdskfnxgkjdfsx"  )
+                    let appRow = sqlui1("select  base_component_id  from  ui_table_appstore_apps  where  content_hash = ?"  ,  [  appInstanceId  ]  )
+                    yz.uiDb.createCommand(  "INSTALL_APP_FROM_APPSTORE"  ,  {  baseComponentId: appRow.base_component_id  ,  codeId: appInstanceId  }  ,  "hjgfdshjkgfsdjkhgfjhsdgfjkdgfjdksgfjdkshgjkh"  )
                     //appInstanceId = UI only ID
                     //item.base_component_id
                     //item.content_hash
