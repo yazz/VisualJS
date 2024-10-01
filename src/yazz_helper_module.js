@@ -903,9 +903,9 @@ module.exports = {
                     "CREATE INDEX IF NOT EXISTS users_id_idx                        ON level_4_users (id);",
                     "INSERT OR REPLACE INTO     table_versions                      (table_name  ,  version_number) VALUES ('level_4_users',1);",
 
-                    "CREATE TABLE IF NOT EXISTS level_4_installed_apps              (id TEXT, fk_user_id TEXT, fk_code_id, base_component_id TEXT );",
-                    "CREATE INDEX IF NOT EXISTS level_4_installed_apps_id_idx       ON level_4_installed_apps (id);",
-                    "INSERT OR REPLACE INTO     table_versions                      (table_name  ,  version_number) VALUES ('level_4_installed_apps',1);",
+                    "CREATE TABLE IF NOT EXISTS level_4_installed_apps_table              (id TEXT, fk_user_id TEXT, fk_code_id, base_component_id TEXT );",
+                    "CREATE INDEX IF NOT EXISTS level_4_installed_apps_table_id_idx       ON level_4_installed_apps_table (id);",
+                    "INSERT OR REPLACE INTO     table_versions                      (table_name  ,  version_number) VALUES ('level_4_installed_apps_table',1);",
 
                     "CREATE TABLE IF NOT EXISTS level_4_code_tags_table                   (id TEXT, base_component_id TEXT, code_tag TEXT, code_tag_value TEXT, fk_system_code_id TEXT, fk_user_id TEXT, main_score INTEGER);",
                     "CREATE INDEX IF NOT EXISTS code_tags_id_idx                    ON level_4_code_tags_table (id);",
@@ -1767,7 +1767,7 @@ module.exports = {
             `select
                 * 
             from 
-                level_4_installed_apps 
+                level_4_installed_apps_table 
             where 
                 base_component_id = ? 
                     and 
@@ -1780,7 +1780,7 @@ module.exports = {
                 thisDb,
                 `
                 update
-                   level_4_installed_apps
+                   level_4_installed_apps_table
                 set  
                     fk_code_id = ?
                 where
@@ -1796,7 +1796,7 @@ module.exports = {
                 `
                 insert or ignore
                     into
-                level_4_installed_apps
+                level_4_installed_apps_table
                     (   id   ,   base_component_id   ,   fk_code_id   ,   fk_user_id   ) 
                 values ( ?, ?, ?, ? )`
                 ,

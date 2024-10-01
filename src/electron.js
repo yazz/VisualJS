@@ -3928,11 +3928,11 @@ async function  startServices                           (  ) {
                                         level_2_system_code.display_name,
                                         level_2_system_code.logo_url
                                    FROM
-                                        level_4_installed_apps, level_2_system_code
+                                        level_4_installed_apps_table, level_2_system_code
                                     WHERE
-                                        level_4_installed_apps.fk_user_id = ?
+                                        level_4_installed_apps_table.fk_user_id = ?
                                             AND
-                                        level_4_installed_apps.fk_code_id = level_2_system_code.id`
+                                        level_4_installed_apps_table.fk_code_id = level_2_system_code.id`
                         ,
                         [userId]
                         ,
@@ -4888,6 +4888,27 @@ async function  startServices                           (  ) {
         res.writeHead(200, {'Content-Type': 'application/json'});
         res.end(JSON.stringify(
             response
+        ));
+    })
+    app.get(    '/http_get_install_appstore_app_for_current_user',          async function (req, res, next) {
+        let userId              = await getUserId(req)
+        let baseComponentId     = req.query.base_component_id
+        let codeId              = req.query.code_id
+
+        await yz.executeQuickSql(dbsearch,
+            `insert into 
+                level_4_installed_apps_table 
+            (id , fk_user_id, fk_code_id,  base_component_id)
+                values
+            (?,?,?,?) 
+            `
+            ,
+            [ uuidv1()  ,  userId  ,  baseComponentId  ,  codeId])
+
+
+        res.writeHead(200, {'Content-Type': 'application/json'});
+        res.end(JSON.stringify(
+            {done: "ok"}
         ));
     })
     app.post(   "/http_post_generate_component" ,                           async function (req, res) {
