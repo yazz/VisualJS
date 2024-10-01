@@ -13581,9 +13581,7 @@
                     }
                 },
                 installAppFromAppstore:           async function              (  {  baseComponentId  ,  codeId  }  ) {
-                    //alert("installAppFromAppstore: " + baseComponentId  + " : "  + codeId  )
 
-debugger
                     let result = yz.getFromYazzReturnJson("/http_get_install_appstore_app_for_current_user",
                         {
                             base_component_id:  baseComponentId,
