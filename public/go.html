@@ -9643,7 +9643,14 @@
                                         >
                                             Debugger V2
                                         </span>
+zzz
+<div  style='height: 50px;'></div>
 
+<div style='border: 1px solid black;'>
+    <div   v-for="item  in  yz.uiDb.uiDbTableData.ui_table_commands.data" >
+        <div style='border: 1px sold red;'>{{item.command}}</div>
+    </div>
+</div>
                                         <button
                                                 type="button"
                                                 v-on:click='closeDebugV2()'
@@ -13579,7 +13586,7 @@
                         }).catch(err => {
                         })
                 },
-                addInstalledApp:                    async function              (  app   ) {
+                addInstalledApp:                  async function              (  app   ) {
                     //debugger
                     let alreadyExists = yz.uiDb.sqlui("select * from  ui_table_installed_apps  where code_id = ?", [app.code_id])
                     if (alreadyExists.length == 0) {
