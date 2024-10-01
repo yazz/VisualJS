@@ -9506,7 +9506,6 @@
                                     :show_loader='show_loader'
                                     :is_static='is_static'
                                     :appCodeId='appCodeId'
-                                    :globalDebuggerOn='globalDebuggerOn'
                                 >
 
                                 </main_app_component>
@@ -9523,8 +9522,7 @@
                                     loadedAppMetaData:      null,
                                     show_loader:            false,
                                     is_static:              false,
-                                    appCodeId:              "ZIO",
-                                    globalDebuggerOn:       false
+                                    appCodeId:              "ZIO"
                                 }
                             }
                         }
@@ -9631,13 +9629,13 @@
                 
                 getMainAppVueComponentStructure:                function        (  )                                            {
                     let mainAppVueComponentStructure = {
-                        props:      [  "count"  ,   "loadedAppMetaData"  ,  "show_loader"  ,  "is_static"  ,  "appCodeId"  ,  "globalDebuggerOn"  ],
+                        props:      [  "count"  ,   "loadedAppMetaData"  ,  "show_loader"  ,  "is_static"  ,  "appCodeId"  ],
                         template:   `
                             <div v-bind:refresh="refresh"><div v-if="yz">
                                 <!-- --------------------------------------------------------------------
                                                                   NEW V2 DEBUG HEADER
                                  ------------------------------------------------------------------------ -->
-                                <div    v-if="globalDebuggerOn"
+                                <div    v-if='yz.uiDb.uiDbGlobalVars["global_debugger_on"]'
                                         style="position:absolute;width:100%;height:100%;left:0px;top:0px;color: black; opacity: 1; z-index: 2000000;background-color:white;overflow: hidden">
                                     <div style='height:40px; padding:4px;background-color:lightblue;'>
                                         <span
@@ -9738,7 +9736,7 @@
                         },
                         methods:    {
                             closeDebugV2: async function() {
-                                mainVueOperatingSystemVm.globalDebuggerOn = false
+                                yz.setGlobalVar("global_debugger_on", false)
                             }
                         },
                         data: function() {
@@ -9841,7 +9839,7 @@
 
                             },
                             debugV2:                        async function (  ) {
-                                mainVueOperatingSystemVm.globalDebuggerOn = true
+                                yz.setGlobalVar("global_debugger_on", true)
                             },
                             openInfo:                       async function (  useTab  ) {
                                 //debugger
@@ -11806,17 +11804,17 @@
                 },
 
                 showHomePage:                                   function        (  ) {
-                    yz.setGlobalVar("visible_app_id",-1)
-                    yz.setGlobalVar("show_running_apps",false)
-                    yz.setGlobalVar("show_installed_apps",true)
-                    yz.setGlobalVar("crypto_wallet_account_number",null)
+                    yz.setGlobalVar("visible_app_id",               -1)
+                    yz.setGlobalVar("show_running_apps",            false)
+                    yz.setGlobalVar("show_installed_apps",          true)
+
                 },
                 showRunningApps:                                function        (  ) {
                     let visAppId = yz.getGlobalVar("visible_app_id")
-                    yz.setGlobalVar("last_visible_app_id",visAppId)
-                    yz.setGlobalVar("visible_app_id",-1)
-                    yz.setGlobalVar("show_running_apps",true)
-                    yz.setGlobalVar("show_installed_apps",false)
+                    yz.setGlobalVar("last_visible_app_id",  visAppId)
+                    yz.setGlobalVar("visible_app_id",       -1)
+                    yz.setGlobalVar("show_running_apps",    true)
+                    yz.setGlobalVar("show_installed_apps",  false)
                 },
 
                 sendToServerViaWebSocket:           async function              (  msg  )                                       {
@@ -13493,8 +13491,11 @@
                     },
                     createGlobalVars:                   function                    () {
                         sqlui("insert into  ui_table_global_vars  (prop_id, prop_type, prop_value) values (?,?,?)",["visible_app_id", "INTEGER", -1])
-                        yz.setGlobalVar("show_running_apps", false)
-                        yz.setGlobalVar("show_installed_apps", true)
+                        yz.setGlobalVar("show_running_apps",            false)
+                        yz.setGlobalVar("show_installed_apps",          true)
+                        yz.setGlobalVar("crypto_wallet_account_number", null)
+                        yz.setGlobalVar("global_debugger_on",           false)
+
                     },
 
                     uiDbTickCounter:                    0,
