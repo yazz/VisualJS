@@ -4895,15 +4895,33 @@ async function  startServices                           (  ) {
         let baseComponentId     = req.query.base_component_id
         let codeId              = req.query.code_id
 
-        await yz.executeQuickSql(dbsearch,
-            `insert into 
-                level_4_installed_apps_table 
-            (id , fk_user_id, fk_code_id,  base_component_id)
-                values
-            (?,?,?,?) 
+        let existsInstalledApp = await yz.getQuickSqlOneRow(dbsearch,
+            "select id from level_4_installed_apps_table where base_component_id = ? and fk_user_id = ?", [baseComponentId, userId])
+
+        if (!existsInstalledApp) {
+            await yz.executeQuickSql(dbsearch,
+                `insert into 
+                    level_4_installed_apps_table 
+                (id , fk_user_id, fk_code_id,  base_component_id)
+                    values
+                (?,?,?,?) 
+                `
+                ,
+                [ uuidv1()  ,  userId  ,  codeId  ,  baseComponentId])
+        } else {
+            await yz.executeQuickSql(dbsearch,
+                `update 
+                    level_4_installed_apps_table
+                set
+                    fk_code_id = ? 
+                where
+                    fk_user_id = ?
+                        and 
+                    base_component_id = ?  
             `
-            ,
-            [ uuidv1()  ,  userId  ,  codeId  ,  baseComponentId])
+                ,
+                [ codeId  ,  userId  ,  baseComponentId])
+        }
 
 
         res.writeHead(200, {'Content-Type': 'application/json'});
