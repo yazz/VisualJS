@@ -9879,13 +9879,10 @@
 
                                                 let checkSeedurl = "http" + (($HOSTPORT == 443)?"s":"") + "://" + $HOST + "/http_get_check_metamask_seed?" +
                                                     new URLSearchParams({
-                                                        metamask_account_id: accNo
-                                                        ,
-                                                        signedTx: signedTx
-                                                        ,
-                                                        sign_message: signMessage
-                                                        ,
-                                                        random_seed: seed
+                                                        metamask_account_id:    accNo,
+                                                        signedTx:               signedTx,
+                                                        sign_message:           signMessage,
+                                                        random_seed:            seed
                                                     })
 
                                                 fetch(checkSeedurl, {
@@ -9898,7 +9895,7 @@
                                                         if (responseJson2.error) {
                                                             mm.login_error_message =  responseJson2.error
                                                         } else {
-                                                            mm.accountNumber = accs[0]
+                                                            mm.cryptoWalletAccountNo = accs[0]
                                                             mm.show_page_info   = false;
                                                             mm.tab              = ""
 
@@ -9908,7 +9905,7 @@
                                                     .catch(err => {
                                                         //error block
                                                     })
-                                                mm.accountNumber = accs[0]
+                                                mm.cryptoWalletAccountNo = accs[0]
 
                                             })
                                             .catch(err => {
@@ -9996,7 +9993,7 @@
                         data:       function () {
                             return {
                                 show_page_info:         false,
-                                accountNumber:          null,
+                                cryptoWalletAccountNo:          null,
                                 comments:               [],
                                 rating:                 0,
                                 new_rating:             0,
@@ -10031,7 +10028,7 @@
                                             v-on:touchstart=' openInfo("login")'
                                             style='height:100%;margin-left:20px;vertical-align:middle;'
                                             >
-                                            {{ accountNumber?("" + accountNumber).substring(0,5) + "...":"Login" }}
+                                            {{ cryptoWalletAccountNo?("" + cryptoWalletAccountNo).substring(0,5) + "...":"Login" }}
                                         </span>
 
 
@@ -10136,8 +10133,8 @@
                                         ------------------------------------------------ -->
                                         <div v-if='tab=="login"'>
 
-                                        <div v-if='accountNumber'>Metamask Account Number: {{accountNumber}}</div>
-                                        <div v-else='accountNumber'>Logging in to Metamask will bring the Metamask popup and you will be
+                                        <div v-if='cryptoWalletAccountNo'>Metamask Account Number: {{cryptoWalletAccountNo}}</div>
+                                        <div v-else='cryptoWalletAccountNo'>Logging in to Metamask will bring the Metamask popup and you will be
                                         requested to authorise the login</div>
 
                                         <div style='color:red' id='login_error'>{{login_error_message}}</div>
@@ -10257,7 +10254,7 @@
 
                             <div v-if="debugView=='debug_view_metamask'">
 
-                                        <div v-if='!accountNumber'>
+                                        <div v-if='!cryptoWalletAccountNo'>
                                             You are not signed into Metamask. Please login first
                                         </div>
 
@@ -10267,7 +10264,7 @@
 
                                         <button type=button
                                                 class='btn btn-primary'
-                                                v-bind:disabled='accountNumber?false:true'
+                                                v-bind:disabled='cryptoWalletAccountNo?false:true'
                                                 style='margin-left: 10px;width:40vw;height:15vh;'
                                                 v-on:click='signMetamaskTransaction()'>
 
