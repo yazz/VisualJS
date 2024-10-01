@@ -9896,6 +9896,7 @@
                                                             mm.login_error_message =  responseJson2.error
                                                         } else {
                                                             mm.cryptoWalletAccountNo = accs[0]
+                                                            yz.setGlobalVar("crypto_wallet_account_number",accs[0])
                                                             mm.show_page_info   = false;
                                                             mm.tab              = ""
 
@@ -9906,6 +9907,7 @@
                                                         //error block
                                                     })
                                                 mm.cryptoWalletAccountNo = accs[0]
+                                                yz.setGlobalVar("crypto_wallet_account_number",accs[0])
 
                                             })
                                             .catch(err => {
@@ -10013,7 +10015,7 @@
     <span   id='main_debug_header'
                                          v-bind:style="'padding:0px;position: relative; margin: auto;height:100%;width:100%;border:0px; overflow-y:none;'"
                                          v-bind:class='container' >
-
+                                <div v-if="yz">
                                     <div
                                         v-if="showSettings"
                                         style='background-color:navy;height:5vh;width: 100vw;color:white;'>
@@ -10028,7 +10030,7 @@
                                             v-on:touchstart=' openInfo("login")'
                                             style='height:100%;margin-left:20px;vertical-align:middle;'
                                             >
-                                            {{ cryptoWalletAccountNo?("" + cryptoWalletAccountNo).substring(0,5) + "...":"Login" }}
+                                            {{ yz.getGlobalVar("crypto_wallet_account_number")?("" + yz.getGlobalVar("crypto_wallet_account_number")).substring(0,5) + "...":"Login" }}
                                         </span>
 
 
@@ -10287,7 +10289,7 @@
 
                                     </div>
                                 </div>
-
+</div>
 
 
                                 </span>`
@@ -11806,7 +11808,7 @@
                     yz.setGlobalVar("visible_app_id",-1)
                     yz.setGlobalVar("show_running_apps",false)
                     yz.setGlobalVar("show_installed_apps",true)
-
+                    yz.setGlobalVar("crypto_wallet_account_number",null)
                 },
                 showRunningApps:                                function        (  ) {
                     let visAppId = yz.getGlobalVar("visible_app_id")
