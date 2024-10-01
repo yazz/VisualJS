@@ -9732,6 +9732,12 @@
                                     console.log("Global var 'visible_app_id' changed : " + JSON.stringify(nv))
                                     mm.refresh ++
                                 })
+
+                            Vue.watch(  yz.uiDb.uiDbGlobalVarChangeEvents["global_debugger_on"].refGlobalVarUpdatedValue,
+                                function(nv){
+                                    console.log("Global var 'global_debugger_on' changed : " + JSON.stringify(nv))
+                                    mm.refresh ++
+                                })
                             mm.refresh++
                         },
                         methods:    {
@@ -9739,7 +9745,7 @@
                                 yz.setGlobalVar("global_debugger_on", false)
                             }
                         },
-                        data: function() {
+                        data:       function() {
                             return {
                                 refresh: 1
                             }
