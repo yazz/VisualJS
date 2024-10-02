@@ -13368,10 +13368,6 @@ zzz
                         alasql('CREATE TRIGGER processNewCommand BEFORE INSERT ON  ui_table_executed_commands_log  processNewCommand');
 
                     },
-                    createCommand:                      function                    (  command  ,  params  ,  debugCode  )          {
-                        let paramsString = JSON.stringify(params)
-                        yz.uiDb.sqlui("INSERT INTO ui_table_executed_commands_log (  created  ,  command  ,  arguments  ,  fk_debug_id  ) VALUES (?,?,?,?)", [Date.now(), command, paramsString, debugCode]);
-                    },
                     createCommandV2:                    function                    (  debugId  ,  command  ,  params  )          {
                         let paramsString = JSON.stringify(params)
                         yz.uiDb.sqlui("INSERT INTO ui_table_executed_commands_log (  created  ,  command  ,  arguments  ,  fk_debug_id  ) VALUES (?,?,?,?)", [Date.now(), command, paramsString, debugId]);
