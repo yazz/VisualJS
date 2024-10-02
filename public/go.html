@@ -9647,7 +9647,7 @@ zzz
 <div  style='height: 50px;'></div>
 
 <div style='border: 1px solid black;'>
-    <div   v-for="item  in  yz.uiDb.uiDbTableData.ui_table_commands.data" >
+    <div   v-for="item  in  yz.uiDb.uiDbTableData.ui_table_executed_commands_log.data" >
         <div style='border: 1px sold red;'>{{item.command}}</div>
     </div>
 </div>
@@ -13221,14 +13221,18 @@ zzz
                         yz.uiDb.createGlobalVars()
 
                         //
-                        // table commands
+                        // table "ui_table_executed_commands_log"
+                        //
+                        // created:                     3425543543
+                        // global_debug_tick:           3445
                         //
                         await yz.uiDb.createAlaSqlTable({
-                            tableName: "ui_table_commands",
+                            tableName: "ui_table_executed_commands_log",
                             fields: [
                                 {name: "id",                fieldType: "INT PRIMARY KEY AUTOINCREMENT"},
-                                {name: "debug_code",        fieldType: "STRING"},
+                                {name: "fk_debug_id",        fieldType: "STRING"},
                                 {name: "created",           fieldType: "INTEGER"},
+                                {name: "global_debug_tick", fieldType: "INTEGER"},
                                 {name: "command",           fieldType: "STRING"},
                                 {name: "arguments",         fieldType: "STRING"},
                                 {name: "status",            fieldType: "STRING"}
@@ -13305,7 +13309,42 @@ zzz
                                 {name: "component_type",                fieldType: "STRING"}
                             ]})
 
+
+
+                        //
+                        // table to store debugger source files
+                        //
+                        await yz.uiDb.createAlaSqlTable({
+                            /* ui_table_command_source   This is a table to store where UI commands comes from
+                            --------------------------   in the source code
+
+                            id:                         The usual UI DB tbale ID
+                            debug_id:                   eg: "dfhjkdsfkjiufdshkjlfsdhkjfhdskjfhdkfhdskhfdkhfsdkhfdskl"
+                            source_file_name:           "go.html"
+                            source_code_line_number:    10345
+                            source_code_line_code:      yz.uiDb.createCommand(  "ADD_RECENT_APP"  ,  {app: app}  ,  "hjkdashkjdsahkjashkashdksahdkasdhkdhkdhklashkl"  )
+                            source_code_context:        sendCommandAddApp: function (  app  ) {
+                                                            yz.uiDb.createCommand(  "ADD_RECENT_APP"  ,  {app: app}  ,  "hjkdashkjdsahkjashkashdksahdkasdhkdhkdhklashkl"  )
+                                                        },
+                            */
+                            tableName: "ui_table_command_source",
+                            fields: [
+                                {name: "id",                            fieldType: "INT PRIMARY KEY AUTOINCREMENT"},
+                                {name: "debug_id",                      fieldType: "STRING"},
+                                {name: "source_file_name",              fieldType: "STRING"},
+                                {name: "source_code_line_number",       fieldType: "INTEGER"},
+                                {name: "source_code_line_code",         fieldType: "STRING"},
+                                {name: "source_code_context",           fieldType: "STRING"}
+                            ]})
+
+
+
+
+
+
+                        //
                         // add a trigger to process new commands
+                        //
                         alasql.fn.processNewCommand = async function(r) {
                             let commandArguments = {}
                             if (r.arguments) {
@@ -13324,12 +13363,12 @@ zzz
                             }
                             return true;
                         };
-                        alasql('CREATE TRIGGER processNewCommand BEFORE INSERT ON  ui_table_commands  processNewCommand');
+                        alasql('CREATE TRIGGER processNewCommand BEFORE INSERT ON  ui_table_executed_commands_log  processNewCommand');
 
                     },
                     createCommand:                      function                    (  command  ,  params  ,  debugCode  )          {
                         let paramsString = JSON.stringify(params)
-                        yz.uiDb.sqlui("INSERT INTO ui_table_commands (  created  ,  command  ,  arguments  ,  debug_code  ) VALUES (?,?,?,?)", [Date.now(), command, paramsString, debugCode]);
+                        yz.uiDb.sqlui("INSERT INTO ui_table_executed_commands_log (  created  ,  command  ,  arguments  ,  fk_debug_id  ) VALUES (?,?,?,?)", [Date.now(), command, paramsString, debugCode]);
                     },
                     createAlaSqlTable:                  async function              (  {  tableName  ,  fields  }  )                {
                         let alaSqlCreateString = "create table " + tableName + "("
