@@ -9648,7 +9648,9 @@ zzz
 
 <div style='border: 1px solid black;'>
     <div   v-for="item  in  yz.uiDb.uiDbTableData.ui_table_executed_commands_log.data" >
-        <div style='border: 1px sold red;'>{{item.command}}</div>
+      <div style='border: 1px sold red;'>{{item.command}}
+              <div style='color: blue; margin-left: 30px;'>{{item.fk_debug_id}}</div>
+    </div>
     </div>
 </div>
                                         <button
