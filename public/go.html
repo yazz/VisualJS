@@ -13331,6 +13331,7 @@ zzz
                                 {name: "source_text",                   fieldType: "STRING"}
 
                             ]})
+                        await yz.uiDb.readSourceFileForDebugging("/public/go.html")
 
 
                         //
@@ -13387,6 +13388,9 @@ zzz
                         };
                         alasql('CREATE TRIGGER processNewCommand BEFORE INSERT ON  ui_table_executed_commands_log  processNewCommand');
 
+                    },
+                    readSourceFileForDebugging:         function                    (  fileName  ) {
+                        alert(fileName)
                     },
                     createCommandV2:                    function                    (  debugId  ,  command  ,  params  )          {
                         let paramsString = JSON.stringify(params)
