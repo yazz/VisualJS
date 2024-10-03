@@ -13164,17 +13164,22 @@ zzz
                             //
                             //if (startOfSql.startsWith("insert") || startOfSql.startsWith("update") || startOfSql.startsWith("delete")) {
                             if (startOfSql.startsWith("update") || startOfSql.startsWith("delete")) {
-                                ((async function () {
-                                    let oursql = sql
-                                    let ourparams = params
-                                    let resultsCode = await yz.postToYazzReturnJson(
-                                        "/http_post_browser_sql_write_operation",
-                                        {
-                                            browser_write_sql: oursql,
-                                            sql_params: ourparams
-                                        })
+                                var words = startOfSql.split(' ');
+                                let probableTableName = words[1];
+                                if (yz.uiDb.sendToServerDebugSqliteLookup[ probableTableName ]) {
+                                    ((async function () {
+                                        let oursql = sql
+                                        let ourparams = params
+                                        let resultsCode = await yz.postToYazzReturnJson(
+                                            "/http_post_browser_sql_write_operation",
+                                            {
+                                                browser_write_sql: oursql,
+                                                sql_params: ourparams
+                                            })
 
-                                })())
+                                    })())
+
+                                }
                             }
                         }
                         return ret
@@ -13331,6 +13336,27 @@ zzz
                                 {name: "source_text",                   fieldType: "STRING"}
 
                             ]})
+
+                        //
+                        // table to store debugger source file lines
+                        //
+                        await yz.uiDb.createAlaSqlTable({
+                            /* ui_table_command_source_file_lines   This is a table to store the source code
+                            --------------------------              files, which are used to find debug code
+
+                            id:                         The usual UI DB table ID
+                            source_file_name:           "go.html"
+                            source_text:                The entire source code is stored here and may be several KB
+                            */
+                            tableName: "ui_table_command_source_file_lines",
+                            fields: [
+                                {name: "id",                            fieldType: "INT PRIMARY KEY AUTOINCREMENT"},
+                                {name: "source_file_name",              fieldType: "STRING"},
+                                {name: "source_line_number",            fieldType: "INTEGER"},
+                                {name: "source_line_text",              fieldType: "STRING"}
+                            ],
+                            sendToDebugSqliteServer: false
+                        })
                         await yz.uiDb.readSourceFileForDebugging("/public/go.html")
                         await yz.uiDb.readSourceFileForDebugging("/public/visifile_drivers/apps/appstore.vjs")
 
@@ -13397,12 +13423,14 @@ zzz
                             })
                         yz.uiDb.sqlui("INSERT INTO ui_table_command_source_files (  source_file_name  ,  source_text  ) VALUES (?,?)",
                                 [result.fileName,result.contents])
-                        debugger
                         let linesOfFile = result.contents.split('\n');
+                        let lineNum = 1
+                        console.log("File " + result.fileName + " has " + linesOfFile.length + " lines")
                         for (let line of linesOfFile) {
-                            let lineLen = line.length
-                            let a = 1
-                            a = a + 1
+                            lineNum ++
+                            yz.uiDb.sqlui("INSERT INTO  ui_table_command_source_file_lines  (  source_file_name  ,  source_line_text  , source_line_number  ) VALUES (?,?,?)",
+                                [  result.fileName  ,  line  ,  lineNum  ]  )
+                            console.log(lineNum)
                         }
 
                     },
@@ -13410,7 +13438,13 @@ zzz
                         let paramsString = JSON.stringify(params)
                         yz.uiDb.sqlui("INSERT INTO ui_table_executed_commands_log (  created  ,  command  ,  arguments  ,  fk_debug_id  ) VALUES (?,?,?,?)", [Date.now(), command, paramsString, debugId]);
                     },
-                    createAlaSqlTable:                  async function              (  {  tableName  ,  fields  }  )                {
+                    sendToServerDebugSqliteLookup: {},
+                    createAlaSqlTable:                  async function              (  {  tableName  ,  fields  ,  sendToDebugSqliteServer  }  )                {
+                        if (typeof(sendToDebugSqliteServer) !== 'undefined') {
+                            yz.uiDb.sendToServerDebugSqliteLookup[tableName] = sendToDebugSqliteServer
+                        } else {
+                            yz.uiDb.sendToServerDebugSqliteLookup[tableName] = true
+                        }
                         let alaSqlCreateString = "create table " + tableName + "("
 
                         let alaSqlInsertString = "insert into ui_tables (table_name) values (?)"
@@ -13430,7 +13464,7 @@ zzz
 
 
                         //IF WE ARE RUNNING IN DEBUG MODE
-                        if ((typeof $DEBUGUI !== 'undefined') && ($DEBUGUI == "true")) {
+                        if ((typeof $DEBUGUI !== 'undefined') && ($DEBUGUI == "true") && yz.uiDb.sendToServerDebugSqliteLookup[ tableName ]) {
 
                             //
                             // create the table on the server
@@ -13459,7 +13493,6 @@ zzz
                                 })
 
 
-//return
 
                             //
                             // add a trigger to insert new rows into debug table
