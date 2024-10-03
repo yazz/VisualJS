@@ -13397,6 +13397,14 @@ zzz
                             })
                         yz.uiDb.sqlui("INSERT INTO ui_table_command_source_files (  source_file_name  ,  source_text  ) VALUES (?,?)",
                                 [result.fileName,result.contents])
+                        debugger
+                        let linesOfFile = result.contents.split('\n');
+                        for (let line of linesOfFile) {
+                            let lineLen = line.length
+                            let a = 1
+                            a = a + 1
+                        }
+
                     },
                     createCommandV2:                    function                    (  debugId  ,  command  ,  params  )          {
                         let paramsString = JSON.stringify(params)
