@@ -4890,6 +4890,18 @@ async function  startServices                           (  ) {
             response
         ));
     })
+
+    app.get(    '/http_get_read_source_file',          async function (req, res, next) {
+        let userId              = await getUserId(req)
+        let fileName            = req.query.file_name
+
+
+
+        res.writeHead(200, {'Content-Type': 'application/json'});
+        res.end(JSON.stringify(
+            {done: "ok", fileName: fileName, contents: "fdssfdfsdfds"}
+        ));
+    })
     app.get(    '/http_get_install_appstore_app_for_current_user',          async function (req, res, next) {
         let userId              = await getUserId(req)
         let baseComponentId     = req.query.base_component_id

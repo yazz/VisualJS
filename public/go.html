@@ -13389,8 +13389,11 @@ zzz
                         alasql('CREATE TRIGGER processNewCommand BEFORE INSERT ON  ui_table_executed_commands_log  processNewCommand');
 
                     },
-                    readSourceFileForDebugging:         function                    (  fileName  ) {
-                        alert(fileName)
+                    readSourceFileForDebugging:         async function                    (  fileName  ) {
+                        let result = await yz.getFromYazzReturnJson("/http_get_read_source_file",
+                            {
+                                file_name:  fileName
+                            })
                     },
                     createCommandV2:                    function                    (  debugId  ,  command  ,  params  )          {
                         let paramsString = JSON.stringify(params)
@@ -13661,7 +13664,7 @@ zzz
                 },
                 installAppFromAppstore:           async function              (  {  baseComponentId  ,  codeId  }  ) {
 
-                    let result = yz.getFromYazzReturnJson("/http_get_install_appstore_app_for_current_user",
+                    let result = await yz.getFromYazzReturnJson("/http_get_install_appstore_app_for_current_user",
                         {
                             base_component_id:  baseComponentId,
                             code_id:            codeId
