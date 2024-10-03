@@ -13428,9 +13428,13 @@ zzz
                         console.log("File " + result.fileName + " has " + linesOfFile.length + " lines")
                         for (let line of linesOfFile) {
                             lineNum ++
-                            yz.uiDb.sqlui("INSERT INTO  ui_table_command_source_file_lines  (  source_file_name  ,  source_line_text  , source_line_number  ) VALUES (?,?,?)",
-                                [  result.fileName  ,  line  ,  lineNum  ]  )
-                            //console.log(lineNum)
+                            if (line.indexOf("\"")!=-1){
+                                yz.uiDb.sqlui("INSERT INTO  ui_table_command_source_file_lines  (  source_file_name  ,  source_line_text  , source_line_number  ) VALUES (?,?,?)",
+                                    [  result.fileName  ,  line  ,  lineNum  ]  )
+                            }
+                            //yz.uiDb.sqlui("INSERT INTO  ui_table_command_source_file_lines  (  source_file_name  ,  source_line_text  , source_line_number  ) VALUES (?,?,?)",
+                            //    [  result.fileName  ,  line  ,  lineNum  ]  )
+                            console.log(lineNum)
                         }
 
                     },
