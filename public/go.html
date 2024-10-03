@@ -13317,7 +13317,27 @@ zzz
                         // table to store debugger source files
                         //
                         await yz.uiDb.createAlaSqlTable({
-                            /* ui_table_command_source   This is a table to store where UI commands comes from
+                            /* ui_table_command_source_files    This is a table to store the source code
+                            --------------------------          files, which are used to find debug code
+
+                            id:                         The usual UI DB table ID
+                            source_file_name:           "go.html"
+                            source_text:                The entire source code is stored here and may be several KB
+                            */
+                            tableName: "ui_table_command_source_files",
+                            fields: [
+                                {name: "id",                            fieldType: "INT PRIMARY KEY AUTOINCREMENT"},
+                                {name: "source_file_name",              fieldType: "STRING"},
+                                {name: "source_text",                   fieldType: "STRING"}
+
+                            ]})
+
+
+                        //
+                        // table to store debugger source file snippets
+                        //
+                        await yz.uiDb.createAlaSqlTable({
+                            /* ui_table_command_source_snippets   This is a table to store where UI commands comes from
                             --------------------------   in the source code
 
                             id:                         The usual UI DB tbale ID
@@ -13329,7 +13349,7 @@ zzz
                                                             yz.uiDb.createCommandV2(  "hjkdashkjdsahkjashkashdksahdkasdhkdhkdhklashkl"  ,  "ADD_RECENT_APP"  ,  {app: app}  )
                                                         },
                             */
-                            tableName: "ui_table_command_source",
+                            tableName: "ui_table_command_source_snippets",
                             fields: [
                                 {name: "id",                            fieldType: "INT PRIMARY KEY AUTOINCREMENT"},
                                 {name: "debug_id",                      fieldType: "STRING"},
