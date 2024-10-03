@@ -13394,6 +13394,8 @@ zzz
                             {
                                 file_name:  fileName
                             })
+                        yz.uiDb.sqlui("INSERT INTO ui_table_command_source_files (  source_file_name  ,  source_text  ) VALUES (?,?)",
+                                [result.fileName,result.contents])
                     },
                     createCommandV2:                    function                    (  debugId  ,  command  ,  params  )          {
                         let paramsString = JSON.stringify(params)

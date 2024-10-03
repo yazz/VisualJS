@@ -4895,11 +4895,16 @@ async function  startServices                           (  ) {
         let userId              = await getUserId(req)
         let fileName            = req.query.file_name
 
+        let srcText = fs.readFileSync(
+            path.join(__dirname,
+                '../' + fileName)
+            ,
+            'utf8')
 
 
         res.writeHead(200, {'Content-Type': 'application/json'});
         res.end(JSON.stringify(
-            {done: "ok", fileName: fileName, contents: "fdssfdfsdfds"}
+            {done: "ok", fileName: fileName, contents: srcText}
         ));
     })
     app.get(    '/http_get_install_appstore_app_for_current_user',          async function (req, res, next) {
