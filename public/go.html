@@ -13448,23 +13448,24 @@ zzz
                                 let currentPos = 0
                                 let currentLineNumber = 1
                                 let foundOnLine = -1
+                                let foundOnLineText = null
                                 for (let currentLine of linesOfFile) {
                                     let startPos = currentPos
                                     currentPos = currentPos + currentLine.length + 1
-                                    if ((startPos < indexOfSearch) && (indexOfSearch < currentPos)) {
+                                    if ((startPos <= indexOfSearch) && (indexOfSearch < currentPos)) {
                                         foundOnLine = currentLineNumber
+                                        foundOnLineText = currentLine
                                     }
                                     currentLineNumber++
                                 }
                                 console.log("Length of string: " + fileSourceRecord.source_text.length)
                                 console.log("currentPos: " + currentPos)
                                 console.log("Filename: " + fileSourceRecord.source_file_name)
-                                console.log("    foundOnLine: " + foundOnLine)
+                                console.log("    foundOnLine: " + foundOnLine + ":" + foundOnLineText)
 
 
 
 
-                                //debugger
                                 let textUpToSearchItem = fileSourceRecord.source_text.substring(0,indexOfSearch)
                                 let indexOfStartOfSearchLine = textUpToSearchItem.lastIndexOf('\n')
                                 if (indexOfStartOfSearchLine == -1) {
