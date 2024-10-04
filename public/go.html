@@ -13445,18 +13445,26 @@ zzz
                                 console.log("    Found '" + searchText + "' at index " + indexOfSearch)
 
                                 let linesOfFile = fileSourceRecord.source_text.split('\n');
-                                debugger
                                 let currentPos = 0
+                                let currentLineNumber = 1
+                                let foundOnLine = -1
                                 for (let currentLine of linesOfFile) {
+                                    let startPos = currentPos
                                     currentPos = currentPos + currentLine.length + 1
+                                    if ((startPos < indexOfSearch) && (indexOfSearch < currentPos)) {
+                                        foundOnLine = currentLineNumber
+                                    }
+                                    currentLineNumber++
                                 }
                                 console.log("Length of string: " + fileSourceRecord.source_text.length)
                                 console.log("currentPos: " + currentPos)
+                                console.log("Filename: " + fileSourceRecord.source_file_name)
+                                console.log("    foundOnLine: " + foundOnLine)
 
 
 
 
-                                debugger
+                                //debugger
                                 let textUpToSearchItem = fileSourceRecord.source_text.substring(0,indexOfSearch)
                                 let indexOfStartOfSearchLine = textUpToSearchItem.lastIndexOf('\n')
                                 if (indexOfStartOfSearchLine == -1) {
@@ -13476,9 +13484,9 @@ zzz
 
                                 let linesOfFileBeforeSearchItem = textUpToSearchItem.split('\n');
                                 let lineNumberOfSearchItem = linesOfFile.length
-                                console.log("    at line number " + lineNumberOfSearchItem)
+                                //console.log("    at line number " + lineNumberOfSearchItem)
 
-                                debugger
+                                //debugger
                                 let contextBeforeStart = indexOfSearch - 1000
                                 if (contextBeforeStart < 0) {
                                     contextBeforeStart = 0
