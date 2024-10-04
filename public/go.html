@@ -13431,69 +13431,31 @@ zzz
                             if ( indexOfSearch != -1 ) {
                                 console.log("    Found '" + searchText + "' at index " + indexOfSearch)
 
+                                let textUpToSearchItem = fileSourceRecord.source_text.substring(0,indexOfSearch)
+                                let linesOfFileBeforeSearchItem = textUpToSearchItem.split('\n');
+                                let lineNumberOfSearchItem = linesOfFileBeforeSearchItem.length
+
                                 let linesOfFile = fileSourceRecord.source_text.split('\n');
                                 let currentPos = 0
                                 let currentLineNumber = 1
                                 let foundOnLine = -1
                                 let foundOnLineText = null
-                                for (let currentLine of linesOfFile) {
-                                    let startPos = currentPos
-                                    currentPos = currentPos + currentLine.length + 1
-                                    if ((startPos <= indexOfSearch) && (indexOfSearch < currentPos)) {
-                                        foundOnLine = currentLineNumber
-                                        foundOnLineText = currentLine
+
+                                let startLine   = lineNumberOfSearchItem
+                                let endLine     = lineNumberOfSearchItem
+
+                                for (let currentLineNumber = startLine; currentLineNumber <= endLine ; currentLineNumber ++) {
+                                    let currentLine = linesOfFile[currentLineNumber - 1]
+
+                                    let existsRow = yz.uiDb.sqlui1("select id from ui_table_command_source_file_lines where source_file_name= ? and source_line_number = ?",
+                                                        [fileSourceRecord.source_file_name , currentLineNumber])
+                                    if (!existsRow) {
+                                        yz.uiDb.sqlui("INSERT INTO  ui_table_command_source_file_lines  (  source_file_name  ,  source_line_text  , source_line_number  ) VALUES (?,?,?)",
+                                            [fileSourceRecord.source_file_name, currentLine, currentLineNumber])
                                     }
-                                    if ((startPos <= indexOfSearch) && (indexOfSearch < currentPos)) {
-                                        let existsRow = yz.uiDb.sqlui1("select id from ui_table_command_source_file_lines where source_file_name= ? and source_line_number = ?",
-                                                            [fileSourceRecord.source_file_name , currentLineNumber])
-                                        if (!existsRow) {
-                                            yz.uiDb.sqlui("INSERT INTO  ui_table_command_source_file_lines  (  source_file_name  ,  source_line_text  , source_line_number  ) VALUES (?,?,?)",
-                                                [fileSourceRecord.source_file_name, currentLine, currentLineNumber])
-                                        }
-                                    }
-                                    currentLineNumber++
                                 }
-                                console.log("Length of string: " + fileSourceRecord.source_text.length)
-                                console.log("currentPos: " + currentPos)
                                 console.log("Filename: " + fileSourceRecord.source_file_name)
-                                console.log("    foundOnLine: " + foundOnLine + ":" + foundOnLineText)
-
-
-
-
-                                let textUpToSearchItem = fileSourceRecord.source_text.substring(0,indexOfSearch)
-                                let indexOfStartOfSearchLine = textUpToSearchItem.lastIndexOf('\n')
-                                if (indexOfStartOfSearchLine == -1) {
-                                    indexOfStartOfSearchLine = 0
-                                } else {
-                                    indexOfStartOfSearchLine++
-                                }
-
-                                let textAfterSearchItem = fileSourceRecord.source_text.substring(indexOfSearch)
-                                let indexOfEndOfSearchLine = textAfterSearchItem.indexOf('\n')
-                                if (indexOfEndOfSearchLine == -1) {
-                                    indexOfEndOfSearchLine = fileSourceRecord.source_text.length - 1
-                                } else {
-                                    indexOfEndOfSearchLine += indexOfSearch
-                                }
-                                let currentLineText = fileSourceRecord.source_text.substring(indexOfStartOfSearchLine,indexOfEndOfSearchLine)
-
-                                let linesOfFileBeforeSearchItem = textUpToSearchItem.split('\n');
-                                let lineNumberOfSearchItem = linesOfFile.length
-                                //console.log("    at line number " + lineNumberOfSearchItem)
-
-                                //debugger
-                                let contextBeforeStart = indexOfSearch - 1000
-                                if (contextBeforeStart < 0) {
-                                    contextBeforeStart = 0
-                                }
-                                let contextAfterEnd = indexOfSearch + 1000
-                                if (contextAfterEnd >= fileSourceRecord.source_text.length) {
-                                    contextAfterEnd = fileSourceRecord.source_text.length - 1
-                                }
-                                let contextBeforeSource = fileSourceRecord.source_text.substring(contextBeforeStart,indexOfSearch)
-                                let contextAfterAndInclSource = fileSourceRecord.source_text.substring(indexOfSearch,contextAfterEnd)
-
+                                console.log("    foundOnLine: " + lineNumberOfSearchItem            + ":" + linesOfFile[lineNumberOfSearchItem - 1])
                                 break
                             }
                         }
