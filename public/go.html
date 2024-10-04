@@ -13436,7 +13436,22 @@ zzz
                             //    [  result.fileName  ,  line  ,  lineNum  ]  )
                             console.log(lineNum)
                         }
-
+                    },
+                    findSourceLineInCode:               async function                    (  searchText  ) {
+                        for (let fileSourceRecord of yz.uiDb.uiDbTableData["ui_table_command_source_files"].data) {
+                            console.log("Searching " + fileSourceRecord.source_file_name)
+                            let indexOfSearch = fileSourceRecord.source_text.indexOf(searchText)
+                            if ( indexOfSearch != -1 ) {
+                                console.log("    Found '" + searchText + "' at index " + indexOfSearch)
+                                debugger
+                                let textUpToSearchItem = fileSourceRecord.source_text.substring(0,indexOfSearch)
+                                let linesOfFile = textUpToSearchItem.split('\n');
+                                let lineNumberOfSearchItem = linesOfFile.length
+                                console.log("    at line number " + lineNumberOfSearchItem)
+                                break
+                            }
+                        }
+                        return {found: true}
                     },
                     createCommandV2:                    function                    (  debugId  ,  command  ,  params  )          {
                         let paramsString = JSON.stringify(params)
