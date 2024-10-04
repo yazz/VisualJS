@@ -9648,8 +9648,13 @@ zzz
 
 <div style='border: 1px solid black;'>
     <div   v-for="item  in  yz.uiDb.uiDbTableData.ui_table_executed_commands_log.data.slice().reverse()" >
-      <div style='border: 1px sold red;'>{{yz.msToTime(item.created)}} - {{item.command}}
-              <div style='color: blue; margin-left: 30px;'>{{item.fk_debug_id}}</div>
+      <div style='border: 1px sold red;'
+      v-on:click="showActionForLog(item.id)"
+      >{{yz.msToTime(item.created)}} - {{item.command}}
+              <div v-if='selectedLogItem == item.id'>
+                  <div style='color: blue; margin-left: 30px;'>{{item.fk_debug_id}}</div>
+              </div>
+</div>
     </div>
     </div>
 </div>
@@ -9750,12 +9755,18 @@ zzz
                             mm.refresh++
                         },
                         methods:    {
-                            closeDebugV2: async function() {
+                            showActionForLog:   async function(id) {
+                                let mm = this
+                                debugger
+                                mm.selectedLogItem = id
+                            },
+                            closeDebugV2:       async function() {
                                 yz.setGlobalVar("global_debugger_on", false)
                             }
                         },
                         data:       function() {
                             return {
+                                selectedLogItem: null,
                                 refresh: 1
                             }
                         }
