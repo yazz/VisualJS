@@ -13425,27 +13425,35 @@ zzz
                                 [result.fileName,result.contents])
                     },
                     findSourceLineInCode:               async function                    (  searchText  ) {
+                        let found = false
+                        let startLine   = null
+                        let endLine     = null
+                        let foundLine   = null
+                        let foundFile   = null
+                        let lineNumberOfSearchItem = null
+                        let surroundingLines = null
+
+
                         for (let fileSourceRecord of yz.uiDb.uiDbTableData["ui_table_command_source_files"].data) {
                             console.log("Searching " + fileSourceRecord.source_file_name)
                             let indexOfSearch = fileSourceRecord.source_text.indexOf(searchText)
+
                             if ( indexOfSearch != -1 ) {
                                 console.log("    Found '" + searchText + "' at index " + indexOfSearch)
+                                found = true
+                                foundFile = fileSourceRecord.source_file_name
 
                                 let textUpToSearchItem = fileSourceRecord.source_text.substring(0,indexOfSearch)
                                 let linesOfFileBeforeSearchItem = textUpToSearchItem.split('\n');
-                                let lineNumberOfSearchItem = linesOfFileBeforeSearchItem.length
+                                lineNumberOfSearchItem = linesOfFileBeforeSearchItem.length
 
                                 let linesOfFile = fileSourceRecord.source_text.split('\n');
-                                let currentPos = 0
-                                let currentLineNumber = 1
-                                let foundOnLine = -1
-                                let foundOnLineText = null
 
-                                let startLine   = lineNumberOfSearchItem - 5
+                                startLine   = lineNumberOfSearchItem - 5
                                 if (startLine < 1) {
                                     startLine = 1
                                 }
-                                let endLine     = lineNumberOfSearchItem + 5
+                                endLine     = lineNumberOfSearchItem + 5
                                 if (endLine > linesOfFile.length) {
                                     endLine = linesOfFile.length
                                 }
@@ -13461,11 +13469,14 @@ zzz
                                     }
                                 }
                                 console.log("Filename: " + fileSourceRecord.source_file_name)
-                                console.log("    foundOnLine: " + lineNumberOfSearchItem            + ":" + linesOfFile[lineNumberOfSearchItem - 1])
+                                foundLine = linesOfFile[lineNumberOfSearchItem - 1]
+                                console.log("    foundOnLine: " + lineNumberOfSearchItem            + ":" + foundLine)
+
+                                surroundingLines = sqlui("select * from ui_table_command_source_file_lines where source_file_name = ? and source_line_number >= ? and source_line_number <= ?",[foundFile, startLine, endLine])
                                 break
                             }
                         }
-                        return {found: true}
+                        return {  found: found  ,  fileName: foundFile, lineNumber: lineNumberOfSearchItem, lineText: foundLine  ,  context: surroundingLines  }
                     },
                     createCommandV2:                    function                    (  debugId  ,  command  ,  params  )          {
                         let paramsString = JSON.stringify(params)
