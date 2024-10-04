@@ -13355,7 +13355,7 @@ zzz
                                 {name: "source_line_number",            fieldType: "INTEGER"},
                                 {name: "source_line_text",              fieldType: "STRING"}
                             ],
-                            sendToDebugSqliteServer: false
+                            sendToDebugSqliteServer: true
                         })
                         await yz.uiDb.readSourceFileForDebugging("/public/go.html")
                         await yz.uiDb.readSourceFileForDebugging("/public/visifile_drivers/apps/appstore.vjs")
@@ -13423,19 +13423,6 @@ zzz
                             })
                         yz.uiDb.sqlui("INSERT INTO ui_table_command_source_files (  source_file_name  ,  source_text  ) VALUES (?,?)",
                                 [result.fileName,result.contents])
-                        let linesOfFile = result.contents.split('\n');
-                        let lineNum = 1
-                        console.log("File " + result.fileName + " has " + linesOfFile.length + " lines")
-                        for (let line of linesOfFile) {
-                            lineNum ++
-                            //if (line.indexOf("gfdfgdfggfgf")!=-1){
-                            //    yz.uiDb.sqlui("INSERT INTO  ui_table_command_source_file_lines  (  source_file_name  ,  source_line_text  , source_line_number  ) VALUES (?,?,?)",
-                            //        [  result.fileName  ,  line  ,  lineNum  ]  )
-                            //}
-                            //yz.uiDb.sqlui("INSERT INTO  ui_table_command_source_file_lines  (  source_file_name  ,  source_line_text  , source_line_number  ) VALUES (?,?,?)",
-                            //    [  result.fileName  ,  line  ,  lineNum  ]  )
-                            //console.log(lineNum)
-                        }
                     },
                     findSourceLineInCode:               async function                    (  searchText  ) {
                         for (let fileSourceRecord of yz.uiDb.uiDbTableData["ui_table_command_source_files"].data) {
@@ -13455,6 +13442,14 @@ zzz
                                     if ((startPos <= indexOfSearch) && (indexOfSearch < currentPos)) {
                                         foundOnLine = currentLineNumber
                                         foundOnLineText = currentLine
+                                    }
+                                    if ((startPos <= indexOfSearch) && (indexOfSearch < currentPos)) {
+                                        let existsRow = yz.uiDb.sqlui1("select id from ui_table_command_source_file_lines where source_file_name= ? and source_line_number = ?",
+                                                            [fileSourceRecord.source_file_name , currentLineNumber])
+                                        if (!existsRow) {
+                                            yz.uiDb.sqlui("INSERT INTO  ui_table_command_source_file_lines  (  source_file_name  ,  source_line_text  , source_line_number  ) VALUES (?,?,?)",
+                                                [fileSourceRecord.source_file_name, currentLine, currentLineNumber])
+                                        }
                                     }
                                     currentLineNumber++
                                 }
