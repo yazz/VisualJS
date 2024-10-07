@@ -9652,10 +9652,15 @@ zzz
       v-on:click="showActionForLog(item.id)"
       >{{yz.msToTime(item.created)}} - {{item.command}}
               <div v-if='selectedLogItem == item.id'>
-                  <div style='color: blue; margin-left: 30px;'>{{item.fk_debug_id}}</div>
+              <div style="color:blue">{{sourceFileName}}</div>
+                  <pre>
+<template   v-for="debugLine  in  selectedDebugLines" >
+{{debugLine.source_line_number}}:<span v-bind:style='debugLine.source_line_number==entryPointDebugLineNumber?"color:red;":""'>{{debugLine.source_line_text}}</span></template>
+                  </pre>
+
               </div>
-</div>
-    </div>
+          </div>
+        </div>
     </div>
 </div>
                                         <button
@@ -9759,6 +9764,12 @@ zzz
                                 let mm = this
                                 debugger
                                 mm.selectedLogItem = id
+                                let logRecord1 = sqlui1( "select * from ui_table_executed_commands_log  where id = ?",[id])
+                                let debugId = logRecord1.fk_debug_id
+                                let sourceInfo = await yz.uiDb.findSourceLineInCode(debugId)
+                                mm.selectedDebugLines = sourceInfo.context
+                                mm.entryPointDebugLineNumber = sourceInfo.lineNumber
+                                mm.sourceFileName = sourceInfo.fileName
                             },
                             closeDebugV2:       async function() {
                                 yz.setGlobalVar("global_debugger_on", false)
@@ -9767,6 +9778,9 @@ zzz
                         data:       function() {
                             return {
                                 selectedLogItem: null,
+                                sourceFileName: null,
+                                entryPointDebugLineNumber: null,
+                                selectedDebugLines: [],
                                 refresh: 1
                             }
                         }
