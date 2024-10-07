@@ -13503,6 +13503,23 @@ zzz
                         }
                         return {  found: found  ,  fileName: foundFile, lineNumber: lineNumberOfSearchItem, lineText: foundLine  ,  context: surroundingLines  }
                     },
+                    findFnNameInDebugString:            async function(codeLine, debugCode) {
+                        let line = 'mm.sendCommandAddApp("jkhfdsjkfdhjkfdshkjlfdshkldfjshfdskjlhiouwewekjlhjkwelhjksdfhklj", app)'
+                        let dbg = "jkhfdsjkfdhjkfdshkjlfdshkldfjshfdskjlhiouwewekjlhjkwelhjksdfhklj"
+                        let indexOfDbgId = line.indexOf(dbg)
+                        debugger
+                        if (indexOfDbgId == null) {
+                            return null
+                        }
+                        let initialString=line.substring(0,indexOfDbgId)
+                        let lastParan = initialString.lastIndexOf("(")
+
+                        let secondString=initialString.substring(0,lastParan)
+                        let lastPeriod = secondString.lastIndexOf(".")
+                        let functionNameString = secondString.substring(lastPeriod+1,lastParan)
+                        let sourceForFunction = yz.uiDb.findSourceLineInCode(functionNameString + ":")
+                        return sourceForFunction
+                    },
                     createCommandV2:                    function                    (  debugId  ,  command  ,  params  )          {
                         let paramsString = JSON.stringify(params)
                         yz.uiDb.sqlui("INSERT INTO ui_table_executed_commands_log (  created  ,  command  ,  arguments  ,  fk_debug_id  ) VALUES (?,?,?,?)", [Date.now(), command, paramsString, debugId]);
