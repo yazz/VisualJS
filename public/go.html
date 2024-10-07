@@ -13519,7 +13519,12 @@ debugger
 
                         let secondString=initialString.substring(0,lastParan)
                         let lastPeriod = secondString.lastIndexOf(".")
-                        let functionNameString = secondString.substring(lastPeriod+1,lastParan)
+                        let lastSpace = secondString.lastIndexOf(" ")
+                        let lastSemicolon = secondString.lastIndexOf(";")
+                        let lastDelimeter = lastPeriod
+                        if (lastSpace > lastPeriod) {lastDelimeter = lastSpace}
+                        if (lastSemicolon > lastPeriod) {lastDelimeter = lastSemicolon}
+                        let functionNameString = secondString.substring(lastDelimeter+1,lastParan)
                         //let sourceForFunction = yz.uiDb.findSourceLineInCode(functionNameString + ":")
                         return functionNameString
                     },
