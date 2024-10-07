@@ -9655,7 +9655,7 @@ zzz
               <div style="color:blue">{{sourceFileName}}</div>
                   <pre>
 <template   v-for="debugLine  in  selectedDebugLines" >
-{{debugLine.source_line_number}}:<span v-bind:style='debugLine.source_line_number==entryPointDebugLineNumber?"color:red;":""'>{{debugLine.source_line_text}}</span></template>
+<span v-bind:style='debugLine.source_line_number==entryPointDebugLineNumber?"color:red;":""'>{{debugLine.source_line_number}}:{{debugLine.source_line_text}}</span></template>
                   </pre>
 
               </div>
