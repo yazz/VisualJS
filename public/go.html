@@ -11248,8 +11248,8 @@ zzz
                                     sendCommandUpdateAppStoreApps:      function        (  ) {
                                         yz.uiDb.createCommandV2(  "ghdfjsjhdfsgkdhjkfsgjkhxsdfnjxfdskfnxgkjdfsx"  ,  "UPDATE_APPS_FROM_APPSTORE"  ,  {} )
                                     },
-                                    sendCommandAddApp:                  function        (  app  ) {
-                                        yz.uiDb.createCommandV2(  "hjkdashkjdsahkjashkashdksahdkasdhkdhkdhklashkl"  ,  "ADD_RECENT_APP"  ,  {app: app}  )
+                                    sendCommandAddApp:                  function        (  dbgId  ,  app  ) {
+                                        yz.uiDb.createCommandV2(  dbgId  ,  "ADD_RECENT_APP"  ,  {app: app}  )
                                     },
 
                                     // local filesystem stuff
@@ -11580,7 +11580,7 @@ zzz
                                             }
 
                                             mm.installed_app_list.push( app  )
-                                            mm.sendCommandAddApp(app)
+                                            mm.sendCommandAddApp("jkhfdsjkfdhjkfdshkjlfdshkldfjshfdskjlhiouwewekjlhjkwelhjksdfhklj", app)
                                         }
 
                                         return null
