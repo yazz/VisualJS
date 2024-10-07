@@ -9653,6 +9653,7 @@ zzz
       >{{yz.msToTime(item.created)}} - {{item.command}}
               <div v-if='selectedLogItem == item.id'>
               <div style="color:blue">{{sourceFileName}}</div>
+              <div style="color:blue">... calling {{callingFunctionName}}</div>
                   <pre>
 <template   v-for="debugLine  in  selectedDebugLines" >
 <span v-bind:style='debugLine.source_line_number==entryPointDebugLineNumber?"color:red;":""'>{{debugLine.source_line_number}}:{{debugLine.source_line_text}}</span></template>
@@ -9770,6 +9771,7 @@ zzz
                                 mm.selectedDebugLines = sourceInfo.context
                                 mm.entryPointDebugLineNumber = sourceInfo.lineNumber
                                 mm.sourceFileName = sourceInfo.fileName
+                                mm.callingFunctionName = sourceInfo.functionName
                             },
                             closeDebugV2:       async function() {
                                 yz.setGlobalVar("global_debugger_on", false)
@@ -9779,6 +9781,7 @@ zzz
                             return {
                                 selectedLogItem: null,
                                 sourceFileName: null,
+                                callingFunctionName: null,
                                 entryPointDebugLineNumber: null,
                                 selectedDebugLines: [],
                                 refresh: 1
@@ -13457,7 +13460,7 @@ zzz
                         let foundFile   = null
                         let lineNumberOfSearchItem = null
                         let surroundingLines = null
-
+                        let fnName = null
 
                         for (let fileSourceRecord of yz.uiDb.uiDbTableData["ui_table_command_source_files"].data) {
                             console.log("Searching " + fileSourceRecord.source_file_name)
@@ -13498,16 +13501,16 @@ zzz
                                 console.log("    foundOnLine: " + lineNumberOfSearchItem            + ":" + foundLine)
 
                                 surroundingLines = sqlui("select * from ui_table_command_source_file_lines where source_file_name = ? and source_line_number >= ? and source_line_number <= ?",[foundFile, startLine, endLine])
+debugger
+                                fnName = await yz.uiDb.findFnNameInDebugString({line: foundLine, dbg: searchText})
                                 break
                             }
                         }
-                        return {  found: found  ,  fileName: foundFile, lineNumber: lineNumberOfSearchItem, lineText: foundLine  ,  context: surroundingLines  }
+                        return {  found: found  ,  fileName: foundFile, lineNumber: lineNumberOfSearchItem, lineText: foundLine  ,  context: surroundingLines  ,  functionName: fnName }
                     },
-                    findFnNameInDebugString:            async function(codeLine, debugCode) {
-                        let line = 'mm.sendCommandAddApp("jkhfdsjkfdhjkfdshkjlfdshkldfjshfdskjlhiouwewekjlhjkwelhjksdfhklj", app)'
-                        let dbg = "jkhfdsjkfdhjkfdshkjlfdshkldfjshfdskjlhiouwewekjlhjkwelhjksdfhklj"
+                    findFnNameInDebugString:            async function({line,dbg}) {
                         let indexOfDbgId = line.indexOf(dbg)
-                        debugger
+
                         if (indexOfDbgId == null) {
                             return null
                         }
@@ -13517,8 +13520,8 @@ zzz
                         let secondString=initialString.substring(0,lastParan)
                         let lastPeriod = secondString.lastIndexOf(".")
                         let functionNameString = secondString.substring(lastPeriod+1,lastParan)
-                        let sourceForFunction = yz.uiDb.findSourceLineInCode(functionNameString + ":")
-                        return sourceForFunction
+                        //let sourceForFunction = yz.uiDb.findSourceLineInCode(functionNameString + ":")
+                        return functionNameString
                     },
                     createCommandV2:                    function                    (  debugId  ,  command  ,  params  )          {
                         let paramsString = JSON.stringify(params)
