@@ -13272,6 +13272,26 @@
                                 {name: "status",            fieldType: "STRING"}
                             ]})
 
+                        //
+                        // table "ui_table_debug_trace_log"
+                        //
+                        // created:                     3425543543
+                        // global_debug_tick:           3445
+                        //
+                        await yz.uiDb.createAlaSqlTable({
+                            tableName: "ui_table_debug_trace_log",
+                            fields: [
+                                {name: "id",                fieldType: "INT PRIMARY KEY AUTOINCREMENT"},
+                                {name: "fk_debug_id",       fieldType: "STRING"},
+                                {name: "debug__tracer_id",  fieldType: "STRING"},
+                                {name: "run_time_millis",   fieldType: "INTEGER"},
+                                {name: "global_debug_tick", fieldType: "INTEGER"},
+                                {name: "file_name",         fieldType: "STRING"},
+                                {name: "line_number",       fieldType: "INTEGER"},
+                                {name: "arguments",         fieldType: "STRING"},
+                                {name: "status",            fieldType: "STRING"}
+                            ]})
+
                         await yz.uiDb.createAlaSqlTable({
                             /* ui_table_running_apps
                             -----------------------
@@ -13509,6 +13529,7 @@ debugger
                     },
                     currentDebugStack:  {
                         currentDebugId: null,
+                        debugTraceid:   null,
                         start:          null,
                         steps:          []
                     },
@@ -13555,7 +13576,17 @@ debugger
                     startDebug: function(debugId) {
                         debugger
                         yz.uiDb.currentDebugStack.currentDebugId    = debugId
+                        yz.uiDb.currentDebugStack.start             = {
+                            debugId: debugId
+                        }
+                        yz.uiDb.currentDebugStack.debugTraceid = yz.uuidv4()
+                        yz.uiDb.currentDebugStack.steps             = []
+                    },
+                    stopDebug: function() {
+                        debugger
+                        yz.uiDb.currentDebugStack.currentDebugId    = null
                         yz.uiDb.currentDebugStack.start             = null
+                        yz.uiDb.currentDebugStack.debugTraceid = null
                         yz.uiDb.currentDebugStack.steps             = []
                     },
                     createCommandV2:                    function                    (  debugId  ,  command  ,  params  )          {
