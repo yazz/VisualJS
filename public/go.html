@@ -13587,7 +13587,7 @@
                         debugger
                         let sourceForFunction = yz.uiDb.findSourceLineInCode(fnName + ":")
 
-                        yz.uiDb.sqlui("INSERT INTO ui_table_debug_trace_log (  fk_debug_id  , run_time_millis , debug_tracer_id , file_name , line_number, debug_tick ,line_text) VALUES (?,?,?,?,?,?,?)",
+                        yz.uiDb.sqlui("INSERT INTO ui_table_debug_trace_log (  fk_debug_id  , run_time_millis , debug_tracer_id , file_name , line_number, debug_tick ,line_text,arguments) VALUES (?,?,?,?,?,?,?,?)",
                             [
                                 yz.uiDb.currentDebugStack.currentDebugId,
                                 Date.now(),
@@ -13595,7 +13595,8 @@
                                 sourceForFunction.fileName,
                                 sourceForFunction.lineNumber,
                                 yz.uiDb.currentDebugStack.debugTick,
-                                sourceForFunction.lineText.trim()
+                                sourceForFunction.lineText.trim(),
+                                JSON.stringify(arguments,null,2)
                             ])
                     },
                     startDebug: function(debugId) {
@@ -13620,7 +13621,7 @@
                                     sourceForFunction.lineText.trim()
                                 ])
                     },
-                    stopDebug: function() {
+                    endDebug: function() {
                         yz.uiDb.currentDebugStack.currentDebugId    = null
                         yz.uiDb.currentDebugStack.start             = null
                         yz.uiDb.currentDebugStack.debugTick         = 1
