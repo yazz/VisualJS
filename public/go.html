@@ -13285,7 +13285,7 @@
                                 {name: "fk_debug_id",       fieldType: "STRING"},
                                 {name: "debug_tracer_id",   fieldType: "STRING"},
                                 {name: "run_time_millis",   fieldType: "INTEGER"},
-                                {name: "global_debug_tick", fieldType: "INTEGER"},
+                                {name: "debug_tick",        fieldType: "INTEGER"},
                                 {name: "file_name",         fieldType: "STRING"},
                                 {name: "line_number",       fieldType: "INTEGER"},
                                 {name: "arguments",         fieldType: "STRING"},
@@ -13529,7 +13529,8 @@
                     },
                     currentDebugStack:  {
                         currentDebugId: null,
-                        debugTracerId:   null,
+                        debugTracerId:  null,
+                        debugTick:      1,
                         start:          null,
                         steps:          []
                     },
@@ -13571,7 +13572,18 @@
                         let fnLine = stackTrace[2]
                         console.log(fnLine)
                         console.log("    (" + JSON.stringify(argsPassedIn,null,2) + ")")
+                        yz.uiDb.currentDebugStack.debugTick ++
                         debugger
+
+                        yz.uiDb.sqlui("INSERT INTO ui_table_debug_trace_log (  fk_debug_id  , run_time_millis , debug_tracer_id , file_name , line_number, debug_tick ) VALUES (?,?,?,?,?,?)",
+                            [
+                                yz.uiDb.currentDebugStack.currentDebugId,
+                                Date.now(),
+                                yz.uiDb.currentDebugStack.debugTracerId,
+                                1,//sourceForFunction.fileName,
+                                2,//sourceForFunction.lineNumber,
+                                yz.uiDb.currentDebugStack.debugTick
+                            ])
                     },
                     startDebug: function(debugId) {
                         yz.uiDb.currentDebugStack.currentDebugId    = debugId
@@ -13580,24 +13592,25 @@
                         }
                         yz.uiDb.currentDebugStack.debugTracerId     = yz.uuidv4()
                         yz.uiDb.currentDebugStack.steps             = []
+                        yz.uiDb.currentDebugStack.debugTick         = 1
 
                         let sourceForFunction = yz.uiDb.findSourceLineInCode(debugId)
-                        debugger
 
-                        yz.uiDb.sqlui("INSERT INTO ui_table_debug_trace_log (  fk_debug_id  , run_time_millis , debug_tracer_id , file_name , line_number ) VALUES (?,?,?,?,?)",
+                        yz.uiDb.sqlui("INSERT INTO ui_table_debug_trace_log (  fk_debug_id  , run_time_millis , debug_tracer_id , file_name , line_number , debug_tick) VALUES (?,?,?,?,?,?)",
                                 [
                                     debugId,
                                     Date.now(),
                                     yz.uiDb.currentDebugStack.debugTracerId,
                                     sourceForFunction.fileName,
-                                    sourceForFunction.lineNumber
+                                    sourceForFunction.lineNumber,
+                                    1
                                 ])
                     },
                     stopDebug: function() {
-                        debugger
                         yz.uiDb.currentDebugStack.currentDebugId    = null
                         yz.uiDb.currentDebugStack.start             = null
-                        yz.uiDb.currentDebugStack.debugTraceid = null
+                        yz.uiDb.currentDebugStack.debugTick         = 1
+                        yz.uiDb.currentDebugStack.debugTraceid      = null
                         yz.uiDb.currentDebugStack.steps             = []
                     },
                     createCommandV2:                    function                    (  debugId  ,  command  ,  params  )          {
