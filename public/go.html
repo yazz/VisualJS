@@ -13288,6 +13288,7 @@
                                 {name: "debug_tick",        fieldType: "INTEGER"},
                                 {name: "file_name",         fieldType: "STRING"},
                                 {name: "line_number",       fieldType: "INTEGER"},
+                                {name: "line_text",         fieldType: "STRING"},
                                 {name: "arguments",         fieldType: "STRING"},
                                 {name: "status",            fieldType: "STRING"}
                             ]})
@@ -13567,22 +13568,34 @@
                         // Remove any leading or trailing spaces from each line
                         return stackArray.map(line => line.trim());
                     },
+                    getFnNameFromStackTrace: function(fnLine) {
+                        //'at Proxy.installAppNow (eval at addRuntimePipelinesAndRunCode (http://192.168.1.171/app/appstore.html:1070:36), <anonymous>:158:29)'
+                        let indexProxy = fnLine.indexOf("Proxy.")
+                        indexProxy += 6
+                        let fnStartString = fnLine.substring(indexProxy)
+                        let indexEndFn = fnStartString.indexOf(" ")
+                        let fnNameString = fnStartString.substring(0,indexEndFn)
+                        return fnNameString
+                    },
                     debugFn: function(argsPassedIn) {
                         let stackTrace = this.getCallStack()
                         let fnLine = stackTrace[2]
                         console.log(fnLine)
                         console.log("    (" + JSON.stringify(argsPassedIn,null,2) + ")")
                         yz.uiDb.currentDebugStack.debugTick ++
+                        let fnName = yz.uiDb.getFnNameFromStackTrace(fnLine)
                         debugger
+                        let sourceForFunction = yz.uiDb.findSourceLineInCode(fnName + ":")
 
-                        yz.uiDb.sqlui("INSERT INTO ui_table_debug_trace_log (  fk_debug_id  , run_time_millis , debug_tracer_id , file_name , line_number, debug_tick ) VALUES (?,?,?,?,?,?)",
+                        yz.uiDb.sqlui("INSERT INTO ui_table_debug_trace_log (  fk_debug_id  , run_time_millis , debug_tracer_id , file_name , line_number, debug_tick ,line_text) VALUES (?,?,?,?,?,?,?)",
                             [
                                 yz.uiDb.currentDebugStack.currentDebugId,
                                 Date.now(),
                                 yz.uiDb.currentDebugStack.debugTracerId,
-                                1,//sourceForFunction.fileName,
-                                2,//sourceForFunction.lineNumber,
-                                yz.uiDb.currentDebugStack.debugTick
+                                sourceForFunction.fileName,
+                                sourceForFunction.lineNumber,
+                                yz.uiDb.currentDebugStack.debugTick,
+                                sourceForFunction.lineText.trim()
                             ])
                     },
                     startDebug: function(debugId) {
@@ -13596,14 +13609,15 @@
 
                         let sourceForFunction = yz.uiDb.findSourceLineInCode(debugId)
 
-                        yz.uiDb.sqlui("INSERT INTO ui_table_debug_trace_log (  fk_debug_id  , run_time_millis , debug_tracer_id , file_name , line_number , debug_tick) VALUES (?,?,?,?,?,?)",
+                        yz.uiDb.sqlui("INSERT INTO ui_table_debug_trace_log (  fk_debug_id  , run_time_millis , debug_tracer_id , file_name , line_number , debug_tick,line_text) VALUES (?,?,?,?,?,?,?)",
                                 [
                                     debugId,
                                     Date.now(),
                                     yz.uiDb.currentDebugStack.debugTracerId,
                                     sourceForFunction.fileName,
                                     sourceForFunction.lineNumber,
-                                    1
+                                    1,
+                                    sourceForFunction.lineText.trim()
                                 ])
                     },
                     stopDebug: function() {
