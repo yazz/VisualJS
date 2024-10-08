@@ -9631,111 +9631,110 @@
                     let mainAppVueComponentStructure = {
                         props:      [  "count"  ,   "loadedAppMetaData"  ,  "show_loader"  ,  "is_static"  ,  "appCodeId"  ],
                         template:   `
-                            <div v-bind:refresh="refresh"><div v-if="yz">
-                                <!-- --------------------------------------------------------------------
-                                                                  NEW V2 DEBUG HEADER
-                                 ------------------------------------------------------------------------ -->
-                                <div    v-if='yz.uiDb.uiDbGlobalVars["global_debugger_on"]'
-                                        style="position:absolute;width:100%;height:100%;left:0px;top:0px;color: black; opacity: 1; z-index: 2000000;background-color:white;overflow: hidden">
-                                    <div style='height:40px; padding:4px;background-color:lightblue;'>
-                                        <span
-                                                style='float: left;height:100%;margin-right:10px;vertical-align:middle;'
-                                        >
-                                            Debugger V2
-                                        </span>
-zzz
-<div  style='height: 50px;'></div>
+<div v-bind:refresh="refresh">
+    <div v-if="yz">
+        <!-- --------------------------------------------------------------------
+                                          NEW V2 DEBUG HEADER
+         ------------------------------------------------------------------------ -->
+        <div    v-if='yz.uiDb.uiDbGlobalVars["global_debugger_on"]'
+                style="position:absolute;width:100%;height:100%;left:0px;top:0px;color: black; opacity: 1; z-index: 2000000;background-color:white;overflow: hidden">
+            <div style='height:40px; padding:4px;background-color:lightblue;'>
+                <span style='float: left;height:100%;margin-right:10px;vertical-align:middle;'>
+                    Debugger V2
+                </span>
+                zzz
+                <div  style='height: 50px;'></div>
 
-<div style='border: 1px solid black;'>
-    <div   v-for="item  in  yz.uiDb.uiDbTableData.ui_table_executed_commands_log.data.slice().reverse()" >
-      <div style='border: 1px sold red;'
-      v-on:click="showActionForLog(item.id)"
-      >{{yz.msToTime(item.created)}} - {{item.command}}
-              <div v-if='selectedLogItem == item.id'>
-              <div style="color:blue">{{sourceFileName}}</div>
-              <div style="color:blue">... calling {{callingFunctionName}}</div>
-                  <pre>
+                <div style='border: 1px solid black;'>
+                    <div   v-for="item  in  yz.uiDb.uiDbTableData.ui_table_executed_commands_log.data.slice().reverse()" >
+                        <div style='border: 1px sold red;'
+                             v-on:click="showActionForLog(item.id)">{{yz.msToTime(item.created)}} - {{item.command}}
+                            <div v-if='selectedLogItem == item.id'>
+                                <div style="color:blue">{{sourceFileName}}</div>
+                                <div style="color:blue">... calling {{callingFunctionName}}</div>
+                                    <pre>
 <template   v-for="debugLine  in  selectedDebugLines" >
 <span v-bind:style='debugLine.source_line_number==entryPointDebugLineNumber?"color:red;":""'>{{debugLine.source_line_number}}:{{debugLine.source_line_text}}</span></template>
-                  </pre>
+                                    </pre>
 
-              </div>
-          </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <button
+                            type="button"
+                            v-on:click='closeDebugV2()'
+                            class="btn btn-sm btn-info"
+                            v-on:touchstart='closeDebugV2()'
+                            style='float: right;height:100%;margin-left:200px;vertical-align:top;right: 0px;color: blue;'
+                    >
+                        Close
+                    </button>
+                </div>
+            </div>
+
+
+            <!-- --------------------------------------------------------------------
+                                              OLD DEBUG HEADER
+             ------------------------------------------------------------------------ -->
+            <debug_header   :visible='true'
+                            :is_static='is_static'
+                            :appCodeId='appCodeId'>
+            </debug_header>
+
+
+
+
+            <!-- --------------------------------------------------------------------
+                                              SHOW LOADING SPINNER
+             ------------------------------------------------------------------------ -->
+            <div    v-if="show_loader"
+                    v-bind:style='show_loader?"":"display:none;"'
+                    class="loader">
+            </div>
+
+
+            <!-- --------------------------------------------------------------------
+                                              SHOW THE OS SCREEN
+             ------------------------------------------------------------------------ -->
+
+            <os_screen  v-if='(yz.uiDb.uiDbGlobalVars["visible_app_id"] == null) || (yz.uiDb.uiDbGlobalVars["visible_app_id"] == -1)'></os_screen>
+
+
+
+
+            <!-- --------------------------------------------------------------------
+                                              SHOW THE RUNNING APPS
+             ------------------------------------------------------------------------ -->
+            <div v-if="loadedAppMetaData">
+                <template   v-for="item  in  [loadedAppMetaData]" >
+                    <div    v-bind:style='"left:0px; top:0px; height:100%; width: 100vw ;z-index: 200000;background-color: white;overflow-y:hidden;overflow-x: hidden;display:" + (is_static?"":"")'>
+
+                        <span   v-bind:id='"card_" + item.id'
+                                v-bind:style="'padding:0px;position: relative; margin: auto;height:100%;width:100%;border:0px; overflow-y:none;'"
+                                class='container' >
+
+                            <div  v-bind:style="'; padding:0px; font-family: Helvetica ;  width: 100vw ;' ">
+
+                                <div    v-if='(item.id == yz.uiDb.uiDbGlobalVars["visible_app_id"]) && (item.type == "app")'>
+                                    <component      v-bind:is='appCodeId'></component>
+                                </div>
+
+                            </div>
+                        </span>
+
+
+                    </div>
+                </template>
+            </div>
+
+
+            <div style="height: 200px;">
+            </div>
         </div>
     </div>
-</div>
-                                        <button
-                                                type="button"
-                                                v-on:click='closeDebugV2()'
-                                                class="btn btn-sm btn-info"
-                                                v-on:touchstart='closeDebugV2()'
-                                                style='float: right;height:100%;margin-left:200px;vertical-align:top;right: 0px;color: blue;'
-                                        >
-                                            Close
-                                        </button>
-                                    </div>
-                                </div>
-
-
-                                <!-- --------------------------------------------------------------------
-                                                                  OLD DEBUG HEADER
-                                 ------------------------------------------------------------------------ -->
-                                <debug_header   :visible='true'
-                                                :is_static='is_static'
-                                                :appCodeId='appCodeId'>
-                                </debug_header>
-
-
-
-
-                                <!-- --------------------------------------------------------------------
-                                                                  SHOW LOADING SPINNER
-                                 ------------------------------------------------------------------------ -->
-                                <div    v-if="show_loader"
-                                        v-bind:style='show_loader?"":"display:none;"'
-                                        class="loader">
-                                </div>
-
-
-                                <!-- --------------------------------------------------------------------
-                                                                  SHOW THE OS SCREEN
-                                 ------------------------------------------------------------------------ -->
-
-                                 <os_screen  v-if='(yz.uiDb.uiDbGlobalVars["visible_app_id"] == null) || (yz.uiDb.uiDbGlobalVars["visible_app_id"] == -1)'></os_screen>
-
-
-
-
-                                <!-- --------------------------------------------------------------------
-                                                                  SHOW THE RUNNING APPS
-                                 ------------------------------------------------------------------------ -->
-                                <div v-if="loadedAppMetaData">
-                                    <template   v-for="item  in  [loadedAppMetaData]" >
-                                        <div    v-bind:style='"left:0px; top:0px; height:100%; width: 100vw ;z-index: 200000;background-color: white;overflow-y:hidden;overflow-x: hidden;display:" + (is_static?"":"")'>
-
-                                            <span   v-bind:id='"card_" + item.id'
-                                                    v-bind:style="'padding:0px;position: relative; margin: auto;height:100%;width:100%;border:0px; overflow-y:none;'"
-                                                    class='container' >
-
-                                                <div  v-bind:style="'; padding:0px; font-family: Helvetica ;  width: 100vw ;' ">
-
-                                                    <div    v-if='(item.id == yz.uiDb.uiDbGlobalVars["visible_app_id"]) && (item.type == "app")'>
-                                                        <component      v-bind:is='appCodeId'></component>
-                                                    </div>
-
-                                                </div>
-                                            </span>
-
-
-                                        </div>
-                                    </template>
-                                </div>
-
-
-                                <div style="height: 200px;">
-                                </div>
-                            </div></div>
-                        `,
+</div>`,
                         mounted:    async function  (  ) {
                             let mm = this
                             mm.isValidObject    = Vue.inject('isValidObject')
