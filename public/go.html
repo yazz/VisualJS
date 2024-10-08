@@ -13571,7 +13571,12 @@
                     getFnNameFromStackTrace: function(fnLine) {
                         //'at Proxy.installAppNow (eval at addRuntimePipelinesAndRunCode (http://192.168.1.171/app/appstore.html:1070:36), <anonymous>:158:29)'
                         let indexProxy = fnLine.indexOf("Proxy.")
-                        indexProxy += 6
+                        if (indexProxy != -1) {
+                            indexProxy += 6
+                        } else {
+                            indexProxy = fnLine.indexOf("Object.")
+                            indexProxy += 7
+                        }
                         let fnStartString = fnLine.substring(indexProxy)
                         let indexEndFn = fnStartString.indexOf(" ")
                         let fnNameString = fnStartString.substring(0,indexEndFn)
@@ -13901,6 +13906,7 @@
                     }
                 },
                 installAppFromAppstore:           async function              (  {  baseComponentId  ,  codeId  }  ) {
+                    yz.uiDb.debugFn(arguments)
 
                     let result = await yz.getFromYazzReturnJson("/http_get_install_appstore_app_for_current_user",
                         {
