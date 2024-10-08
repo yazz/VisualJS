@@ -13509,10 +13509,10 @@ debugger
                         return {  found: found  ,  fileName: foundFile, lineNumber: lineNumberOfSearchItem, lineText: foundLine  ,  context: surroundingLines  ,  functionName: fnName }
                     },
                     currentDebugStack:  {
-                        start: null,
-                        steps: []
+                        currentDebugId: null,
+                        start:          null,
+                        steps:          []
                     },
-                    currentDebugId: null,
                     findFnNameInDebugString:            async function({line,dbg}) {
                         let indexOfDbgId = line.indexOf(dbg)
 
@@ -13554,9 +13554,10 @@ debugger
                         debugger
                     },
                     startDebug: function(debugId) {
-                        yz.uiDb.currentDebugId = debugId
-                        yz.currentDebugStack.start = null
-                        yz.currentDebugStack.steps = []
+                        debugger
+                        yz.uiDb.currentDebugStack.currentDebugId    = debugId
+                        yz.uiDb.currentDebugStack.start             = null
+                        yz.uiDb.currentDebugStack.steps             = []
                     },
                     createCommandV2:                    function                    (  debugId  ,  command  ,  params  )          {
                         let paramsString = JSON.stringify(params)
