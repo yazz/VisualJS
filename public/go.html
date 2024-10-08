@@ -13520,7 +13520,7 @@
                                 console.log("    foundOnLine: " + lineNumberOfSearchItem            + ":" + foundLine)
 
                                 surroundingLines = sqlui("select * from ui_table_command_source_file_lines where source_file_name = ? and source_line_number >= ? and source_line_number <= ?",[foundFile, startLine, endLine])
-debugger
+
                                 fnName = await yz.uiDb.findFnNameInDebugString({line: foundLine, dbg: searchText})
                                 break
                             }
@@ -13581,6 +13581,9 @@ debugger
                         }
                         yz.uiDb.currentDebugStack.debugTraceid = yz.uuidv4()
                         yz.uiDb.currentDebugStack.steps             = []
+
+                        yz.uiDb.sqlui("INSERT INTO ui_table_debug_trace_log (  fk_debug_id  , run_time_millis  ) VALUES (?,?)",
+                                [debugId,Date.now()])
                     },
                     stopDebug: function() {
                         debugger
