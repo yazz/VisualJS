@@ -13283,7 +13283,7 @@
                             fields: [
                                 {name: "id",                fieldType: "INT PRIMARY KEY AUTOINCREMENT"},
                                 {name: "fk_debug_id",       fieldType: "STRING"},
-                                {name: "debug__tracer_id",  fieldType: "STRING"},
+                                {name: "debug_tracer_id",   fieldType: "STRING"},
                                 {name: "run_time_millis",   fieldType: "INTEGER"},
                                 {name: "global_debug_tick", fieldType: "INTEGER"},
                                 {name: "file_name",         fieldType: "STRING"},
@@ -13529,7 +13529,7 @@
                     },
                     currentDebugStack:  {
                         currentDebugId: null,
-                        debugTraceid:   null,
+                        debugTracerId:   null,
                         start:          null,
                         steps:          []
                     },
@@ -13579,11 +13579,15 @@
                         yz.uiDb.currentDebugStack.start             = {
                             debugId: debugId
                         }
-                        yz.uiDb.currentDebugStack.debugTraceid = yz.uuidv4()
+                        yz.uiDb.currentDebugStack.debugTracerId     = yz.uuidv4()
                         yz.uiDb.currentDebugStack.steps             = []
 
-                        yz.uiDb.sqlui("INSERT INTO ui_table_debug_trace_log (  fk_debug_id  , run_time_millis  ) VALUES (?,?)",
-                                [debugId,Date.now()])
+                        yz.uiDb.sqlui("INSERT INTO ui_table_debug_trace_log (  fk_debug_id  , run_time_millis , debug_tracer_id ) VALUES (?,?,?)",
+                                [
+                                    debugId,
+                                    Date.now(),
+                                    yz.uiDb.currentDebugStack.debugTracerId
+                                ])
                     },
                     stopDebug: function() {
                         debugger
