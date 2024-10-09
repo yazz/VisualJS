@@ -9668,7 +9668,12 @@
                     <div   v-for="item  in  yz.uiDb.uiDbTableData.ui_table_debug_trace_log.data.slice().reverse()" >
                         <div v-if="item.debug_tick==1"
                              style='border: 1px sold red;'
-                             v-on:click="">{{yz.msToTime(item.run_time_millis)}} - {{item.file_name}}:{{item.line_number}} {{item.line_text.substring(0,100)}}
+                             v-on:click="showTraceForTraceLogItem(item.debug_tracer_id)">{{yz.msToTime(item.run_time_millis)}} - {{item.file_name}}:{{item.line_number}} {{item.line_text.substring(0,100)}}
+                             <div v-if="selectedTracerItem == item.debug_tracer_id">
+                                 <div   v-for="itemN  in  selectedDebugTraceLines" >
+                                    {{itemN.line_text}} - {{itemN.arguments}}}
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -9773,6 +9778,13 @@
                             mm.refresh++
                         },
                         methods:    {
+                            showTraceForTraceLogItem:   async function(tracerId) {
+                                let mm = this
+                                debugger
+                                mm.selectedTracerItem = tracerId
+                                let logRecords = sqlui( "select * from ui_table_debug_trace_log  where debug_tracer_id = ? and debug_tick != 1 order by debug_tick asc",[tracerId])
+                                mm.selectedDebugTraceLines = logRecords
+                            },
                             showActionForLog:   async function(id) {
                                 let mm = this
                                 debugger
@@ -9791,11 +9803,13 @@
                         },
                         data:       function() {
                             return {
+                                selectedTracerItem: null,
                                 selectedLogItem: null,
                                 sourceFileName: null,
                                 callingFunctionName: null,
                                 entryPointDebugLineNumber: null,
                                 selectedDebugLines: [],
+                                selectedDebugTraceLines: [],
                                 refresh: 1
                             }
                         }
