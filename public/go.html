@@ -10985,7 +10985,7 @@
 
                                     await yz.onPageInitialized( async function() {
                                         console.log("await yz.onPageInitialized( async function() { entered ... ")
-                                        mm.sendCommandUpdateAppStoreApps()
+                                        await mm.sendCommandUpdateAppStoreApps()
 
 
                                         if (typeof($HIDEIMPORTBUTTONS) !== 'undefined') {
@@ -11276,8 +11276,10 @@
                                     openAppInstanceById:                function        ( id ) {
                                         yz.setGlobalVar("visible_app_id", id)
                                     },
-                                    sendCommandUpdateAppStoreApps:      function        (  ) {
-                                        yz.uiDb.createCommandV2(  "ghdfjsjhdfsgkdhjkfsgjkhxsdfnjxfdskfnxgkjdfsx"  ,  "UPDATE_APPS_FROM_APPSTORE"  ,  {} )
+                                    sendCommandUpdateAppStoreApps:      async function        (  ) {
+                                        yz.uiDb.debugFn(arguments)
+                                        //yz.uiDb.createCommandV2(  "ghdfjsjhdfsgkdhjkfsgjkhxsdfnjxfdskfnxgkjdfsx"  ,  "UPDATE_APPS_FROM_APPSTORE"  ,  {} )
+                                        await yz.updateAppsFromAppStore()
                                     },
                                     sendCommandAddApp:                  function        (  dbgId  ,  app  ) {
                                         yz.uiDb.debugFn(arguments)
@@ -13911,6 +13913,8 @@
                     return dbPropValue
                 },
                 updateAppsFromAppStore:             async function              (  ) {
+                    yz.uiDb.debugFn(arguments)
+
                     let openfileurl = "http" + (($HOSTPORT == 443)?"s":"") + "://" + $HOST + "/http_post_load_top_apps"
                     fetch(openfileurl,
                         {
