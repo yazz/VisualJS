@@ -9656,6 +9656,13 @@
                                  <div   v-for="itemN  in  selectedDebugTraceLines" >
                                     ({{itemN.debug_tick}}) -
                                       <span v-on:click="showContextForLogLine(itemN.id)" style="color:blue;">{{itemN.file_name}}:{{itemN.line_number}}</span> {{itemN.line_text}} - {{itemN.arguments}}}
+                                      <pre v-if="selectedLogItem == itemN.id">
+                                          selectedLogItem:                       {{selectedLogItem}}
+                                          selectedLogItemFileName:               {{selectedLogItemFileName}}
+                                          selectedLogItemContextStartLineNumber: {{selectedLogItemContextStartLineNumber}}
+                                          selectedLogItemContextEndLineNumber:   {{selectedLogItemContextEndLineNumber}}
+                                          selectedDebugTraceLines:               {{selectedDebugTraceLines.length}}
+                                      </pre>
                                 </div>
                             </div>
                         </div>
@@ -9774,7 +9781,12 @@
                                 debugger
                                 mm.selectedLogItem = id
                                 let logRecord1 = sqlui1( "select * from ui_table_debug_trace_log  where id = ?",[id])
-                                mm.selectedLogItemContextStartLineNumber = logRecord1.context
+                                mm.selectedLogItemFileName                  = logRecord1.file_name
+                                mm.selectedLogItemContextLineNumber         = logRecord1.line_number
+                                mm.selectedLogItemContextStartLineNumber    = logRecord1.line_number - 5
+                                if (mm.selectedLogItemContextStartLineNumber  < 1) {
+                                    mm.selectedLogItemContextStartLineNumber = 1
+                                }
                             },
                             closeDebugV2:       async function() {
                                 yz.setGlobalVar("global_debugger_on", false)
@@ -9785,6 +9797,7 @@
                                 selectedTracerItem:                     null,
                                 selectedLogItem:                        null,
                                 selectedLogItemFileName:                null,
+                                selectedLogItemContextLineNumber:       null,
                                 selectedLogItemContextStartLineNumber:  null,
                                 selectedLogItemContextEndLineNumber:    null,
                                 selectedDebugTraceLines:                [],
