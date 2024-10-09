@@ -9647,7 +9647,7 @@
 
                 <div style='border: 1px solid black;'>
                     <div   v-for="item  in  yz.uiDb.uiDbTableData.ui_table_executed_commands_log.data.slice().reverse()" >
-                        <div style='border: 1px sold red;'
+                        <div style='border: 1px sold red;margin-bottom: 20px;'
                              v-on:click="showActionForLog(item.id)">{{yz.msToTime(item.created)}} - {{item.command}}
                             <div v-if='selectedLogItem == item.id'>
                                 <div style="color:blue">{{sourceFileName}}</div>
@@ -9667,11 +9667,12 @@
                 <div style='border: 1px solid black;'>
                     <div   v-for="item  in  yz.uiDb.uiDbTableData.ui_table_debug_trace_log.data.slice().reverse()" >
                         <div v-if="item.debug_tick==1"
-                             style='border: 1px sold red;'
-                             v-on:click="showTraceForTraceLogItem(item.debug_tracer_id)">{{yz.msToTime(item.run_time_millis)}} - {{item.file_name}}:{{item.line_number}} {{item.line_text.substring(0,100)}}
+                             style='border: 1px sold red;margin-bottom: 20px;'
+                             v-on:click="showTraceForTraceLogItem(item.debug_tracer_id)"><b>{{yz.msToTime(item.run_time_millis)}} - {{item.file_name}}:{{item.line_number}}</b> {{item.line_text.substring(0,100)}}
                              <div v-if="selectedTracerItem == item.debug_tracer_id">
                                  <div   v-for="itemN  in  selectedDebugTraceLines" >
-                                    {{itemN.line_text}} - {{itemN.arguments}}}
+                                    ({{itemN.debug_tick}}) -
+                                      <span style="color:blue;">{{itemN.file_name}}:{{itemN.line_number}}</span> {{itemN.line_text}} - {{itemN.arguments}}}
                                 </div>
                             </div>
                         </div>
@@ -9782,7 +9783,7 @@
                                 let mm = this
                                 debugger
                                 mm.selectedTracerItem = tracerId
-                                let logRecords = sqlui( "select * from ui_table_debug_trace_log  where debug_tracer_id = ? and debug_tick != 1 order by debug_tick asc",[tracerId])
+                                let logRecords = sqlui( "select * from ui_table_debug_trace_log  where debug_tracer_id = ? order by debug_tick asc",[tracerId])
                                 mm.selectedDebugTraceLines = logRecords
                             },
                             showActionForLog:   async function(id) {
@@ -10643,7 +10644,7 @@
                     margin-bottom:10px;margin-left:80px;padding:25px;font-size:60px;font-weight: bold;left:30%;'
                     class='btn btn-lg'
                     v-if="hideImportButtons"
-                    v-on:click='$event.stopPropagation();copyAndEditApp({base_component_id: "yazz_blank"})'>
+                    v-on:click='$event.stopPropagation();yz.uiDb.startDebug("oiugfudioudsoujsdfojlks;dhfjds;kh");copyAndEditApp({base_component_id: "yazz_blank"})'>
 
                 <img    src='/driver_icons/blocks.png'
                         style='position:relative;max-width: 100px; left:0px; top: 0px;max-height: 90px;margin-left: auto;margin-right: auto;display: inline-block;'
@@ -10656,7 +10657,7 @@
             <button style='opacity:0.7;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);border-radius: 40px;margin-bottom:10px;margin-left:40px;padding:25px;font-size:45px;font-weight: bold;'
                     class='btn btn-lg'
                     v-if="!hideImportButtons"
-                    v-on:click='$event.stopPropagation();copyAndEditApp({base_component_id: "yazz_blank"})'>
+                    v-on:click='$event.stopPropagation();yz.uiDb.startDebug("ukydsfuidsfyo8iashkjlhasdkljhasuiyguyads");copyAndEditApp({base_component_id: "yazz_blank"})'>
 
                 <img    src='/driver_icons/blocks.png'
                         style='position:relative;max-width: 70px; left:0px; top: 0px;max-height: 70px;margin-left: auto;margin-right: auto;display: inline-block;' />
@@ -10925,6 +10926,7 @@
 
                                 },
                                 mounted:    async function  () {
+                                    yz.uiDb.startDebug("khjdsajakshkjaskjsadjkdsahaksjhkdaslhdkhdlsa")
                                     /*
                                     ________________________________________
                                     |                                      |
@@ -11278,7 +11280,9 @@
                                         yz.uiDb.createCommandV2(  "ghdfjsjhdfsgkdhjkfsgjkhxsdfnjxfdskfnxgkjdfsx"  ,  "UPDATE_APPS_FROM_APPSTORE"  ,  {} )
                                     },
                                     sendCommandAddApp:                  function        (  dbgId  ,  app  ) {
-                                        yz.uiDb.createCommandV2(  dbgId  ,  "ADD_RECENT_APP"  ,  {app: app}  )
+                                        yz.uiDb.debugFn(arguments)
+                                        //yz.uiDb.createCommandV2(  dbgId  ,  "ADD_RECENT_APP"  ,  {app: app}  )
+                                        yz.addInstalledApp(commandArguments.app)
                                     },
 
                                     // local filesystem stuff
@@ -11557,6 +11561,7 @@
 
                                     // amend the edited apps
                                     addEditableComponentToHomepage:     async function  ( baseComponentId, displayName, other) {
+                                        yz.uiDb.debugFn(arguments)
                                         //----------------------------------------------------------------------------------
                                         //
                                         //                    /-------------------------------------/
@@ -11658,6 +11663,8 @@
                                         },50)
                                     },
                                     copyAndEditApp:                     async function  ( compInfo ) {
+                                        yz.uiDb.debugFn(arguments)
+
                                         /* copyAndEditApp
                                         ________________________________________
                                         |                                      |
@@ -11735,6 +11742,7 @@
                                         mm.refresh++
                                     },
                                     openAppInNewTab:                  async function  ( contentHash ) {
+                                        yz.uiDb.debugFn(arguments)
                                         //----------------------------------------------------------------------------------
                                         //
                                         //                    /-------------------------------------/
@@ -11816,6 +11824,7 @@
                                         mm.refresh ++
                                     },
                                     reloadInstalledAppsForUserFromServer:         async function  ( ) {
+                                        yz.uiDb.debugFn(arguments)
                                         //----------------------------------------------------------------------------------
                                         //
                                         //                    /-----------------------------------------------/
@@ -13927,7 +13936,7 @@
                         })
                 },
                 addInstalledApp:                  async function              (  app   ) {
-                    //debugger
+                    yz.uiDb.debugFn(arguments)
                     let alreadyExists = yz.uiDb.sqlui("select * from  ui_table_installed_apps  where code_id = ?", [app.code_id])
                     if (alreadyExists.length == 0) {
                         yz.uiDb.sqlui(   "insert  into  ui_table_installed_apps  (  code_id  ,  base_component_id, logo, display_name,component_type) values (?,?,?,?,?)",
