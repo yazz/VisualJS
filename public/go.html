@@ -9657,7 +9657,9 @@
                                     ({{itemN.debug_tick}}) -
                                       <span v-on:click="showContextForLogLine(itemN.id)" style="color:blue;">{{itemN.file_name}}:{{itemN.line_number}}</span> {{itemN.line_text}} - {{itemN.arguments}}}
                                       <div v-if="selectedLogItem == itemN.id">
-                                         <pre v-for="(contextLine,indexContextLine) in yz.uiDb.linesOfSourceFile[ selectedLogItemFileName].slice(selectedLogItemContextStartLineNumber,selectedLogItemContextEndLineNumber)"><b>{{selectedLogItemContextStartLineNumber + indexContextLine + 1}}:</b>{{contextLine}}
+                                          <pre>
+                                             <template v-for="(contextLine,indexContextLine) in yz.uiDb.linesOfSourceFile[ selectedLogItemFileName].slice(selectedLogItemContextStartLineNumber,selectedLogItemContextEndLineNumber)"><span v-bind:style='selectedLogItemContextLineNumber==(selectedLogItemContextStartLineNumber + indexContextLine + 1)?"color:red":""'>{{selectedLogItemContextStartLineNumber + indexContextLine + 1}}: {{contextLine}}</span>
+                                             </template>
                                          </pre>
                                       </div>
                                 </div>
