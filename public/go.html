@@ -9668,7 +9668,7 @@
                     <div   v-for="item  in  yz.uiDb.uiDbTableData.ui_table_debug_trace_log.data.slice().reverse()" >
                         <div v-if="item.debug_tick==1"
                              style='border: 1px sold red;'
-                             v-on:click="">{{yz.msToTime(item.run_time_millis)}} - {{item.line_text.substring(0,100)}}
+                             v-on:click="">{{yz.msToTime(item.run_time_millis)}} - {{item.file_name}}:{{item.line_number}} {{item.line_text.substring(0,100)}}
                         </div>
                     </div>
                 </div>
