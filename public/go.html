@@ -9645,23 +9645,6 @@
                 zzz
                 <div  style='height: 50px;'></div>
 
-                <div style='border: 1px solid black;'>
-                    <div   v-for="item  in  yz.uiDb.uiDbTableData.ui_table_executed_commands_log.data.slice().reverse()" >
-                        <div style='border: 1px sold red;margin-bottom: 20px;'
-                             v-on:click="showActionForLog(item.id)">{{yz.msToTime(item.created)}} - {{item.command}}
-                            <div v-if='selectedLogItem == item.id'>
-                                <div style="color:blue">{{sourceFileName}}</div>
-                                <div style="color:blue">... calling {{callingFunctionName}}</div>
-                                    <pre>
-<template   v-for="debugLine  in  selectedDebugLines" >
-<span v-bind:style='debugLine.source_line_number==entryPointDebugLineNumber?"color:red;":""'>{{debugLine.source_line_number}}:{{debugLine.source_line_text}}</span></template>
-                                    </pre>
-
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
 
 
                 <div style='border: 1px solid black;'>
@@ -9672,7 +9655,7 @@
                              <div v-if="selectedTracerItem == item.debug_tracer_id">
                                  <div   v-for="itemN  in  selectedDebugTraceLines" >
                                     ({{itemN.debug_tick}}) -
-                                      <span style="color:blue;">{{itemN.file_name}}:{{itemN.line_number}}</span> {{itemN.line_text}} - {{itemN.arguments}}}
+                                      <span v-on:click="showContextForLogLine(itemN.id)" style="color:blue;">{{itemN.file_name}}:{{itemN.line_number}}</span> {{itemN.line_text}} - {{itemN.arguments}}}
                                 </div>
                             </div>
                         </div>
@@ -9786,17 +9769,12 @@
                                 let logRecords = sqlui( "select * from ui_table_debug_trace_log  where debug_tracer_id = ? order by debug_tick asc",[tracerId])
                                 mm.selectedDebugTraceLines = logRecords
                             },
-                            showActionForLog:   async function(id) {
+                            showContextForLogLine:   async function(id) {
                                 let mm = this
                                 debugger
                                 mm.selectedLogItem = id
-                                let logRecord1 = sqlui1( "select * from ui_table_executed_commands_log  where id = ?",[id])
-                                let debugId = logRecord1.fk_debug_id
-                                let sourceInfo = await yz.uiDb.findSourceLineInCode(debugId)
-                                mm.selectedDebugLines = sourceInfo.context
-                                mm.entryPointDebugLineNumber = sourceInfo.lineNumber
-                                mm.sourceFileName = sourceInfo.fileName
-                                mm.callingFunctionName = sourceInfo.functionName
+                                let logRecord1 = sqlui1( "select * from ui_table_debug_trace_log  where id = ?",[id])
+                                mm.selectedLogItemContextStartLineNumber = logRecord1.context
                             },
                             closeDebugV2:       async function() {
                                 yz.setGlobalVar("global_debugger_on", false)
@@ -9804,14 +9782,17 @@
                         },
                         data:       function() {
                             return {
-                                selectedTracerItem: null,
-                                selectedLogItem: null,
-                                sourceFileName: null,
-                                callingFunctionName: null,
-                                entryPointDebugLineNumber: null,
-                                selectedDebugLines: [],
-                                selectedDebugTraceLines: [],
-                                refresh: 1
+                                selectedTracerItem:                     null,
+                                selectedLogItem:                        null,
+                                selectedLogItemFileName:                null,
+                                selectedLogItemContextStartLineNumber:  null,
+                                selectedLogItemContextEndLineNumber:    null,
+                                sourceFileName:                         null,
+                                callingFunctionName:                    null,
+                                entryPointDebugLineNumber:              null,
+                                selectedDebugLines:                     [],
+                                selectedDebugTraceLines:                [],
+                                refresh:                                1
                             }
                         }
                     }
@@ -13201,9 +13182,8 @@
                 uiDb:                               {
                     //
                     // sqlui()                      - replaces all SQL commands so that debug data can be synced with server
-                    // createCommandV2()            - create a command to alter the system
                     // setupAlaSqlDatabase()        - sets up the UI DB tables using AlaSQL
-                    //      createAlaSqlTable()
+                    // createAlaSqlTable()
                     // setupAlaSqlSync()            - used to sync data from UI to server side Sqlite for debugging purposes
                     //
 
@@ -13281,23 +13261,6 @@
                         alasql("CREATE TRIGGER process" + changeGlobalVarTrigger2 + " AFTER UPDATE ON  ui_table_global_vars   " + changeGlobalVarTrigger2);
                         yz.uiDb.createGlobalVars()
 
-                        //
-                        // table "ui_table_executed_commands_log"
-                        //
-                        // created:                     3425543543
-                        // global_debug_tick:           3445
-                        //
-                        await yz.uiDb.createAlaSqlTable({
-                            tableName: "ui_table_executed_commands_log",
-                            fields: [
-                                {name: "id",                fieldType: "INT PRIMARY KEY AUTOINCREMENT"},
-                                {name: "fk_debug_id",        fieldType: "STRING"},
-                                {name: "created",           fieldType: "INTEGER"},
-                                {name: "global_debug_tick", fieldType: "INTEGER"},
-                                {name: "command",           fieldType: "STRING"},
-                                {name: "arguments",         fieldType: "STRING"},
-                                {name: "status",            fieldType: "STRING"}
-                            ]})
 
                         //
                         // table "ui_table_debug_trace_log"
@@ -13633,10 +13596,6 @@
                         yz.uiDb.currentDebugStack.debugTick         = 1
                         yz.uiDb.currentDebugStack.debugTraceid      = null
                         yz.uiDb.currentDebugStack.steps             = []
-                    },
-                    createCommandV2:                    function                    (  debugId  ,  command  ,  params  )          {
-                        let paramsString = JSON.stringify(params)
-                        yz.uiDb.sqlui("INSERT INTO ui_table_executed_commands_log (  created  ,  command  ,  arguments  ,  fk_debug_id  ) VALUES (?,?,?,?)", [Date.now(), command, paramsString, debugId]);
                     },
                     sendToServerDebugSqliteLookup: {},
                     createAlaSqlTable:                  async function              (  {  tableName  ,  fields  ,  sendToDebugSqliteServer  }  )                {
