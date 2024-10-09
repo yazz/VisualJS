@@ -13442,7 +13442,9 @@
                             })
                         yz.uiDb.sqlui("INSERT INTO ui_table_command_source_files (  source_file_name  ,  source_text  ) VALUES (?,?)",
                                 [result.fileName,result.contents])
+                        yz.uiDb.linesOfSourceFile[result.fileName] = result.contents.split('\n');
                     },
+                    linesOfSourceFile: {},
                     findSourceLineInCode:               function                    (  searchText  ) {
                         let found = false
                         let startLine   = null
