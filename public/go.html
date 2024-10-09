@@ -9787,6 +9787,13 @@
                                 if (mm.selectedLogItemContextStartLineNumber  < 1) {
                                     mm.selectedLogItemContextStartLineNumber = 1
                                 }
+
+                                mm.selectedLogItemContextEndLineNumber    = logRecord1.line_number + 5
+                                if (mm.selectedLogItemContextEndLineNumber  > yz.uiDb.linesOfSourceFile[ mm.selectedLogItemFileName].length) {
+                                    mm.selectedLogItemContextEndLineNumber = yz.uiDb.linesOfSourceFile[ mm.selectedLogItemFileName].length
+                                }
+
+
                             },
                             closeDebugV2:       async function() {
                                 yz.setGlobalVar("global_debugger_on", false)
