@@ -13468,7 +13468,7 @@
                                 let linesOfFileBeforeSearchItem = textUpToSearchItem.split('\n');
                                 lineNumberOfSearchItem = linesOfFileBeforeSearchItem.length
 
-                                let linesOfFile = fileSourceRecord.source_text.split('\n');
+                                let linesOfFile = yz.uiDb.linesOfSourceFile[fileSourceRecord.source_file_name]
 
                                 startLine   = lineNumberOfSearchItem - 5
                                 if (startLine < 1) {
