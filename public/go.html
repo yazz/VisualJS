@@ -13442,12 +13442,16 @@
 
                     },
                     readSourceFileForDebugging:         async function                    (  fileName  ) {
+                        if ((typeof $DEBUGUI == 'undefined') || (!$DEBUGUI)) {
+                            return
+                        }
+
                         let result = await yz.getFromYazzReturnJson("/http_get_read_source_file",
                             {
                                 file_name:  fileName
                             })
                         yz.uiDb.sqlui("INSERT INTO ui_table_command_source_files (  source_file_name  ,  source_text  ) VALUES (?,?)",
-                                [result.fileName,result.contents])
+                            [result.fileName,result.contents])
                         yz.uiDb.linesOfSourceFile[result.fileName] = result.contents.split('\n');
                     },
                     linesOfSourceFile: {},
@@ -13562,6 +13566,9 @@
                         return fnNameString
                     },
                     debugFn: function(argsPassedIn) {
+                        if ((typeof $DEBUGUI == 'undefined') || (!$DEBUGUI)) {
+                            return
+                        }
                         let stackTrace = this.getCallStack()
                         let fnLine = stackTrace[2]
                         console.log(fnLine)
@@ -13588,6 +13595,9 @@
                         }
                     },
                     startDebug: function(debugId) {
+                        if ((typeof $DEBUGUI == 'undefined') || (!$DEBUGUI)) {
+                            return
+                        }
                         yz.uiDb.currentDebugStack.currentDebugId    = debugId
                         yz.uiDb.currentDebugStack.start             = {
                             debugId: debugId
@@ -13611,6 +13621,9 @@
                         }
                     },
                     endDebug: function() {
+                        if ((typeof $DEBUGUI == 'undefined') || (!$DEBUGUI)) {
+                            return
+                        }
                         yz.uiDb.currentDebugStack.currentDebugId    = null
                         yz.uiDb.currentDebugStack.start             = null
                         yz.uiDb.currentDebugStack.debugTick         = 1
