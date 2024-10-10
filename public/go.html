@@ -13286,16 +13286,19 @@
                         await yz.uiDb.createAlaSqlTable({
                             tableName: "ui_table_debug_trace_log",
                             fields: [
-                                {name: "id",                fieldType: "INT PRIMARY KEY AUTOINCREMENT"},
-                                {name: "fk_debug_id",       fieldType: "STRING"},
-                                {name: "debug_tracer_id",   fieldType: "STRING"},
-                                {name: "run_time_millis",   fieldType: "INTEGER"},
-                                {name: "debug_tick",        fieldType: "INTEGER"},
-                                {name: "file_name",         fieldType: "STRING"},
-                                {name: "line_number",       fieldType: "INTEGER"},
-                                {name: "line_text",         fieldType: "STRING"},
-                                {name: "arguments",         fieldType: "STRING"},
-                                {name: "status",            fieldType: "STRING"}
+                                {name: "id",                            fieldType: "INT PRIMARY KEY AUTOINCREMENT"},
+                                {name: "fk_debug_id",                   fieldType: "STRING"},
+                                {name: "debug_tracer_id",               fieldType: "STRING"},
+                                {name: "run_time_millis",               fieldType: "INTEGER"},
+                                {name: "debug_tick",                    fieldType: "INTEGER"},
+                                {name: "file_name",                     fieldType: "STRING"},
+                                {name: "line_number",                   fieldType: "INTEGER"},
+                                {name: "line_text",                     fieldType: "STRING"},
+                                {name: "arguments",                     fieldType: "STRING"},
+                                {name: "status",                        fieldType: "STRING"},
+                                {name: "caller_file_name",              fieldType: "STRING"},
+                                {name: "caller_line_number",            fieldType: "INTEGER"},
+                                {name: "fk_caller_debug_trace_log_id",  fieldType: "INTEGER"}
                             ]})
 
                         await yz.uiDb.createAlaSqlTable({
@@ -13569,6 +13572,10 @@
                         if ((typeof $DEBUGUI == 'undefined') || (!$DEBUGUI)) {
                             return
                         }
+
+                        let callerDebugToken = argsPassedIn[0]
+
+
                         let stackTrace = this.getCallStack()
                         let fnLine = stackTrace[2]
                         console.log(fnLine)
@@ -13581,7 +13588,7 @@
                             const argsArray = Array.from(argsPassedIn);
                             const commaSeparatedValues = argsArray.join(', ');
 
-                            yz.uiDb.sqlui("INSERT INTO ui_table_debug_trace_log (  fk_debug_id  , run_time_millis , debug_tracer_id , file_name , line_number, debug_tick ,line_text,arguments) VALUES (?,?,?,?,?,?,?,?)",
+                            yz.uiDb.sqlui("INSERT INTO ui_table_debug_trace_log (  fk_debug_id  , run_time_millis , debug_tracer_id , file_name , line_number, debug_tick ,line_text,arguments, caller_file_name  ,  caller_line_number , fk_caller_debug_trace_log_id  ) VALUES (?,?,?,?,?,?,?,?,?,?,?)",
                                 [
                                     yz.uiDb.currentDebugStack.currentDebugId,
                                     Date.now(),
@@ -13590,7 +13597,10 @@
                                     sourceForFunction.lineNumber,
                                     yz.uiDb.currentDebugStack.debugTick,
                                     sourceForFunction.lineText.trim(),
-                                    JSON.stringify(argsArray,null,2)
+                                    JSON.stringify(argsArray,null,2),
+                                    "CFN",
+                                    -1,
+                                    1
                                 ])
                         }
                     },
