@@ -9657,7 +9657,7 @@
                                     ({{itemN.debug_tick}}) -
                                       <span v-on:click="showContextForLogLine(itemN.id)" style="color:blue;">{{itemN.file_name}}:{{itemN.line_number}}</span> {{itemN.line_text}} - {{itemN.arguments}}}
                                       <div v-if="selectedLogItem == itemN.id">
-                                          <pre>
+                                          <pre style="height: 200px;">
                                              <template v-for="(contextLine,indexContextLine) in yz.uiDb.linesOfSourceFile[ selectedLogItemFileName].slice(selectedLogItemContextStartLineNumber,selectedLogItemContextEndLineNumber)"><span v-bind:style='selectedLogItemContextLineNumber==(selectedLogItemContextStartLineNumber + indexContextLine + 1)?"color:red":""'>{{selectedLogItemContextStartLineNumber + indexContextLine + 1}}: {{contextLine}}</span>
                                              </template>
                                          </pre>
@@ -9787,7 +9787,7 @@
                                     mm.selectedLogItemContextStartLineNumber = 1
                                 }
 
-                                mm.selectedLogItemContextEndLineNumber    = logRecord1.line_number + 5
+                                mm.selectedLogItemContextEndLineNumber    = logRecord1.line_number + 150
                                 if (mm.selectedLogItemContextEndLineNumber  > yz.uiDb.linesOfSourceFile[ mm.selectedLogItemFileName].length) {
                                     mm.selectedLogItemContextEndLineNumber = yz.uiDb.linesOfSourceFile[ mm.selectedLogItemFileName].length
                                 }
@@ -13571,6 +13571,9 @@
                         debugger
                         let sourceForFunction = yz.uiDb.findSourceLineInCode(fnName + ":")
                         if (sourceForFunction.found) {
+                            const argsArray = Array.from(argsPassedIn);
+                            const commaSeparatedValues = argsArray.join(', ');
+
                             yz.uiDb.sqlui("INSERT INTO ui_table_debug_trace_log (  fk_debug_id  , run_time_millis , debug_tracer_id , file_name , line_number, debug_tick ,line_text,arguments) VALUES (?,?,?,?,?,?,?,?)",
                                 [
                                     yz.uiDb.currentDebugStack.currentDebugId,
@@ -13580,7 +13583,7 @@
                                     sourceForFunction.lineNumber,
                                     yz.uiDb.currentDebugStack.debugTick,
                                     sourceForFunction.lineText.trim(),
-                                    JSON.stringify(arguments,null,2)
+                                    JSON.stringify(argsArray,null,2)
                                 ])
                         }
                     },
