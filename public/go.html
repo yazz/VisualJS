@@ -13573,7 +13573,9 @@
                             return
                         }
 
+                        debugger
                         let callerDebugToken = argsPassedIn[0]
+                        let sourceForCallerOfFunction = yz.uiDb.findSourceLineInCode(callerDebugToken)
 
 
                         let stackTrace = this.getCallStack()
@@ -13582,11 +13584,17 @@
                         console.log("    (" + JSON.stringify(argsPassedIn,null,2) + ")")
                         yz.uiDb.currentDebugStack.debugTick ++
                         let fnName = yz.uiDb.getFnNameFromStackTrace(fnLine)
-                        debugger
                         let sourceForFunction = yz.uiDb.findSourceLineInCode(fnName + ":")
                         if (sourceForFunction.found) {
                             const argsArray = Array.from(argsPassedIn);
                             const commaSeparatedValues = argsArray.join(', ');
+
+                            let previousCalls = yz.uiDb.sqlui("select * from ui_table_debug_trace_log where debug_tracer_id == ? order by debug_tick asc" , [yz.uiDb.currentDebugStack.debugTracerId])
+                            let closestCallerLogId = previousCalls[0].id
+                            for (let checkCall of previousCalls) {
+
+                            }
+
 
                             yz.uiDb.sqlui("INSERT INTO ui_table_debug_trace_log (  fk_debug_id  , run_time_millis , debug_tracer_id , file_name , line_number, debug_tick ,line_text,arguments, caller_file_name  ,  caller_line_number , fk_caller_debug_trace_log_id  ) VALUES (?,?,?,?,?,?,?,?,?,?,?)",
                                 [
@@ -13598,9 +13606,9 @@
                                     yz.uiDb.currentDebugStack.debugTick,
                                     sourceForFunction.lineText.trim(),
                                     JSON.stringify(argsArray,null,2),
-                                    "CFN",
-                                    -1,
-                                    1
+                                    sourceForCallerOfFunction.fileName,
+                                    sourceForCallerOfFunction.lineNumber,
+                                    closestCallerLogId
                                 ])
                         }
                     },
