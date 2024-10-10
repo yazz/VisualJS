@@ -11004,8 +11004,7 @@
                                                                  |__________________________________ */
                                         yz.globalEventBus.on('message', async function(text) {
                                             if (text.type == "insert_editable_component_on_homepage") {
-                                                await mm.addEditableComponentToHomepage(
-                                                    "fsdiudusidisfuofydsiuofyiusdfifdsuoyfdsiouyfiusdf",
+                                                await mm.addEditableComponentToHomepage("fsdiudusidisfuofydsiuofyiusdfifdsuoyfdsiouyfiusdf",
                                                     text.base_component_id,
                                                     text.display_name,
                                                     {
@@ -11200,8 +11199,7 @@
                                         yz.globalEventBus.on('new-appshare-app-uploaded',
                                             async function({baseComponentId, codeId, logoUrl, displayName}) {
 
-                                                await mm.addEditableComponentToHomepage(
-                                                    "sdfayjghjfghjsdfgjhksdfgjhfdsgjsdfhgfdshjgj",
+                                                await mm.addEditableComponentToHomepage("sdfayjghjfghjsdfgjhksdfgjhfdsgjsdfhgfdshjgj",
                                                     baseComponentId,
                                                     displayName,
                                                     {
@@ -11692,8 +11690,7 @@
                                             componentType = "component"
                                         }
 
-                                        await mm.addEditableComponentToHomepage(
-                                            "dfsjkhfdsjkhdfsjkhfdsjkhfdkjfdsjfdsjlkds;",
+                                        await mm.addEditableComponentToHomepage("dfsjkhfdsjkhdfsjkhfdsjkhfdkjfdsjfdsjlkds;",
                                             result.base_component_id,
                                             result.new_display_name,
                                             {
@@ -11760,8 +11757,7 @@
 
                                         let logoUrl = await mm.addLogoForApp(result.base_component_id)
 
-                                        await mm.addEditableComponentToHomepage(
-                                            "hdsfghjkdsffdsfdsfdfsddsf",
+                                        await mm.addEditableComponentToHomepage("hdsfghjkdsffdsfdsfdfsddsf",
                                             result.base_component_id,
                                             result.display_name,
                                             {
@@ -11844,8 +11840,7 @@
 
                                                 // add all the items to the homepage
                                                 for (let rt = 0; rt < responseJson.length; rt++) {
-                                                    await mm.addEditableComponentToHomepage(
-                                                        "hgdfsjgdfsjkgfdsjhkgfdjkhgfdshjkgfdshjfghjs",
+                                                    await mm.addEditableComponentToHomepage("hgdfsjgdfsjkgfdsjhkgfdjkhgfdshjkgfdshjfghjs",
                                                         responseJson[rt].base_component_id,
                                                         responseJson[rt].display_name,
                                                         {
