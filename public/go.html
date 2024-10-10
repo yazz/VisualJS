@@ -13593,8 +13593,8 @@
                             debugger
                             let numberLinesToTop = 1000
                             for (let checkCall of previousCalls) {
-                                if (checkCall.file_name == sourceForFunction.fileName) {
-                                    let distToCaller = sourceForFunction.lineNumber - checkCall.line_number
+                                if (checkCall.file_name == sourceForCallerOfFunction.fileName) {
+                                    let distToCaller = sourceForCallerOfFunction.lineNumber - checkCall.line_number
                                     if (distToCaller < numberLinesToTop) {
                                         numberLinesToTop = distToCaller
                                         closestCallerLogId = checkCall.id
