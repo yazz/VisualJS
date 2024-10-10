@@ -13573,7 +13573,6 @@
                             return
                         }
 
-                        debugger
                         let callerDebugToken = argsPassedIn[0]
                         let sourceForCallerOfFunction = yz.uiDb.findSourceLineInCode(callerDebugToken)
 
@@ -13591,8 +13590,16 @@
 
                             let previousCalls = yz.uiDb.sqlui("select * from ui_table_debug_trace_log where debug_tracer_id == ? order by debug_tick asc" , [yz.uiDb.currentDebugStack.debugTracerId])
                             let closestCallerLogId = previousCalls[0].id
+                            debugger
+                            let numberLinesToTop = 1000
                             for (let checkCall of previousCalls) {
-
+                                if (checkCall.file_name == sourceForFunction.fileName) {
+                                    let distToCaller = sourceForFunction.lineNumber - checkCall.line_number
+                                    if (distToCaller < numberLinesToTop) {
+                                        numberLinesToTop = distToCaller
+                                        closestCallerLogId = checkCall.id
+                                    }
+                                }
                             }
 
 
