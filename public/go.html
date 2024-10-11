@@ -9659,8 +9659,7 @@
                                       <div v-if="selectedLogItem == itemN.id">
                                           <pre style="height: 200px;">
                                              <template v-for="(contextLine,indexContextLine) in yz.uiDb.linesOfSourceFile[ selectedLogItemFileName].slice(selectedLogItemContextStartLineNumber,selectedLogItemContextEndLineNumber)"><span v-bind:style='selectedLogItemContextLineNumber==(selectedLogItemContextStartLineNumber + indexContextLine + 1)?"color:red":""'>{{selectedLogItemContextStartLineNumber + indexContextLine + 1}}: {{contextLine}}</span><span v-if="debugTraceLineLinks[selectedLogItemContextStartLineNumber + indexContextLine + 1]" style="color:red;"><b>
-                                             [
-                                             <span v-for="debugLink in debugTraceLineLinks[selectedLogItemContextStartLineNumber + indexContextLine + 1]">{{debugLink.id}} - {{debugLink.file_name}}:{{debugLink.line_number}}  </span>]</b></span>
+                                             <span>{{debugTraceLineLinks[selectedLogItemContextStartLineNumber + indexContextLine + 1][0].file_name}}:{{debugTraceLineLinks[selectedLogItemContextStartLineNumber + indexContextLine + 1][0].line_number}}  </span> -  <span v-for="debugLink in debugTraceLineLinks[selectedLogItemContextStartLineNumber + indexContextLine + 1]"> <span v-on:click="showContextForLogLine(debugLink.id)" style="color: blue;text-decoration: underline;">[{{debugLink.id}}]</span>  </span></b></span>
                                              </template>
                                          </pre>
                                       </div>
