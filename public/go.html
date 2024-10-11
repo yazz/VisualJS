@@ -9658,10 +9658,9 @@
                                       <span v-on:click="showContextForLogLine(itemN.id)" style="color:blue;">{{itemN.file_name}}:{{itemN.line_number}}</span> {{itemN.line_text}} - {{itemN.arguments}}}
                                       <div v-if="selectedLogItem == itemN.id">
                                           <pre style="height: 200px;">
-                                             <template v-for="(contextLine,indexContextLine) in yz.uiDb.linesOfSourceFile[ selectedLogItemFileName].slice(selectedLogItemContextStartLineNumber,selectedLogItemContextEndLineNumber)"><span v-bind:style='selectedLogItemContextLineNumber==(selectedLogItemContextStartLineNumber + indexContextLine + 1)?"color:red":""'>{{selectedLogItemContextStartLineNumber + indexContextLine + 1}}: {{contextLine}}</span>
-                                             <span v-if="debugTraceLineLinks[selectedLogItemContextStartLineNumber + indexContextLine + 1]" style="color:red;"><b>LINKS</b></span>
-                                             {{selectedLogItemContextStartLineNumber + indexContextLine + 1}}
-                                             {{debugTraceLineLinks}}
+                                             <template v-for="(contextLine,indexContextLine) in yz.uiDb.linesOfSourceFile[ selectedLogItemFileName].slice(selectedLogItemContextStartLineNumber,selectedLogItemContextEndLineNumber)"><span v-bind:style='selectedLogItemContextLineNumber==(selectedLogItemContextStartLineNumber + indexContextLine + 1)?"color:red":""'>{{selectedLogItemContextStartLineNumber + indexContextLine + 1}}: {{contextLine}}</span><span v-if="debugTraceLineLinks[selectedLogItemContextStartLineNumber + indexContextLine + 1]" style="color:red;"><b>
+                                             [
+                                             <span v-for="debugLink in debugTraceLineLinks[selectedLogItemContextStartLineNumber + indexContextLine + 1]">{{debugLink.id}} - {{debugLink.file_name}}:{{debugLink.line_number}}  </span>]</b></span>
                                              </template>
                                          </pre>
                                       </div>
