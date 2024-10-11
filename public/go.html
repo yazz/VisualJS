@@ -9659,6 +9659,9 @@
                                       <div v-if="selectedLogItem == itemN.id">
                                           <pre style="height: 200px;">
                                              <template v-for="(contextLine,indexContextLine) in yz.uiDb.linesOfSourceFile[ selectedLogItemFileName].slice(selectedLogItemContextStartLineNumber,selectedLogItemContextEndLineNumber)"><span v-bind:style='selectedLogItemContextLineNumber==(selectedLogItemContextStartLineNumber + indexContextLine + 1)?"color:red":""'>{{selectedLogItemContextStartLineNumber + indexContextLine + 1}}: {{contextLine}}</span>
+                                             <span v-if="debugTraceLineLinks[selectedLogItemContextStartLineNumber + indexContextLine + 1]" style="color:red;"><b>LINKS</b></span>
+                                             {{selectedLogItemContextStartLineNumber + indexContextLine + 1}}
+                                             {{debugTraceLineLinks}}
                                              </template>
                                          </pre>
                                       </div>
@@ -9770,14 +9773,26 @@
                         methods:    {
                             showTraceForTraceLogItem:   async function(tracerId) {
                                 let mm = this
-                                debugger
                                 mm.selectedTracerItem = tracerId
                                 let logRecords = sqlui( "select * from ui_table_debug_trace_log  where debug_tracer_id = ? order by debug_tick asc",[tracerId])
                                 mm.selectedDebugTraceLines = logRecords
+
+
+
+                                mm.debugTraceLineLinks = {}
+                                for (let logRecord of logRecords) {
+                                    if (logRecord.fk_caller_debug_trace_log_id && logRecord.caller_line_number) {
+                                        if (!mm.debugTraceLineLinks[logRecord.caller_line_number]) {
+                                            mm.debugTraceLineLinks[logRecord.caller_line_number] = []
+                                        }
+                                        mm.debugTraceLineLinks[logRecord.caller_line_number].push(logRecord)
+                                    }
+                                }
+                                debugger
                             },
                             showContextForLogLine:   async function(id) {
                                 let mm = this
-                                debugger
+                                //debugger
                                 mm.selectedLogItem = id
                                 let logRecord1 = sqlui1( "select * from ui_table_debug_trace_log  where id = ?",[id])
                                 mm.selectedLogItemFileName                  = logRecord1.file_name
@@ -9807,6 +9822,7 @@
                                 selectedLogItemContextStartLineNumber:  null,
                                 selectedLogItemContextEndLineNumber:    null,
                                 selectedDebugTraceLines:                [],
+                                debugTraceLineLinks:                    {},
                                 refresh:                                1
                             }
                         }
@@ -13590,7 +13606,7 @@
 
                             let previousCalls = yz.uiDb.sqlui("select * from ui_table_debug_trace_log where debug_tracer_id == ? order by debug_tick asc" , [yz.uiDb.currentDebugStack.debugTracerId])
                             let closestCallerLogId = previousCalls[0].id
-                            debugger
+                            //debugger
                             let numberLinesToTop = 1000
                             for (let checkCall of previousCalls) {
                                 if (checkCall.file_name == sourceForCallerOfFunction.fileName) {
