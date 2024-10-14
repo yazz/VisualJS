@@ -9655,7 +9655,7 @@
                              <div v-if="selectedTracerItem == item.debug_tracer_id">
                                  <div   v-for="itemN  in  selectedDebugTraceLines" >
                                     ({{itemN.debug_tick}}) -
-                                      <span v-on:click="showContextForLogLine(itemN.id)" style="color:blue;">{{itemN.file_name}}:{{itemN.line_number}}</span> {{itemN.line_text}} - {{itemN.arguments}}}
+                                      <span v-on:click="showContextForLogLine(itemN.id)" style="color:blue;">{{itemN.file_name}}:{{itemN.line_number}}</span> {{itemN.line_text}} - <b>ARGS: {{itemN.arguments}}</b>
                                       <div v-if="selectedLogItem == itemN.id">
                                           <pre style="height: 200px;">
                                              <template v-for="(contextLine,indexContextLine) in yz.uiDb.linesOfSourceFile[ selectedLogItemFileName].slice(selectedLogItemContextStartLineNumber,selectedLogItemContextEndLineNumber)"><span v-bind:style='selectedLogItemContextLineNumber==(selectedLogItemContextStartLineNumber + indexContextLine + 1)?"color:red":""'>{{selectedLogItemContextStartLineNumber + indexContextLine + 1}}: {{contextLine}}</span><span v-if="debugTraceLineLinks[selectedLogItemContextStartLineNumber + indexContextLine + 1]" style="color:red;"><b>
@@ -9795,7 +9795,7 @@
                                 let logRecord1 = sqlui1( "select * from ui_table_debug_trace_log  where id = ?",[id])
                                 mm.selectedLogItemFileName                  = logRecord1.file_name
                                 mm.selectedLogItemContextLineNumber         = logRecord1.line_number
-                                mm.selectedLogItemContextStartLineNumber    = logRecord1.line_number - 5
+                                mm.selectedLogItemContextStartLineNumber    = logRecord1.line_number - 1
                                 if (mm.selectedLogItemContextStartLineNumber  < 1) {
                                     mm.selectedLogItemContextStartLineNumber = 1
                                 }
