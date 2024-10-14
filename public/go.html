@@ -11619,6 +11619,7 @@
                                         }
 
                                         return null
+                                        yz.uiDb.debugEndFn()
                                     },
                                     addToEditableAppsAndEdit:           async function  ( contentHash ) {
                                         //----------------------------------------------------------------------------------
@@ -11716,6 +11717,7 @@
                                         setTimeout(async function() {
                                             await mm.editApp(result.base_component_id, result.code_id)
                                         },50)
+                                        yz.uiDb.debugEndFn()
                                     },
                                     runAppInNewBrowserTab:              async function  ( baseComponentId, code_id ) {
                                         /* Given the base component ID of an app, open that app in a separate
@@ -11786,6 +11788,7 @@
                                             await mm.runAppInNewBrowserTab(result.base_component_id)
 
                                         },50)
+                                        yz.uiDb.debugEndFn()
                                     },
                                     editApp:                            async function  ( baseComponentId, codeId) {
                                         //----------------------------------------------------------------------------------
@@ -11879,7 +11882,7 @@
                             }
 
                     return osStructure
-
+                    yz.uiDb.debugEndFn()
                 },
 
                 showHomePage:                                   function        (  ) {
@@ -13582,6 +13585,8 @@
                         let fnNameString = fnStartString.substring(0,indexEndFn)
                         return fnNameString
                     },
+                    debugEndFn: function() {
+                    },
                     debugFn: function(argsPassedIn) {
                         if ((typeof $DEBUGUI == 'undefined') || (!$DEBUGUI)) {
                             return
@@ -13930,6 +13935,7 @@
                             }
                         }).catch(err => {
                         })
+                    yz.uiDb.debugEndFn()
                 },
                 addInstalledApp:                  async function              (  dbg  ,  app   ) {
                     yz.uiDb.debugFn(arguments)
@@ -13947,8 +13953,7 @@
                             base_component_id:  baseComponentId,
                             code_id:            codeId
                         })
-
-
+                    yz.uiDb.debugEndFn()
                 },
                 addRunningApp:                    async function              (  app   ) {
                     //debugger

@@ -160,6 +160,7 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
                     let appRow = sqlui1("select  base_component_id  from  ui_table_appstore_apps  where  content_hash = ?"  ,  [  appInstanceId  ]  )
                     await yz.installAppFromAppstore("dfsasdfdfsadsffdsdfsdfsfdsfdsa", {baseComponentId: appRow.base_component_id , codeId: appInstanceId})
                     hideProgressBar();
+                    yz.uiDb.debugEndFn()
                 }
               }
         }
