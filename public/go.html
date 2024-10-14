@@ -9655,7 +9655,7 @@
                              <div v-if="selectedTracerItem == item.debug_tracer_id">
                                  <div   v-for="itemN  in  selectedDebugTraceLines" >
                                     ({{itemN.debug_tick}}) -
-                                      <span v-on:click="showContextForLogLine(itemN.id)" style="color:blue;">{{itemN.file_name}}:{{itemN.line_number}}</span> {{itemN.line_text}} - <b>ARGS: {{itemN.arguments}}</b>
+                                      <span v-on:click="showContextForLogLine(itemN.id)"><span style="color:blue;">{{itemN.file_name}}:{{itemN.line_number}}</span> {{itemN.line_text}} - </span><b>ARGS: {{itemN.arguments}}</b>
                                       <div v-if="selectedLogItem == itemN.id">
                                           <pre style="height: 200px;">
                                              <template v-for="(contextLine,indexContextLine) in yz.uiDb.linesOfSourceFile[ selectedLogItemFileName].slice(selectedLogItemContextStartLineNumber,selectedLogItemContextEndLineNumber)"><span v-bind:style='selectedLogItemContextLineNumber==(selectedLogItemContextStartLineNumber + indexContextLine + 1)?"color:red":""'>{{selectedLogItemContextStartLineNumber + indexContextLine + 1}}: {{contextLine}}</span><span v-if="debugTraceLineLinks[selectedLogItemContextStartLineNumber + indexContextLine + 1]" style="color:red;"><b>
@@ -9786,7 +9786,6 @@
                                         mm.debugTraceLineLinks[logRecord.caller_line_number].push(logRecord)
                                     }
                                 }
-                                debugger
                             },
                             showContextForLogLine:   async function(id) {
                                 let mm = this
@@ -9800,12 +9799,22 @@
                                     mm.selectedLogItemContextStartLineNumber = 1
                                 }
 
-                                mm.selectedLogItemContextEndLineNumber    = logRecord1.line_number + 150
-                                if (mm.selectedLogItemContextEndLineNumber  > yz.uiDb.linesOfSourceFile[ mm.selectedLogItemFileName].length) {
-                                    mm.selectedLogItemContextEndLineNumber = yz.uiDb.linesOfSourceFile[ mm.selectedLogItemFileName].length
+                                let readAnotherLine = true
+                                let nextLine
+
+                                mm.selectedLogItemContextEndLineNumber = logRecord1.line_number
+                                while(readAnotherLine) {
+                                    nextLine = yz.uiDb.linesOfSourceFile[ mm.selectedLogItemFileName][mm.selectedLogItemContextEndLineNumber - 1]
+                                    if (mm.selectedLogItemContextEndLineNumber == yz.uiDb.linesOfSourceFile[ mm.selectedLogItemFileName].length) {
+                                        readAnotherLine = false
+                                    } else if (nextLine.indexOf("yz.uiDb.debugEndFn()") != -1) {
+                                        mm.selectedLogItemContextEndLineNumber ++
+                                        readAnotherLine = false
+                                    } else {
+                                        mm.selectedLogItemContextEndLineNumber ++
+                                    }
+
                                 }
-
-
                             },
                             closeDebugV2:       async function() {
                                 yz.setGlobalVar("global_debugger_on", false)
@@ -11279,7 +11288,7 @@
 
 
                                     })
-
+                                    yz.uiDb.debugEndFn()
                                 },
                                 methods:    {
                                     openAppInstanceById:                function        ( id ) {
