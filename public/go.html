@@ -13425,10 +13425,11 @@
                             tableName: "ui_table_debug_function_defns",
                             fields: [
                                 {name: "id",                            fieldType: "INT PRIMARY KEY AUTOINCREMENT"},
+                                {name: "function_name",                 fieldType: "STRING"},
+                                {name: "full_function_name",            fieldType: "STRING"},
                                 {name: "source_file_name",              fieldType: "STRING"},
                                 {name: "source_file_start_line",        fieldType: "INTEGER"},
                                 {name: "source_file_end_line",          fieldType: "INTEGER"}
-
                             ]})
 
                         //
