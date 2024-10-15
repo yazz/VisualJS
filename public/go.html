@@ -9630,15 +9630,20 @@
                 
                 getDebugFrameVueComponentStructure:             function        (  )                                            {
                     let debugFrameVueComponentStructure = {
-                        props:      [  "log_id"  ],
+                        props:      [  "log_id"  ,  "children"],
                         template:   `
 <div v-bind:refresh="refresh">
     <div v-if="yz">
         <!-- --------------------------------------------------------------------
                                           DEBUG FRAME
          ------------------------------------------------------------------------ -->
-            <div style="height: 200px;">
+            <div style="height: 200px;border: 1px solid black; margin: 20px;">
              DEBUG FRAME {{log_id}}
+                                  <debug_frame_component
+                                      v-if="children==1"
+                                      v-bind:log_id="10"
+                                        >
+                                        </debug_frame_component>
             </div>
     </div>
 </div>`,
@@ -9712,6 +9717,7 @@
                                     <div   v-for="item  in  yz.uiDb.uiDbTableData.ui_table_debug_trace_log.data.slice().reverse()" >
                                         <debug_frame_component
                                             v-bind:log_id="item.id"
+                                            v-bind:children="1"
                                         >
                                         </debug_frame_component>
                                     </div>
