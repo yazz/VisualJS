@@ -9714,13 +9714,12 @@
 
 
 
-                                    <div   v-for="item  in  yz.uiDb.uiDbTableData.ui_table_debug_trace_log.data.slice().reverse()" >
-                                        <debug_frame_component
-                                            v-bind:log_id="item.id"
-                                            v-bind:children="1"
-                                        >
-                                        </debug_frame_component>
-                                    </div>
+                                    <debug_frame_component
+                                        v-if="selectedLogId"
+                                        v-bind:log_id="selectedLogId"
+                                        v-bind:children="1"
+                                    >
+                                    </debug_frame_component>
 
                                 </div>
 
@@ -9829,7 +9828,7 @@
                                 mm.selectedTracerItem = tracerId
                                 let logRecords = sqlui( "select * from ui_table_debug_trace_log  where debug_tracer_id = ? order by debug_tick asc",[tracerId])
                                 mm.selectedDebugTraceLines = logRecords
-
+                                mm.selectedLogId = logRecords[0].id
 
 
                                 mm.debugTraceLineLinks = {}
@@ -9885,7 +9884,8 @@
                                 selectedLogItemContextEndLineNumber:    null,
                                 selectedDebugTraceLines:                [],
                                 debugTraceLineLinks:                    {},
-                                refresh:                                1
+                                refresh:                                1,
+                                selectedLogId:                          null
                             }
                         }
                     }
