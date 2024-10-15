@@ -9630,7 +9630,7 @@
                 
                 getDebugFrameVueComponentStructure:             function        (  )                                            {
                     let debugFrameVueComponentStructure = {
-                        props:      [  "count"  ,   "loadedAppMetaData"  ,  "show_loader"  ,  "is_static"  ,  "appCodeId"  ],
+                        props:      [  "log_id"  ],
                         template:   `
 <div v-bind:refresh="refresh">
     <div v-if="yz">
@@ -9638,7 +9638,7 @@
                                           DEBUG FRAME
          ------------------------------------------------------------------------ -->
             <div style="height: 200px;">
-            ZOOO
+             DEBUG FRAME {{log_id}}
             </div>
     </div>
 </div>`,
@@ -9653,81 +9653,12 @@
                             mm.getUiDbData      = Vue.inject('getUiDbData')
                             mm.sqlui            = Vue.inject('sqlui')
 
-                            Vue.watch(  yz.uiDb.uiDbGlobalVarChangeEvents["visible_app_id"].refGlobalVarUpdatedValue,
-                                function(nv){
-                                    console.log("Global var 'visible_app_id' changed : " + JSON.stringify(nv))
-                                    mm.refresh ++
-                                })
-
-                            Vue.watch(  yz.uiDb.uiDbGlobalVarChangeEvents["global_debugger_on"].refGlobalVarUpdatedValue,
-                                function(nv){
-                                    console.log("Global var 'global_debugger_on' changed : " + JSON.stringify(nv))
-                                    mm.refresh ++
-                                })
                             mm.refresh++
                         },
                         methods:    {
-                            showTraceForTraceLogItem:   async function(tracerId) {
-                                let mm = this
-                                mm.selectedTracerItem = tracerId
-                                let logRecords = sqlui( "select * from ui_table_debug_trace_log  where debug_tracer_id = ? order by debug_tick asc",[tracerId])
-                                mm.selectedDebugTraceLines = logRecords
-
-
-
-                                mm.debugTraceLineLinks = {}
-                                for (let logRecord of logRecords) {
-                                    if (logRecord.fk_caller_debug_trace_log_id && logRecord.caller_line_number) {
-                                        if (!mm.debugTraceLineLinks[logRecord.caller_line_number]) {
-                                            mm.debugTraceLineLinks[logRecord.caller_line_number] = []
-                                        }
-                                        mm.debugTraceLineLinks[logRecord.caller_line_number].push(logRecord)
-                                    }
-                                }
-                            },
-                            showContextForLogLine:   async function(id) {
-                                let mm = this
-                                //debugger
-                                mm.selectedLogItem = id
-                                let logRecord1 = sqlui1( "select * from ui_table_debug_trace_log  where id = ?",[id])
-                                mm.selectedLogItemFileName                  = logRecord1.file_name
-                                mm.selectedLogItemContextLineNumber         = logRecord1.line_number
-                                mm.selectedLogItemContextStartLineNumber    = logRecord1.line_number - 1
-                                if (mm.selectedLogItemContextStartLineNumber  < 1) {
-                                    mm.selectedLogItemContextStartLineNumber = 1
-                                }
-
-                                let readAnotherLine = true
-                                let nextLine
-
-                                mm.selectedLogItemContextEndLineNumber = logRecord1.line_number
-                                while(readAnotherLine) {
-                                    nextLine = yz.uiDb.linesOfSourceFile[ mm.selectedLogItemFileName][mm.selectedLogItemContextEndLineNumber - 1]
-                                    if (mm.selectedLogItemContextEndLineNumber == yz.uiDb.linesOfSourceFile[ mm.selectedLogItemFileName].length) {
-                                        readAnotherLine = false
-                                    } else if (nextLine.indexOf("yz.uiDb.debugEndFn()") != -1) {
-                                        mm.selectedLogItemContextEndLineNumber ++
-                                        readAnotherLine = false
-                                    } else {
-                                        mm.selectedLogItemContextEndLineNumber ++
-                                    }
-
-                                }
-                            },
-                            closeDebugV2:       async function() {
-                                yz.setGlobalVar("global_debugger_on", false)
-                            }
                         },
                         data:       function() {
                             return {
-                                selectedTracerItem:                     null,
-                                selectedLogItem:                        null,
-                                selectedLogItemFileName:                null,
-                                selectedLogItemContextLineNumber:       null,
-                                selectedLogItemContextStartLineNumber:  null,
-                                selectedLogItemContextEndLineNumber:    null,
-                                selectedDebugTraceLines:                [],
-                                debugTraceLineLinks:                    {},
                                 refresh:                                1
                             }
                         }
@@ -9755,11 +9686,6 @@
 
 
                                 <div style='border: 1px solid black;'>
-                                                  <div style="color:black">DFC</div>
-                <debug_frame_component
-
-                >
-                </debug_frame_component>
 
                                   <div   v-for="item  in  yz.uiDb.uiDbTableData.ui_table_debug_trace_log.data.slice().reverse()" >
                                     <div v-if="item.debug_tick==1"
@@ -9783,6 +9709,12 @@
 
 
 
+                                    <div   v-for="item  in  yz.uiDb.uiDbTableData.ui_table_debug_trace_log.data.slice().reverse()" >
+                                        <debug_frame_component
+                                            v-bind:log_id="item.id"
+                                        >
+                                        </debug_frame_component>
+                                    </div>
 
                                 </div>
 
