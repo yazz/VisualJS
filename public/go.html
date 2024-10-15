@@ -9528,9 +9528,10 @@
                         }
 
                         yz.mainVars.mainVueOperatingSystem = Vue.createApp(mainVueOperatingSystemStructure);
-                        yz.mainVars.mainVueOperatingSystem.component('main_app_component',  yz.getMainAppVueComponentStructure());
-                        yz.mainVars.mainVueOperatingSystem.component('debug_header',        yz.getDebugHeaderVueComponentStructure());
-                        yz.mainVars.mainVueOperatingSystem.component('os_screen',           yz.getOSVueComponentStructure());
+                        yz.mainVars.mainVueOperatingSystem.component('main_app_component',      yz.getMainAppVueComponentStructure());
+                        yz.mainVars.mainVueOperatingSystem.component('debug_frame_component',   yz.getDebugFrameVueComponentStructure());
+                        yz.mainVars.mainVueOperatingSystem.component('debug_header',            yz.getDebugHeaderVueComponentStructure());
+                        yz.mainVars.mainVueOperatingSystem.component('os_screen',               yz.getOSVueComponentStructure());
                         yz.mainVars.mainVueOperatingSystem.config.compilerOptions.whitespace = 'condense';
                         mainVueOperatingSystemVm = yz.mainVars.mainVueOperatingSystem.mount("#main_yazz_vue_root_html_element")
 
@@ -9627,8 +9628,8 @@
                     //***ADD_STATIC_CODE
                 },
                 
-                getMainAppVueComponentStructure:                function        (  )                                            {
-                    let mainAppVueComponentStructure = {
+                getDebugFrameVueComponentStructure:             function        (  )                                            {
+                    let debugFrameVueComponentStructure = {
                         props:      [  "count"  ,   "loadedAppMetaData"  ,  "show_loader"  ,  "is_static"  ,  "appCodeId"  ],
                         template:   `
 <div v-bind:refresh="refresh">
@@ -9744,6 +9745,215 @@
         </div>
     </div>
 </div>`,
+                        mounted:    async function  (  ) {
+                            let mm = this
+                            mm.isValidObject    = Vue.inject('isValidObject')
+                            mm.yz               = Vue.inject('yz')
+                            mm.showProgressBar  = Vue.inject('showProgressBar')
+                            mm.hideProgressBar  = Vue.inject('hideProgressBar')
+                            mm.$DEBUGUI         = Vue.inject('$DEBUGUI')
+                            mm.getGlobalVar     = Vue.inject('getGlobalVar')
+                            mm.getUiDbData      = Vue.inject('getUiDbData')
+                            mm.sqlui            = Vue.inject('sqlui')
+
+                            Vue.watch(  yz.uiDb.uiDbGlobalVarChangeEvents["visible_app_id"].refGlobalVarUpdatedValue,
+                                function(nv){
+                                    console.log("Global var 'visible_app_id' changed : " + JSON.stringify(nv))
+                                    mm.refresh ++
+                                })
+
+                            Vue.watch(  yz.uiDb.uiDbGlobalVarChangeEvents["global_debugger_on"].refGlobalVarUpdatedValue,
+                                function(nv){
+                                    console.log("Global var 'global_debugger_on' changed : " + JSON.stringify(nv))
+                                    mm.refresh ++
+                                })
+                            mm.refresh++
+                        },
+                        methods:    {
+                            showTraceForTraceLogItem:   async function(tracerId) {
+                                let mm = this
+                                mm.selectedTracerItem = tracerId
+                                let logRecords = sqlui( "select * from ui_table_debug_trace_log  where debug_tracer_id = ? order by debug_tick asc",[tracerId])
+                                mm.selectedDebugTraceLines = logRecords
+
+
+
+                                mm.debugTraceLineLinks = {}
+                                for (let logRecord of logRecords) {
+                                    if (logRecord.fk_caller_debug_trace_log_id && logRecord.caller_line_number) {
+                                        if (!mm.debugTraceLineLinks[logRecord.caller_line_number]) {
+                                            mm.debugTraceLineLinks[logRecord.caller_line_number] = []
+                                        }
+                                        mm.debugTraceLineLinks[logRecord.caller_line_number].push(logRecord)
+                                    }
+                                }
+                            },
+                            showContextForLogLine:   async function(id) {
+                                let mm = this
+                                //debugger
+                                mm.selectedLogItem = id
+                                let logRecord1 = sqlui1( "select * from ui_table_debug_trace_log  where id = ?",[id])
+                                mm.selectedLogItemFileName                  = logRecord1.file_name
+                                mm.selectedLogItemContextLineNumber         = logRecord1.line_number
+                                mm.selectedLogItemContextStartLineNumber    = logRecord1.line_number - 1
+                                if (mm.selectedLogItemContextStartLineNumber  < 1) {
+                                    mm.selectedLogItemContextStartLineNumber = 1
+                                }
+
+                                let readAnotherLine = true
+                                let nextLine
+
+                                mm.selectedLogItemContextEndLineNumber = logRecord1.line_number
+                                while(readAnotherLine) {
+                                    nextLine = yz.uiDb.linesOfSourceFile[ mm.selectedLogItemFileName][mm.selectedLogItemContextEndLineNumber - 1]
+                                    if (mm.selectedLogItemContextEndLineNumber == yz.uiDb.linesOfSourceFile[ mm.selectedLogItemFileName].length) {
+                                        readAnotherLine = false
+                                    } else if (nextLine.indexOf("yz.uiDb.debugEndFn()") != -1) {
+                                        mm.selectedLogItemContextEndLineNumber ++
+                                        readAnotherLine = false
+                                    } else {
+                                        mm.selectedLogItemContextEndLineNumber ++
+                                    }
+
+                                }
+                            },
+                            closeDebugV2:       async function() {
+                                yz.setGlobalVar("global_debugger_on", false)
+                            }
+                        },
+                        data:       function() {
+                            return {
+                                selectedTracerItem:                     null,
+                                selectedLogItem:                        null,
+                                selectedLogItemFileName:                null,
+                                selectedLogItemContextLineNumber:       null,
+                                selectedLogItemContextStartLineNumber:  null,
+                                selectedLogItemContextEndLineNumber:    null,
+                                selectedDebugTraceLines:                [],
+                                debugTraceLineLinks:                    {},
+                                refresh:                                1
+                            }
+                        }
+                    }
+                    return debugFrameVueComponentStructure
+                },
+                getMainAppVueComponentStructure:                function        (  )                                            {
+                    let mainAppVueComponentStructure = {
+                        props:      [  "count"  ,   "loadedAppMetaData"  ,  "show_loader"  ,  "is_static"  ,  "appCodeId"  ],
+                        template:   `
+                          <div v-bind:refresh="refresh">
+                          <div v-if="yz">
+                            <!-- --------------------------------------------------------------------
+                                                              NEW V2 DEBUG HEADER
+                             ------------------------------------------------------------------------ -->
+                            <div    v-if='yz.uiDb.uiDbGlobalVars["global_debugger_on"]'
+                                    style="position:absolute;width:100%;height:100%;left:0px;top:0px;color: black; opacity: 1; z-index: 2000000;background-color:white;overflow: hidden">
+                              <div style='height:40px; padding:4px;background-color:lightblue;'>
+                <span style='float: left;height:100%;margin-right:10px;vertical-align:middle;'>
+                    Debugger V2
+                </span>
+                                zzz
+                                <div  style='height: 50px;'></div>
+
+
+
+                                <div style='border: 1px solid black;'>
+                                  <div   v-for="item  in  yz.uiDb.uiDbTableData.ui_table_debug_trace_log.data.slice().reverse()" >
+                                    <div v-if="item.debug_tick==1"
+                                         style='border: 1px sold red;margin-bottom: 20px;'
+                                         v-on:click="showTraceForTraceLogItem(item.debug_tracer_id)"><b>{{yz.msToTime(item.run_time_millis)}} - {{item.file_name}}:{{item.line_number}}</b> {{item.line_text.substring(0,100)}}
+                                      <div v-if="selectedTracerItem == item.debug_tracer_id">
+                                        <div   v-for="itemN  in  selectedDebugTraceLines" >
+                                          ({{itemN.id}}) -
+                                          <span v-on:click="showContextForLogLine(itemN.id)"><span style="color:blue;">{{itemN.file_name}}:{{itemN.line_number}}</span> {{itemN.line_text}} - </span><b>ARGS: {{itemN.arguments}}</b>
+                                          <div v-if="selectedLogItem == itemN.id">
+                                          <pre style="height: 200px;">
+                                             <template v-for="(contextLine,indexContextLine) in yz.uiDb.linesOfSourceFile[ selectedLogItemFileName].slice(selectedLogItemContextStartLineNumber,selectedLogItemContextEndLineNumber)"><span v-bind:style='selectedLogItemContextLineNumber==(selectedLogItemContextStartLineNumber + indexContextLine + 1)?"color:red":""'>{{selectedLogItemContextStartLineNumber + indexContextLine + 1}}: {{contextLine}}</span><span v-if="debugTraceLineLinks[selectedLogItemContextStartLineNumber + indexContextLine + 1]" style="color:red;"><b>
+                                             <span>{{debugTraceLineLinks[selectedLogItemContextStartLineNumber + indexContextLine + 1][0].file_name}}:{{debugTraceLineLinks[selectedLogItemContextStartLineNumber + indexContextLine + 1][0].line_number}}  </span> -  <span v-for="debugLink in debugTraceLineLinks[selectedLogItemContextStartLineNumber + indexContextLine + 1]"> <span v-on:click="showContextForLogLine(debugLink.id)" style="color: blue;text-decoration: underline;">[{{debugLink.id}}]</span>  </span></b></span>
+                                             </template>
+                                         </pre>
+                                          </div>
+                                        </div>
+                                      </div>
+                                    </div>
+                                  </div>
+                                </div>
+
+
+
+                                <button
+                                    type="button"
+                                    v-on:click='closeDebugV2()'
+                                    class="btn btn-sm btn-info"
+                                    v-on:touchstart='closeDebugV2()'
+                                    style='float: right;height:100%;margin-left:200px;vertical-align:top;right: 0px;color: blue;'
+                                >
+                                  Close
+                                </button>
+                              </div>
+                            </div>
+
+
+                            <!-- --------------------------------------------------------------------
+                                                              OLD DEBUG HEADER
+                             ------------------------------------------------------------------------ -->
+                            <debug_header   :visible='true'
+                                            :is_static='is_static'
+                                            :appCodeId='appCodeId'>
+                            </debug_header>
+
+
+
+
+                            <!-- --------------------------------------------------------------------
+                                                              SHOW LOADING SPINNER
+                             ------------------------------------------------------------------------ -->
+                            <div    v-if="show_loader"
+                                    v-bind:style='show_loader?"":"display:none;"'
+                                    class="loader">
+                            </div>
+
+
+                            <!-- --------------------------------------------------------------------
+                                                              SHOW THE OS SCREEN
+                             ------------------------------------------------------------------------ -->
+
+                            <os_screen  v-if='(yz.uiDb.uiDbGlobalVars["visible_app_id"] == null) || (yz.uiDb.uiDbGlobalVars["visible_app_id"] == -1)'></os_screen>
+
+
+
+
+                            <!-- --------------------------------------------------------------------
+                                                              SHOW THE RUNNING APPS
+                             ------------------------------------------------------------------------ -->
+                            <div v-if="loadedAppMetaData">
+                              <template   v-for="item  in  [loadedAppMetaData]" >
+                                <div    v-bind:style='"left:0px; top:0px; height:100%; width: 100vw ;z-index: 200000;background-color: white;overflow-y:hidden;overflow-x: hidden;display:" + (is_static?"":"")'>
+
+                        <span   v-bind:id='"card_" + item.id'
+                                v-bind:style="'padding:0px;position: relative; margin: auto;height:100%;width:100%;border:0px; overflow-y:none;'"
+                                class='container' >
+
+                            <div  v-bind:style="'; padding:0px; font-family: Helvetica ;  width: 100vw ;' ">
+
+                                <div    v-if='(item.id == yz.uiDb.uiDbGlobalVars["visible_app_id"]) && (item.type == "app")'>
+                                    <component      v-bind:is='appCodeId'></component>
+                                </div>
+
+                            </div>
+                        </span>
+
+
+                                </div>
+                              </template>
+                            </div>
+
+
+                            <div style="height: 200px;">
+                            </div>
+                          </div>
+                          </div>
+                          </div>`,
                         mounted:    async function  (  ) {
                             let mm = this
                             mm.isValidObject    = Vue.inject('isValidObject')
