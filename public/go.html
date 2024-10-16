@@ -9717,18 +9717,20 @@
                                           </div>
                                         </div>
                                       </div>
+                                      <div v-if="selectedLogId == item.id"
+                                        style='border: 1px solid black;height: 200px;overflow: auto'>
+                                        <debug_frame_component
+                                            v-if="selectedLogId"
+                                            v-bind:key="selectedLogId"
+                                            v-bind:log_id="selectedLogId"
+                                        >
+                                        </debug_frame_component>
+                                    </div>
+
                                     </div>
                                   </div>
 
 
-                                <div style='border: 1px solid black;height: 200px;overflow: auto'>
-                                    <debug_frame_component
-                                        v-if="selectedLogId"
-                                        v-bind:key="selectedLogId"
-                                        v-bind:log_id="selectedLogId"
-                                    >
-                                    </debug_frame_component>
-                                </div>
 
                                 </div>
 
