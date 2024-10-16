@@ -9638,14 +9638,11 @@
                                           DEBUG FRAME
          ------------------------------------------------------------------------ -->
             <div style="height: 200px;border: 1px solid black; margin: 20px;">
-             DEBUG FRAME {{log_id}}
-             <div v-for="logItem in itemsCalled">
-                                  <debug_frame_component
-                                      v-if="children==1"
-                                      v-bind:log_id="logItem.id"
-                                        >
-                                        </debug_frame_component>
-                                        </div>
+                 DEBUG FRAME {{log_id}}
+                 <div v-for="logItem in itemsCalled">
+                    <debug_frame_component  v-bind:log_id="logItem.id">
+                    </debug_frame_component>
+                 </div>
             </div>
     </div>
 </div>`,
@@ -9660,11 +9657,10 @@
                             mm.getUiDbData      = Vue.inject('getUiDbData')
                             mm.sqlui            = Vue.inject('sqlui')
 
-debugger
                             mm.debugTracerId = yz.uiDb.sqlui1("select * from ui_table_debug_trace_log where id == ?" ,
                                 [mm.log_id]).debug_tracer_id
-                            mm.itemsCalled = yz.uiDb.sqlui("select * from ui_table_debug_trace_log where debug_tracer_id == ? order by debug_tick asc" ,
-                                    [mm.debugTracerId])
+                            mm.itemsCalled = yz.uiDb.sqlui("select * from ui_table_debug_trace_log where fk_caller_debug_trace_log_id == ? order by debug_tick asc" ,
+                                    [mm.log_id])
 
                             mm.refresh++
                         },
