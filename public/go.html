@@ -9699,7 +9699,7 @@
                             mm.getGlobalVar     = Vue.inject('getGlobalVar')
                             mm.getUiDbData      = Vue.inject('getUiDbData')
                             mm.sqlui            = Vue.inject('sqlui')
-                            debugger
+                            //debugger
 
                             mm.debugTracerId = yz.uiDb.sqlui1("select * from ui_table_debug_trace_log where id == ?" ,
                                 [mm.log_id]).debug_tracer_id
@@ -13794,7 +13794,6 @@
                         let codeSectionRecord1 = yz.uiDb.sqlui1("select * from ui_table_debug_code_sections where fk_fn_name_id = ?",
                             [fnName])
                         if (!codeSectionRecord1) {
-                            debugger
                             let allText = ""
 
                             let readAnotherLine = true
@@ -13867,7 +13866,6 @@
 
                             // start debug section is in the code
                             if (lengthOfRestOfLine < 5) {
-                                debugger
                                 let startLineNumber = sourceForFunction.lineNumber - 1
                                 let previousLine = yz.uiDb.linesOfSourceFile[sourceForFunction.fileName][startLineNumber - 1]
                                 let fnName = yz.uiDb.getFnNameFromLine(  previousLine  )
