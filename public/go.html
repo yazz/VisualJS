@@ -13578,27 +13578,6 @@
 
 
                         //
-                        // table to store debugger function definitions
-                        //
-                        await yz.uiDb.createAlaSqlTable({
-                            /* ui_table_debug_function_defns    This is a table to store the source code
-                            --------------------------------    files, which are used to find debug code
-
-                            id:                         The usual UI DB table ID
-                            source_file_name:           "go.html"
-                            source_text:                The entire source code is stored here and may be several KB
-                            */
-                            tableName: "ui_table_debug_function_defns",
-                            fields: [
-                                {name: "id",                            fieldType: "INT PRIMARY KEY AUTOINCREMENT"},
-                                {name: "function_name",                 fieldType: "STRING"},
-                                {name: "full_function_name",            fieldType: "STRING"},
-                                {name: "source_file_name",              fieldType: "STRING"},
-                                {name: "source_file_start_line",        fieldType: "INTEGER"},
-                                {name: "source_file_end_line",          fieldType: "INTEGER"}
-                            ]})
-
-                        //
                         // table to store debugger source file lines
                         //
                         await yz.uiDb.createAlaSqlTable({
