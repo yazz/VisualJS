@@ -13778,6 +13778,11 @@
                                     sourceForCallerOfFunction.lineNumber,
                                     closestCallerLogId
                                 ])
+
+
+                            let latestLogId =  yz.uiDb.sqlui1("select MAX(id) as id from ui_table_debug_trace_log")
+                            yz.uiDb.currentDebugStack.steps.push(latestLogId.id)
+                            debugger
                         }
 
 
@@ -13850,7 +13855,8 @@
                                     sourceForFunction.lineText.trim()
                                 ])
                         }
-
+                        let latestLogId =  yz.uiDb.sqlui1("select MAX(id) as id from ui_table_debug_trace_log")
+                        yz.uiDb.currentDebugStack.steps.push(latestLogId.id)
 
                         //
                         // store the debug code
