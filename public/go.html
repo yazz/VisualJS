@@ -9637,7 +9637,7 @@
         <!-- --------------------------------------------------------------------
                                           DEBUG FRAME
          ------------------------------------------------------------------------ -->
-            <div v-bind:refresh="refresh" style="height: 200px;border: 1px solid black; margin: 20px;">
+            <div v-bind:refresh="refresh" style="height: auto;border: 1px solid black; margin: 20px;">
                  DEBUG FRAME {{log_id}}
                  <div v-for="logItem in itemsCalled">
                     <debug_frame_component  v-bind:log_id="logItem.id"  v-bind:key="logItem.id">
@@ -9718,7 +9718,7 @@
                                         </div>
                                       </div>
                                       <div v-if="selectedLogId == item.id"
-                                        style='border: 1px solid black;height: 200px;overflow: auto'>
+                                        style='border: 1px solid black;height: 600px;overflow: auto'>
                                         <debug_frame_component
                                             v-if="selectedLogId"
                                             v-bind:key="selectedLogId"
