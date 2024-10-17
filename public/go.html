@@ -13893,20 +13893,20 @@
                                 for (let lineIndex = startLineNumber; lineIndex < endLineNumber; lineIndex ++) {
                                     allText += yz.uiDb.linesOfSourceFile[sourceForFunction.fileName][lineIndex - 1] + "\n"
                                 }
-                                yz.uiDb.sqlui("INSERT INTO ui_table_debug_code_sections (  fk_debug_id  ,  fk_fn_name_id  ,  fn_name  ,  file_name  ,  start_line_number  ,  end_line_number  ,  debug_all_text  ) VALUES (?,?,?,?,?,?,?,?)",
+                                yz.uiDb.sqlui("INSERT INTO ui_table_debug_code_sections (  fk_debug_id  ,  fk_fn_name_id  ,  fn_name  ,  file_name  ,  start_line_number  ,  end_line_number  ,  debug_all_text  ) VALUES (?,?,?,?,?,?,?)",
                                     [
                                         debugId,
                                         null,
                                         fnName,
+                                        sourceForFunction.fileName,
                                         startLineNumber,
-                                        sourceForFunction.lineNumber,
                                         endLineNumber,
                                         allText
                                     ])
 
                             // debug section is an event
                             } else {
-                                yz.uiDb.sqlui("INSERT INTO ui_table_debug_code_sections (  fk_debug_id  ,  fk_fn_name_id  ,  fn_name  ,  file_name  ,  start_line_number  ,  end_line_number  ,  debug_all_text  ) VALUES (?,?,?,?,?,?,?,?)",
+                                yz.uiDb.sqlui("INSERT INTO ui_table_debug_code_sections (  fk_debug_id  ,  fk_fn_name_id  ,  fn_name  ,  file_name  ,  start_line_number  ,  end_line_number  ,  debug_all_text  ) VALUES (?,?,?,?,?,?,?)",
                                     [
                                         debugId,
                                         null,
