@@ -13599,34 +13599,6 @@
                         })
                         await yz.uiDb.readSourceFileForDebugging("/public/go.html")
                         await yz.uiDb.readSourceFileForDebugging("/public/visifile_drivers/apps/appstore.vjs")
-
-
-                        //
-                        // table to store debugger source file snippets
-                        //
-                        await yz.uiDb.createAlaSqlTable({
-                            /* ui_table_command_source_snippets   This is a table to store where UI commands comes from
-                            --------------------------   in the source code
-
-                            id:                         The usual UI DB tbale ID
-                            debug_id:                   eg: "dfhjkdsfkjiufdshkjlfsdhkjfhdskjfhdkfhdskhfdkhfsdkhfdskl"
-                            source_file_name:           "go.html"
-                            source_code_line_number:    10345
-                            source_code_line_code:      yz.uiDb.createCommandV2(  "hjkdashkjdsahkjashkashdksahdkasdhkdhkdhklashkl"   ,  "ADD_RECENT_APP"  ,  {app: app}  )
-                            source_code_context:        sendCommandAddApp: function (  app  ) {
-                                                            yz.uiDb.createCommandV2(  "hjkdashkjdsahkjashkashdksahdkasdhkdhkdhklashkl"  ,  "ADD_RECENT_APP"  ,  {app: app}  )
-                                                        },
-                            */
-                            tableName: "ui_table_command_source_snippets",
-                            fields: [
-                                {name: "id",                            fieldType: "INT PRIMARY KEY AUTOINCREMENT"},
-                                {name: "debug_id",                      fieldType: "STRING"},
-                                {name: "source_file_name",              fieldType: "STRING"},
-                                {name: "source_code_line_number",       fieldType: "INTEGER"},
-                                {name: "source_code_line_code",         fieldType: "STRING"},
-                                {name: "source_code_context",           fieldType: "STRING"}
-                            ]})
-
                     },
                     readSourceFileForDebugging:         async function              (  fileName  ) {
                         if ((typeof $DEBUGUI == 'undefined') || (!$DEBUGUI)) {
