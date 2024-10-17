@@ -11768,8 +11768,7 @@
                                             yz.addInstalledApp("uiyodfsdfsyuidfsyiuiuyodfsiuoydfsuiyodsfuiyodfsuiyodfs",app)
                                         }
 
-                                        return null
-                                        yz.uiDb.debugEndFn()
+                                        return yz.uiDb.debugEndFn(null)
                                     },
                                     addToEditableAppsAndEdit:           async function  ( contentHash ) {
                                         //----------------------------------------------------------------------------------
@@ -12031,8 +12030,7 @@
                                 }
                             }
 
-                    return osStructure
-                    yz.uiDb.debugEndFn()
+                    return yz.uiDb.debugEndFn(  osStructure  )
                 },
 
                 showHomePage:                                   function        (  ) {
@@ -13727,7 +13725,9 @@
                         let trimmed = fnUptoColon.trim()
                         return trimmed
                     },
-                    debugEndFn:                         function                    (  ) {
+                    debugEndFn:                         function                    (  returnValue  ) {
+                        yz.uiDb.currentDebugStack.steps.pop()
+                        return returnValue
                     },
                     debugFn:                            function                    (  argsPassedIn  ) {
                         if ((typeof $DEBUGUI == 'undefined') || (!$DEBUGUI)) {
@@ -13750,10 +13750,11 @@
                             const commaSeparatedValues = argsArray.join(', ');
 
                             let previousCalls = yz.uiDb.sqlui("select * from ui_table_debug_trace_log where debug_tracer_id == ? order by debug_tick asc" , [yz.uiDb.currentDebugStack.debugTracerId])
-                            let closestCallerLogId = previousCalls[0].id
+                            let callerLogId = yz.uiDb.currentDebugStack.steps[yz.uiDb.currentDebugStack.steps.length - 1]
+                            //let closestCallerLogId = previousCalls[0].id
                             //debugger
                             let numberLinesToTop = 1000
-                            for (let checkCall of previousCalls) {
+                            /*for (let checkCall of previousCalls) {
                                 if (checkCall.file_name == sourceForCallerOfFunction.fileName) {
                                     let distToCaller = sourceForCallerOfFunction.lineNumber - checkCall.line_number
                                     if (distToCaller < numberLinesToTop) {
@@ -13761,7 +13762,7 @@
                                         closestCallerLogId = checkCall.id
                                     }
                                 }
-                            }
+                            }*/
 
 
                             yz.uiDb.sqlui("INSERT INTO ui_table_debug_trace_log (  fk_debug_id  , run_time_millis , debug_tracer_id , file_name , line_number, debug_tick ,line_text,arguments, caller_file_name  ,  caller_line_number , fk_caller_debug_trace_log_id  ) VALUES (?,?,?,?,?,?,?,?,?,?,?)",
@@ -13776,7 +13777,7 @@
                                     JSON.stringify(argsArray,null,2),
                                     sourceForCallerOfFunction.fileName,
                                     sourceForCallerOfFunction.lineNumber,
-                                    closestCallerLogId
+                                    callerLogId
                                 ])
 
 
