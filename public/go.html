@@ -13874,15 +13874,34 @@
                                 let startLineNumber = sourceForFunction.lineNumber - 1
                                 let previousLine = yz.uiDb.linesOfSourceFile[sourceForFunction.fileName][startLineNumber - 1]
                                 let fnName = yz.uiDb.getFnNameFromLine(  previousLine  )
+                                let allText = ""
+
+                                let readAnotherLine = true
+                                let nextLine
+                                let endLineNumber = startLineNumber
+                                while(readAnotherLine) {
+                                    nextLine = yz.uiDb.linesOfSourceFile[sourceForFunction.fileName][endLineNumber - 1]
+                                    if (endLineNumber == yz.uiDb.linesOfSourceFile[sourceForFunction.fileName].length) {
+                                        readAnotherLine = false
+                                    } else if (nextLine.indexOf("yz.uiDb.debugEndFn()") != -1) {
+                                        endLineNumber +=2
+                                        readAnotherLine = false
+                                    } else {
+                                        endLineNumber ++
+                                    }
+                                }
+                                for (let lineIndex = startLineNumber; lineIndex < endLineNumber; lineIndex ++) {
+                                    allText += yz.uiDb.linesOfSourceFile[sourceForFunction.fileName][lineIndex - 1] + "\n"
+                                }
                                 yz.uiDb.sqlui("INSERT INTO ui_table_debug_code_sections (  fk_debug_id  ,  fk_fn_name_id  ,  fn_name  ,  file_name  ,  start_line_number  ,  end_line_number  ,  debug_all_text  ) VALUES (?,?,?,?,?,?,?,?)",
                                     [
                                         debugId,
                                         null,
                                         fnName,
-                                        sourceForFunction.fileName,
+                                        startLineNumber,
                                         sourceForFunction.lineNumber,
-                                        sourceForFunction.lineNumber,
-                                        sourceForFunction.lineText.trim()
+                                        endLineNumber,
+                                        allText
                                     ])
 
                             // debug section is an event
