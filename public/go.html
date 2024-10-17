@@ -13649,7 +13649,7 @@
                             ]})
 
                     },
-                    readSourceFileForDebugging:         async function                    (  fileName  ) {
+                    readSourceFileForDebugging:         async function              (  fileName  ) {
                         if ((typeof $DEBUGUI == 'undefined') || (!$DEBUGUI)) {
                             return
                         }
@@ -13662,7 +13662,6 @@
                             [result.fileName,result.contents])
                         yz.uiDb.linesOfSourceFile[result.fileName] = result.contents.split('\n');
                     },
-                    linesOfSourceFile: {},
                     findSourceLineInCode:               function                    (  searchText  ) {
                         let found = false
                         let startLine   = null
@@ -13719,14 +13718,7 @@
                         }
                         return {  found: found  ,  fileName: foundFile, lineNumber: lineNumberOfSearchItem, lineText: foundLine  ,  context: surroundingLines  ,  functionName: fnName }
                     },
-                    currentDebugStack:  {
-                        currentDebugId: null,
-                        debugTracerId:  null,
-                        debugTick:      1,
-                        start:          null,
-                        steps:          []
-                    },
-                    findFnNameInDebugString:       function({line,dbg}) {
+                    findFnNameInDebugString:            function                    (  {  line  ,  dbg  }) {
                         let indexOfDbgId = line.indexOf(dbg)
 
                         if (indexOfDbgId == null) {
@@ -13746,7 +13738,7 @@
                         //let sourceForFunction = yz.uiDb.findSourceLineInCode(functionNameString + ":")
                         return functionNameString
                     },
-                    getCallStack: function() {
+                    getCallStack:                       function                    (  ) {
                         // Create an Error object to get the stack trace
                         const error = new Error();
 
@@ -13759,7 +13751,7 @@
                         // Remove any leading or trailing spaces from each line
                         return stackArray.map(line => line.trim());
                     },
-                    getFnNameFromStackTrace: function(fnLine) {
+                    getFnNameFromStackTrace:            function                    (  fnLine  ) {
                         //'at Proxy.installAppNow (eval at addRuntimePipelinesAndRunCode (http://192.168.1.171/app/appstore.html:1070:36), <anonymous>:158:29)'
                         let indexProxy = fnLine.indexOf("Proxy.")
                         if (indexProxy != -1) {
@@ -13773,9 +13765,20 @@
                         let fnNameString = fnStartString.substring(0,indexEndFn)
                         return fnNameString
                     },
-                    debugEndFn: function() {
+                    getFnNameFromLine:                  function                    (  fnLine  ) {
+                        //'at Proxy.installAppNow (eval at addRuntimePipelinesAndRunCode (http://192.168.1.171/app/appstore.html:1070:36), <anonymous>:158:29)'
+                        let indexColon = fnLine.indexOf(":")
+                        if (indexColon == -1) {
+                            return null
+                        }
+
+                        let fnUptoColon = fnLine.substring(0,indexColon)
+                        let trimmed = fnUptoColon.trim()
+                        return trimmed
                     },
-                    debugFn: function(argsPassedIn) {
+                    debugEndFn:                         function                    (  ) {
+                    },
+                    debugFn:                            function                    (  argsPassedIn  ) {
                         if ((typeof $DEBUGUI == 'undefined') || (!$DEBUGUI)) {
                             return
                         }
@@ -13826,7 +13829,7 @@
                                 ])
                         }
                     },
-                    startDebug: function(debugId) {
+                    startDebug:                         function                    (  debugId  ) {
                         if ((typeof $DEBUGUI == 'undefined') || (!$DEBUGUI)) {
                             return
                         }
@@ -13859,7 +13862,6 @@
                         let codeSectionRecord1 = yz.uiDb.sqlui1("select * from ui_table_debug_code_sections where fk_debug_id = ?",
                                                     [debugId])
                         if (!codeSectionRecord1) {
-                            debugger
                             let indexOfDebugId = sourceForFunction.lineText.indexOf(debugId)
                             let upToDebugId = sourceForFunction.lineText.substring(indexOfDebugId)
                             let indexToEndOfDebugId = upToDebugId.indexOf("\")")
@@ -13868,11 +13870,15 @@
 
                             // start debug section is in the code
                             if (lengthOfRestOfLine < 5) {
+                                debugger
+                                let startLineNumber = sourceForFunction.lineNumber - 1
+                                let previousLine = yz.uiDb.linesOfSourceFile[sourceForFunction.fileName][startLineNumber - 1]
+                                let fnName = yz.uiDb.getFnNameFromLine(  previousLine  )
                                 yz.uiDb.sqlui("INSERT INTO ui_table_debug_code_sections (  fk_debug_id  ,  fk_fn_name_id  ,  fn_name  ,  file_name  ,  start_line_number  ,  end_line_number  ,  debug_all_text  ) VALUES (?,?,?,?,?,?,?,?)",
                                     [
                                         debugId,
                                         null,
-                                        null,
+                                        fnName,
                                         sourceForFunction.fileName,
                                         sourceForFunction.lineNumber,
                                         sourceForFunction.lineNumber,
@@ -13895,7 +13901,7 @@
 
                         }
                     },
-                    endDebug: function() {
+                    endDebug:                           function                    (  ) {
                         if ((typeof $DEBUGUI == 'undefined') || (!$DEBUGUI)) {
                             return
                         }
@@ -13905,7 +13911,6 @@
                         yz.uiDb.currentDebugStack.debugTraceid      = null
                         yz.uiDb.currentDebugStack.steps             = []
                     },
-                    sendToServerDebugSqliteLookup: {},
                     createAlaSqlTable:                  async function              (  {  tableName  ,  fields  ,  sendToDebugSqliteServer  }  )                {
                         if (typeof(sendToDebugSqliteServer) !== 'undefined') {
                             yz.uiDb.sendToServerDebugSqliteLookup[tableName] = sendToDebugSqliteServer
@@ -14081,7 +14086,7 @@
                         yz.uiDb.uiDbGlobalVars[varName] = realVarValue
 
                     },
-                    createGlobalVars:                   function                    () {
+                    createGlobalVars:                   function                    (  ) {
                         sqlui("insert into  ui_table_global_vars  (prop_id, prop_type, prop_value) values (?,?,?)",["visible_app_id", "INTEGER", -1])
                         yz.setGlobalVar("show_running_apps",            false)
                         yz.setGlobalVar("show_installed_apps",          true)
@@ -14090,6 +14095,15 @@
 
                     },
 
+                    linesOfSourceFile:                  {},
+                    currentDebugStack:                  {
+                        currentDebugId: null,
+                        debugTracerId:  null,
+                        debugTick:      1,
+                        start:          null,
+                        steps:          []
+                    },
+                    sendToServerDebugSqliteLookup:      {},
                     uiDbTickCounter:                    0,
                     uiDbTableChangeEvents:              {},
                     uiDbTableData:                      {},
