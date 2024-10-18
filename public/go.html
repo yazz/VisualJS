@@ -9659,33 +9659,12 @@
                  Trace Execution Log ID {{log_id}}
 
 <div v-if="selectedLogItemContextStartLineNumber">
-    selectedLogItemContextStartLineNumber:  {{selectedLogItemContextStartLineNumber}}
-    selectedLogItemContextEndLineNumber:    {{selectedLogItemContextEndLineNumber}}
-    selectedLogItemContextLineNumber:       {{selectedLogItemContextLineNumber}}
     <pre style="height: 200px;">
-        <template v-for="(contextLine,indexContextLine) in yz.uiDb.linesOfSourceFile[ selectedLogItemFileName].slice(selectedLogItemContextStartLineNumber,selectedLogItemContextEndLineNumber)">
-            <span v-bind:style='selectedLogItemContextLineNumber==(selectedLogItemContextStartLineNumber + indexContextLine + 1)?"color:red":""'>
-                {{selectedLogItemContextStartLineNumber + indexContextLine + 1}}: {{contextLine}}
-            </span>
-            <div v-if="false" style="color:red;"></div>
+        <template v-for="(contextLine,indexContextLine) in yz.uiDb.linesOfSourceFile[ selectedLogItemFileName].slice(selectedLogItemContextStartLineNumber,selectedLogItemContextEndLineNumber)"><span v-bind:style='selectedLogItemContextLineNumber==(selectedLogItemContextStartLineNumber + indexContextLine + 1)?"color:red":""'>{{selectedLogItemContextStartLineNumber + indexContextLine + 1}}: {{contextLine}}</span><span v-if="traceLogItemCalls[selectedLogItemContextStartLineNumber + indexContextLine + 1]" style="color: red;"><div v-for="logItemId in traceLogItemCalls[selectedLogItemContextStartLineNumber + indexContextLine + 1]"><debug_frame_component  v-bind:log_id="logItemId"  v-bind:key="logItemId"></debug_frame_component></div></span>
         </template>
         </pre>
 </div>
 
-
-
-
-
-
-
-
-
-
-
-                 <div v-for="logItem in itemsCalled">
-                    <debug_frame_component  v-bind:log_id="logItem.id"  v-bind:key="logItem.id">
-                    </debug_frame_component>
-                 </div>
 
             </div>
     </div>
@@ -9735,7 +9714,7 @@ debugger
                                 nextLine = yz.uiDb.linesOfSourceFile[ mm.selectedLogItemFileName][mm.selectedLogItemContextEndLineNumber - 1]
                                 if (mm.selectedLogItemContextEndLineNumber == yz.uiDb.linesOfSourceFile[ mm.selectedLogItemFileName].length) {
                                     readAnotherLine = false
-                                } else if (nextLine.indexOf("yz.uiDb.debugEndFn()") != -1) {
+                                } else if (nextLine.indexOf("yz.uiDb.debugEndFn(") != -1) {
                                     mm.selectedLogItemContextEndLineNumber ++
                                     readAnotherLine = false
                                 } else {
@@ -9958,7 +9937,7 @@ debugger
                                     nextLine = yz.uiDb.linesOfSourceFile[ mm.selectedLogItemFileName][mm.selectedLogItemContextEndLineNumber - 1]
                                     if (mm.selectedLogItemContextEndLineNumber == yz.uiDb.linesOfSourceFile[ mm.selectedLogItemFileName].length) {
                                         readAnotherLine = false
-                                    } else if (nextLine.indexOf("yz.uiDb.debugEndFn()") != -1) {
+                                    } else if (nextLine.indexOf("yz.uiDb.debugEndFn(") != -1) {
                                         mm.selectedLogItemContextEndLineNumber ++
                                         readAnotherLine = false
                                     } else {
@@ -13820,7 +13799,7 @@ debugger
                                 nextLine = yz.uiDb.linesOfSourceFile[sourceForFunction.fileName][endLineNumber - 1]
                                 if (endLineNumber == yz.uiDb.linesOfSourceFile[sourceForFunction.fileName].length) {
                                     readAnotherLine = false
-                                } else if (nextLine.indexOf("yz.uiDb.debugEndFn()") != -1) {
+                                } else if (nextLine.indexOf("yz.uiDb.debugEndFn(") != -1) {
                                     endLineNumber++
                                     readAnotherLine = false
                                 } else {
@@ -13896,7 +13875,7 @@ debugger
                                     nextLine = yz.uiDb.linesOfSourceFile[sourceForFunction.fileName][endLineNumber - 1]
                                     if (endLineNumber == yz.uiDb.linesOfSourceFile[sourceForFunction.fileName].length) {
                                         readAnotherLine = false
-                                    } else if (nextLine.indexOf("yz.uiDb.debugEndFn()") != -1) {
+                                    } else if (nextLine.indexOf("yz.uiDb.debugEndFn(") != -1) {
                                         endLineNumber ++
                                         readAnotherLine = false
                                     } else {
