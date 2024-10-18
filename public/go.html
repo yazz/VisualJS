@@ -9667,6 +9667,7 @@
             <span v-bind:style='selectedLogItemContextLineNumber==(selectedLogItemContextStartLineNumber + indexContextLine + 1)?"color:red":""'>
                 {{selectedLogItemContextStartLineNumber + indexContextLine + 1}}: {{contextLine}}
             </span>
+            <div v-if="false" style="color:red;"></div>
         </template>
         </pre>
 </div>
@@ -9707,6 +9708,16 @@
                             mm.itemsCalled = yz.uiDb.sqlui("select * from ui_table_debug_trace_log where fk_caller_debug_trace_log_id == ? order by debug_tick asc" ,
                                     [mm.log_id])
 
+                            for (let itemCalled of mm.itemsCalled) {
+                                let callerLine = itemCalled.caller_line_number
+                                if (mm.traceLogItemCalls[callerLine]) {
+                                } else {
+                                    mm.traceLogItemCalls[callerLine] = []
+                                }
+                                mm.traceLogItemCalls[callerLine].push(itemCalled.id)
+                            }
+debugger
+
 
                             let logRecord1 = sqlui1( "select * from ui_table_debug_trace_log  where id = ?",[mm.log_id])
                             mm.selectedLogItemFileName                  = logRecord1.file_name
@@ -9730,7 +9741,6 @@
                                 } else {
                                     mm.selectedLogItemContextEndLineNumber ++
                                 }
-
                             }
 
 
@@ -9741,6 +9751,7 @@
                         },
                         data:       function() {
                             return {
+                                traceLogItemCalls:                      {},
                                 selectedLogItemFileName:                null,
                                 selectedLogItemContextLineNumber:       null,
                                 selectedLogItemContextStartLineNumber:  null,
