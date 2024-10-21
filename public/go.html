@@ -11736,7 +11736,7 @@
                                             }
 
                                             mm.installed_app_list.push( app  )
-                                            yz.addInstalledApp("uiyodfsdfsyuidfsyiuiuyodfsiuoydfsuiyodsfuiyodfsuiyodfs",app)
+                                            await yz.addInstalledApp("uiyodfsdfsyuidfsyiuiuyodfsiuoydfsuiyodsfuiyodfsuiyodfs",app)
                                         }
 
                                         return yz.uiDb.debugEndFn(null)
@@ -11963,7 +11963,6 @@
                                         let openfileurl =   "http" + (($HOSTPORT == 443) ? "s" : "") + "://" + $HOST +
                                             "/http_post_load_installed_apps"
 
-                                        debugger
                                         let response = await fetch(openfileurl,
                                             {
                                                 method:         'post',
@@ -11976,6 +11975,7 @@
                                         }
 
                                         // add all the items to the homepage
+                                        debugger
                                         for (let rt = 0; rt < responseJson.length; rt++) {
                                             await mm.addEditableComponentToHomepage("hgdfsjgdfsjkgfdsjhkgfdjkhgfdshjkgfdshjfghjs",
                                                 responseJson[rt].base_component_id,
@@ -13750,7 +13750,6 @@
 
                             let latestLogId =  yz.uiDb.sqlui1("select MAX(id) as id from ui_table_debug_trace_log")
                             yz.uiDb.currentDebugStack.steps.push(latestLogId.id)
-                            debugger
                         }
 
 
