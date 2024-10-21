@@ -9695,6 +9695,7 @@
                                 }
                                 mm.traceLogItemCalls[callerLine].push(itemCalled.id)
                             }
+debugger
 
 
                             let logRecord1 = sqlui1( "select * from ui_table_debug_trace_log  where id = ?",[mm.log_id])
@@ -11075,6 +11076,7 @@
 
                                 },
                                 mounted:    async function  () {
+                                    yz.uiDb.startDebug("khjdsajakshkjaskjsadjkdsahaksjhkdaslhdkhdlsa")
                                     /*
                                     ________________________________________
                                     |                                      |
@@ -11132,7 +11134,6 @@
                                                              |__________________________________ */
 
                                     await yz.onPageInitialized( async function() {
-                                        yz.uiDb.startDebug("khjdsajakshkjaskjsadjkdsahaksjhkdaslhdkhdlsa")
                                         console.log("await yz.onPageInitialized( async function() { entered ... ")
                                         await yz.updateAppsFromAppStore("gfdshjdsfgjkdhfsghjkfdsgjfdhksgfdsjhgfjkgfdsjkghjfskd")
 
@@ -11156,7 +11157,6 @@
                                                                  | apps on the homepage
                                                                  |__________________________________ */
                                         yz.globalEventBus.on('message', async function(text) {
-                                            yz.uiDb.startDebug("kl;dsjflkdsjflksdjflksjfldskjflsjfhuiewh")
                                             if (text.type == "insert_editable_component_on_homepage") {
                                                 await mm.addEditableComponentToHomepage("fsdiudusidisfuofydsiuofyiusdfifdsuoyfdsiouyfiusdf",
                                                     text.base_component_id,
@@ -11340,7 +11340,7 @@
                                             }
 
 
-                                            yz.uiDb.debugEndFn()
+
                                         })
 
                                         /*
@@ -11417,8 +11417,9 @@
                                                 mm.refresh ++
                                             })
 
-                                        yz.uiDb.debugEndFn()
+
                                     })
+                                    yz.uiDb.debugEndFn()
                                 },
                                 methods:    {
                                     openAppInstanceById:                function        ( id ) {
@@ -13722,7 +13723,6 @@
                         if ((typeof $DEBUGUI == 'undefined') || (!$DEBUGUI)) {
                             return
                         }
-                        //debugger
 
                         let callerDebugToken = argsPassedIn[0]
                         let sourceForCallerOfFunction = yz.uiDb.findSourceLineInCode(callerDebugToken)
@@ -13773,6 +13773,7 @@
 
                             let latestLogId =  yz.uiDb.sqlui1("select MAX(id) as id from ui_table_debug_trace_log")
                             yz.uiDb.currentDebugStack.steps.push(latestLogId.id)
+                            debugger
                         }
 
 
