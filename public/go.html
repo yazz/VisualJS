@@ -14176,6 +14176,7 @@
                         yz.uiDb.sqlui(   "insert  into  ui_table_installed_apps  (  code_id  ,  base_component_id, logo, display_name,component_type) values (?,?,?,?,?)",
                             [app.code_id,app.base_component_id,app.logo_url, app.displayName, app.component_type])
                     }
+                    yz.uiDb.debugEndFn()
                 },
                 installAppFromAppstore:           async function              (  dbg  ,  {  baseComponentId  ,  codeId  }  ) {
                     yz.uiDb.debugFn(arguments)
