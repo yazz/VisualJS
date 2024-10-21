@@ -9655,11 +9655,11 @@
         <!-- --------------------------------------------------------------------
                                           DEBUG FRAME
          ------------------------------------------------------------------------ -->
-            <div v-bind:refresh="refresh" style="height: auto;border: 1px solid black; margin: 20px;">
+            <div v-bind:refresh="refresh" style="height: auto;border: 1px solid lightgray; margin: 20px;">
                  Trace Execution Log ID {{log_id}}
 
 <div v-if="selectedLogItemContextStartLineNumber">
-    <pre style="height: 200px;">
+    <pre style="height: auto;">
         <template v-for="(contextLine,indexContextLine) in yz.uiDb.linesOfSourceFile[ selectedLogItemFileName].slice(selectedLogItemContextStartLineNumber,selectedLogItemContextEndLineNumber)"><span v-bind:style='selectedLogItemContextLineNumber==(selectedLogItemContextStartLineNumber + indexContextLine + 1)?"color:red":""'>{{selectedLogItemContextStartLineNumber + indexContextLine + 1}}: {{contextLine}}</span><span v-if="traceLogItemCalls[selectedLogItemContextStartLineNumber + indexContextLine + 1]" style="color: red;"><div v-for="logItemId in traceLogItemCalls[selectedLogItemContextStartLineNumber + indexContextLine + 1]"><debug_frame_component  v-bind:log_id="logItemId"  v-bind:key="logItemId"></debug_frame_component></div></span>
         </template>
         </pre>
