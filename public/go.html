@@ -9695,7 +9695,6 @@
                                 }
                                 mm.traceLogItemCalls[callerLine].push(itemCalled.id)
                             }
-debugger
 
 
                             let logRecord1 = sqlui1( "select * from ui_table_debug_trace_log  where id = ?",[mm.log_id])
@@ -11076,20 +11075,13 @@ debugger
 
                                 },
                                 mounted:    async function  () {
-                                    yz.uiDb.startDebug("khjdsajakshkjaskjsadjkdsahaksjhkdaslhdkhdlsa")
                                     /*
                                     ________________________________________
                                     |                                      |
                                     |             mounted                  |
                                     |                                      |
                                     |______________________________________|
-
-                                    __________
-                                    | PARAMS |______________________________________________________________
-                                    |
-                                    |     NONE
-                                    |     ----
-                                    |________________________________________________________________________ */
+                                     */
                                     let mm = this
                                     mm.isValidObject    = Vue.inject('isValidObject')
                                     mm.yz               = Vue.inject('yz')
@@ -11120,21 +11112,17 @@ debugger
                                     };
                                     document.addEventListener("keypress", mm.listenerD)
 
+                                    await yz.onPageInitialized( mm.pageInitialised )
+                                },
+                                methods:    {
+                                    openAppInstanceById:                function        ( id ) {
+                                        yz.setGlobalVar("visible_app_id", id)
+                                    },
+                                    pageInitialised:                    async function(  ) {
+                                        yz.uiDb.startDebug("khjdsajakshkjaskjsadjkdsahaksjhkdaslhdkhdlsa")
+                                        let mm = this
 
-
-
-
-
-                                    /*
-                                    ____________________________________________________________
-                                    |    mounted
-                                    |_________________________
-                                                             | - Hide more complex buttons by default
-                                                             | -
-                                                             |__________________________________ */
-
-                                    await yz.onPageInitialized( async function() {
-                                        console.log("await yz.onPageInitialized( async function() { entered ... ")
+                                        console.log("await yz.pageInitialized( async function() { entered ... ")
                                         await yz.updateAppsFromAppStore("gfdshjdsfgjkdhfsghjkfdsgjfdhksgfdsjhgfjkgfdsjkghjfskd")
 
                                         if (typeof($HIDEIMPORTBUTTONS) !== 'undefined') {
@@ -11404,7 +11392,7 @@ debugger
                                                 mm.refresh ++
                                             })
 
-                                            //debugger
+                                        //debugger
                                         Vue.watch(  yz.uiDb.uiDbGlobalVarChangeEvents["visible_app_id"].refGlobalVarUpdatedValue,
                                             function(nv){
                                                 console.log("Global var 'visible_app_id' changed : " + JSON.stringify(nv))
@@ -11416,14 +11404,7 @@ debugger
                                                 console.log("Global var 'show_running_apps' changed : " + JSON.stringify(nv))
                                                 mm.refresh ++
                                             })
-
-
-                                    })
-                                    yz.uiDb.debugEndFn()
-                                },
-                                methods:    {
-                                    openAppInstanceById:                function        ( id ) {
-                                        yz.setGlobalVar("visible_app_id", id)
+                                        yz.uiDb.debugEndFn()
                                     },
 
                                     // local filesystem stuff
