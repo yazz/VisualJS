@@ -11982,39 +11982,35 @@ debugger
                                         let openfileurl =   "http" + (($HOSTPORT == 443) ? "s" : "") + "://" + $HOST +
                                             "/http_post_load_installed_apps"
 
-                                        fetch(openfileurl,
+                                        debugger
+                                        let response = await fetch(openfileurl,
                                             {
                                                 method:         'post',
                                                 credentials:    "include"
                                             })
-                                            .then((response) => response.json())
-                                            .then(async function (responseJson) {
-                                                // first mark all editable components as deletable
-                                                for (let editableItem of mm.installed_app_list) {
-                                                    editableItem.delete = true
-                                                }
+                                        let responseJson = await response.json()
+                                        // first mark all editable components as deletable
+                                        for (let editableItem of mm.installed_app_list) {
+                                            editableItem.delete = true
+                                        }
 
-                                                // add all the items to the homepage
-                                                for (let rt = 0; rt < responseJson.length; rt++) {
-                                                    await mm.addEditableComponentToHomepage("hgdfsjgdfsjkgfdsjhkgfdjkhgfdshjkgfdshjfghjs",
-                                                        responseJson[rt].base_component_id,
-                                                        responseJson[rt].display_name,
-                                                        {
-                                                            codeId:         responseJson[rt].content_hash,
-                                                            logoUrl:        responseJson[rt].logo_url,
-                                                            componentType:  responseJson[rt].component_type
-                                                        })
-                                                }
+                                        // add all the items to the homepage
+                                        for (let rt = 0; rt < responseJson.length; rt++) {
+                                            await mm.addEditableComponentToHomepage("hgdfsjgdfsjkgfdsjhkgfdjkhgfdshjkgfdshjfghjs",
+                                                responseJson[rt].base_component_id,
+                                                responseJson[rt].display_name,
+                                                {
+                                                    codeId:         responseJson[rt].content_hash,
+                                                    logoUrl:        responseJson[rt].logo_url,
+                                                    componentType:  responseJson[rt].component_type
+                                                })
+                                        }
 
-                                                // delete any items that should not be there
-                                                for (let editableItem of mm.installed_app_list) {
-                                                    mm.installed_app_list = mm.installed_app_list.filter(
-                                                        editableItem => !editableItem.delete)
-                                                }
-
-                                            }).catch(err => {
-                                            //error block
-                                        })
+                                        // delete any items that should not be there
+                                        for (let editableItem of mm.installed_app_list) {
+                                            mm.installed_app_list = mm.installed_app_list.filter(
+                                                editableItem => !editableItem.delete)
+                                        }
                                         mm.refresh++
                                     }
                                 }
