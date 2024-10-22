@@ -13586,7 +13586,6 @@
                         let foundFile   = null
                         let lineNumberOfSearchItem = null
                         let surroundingLines = null
-                        let fnName = null
 
                         for (let fileSourceRecord of yz.uiDb.uiDbTableData["ui_table_command_source_files"].data) {
                             console.log("Searching " + fileSourceRecord.source_file_name)
@@ -13628,11 +13627,10 @@
 
                                 surroundingLines = sqlui("select * from ui_table_command_source_file_lines where source_file_name = ? and source_line_number >= ? and source_line_number <= ?",[foundFile, startLine, endLine])
 
-                                fnName = yz.uiDb.findFnNameInDebugString({line: foundLine, dbg: searchText})
                                 break
                             }
                         }
-                        return {  found: found  ,  fileName: foundFile, lineNumber: lineNumberOfSearchItem, lineText: foundLine  ,  context: surroundingLines  ,  functionName: fnName }
+                        return {  found: found  ,  fileName: foundFile, lineNumber: lineNumberOfSearchItem, lineText: foundLine  ,  context: surroundingLines  }
                     },
                     findFnNameInDebugString:            function                    (  {  line  ,  dbg  }) {
                         let indexOfDbgId = line.indexOf(dbg)
@@ -13801,6 +13799,7 @@
                         if ((typeof $DEBUGUI == 'undefined') || (!$DEBUGUI)) {
                             return
                         }
+                        debugger
                         yz.uiDb.currentDebugStack.currentDebugId    = debugId
                         yz.uiDb.currentDebugStack.start             = {
                             debugId: debugId
