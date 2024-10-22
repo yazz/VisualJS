@@ -9773,7 +9773,11 @@
                                   <div   v-for="item  in  yz.uiDb.uiDbTableData.ui_table_debug_trace_log.data.slice().reverse()" >
                                     <div v-if="item.debug_tick==1"
                                          v-on:click="showTraceForTraceLogItem(item.debug_tracer_id)"><span v-bind:style='"border: 1px sold red;margin-bottom: 20px;"+(selectedLogId==item.id?"background-color:lightgray;":"")'><b>{{yz.msToTime(item.run_time_millis)}} - {{item.file_name}}:{{item.line_number}}</b> {{item.line_text.substring(0,100)}}</span>
-                                      <div v-if="selectedLogId == item.id"
+
+                                    </div>
+                                  </div>
+
+                                      <div v-if="selectedLogId"
                                         style='border: 1px solid black;height: 600px;overflow: auto'>
                                         <debug_frame_component
                                             v-if="selectedLogId"
@@ -9782,9 +9786,6 @@
                                         >
                                         </debug_frame_component>
                                     </div>
-
-                                    </div>
-                                  </div>
 
 
 
