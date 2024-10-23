@@ -13693,6 +13693,13 @@
                         }
 
                         let callerDebugToken = argsPassedIn[0]
+
+                        //
+                        // a fn can choose to not be debuggable by passing in "null" as the debug token
+                        //
+                        if (callerDebugToken == null) {
+                            return
+                        }
                         let sourceForCallerOfFunction = yz.uiDb.findSourceLineInCode(callerDebugToken)
 
 
