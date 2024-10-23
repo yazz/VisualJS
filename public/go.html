@@ -9479,8 +9479,6 @@
                     //alert(yz.useHostname + ":" +  yz.usePort)
                 },
                 initYazzApplicationTimeDelayed:     async function              (  ) {
-                    //yz.uiDb.startDebug("jhdsghhjsdgjhsdgnfsdygsduyfngdfsuykntgfdsjgfkjhgjksdf")
-
                     await yz.uiDb.setupAlaSqlDatabase()
 
                     let mainVueOperatingSystemStructure = {
@@ -9606,7 +9604,6 @@
                         myDropzone.removeFile(file);
                     })
                     console.log("... left initYazzApplicationDelayed( async function() {  ")
-                    //yz.uiDb.endDebugFn()
                 },
                 initYazzApplication:                async function              (  )                                            {
                     console.log("await initYazzApplication( async function() {  entered ...")
@@ -12515,6 +12512,7 @@
                     }
                 },
                 selectAppbyId:                        async function              (  id  ) {
+                    yz.uiDb.startDebug("jhdsghhjsdgjhsdgnfsdygsduyfngdfsuykntgfdsjgfkjhgjksdf")
                     //
                     // if the app is already visible then do nothing
                     //
@@ -12560,6 +12558,7 @@
                         }
                     }
 
+                    yz.uiDb.endDebugFn()
                 },
 
                 // Simple web UI helpers
