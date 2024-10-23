@@ -9478,6 +9478,136 @@
                     }
                     //alert(yz.useHostname + ":" +  yz.usePort)
                 },
+                initYazzApplicationTimeDelayed:     async function              (  ) {
+                    //yz.uiDb.startDebug("jhdsghhjsdgjhsdgnfsdygsduyfngdfsuykntgfdsjgfkjhgjksdf")
+
+                    await yz.uiDb.setupAlaSqlDatabase()
+
+                    let mainVueOperatingSystemStructure = {
+                        template: `
+                            <div>
+                                <main_app_component
+                                    :count='count'
+                                    :loadedAppMetaData='loadedAppMetaData'
+                                    :show_loader='show_loader'
+                                    :is_static='is_static'
+                                    :appCodeId='appCodeId'
+                                >
+
+                                </main_app_component>
+
+                            </div>
+                        `
+                        ,
+                        provide: function() {
+                            return injectedVars
+                        },
+                        data:       function        (  ) {
+                            return {
+                                count:                  1,
+                                loadedAppMetaData:      null,
+                                show_loader:            false,
+                                is_static:              false,
+                                appCodeId:              "ZIO"
+                            }
+                        }
+                    }
+
+                    yz.mainVars.mainVueOperatingSystem = Vue.createApp(mainVueOperatingSystemStructure);
+                    yz.mainVars.mainVueOperatingSystem.component('main_app_component',      yz.getMainAppVueComponentStructure());
+                    yz.mainVars.mainVueOperatingSystem.component('debug_frame_component',   yz.getDebugFrameVueComponentStructure());
+                    yz.mainVars.mainVueOperatingSystem.component('debug_header',            yz.getDebugHeaderVueComponentStructure());
+                    yz.mainVars.mainVueOperatingSystem.component('os_screen',               yz.getOSVueComponentStructure());
+                    yz.mainVars.mainVueOperatingSystem.config.compilerOptions.whitespace = 'condense';
+                    mainVueOperatingSystemVm = yz.mainVars.mainVueOperatingSystem.mount("#main_yazz_vue_root_html_element")
+
+
+
+
+
+
+
+
+
+                    if (yz.isStaticHtmlPageApp) {
+                        let nid = yz.mainVars.nextGlobalAppId++;
+                        let ccy = document.getElementById('wrapper').scrollTop
+                        mainVueOperatingSystemVm.loadedAppMetaData =
+                            {
+                                id:                 nid,
+                                name:               "***STATIC_NAME***",
+                                base_component_id:  "***STATIC_BASE_COMPONENT_ID***",
+                                code_id:            "***STATIC_BASE_COMPONENT_ID***",
+                                display_name:       "***STATIC_NAME***",
+                                type:               "app"
+                            }
+                        setTimeout(function() {
+                            document.getElementById('wrapper').scrollTop = ccy
+                        },100)
+
+                        mainVueOperatingSystemVm.show_loader = false
+                        yz.mainVars.autoScroll = false
+                        setTimeout(async function() {
+                            await yz.selectAppbyId(nid)
+                        },20)
+                        refresh();
+                    }
+
+
+
+
+                    let regex = /[?&]([^=#]+)=([^&#]*)/g,
+                        url = window.location.href,
+                        match;
+                    while(match = regex.exec(url)) {
+                        yz.mainVars.webpageParams[match[1]] = match[2];
+                    }
+
+                    if (yz.mainVars.webpageParams.goto) {
+                        yz.mainVars.wait_and_select_app = yz.mainVars.webpageParams.goto.replaceAll("%20"," ").toLowerCase()
+                        yz.mainVars.autoScroll = false;
+                        mainVueOperatingSystemVm.show_loader = true
+                    } else if (yz.mainVars.webpageParams.embed) {
+                        yz.mainVars.wait_and_select_app = yz.mainVars.webpageParams.embed.replaceAll("%20"," ").toLowerCase()
+                        yz.mainVars.autoScroll = false;
+                        mainVueOperatingSystemVm.show_loader = true
+                    } else if (!yz.isStaticHtmlPageApp) {
+                        setTimeout(async function() {
+                            await yz.selectAppbyId( 1)
+                        },200)
+                    } else if (yz.isStaticHtmlPageApp) {
+                        mainVueOperatingSystemVm.is_static = true
+                    }
+
+
+
+                    // set up the dropzone so that apps can be dragged
+                    // into yazz by dragging the source code into the
+                    // webapp
+
+                    Dropzone.autoDiscover = false;
+                    Dropzone.options.mydropzone = {
+                        init: function() {
+                            this.on("addedfile", function(file) {
+                            });
+                        }
+                    };
+                    var myDropzone = new Dropzone("body#mydropzone", {
+                        url:                    "/http_post_file_upload",
+                        createImageThumbnails:  false,
+                        sending:                function(file, xhr, formData)
+                        {
+                            showProgressBar()
+                            yz.file_upload_uuid = yz.uuidv4()
+                            formData.append('client_file_upload_id', yz.file_upload_uuid);
+                        }
+                    });
+                    myDropzone.on("complete", function(file) {
+                        myDropzone.removeFile(file);
+                    })
+                    console.log("... left initYazzApplicationDelayed( async function() {  ")
+                    //yz.uiDb.endDebugFn()
+                },
                 initYazzApplication:                async function              (  )                                            {
                     console.log("await initYazzApplication( async function() {  entered ...")
                     //----------------------------------------------------------------------------------
@@ -9492,137 +9622,7 @@
                     //--------------------------------------------------------------------
 
                     console.log("Called initYazzApplication()")
-                    setTimeout(async function(){
-
-                        await yz.uiDb.setupAlaSqlDatabase()
-
-
-                        let mainVueOperatingSystemStructure = {
-                            template: `
-                            <div>
-                                <main_app_component
-                                    :count='count'
-                                    :loadedAppMetaData='loadedAppMetaData'
-                                    :show_loader='show_loader'
-                                    :is_static='is_static'
-                                    :appCodeId='appCodeId'
-                                >
-
-                                </main_app_component>
-
-                            </div>
-                        `
-                            ,
-                            provide: function() {
-                                return injectedVars
-                            },
-                            data:       function        (  ) {
-                                return {
-                                    count:                  1,
-                                    loadedAppMetaData:      null,
-                                    show_loader:            false,
-                                    is_static:              false,
-                                    appCodeId:              "ZIO"
-                                }
-                            }
-                        }
-
-                        yz.mainVars.mainVueOperatingSystem = Vue.createApp(mainVueOperatingSystemStructure);
-                        yz.mainVars.mainVueOperatingSystem.component('main_app_component',      yz.getMainAppVueComponentStructure());
-                        yz.mainVars.mainVueOperatingSystem.component('debug_frame_component',   yz.getDebugFrameVueComponentStructure());
-                        yz.mainVars.mainVueOperatingSystem.component('debug_header',            yz.getDebugHeaderVueComponentStructure());
-                        yz.mainVars.mainVueOperatingSystem.component('os_screen',               yz.getOSVueComponentStructure());
-                        yz.mainVars.mainVueOperatingSystem.config.compilerOptions.whitespace = 'condense';
-                        mainVueOperatingSystemVm = yz.mainVars.mainVueOperatingSystem.mount("#main_yazz_vue_root_html_element")
-
-
-
-
-
-
-
-
-
-                        if (yz.isStaticHtmlPageApp) {
-                            let nid = yz.mainVars.nextGlobalAppId++;
-                            let ccy = document.getElementById('wrapper').scrollTop
-                            mainVueOperatingSystemVm.loadedAppMetaData =
-                                {
-                                    id:                 nid,
-                                    name:               "***STATIC_NAME***",
-                                    base_component_id:  "***STATIC_BASE_COMPONENT_ID***",
-                                    code_id:            "***STATIC_BASE_COMPONENT_ID***",
-                                    display_name:       "***STATIC_NAME***",
-                                    type:               "app"
-                                }
-                            setTimeout(function() {
-                                document.getElementById('wrapper').scrollTop = ccy
-                            },100)
-
-                            mainVueOperatingSystemVm.show_loader = false
-                            yz.mainVars.autoScroll = false
-                            setTimeout(async function() {
-                                await yz.selectAppbyId(nid)
-                            },20)
-                            refresh();
-                        }
-
-
-
-
-                        let regex = /[?&]([^=#]+)=([^&#]*)/g,
-                            url = window.location.href,
-                            match;
-                        while(match = regex.exec(url)) {
-                            yz.mainVars.webpageParams[match[1]] = match[2];
-                        }
-
-                        if (yz.mainVars.webpageParams.goto) {
-                            yz.mainVars.wait_and_select_app = yz.mainVars.webpageParams.goto.replaceAll("%20"," ").toLowerCase()
-                            yz.mainVars.autoScroll = false;
-                            mainVueOperatingSystemVm.show_loader = true
-                        } else if (yz.mainVars.webpageParams.embed) {
-                            yz.mainVars.wait_and_select_app = yz.mainVars.webpageParams.embed.replaceAll("%20"," ").toLowerCase()
-                            yz.mainVars.autoScroll = false;
-                            mainVueOperatingSystemVm.show_loader = true
-                        } else if (!yz.isStaticHtmlPageApp) {
-                            setTimeout(async function() {
-                                await yz.selectAppbyId(1)
-                            },200)
-                        } else if (yz.isStaticHtmlPageApp) {
-                            mainVueOperatingSystemVm.is_static = true
-                        }
-
-
-
-                        // set up the dropzone so that apps can be dragged
-                        // into yazz by dragging the source code into the
-                        // webapp
-
-                        Dropzone.autoDiscover = false;
-                        Dropzone.options.mydropzone = {
-                            init: function() {
-                                this.on("addedfile", function(file) {
-                                });
-                            }
-                        };
-                        var myDropzone = new Dropzone("body#mydropzone", {
-                            url:                    "/http_post_file_upload",
-                            createImageThumbnails:  false,
-                            sending:                function(file, xhr, formData)
-                            {
-                                showProgressBar()
-                                yz.file_upload_uuid = yz.uuidv4()
-                                formData.append('client_file_upload_id', yz.file_upload_uuid);
-                            }
-                        });
-                        myDropzone.on("complete", function(file) {
-                            myDropzone.removeFile(file);
-                        })
-                        console.log("... left initYazzApplication( async function() {  ")
-
-
-                    },100)
+                    setTimeout(  yz.initYazzApplicationTimeDelayed  ,  100  )
                 },
                 populateStaticCodeCache:            async function              (  )                                            {
                     //***ADD_STATIC_CODE
