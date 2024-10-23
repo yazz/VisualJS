@@ -9485,7 +9485,6 @@
                         template: `
                             <div>
                                 <main_app_component
-                                    :count='count'
                                     :loadedAppMetaData='loadedAppMetaData'
                                     :show_loader='show_loader'
                                     :is_static='is_static'
@@ -9502,7 +9501,6 @@
                         },
                         data:       function        (  ) {
                             return {
-                                count:                  1,
                                 loadedAppMetaData:      null,
                                 show_loader:            false,
                                 is_static:              false,
@@ -9548,7 +9546,6 @@
                         setTimeout(async function() {
                             await yz.selectAppbyId(nid)
                         },20)
-                        refresh();
                     }
 
 
@@ -9747,7 +9744,7 @@
                 },
                 getMainAppVueComponentStructure:                function        (  )                                            {
                     let mainAppVueComponentStructure = {
-                        props:      [  "count"  ,   "loadedAppMetaData"  ,  "show_loader"  ,  "is_static"  ,  "appCodeId"  ],
+                        props:      [  "loadedAppMetaData"  ,  "show_loader"  ,  "is_static"  ,  "appCodeId"  ],
                         template:   `
                           <div v-bind:refresh="refresh">
                           <div v-if="yz">
@@ -11965,7 +11962,6 @@
                                         }
 
                                         // add all the items to the homepage
-                                        debugger
                                         for (let rt = 0; rt < responseJson.length; rt++) {
                                             await mm.addEditableComponentToHomepage("hgdfsjgdfsjkgfdsjhkgfdjkhgfdshjkgfdshjfghjs",
                                                 responseJson[rt].base_component_id,
@@ -12574,9 +12570,6 @@
                 onemouseup:                         function                    (  ) {
                     //console.log("onmouseup")
                     yz.mainVars.mousedown = false
-                },
-                refresh:                            function                    (  ) {
-                    mainVueOperatingSystemVm.count += 1;
                 },
 
 
