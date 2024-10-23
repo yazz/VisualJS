@@ -9484,14 +9484,14 @@
                     let mainVueOperatingSystemStructure = {
                         template: `
                             <div>
-                                <main_app_component
+                                <main_screen_vue_component
                                     :loadedAppMetaData='loadedAppMetaData'
                                     :show_loader='show_loader'
                                     :is_static='is_static'
                                     :appCodeId='appCodeId'
                                 >
 
-                                </main_app_component>
+                                </main_screen_vue_component>
 
                             </div>
                         `
@@ -9510,10 +9510,10 @@
                     }
 
                     yz.mainVars.mainVueOperatingSystem = Vue.createApp(mainVueOperatingSystemStructure);
-                    yz.mainVars.mainVueOperatingSystem.component('main_app_component',      yz.getMainAppVueComponentStructure());
-                    yz.mainVars.mainVueOperatingSystem.component('debug_frame_component',   yz.getDebugFrameVueComponentStructure());
-                    yz.mainVars.mainVueOperatingSystem.component('debug_header',            yz.getDebugHeaderVueComponentStructure());
-                    yz.mainVars.mainVueOperatingSystem.component('os_screen',               yz.getOSVueComponentStructure());
+                    yz.mainVars.mainVueOperatingSystem.component('main_screen_vue_component',   yz.getMainScreenVueComponentStructure());
+                    yz.mainVars.mainVueOperatingSystem.component('debug_frame_component',       yz.getDebugFrameVueComponentStructure());
+                    yz.mainVars.mainVueOperatingSystem.component('debug_header',                yz.getDebugHeaderVueComponentStructure());
+                    yz.mainVars.mainVueOperatingSystem.component('os_screen',                   yz.getOSVueComponentStructure());
                     yz.mainVars.mainVueOperatingSystem.config.compilerOptions.whitespace = 'condense';
                     mainVueOperatingSystemVm = yz.mainVars.mainVueOperatingSystem.mount("#main_yazz_vue_root_html_element")
 
@@ -9742,7 +9742,7 @@
                     }
                     return debugFrameVueComponentStructure
                 },
-                getMainAppVueComponentStructure:                function        (  )                                            {
+                getMainScreenVueComponentStructure:                function        (  )                                            {
                     let mainAppVueComponentStructure = {
                         props:      [  "loadedAppMetaData"  ,  "show_loader"  ,  "is_static"  ,  "appCodeId"  ],
                         template:   `
