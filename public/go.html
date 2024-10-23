@@ -9487,7 +9487,6 @@
                                 <main_screen_vue_component
                                     :loadedAppMetaData='loadedAppMetaData'
                                     :show_loader='show_loader'
-                                    :is_static='is_static'
                                     :appCodeId='appCodeId'
                                 >
 
@@ -9503,7 +9502,6 @@
                             return {
                                 loadedAppMetaData:      null,
                                 show_loader:            false,
-                                is_static:              false,
                                 appCodeId:              "ZIO"
                             }
                         }
@@ -9571,7 +9569,7 @@
                             await yz.selectAppbyId(nid)
                         },200)
                     } else if (yz.isStaticHtmlPageApp) {
-                        mainVueOperatingSystemVm.is_static = true
+                        //mainVueOperatingSystemVm.is_static = true
                     }
 
 
@@ -9744,7 +9742,7 @@
                 },
                 getMainScreenVueComponentStructure:                function        (  )                                            {
                     let mainAppVueComponentStructure = {
-                        props:      [  "loadedAppMetaData"  ,  "show_loader"  ,  "is_static"  ,  "appCodeId"  ],
+                        props:      [  "loadedAppMetaData"  ,  "show_loader"  ,  "appCodeId"  ],
                         template:   `
                           <div v-bind:refresh="refresh">
                           <div v-if="yz">
@@ -9754,9 +9752,9 @@
                             <div    v-if='yz.uiDb.uiDbGlobalVars["global_debugger_on"]'
                                     style="position:absolute;width:100%;height:100%;left:0px;top:0px;color: black; opacity: 1; z-index: 2000000;background-color:white;overflow: hidden">
                               <div style='height:40px; padding:4px;background-color:lightblue;'>
-                <span style='float: left;height:100%;margin-right:10px;vertical-align:middle;'>
-                    Debugger V2
-                </span>
+                                <span style='float: left;height:100%;margin-right:10px;vertical-align:middle;'>
+                                    Debugger V2
+                                </span>
                                 zzz
                                 <div  style='height: 50px;'></div>
 
@@ -9780,9 +9778,6 @@
                                         >
                                         </debug_frame_component>
                                     </div>
-
-
-
                                 </div>
 
 
@@ -9804,7 +9799,6 @@
                                                               OLD DEBUG HEADER
                              ------------------------------------------------------------------------ -->
                             <debug_header   :visible='true'
-                                            :is_static='is_static'
                                             :appCodeId='appCodeId'>
                             </debug_header>
 
@@ -9834,7 +9828,7 @@
                              ------------------------------------------------------------------------ -->
                             <div v-if="loadedAppMetaData">
                               <template   v-for="item  in  [loadedAppMetaData]" >
-                                <div    v-bind:style='"left:0px; top:0px; height:100%; width: 100vw ;z-index: 200000;background-color: white;overflow-y:hidden;overflow-x: hidden;display:" + (is_static?"":"")'>
+                                <div    v-bind:style='"left:0px; top:0px; height:100%; width: 100vw ;z-index: 200000;background-color: white;overflow-y:hidden;overflow-x: hidden;display:;"'>
 
                         <span   v-bind:id='"html_app_element_with_id_" + item.id'
                                 v-bind:style="'padding:0px;position: relative; margin: auto;height:100%;width:100%;border:0px; overflow-y:none;'"
@@ -9955,7 +9949,7 @@
                 },
                 getDebugHeaderVueComponentStructure:            function        (  )                                            {
                     let debugHeaderStructure = {
-                        props:      [   "visible"   ,   "element_id"   ,   "full_screen"   ,   "is_static"   ,  "appCodeId"],
+                        props:      [   "visible"   ,   "element_id"   ,   "full_screen"   ,  "appCodeId"],
                         mounted:    async function() {
                             let mm = this
                             mm.isValidObject                    = Vue.inject('isValidObject')
