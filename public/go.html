@@ -13812,7 +13812,7 @@
                         //
                         // store the debug code
                         //
-                        let startLineNumber = null
+                        let startLineNumber = sourceForFunction.lineNumber - 1
                         let codeSectionRecord1 = yz.uiDb.sqlui1("select * from ui_table_debug_code_sections where fk_debug_id = ?",
                                                     [debugId])
                         if (!codeSectionRecord1) {
@@ -13884,7 +13884,8 @@
                                     Date.now(),
                                     yz.uiDb.currentDebugStack.debugTracerId,
                                     sourceForFunction.fileName,
-                                    sourceForFunction.lineNumber,
+                                    //sourceForFunction.lineNumber,
+                                    startLineNumber,
                                     1,
                                     sourceForFunction.lineText.trim()
                                 ])
