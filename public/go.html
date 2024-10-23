@@ -9839,7 +9839,7 @@
                               <template   v-for="item  in  [loadedAppMetaData]" >
                                 <div    v-bind:style='"left:0px; top:0px; height:100%; width: 100vw ;z-index: 200000;background-color: white;overflow-y:hidden;overflow-x: hidden;display:" + (is_static?"":"")'>
 
-                        <span   v-bind:id='"card_" + item.id'
+                        <span   v-bind:id='"html_app_element_with_id_" + item.id'
                                 v-bind:style="'padding:0px;position: relative; margin: auto;height:100%;width:100%;border:0px; overflow-y:none;'"
                                 class='container' >
 
@@ -12525,7 +12525,7 @@
                     // select the app
                     //
                     if (id != -1) {
-                        let elmnt = document.querySelector('#card_' + id);
+                        let elmnt = document.querySelector('#html_app_element_with_id_' + id);
                         if (elmnt) {
                             if (yz.isStaticHtmlPageApp) {
                                 yz.setGlobalVar("visible_app_id",id)
