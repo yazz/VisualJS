@@ -9744,27 +9744,27 @@
                     let mainAppVueComponentStructure = {
                         props:      [  "loadedAppMetaData"  ,  "show_loader"  ,  "appCodeId"  ],
                         template:   `
-                          <div v-bind:refresh="refresh">
-                          <div v-if="yz">
-                            <!-- --------------------------------------------------------------------
-                                                              NEW V2 DEBUG HEADER
-                             ------------------------------------------------------------------------ -->
-                            <div    v-if='yz.uiDb.uiDbGlobalVars["global_debugger_on"]'
-                                    style="position:absolute;width:100%;height:100%;left:0px;top:0px;color: black; opacity: 1; z-index: 2000000;background-color:white;overflow: hidden">
-                              <div style='height:40px; padding:4px;background-color:lightblue;'>
-                                <span style='float: left;height:100%;margin-right:10px;vertical-align:middle;'>
-                                    Debugger V2
+<div v-bind:refresh="refresh">
+    <div v-if="yz">
+    <!-- --------------------------------------------------------------------
+                                      NEW V2 DEBUG HEADER
+     ------------------------------------------------------------------------ -->
+        <div  v-if='yz.uiDb.uiDbGlobalVars["global_debugger_on"]'
+              style="position:absolute;width:100%;height:100%;left:0px;top:0px;color: black; opacity: 1; z-index: 2000000;background-color:white;overflow: hidden">
+
+            <div style='height:40px; padding:4px;background-color:lightblue;'>
+                <span style='float: left;height:100%;margin-right:10px;vertical-align:middle;'>
+                    Debugger V2
+                </span>
+                zzz
+                <div  style='height: 50px;'></div>
+                    <div style='border: 1px solid black;'>
+                        <div   v-for="item  in  yz.uiDb.uiDbTableData.ui_table_debug_trace_log.data.slice().reverse()" >
+                            <div v-if="item.debug_tick==1"
+                                 v-on:click="showTraceForTraceLogItem(item.debug_tracer_id)">
+                                <span v-bind:style='"border: 1px sold red;margin-bottom: 20px;"+(selectedLogId==item.id?"background-color:lightgray;":"")'>
+                                    <b>{{yz.msToTime(item.run_time_millis)}} - {{item.file_name}}:{{item.line_number}}</b> {{item.line_text.substring(0,100)}}
                                 </span>
-                                zzz
-                                <div  style='height: 50px;'></div>
-
-
-
-                                <div style='border: 1px solid black;'>
-
-                                  <div   v-for="item  in  yz.uiDb.uiDbTableData.ui_table_debug_trace_log.data.slice().reverse()" >
-                                    <div v-if="item.debug_tick==1"
-                                         v-on:click="showTraceForTraceLogItem(item.debug_tracer_id)"><span v-bind:style='"border: 1px sold red;margin-bottom: 20px;"+(selectedLogId==item.id?"background-color:lightgray;":"")'><b>{{yz.msToTime(item.run_time_millis)}} - {{item.file_name}}:{{item.line_number}}</b> {{item.line_text.substring(0,100)}}</span>
 
                                     </div>
                                   </div>
