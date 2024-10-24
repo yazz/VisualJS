@@ -9765,70 +9765,63 @@
                                 <span v-bind:style='"border: 1px sold red;margin-bottom: 20px;"+(selectedLogId==item.id?"background-color:lightgray;":"")'>
                                     <b>{{yz.msToTime(item.run_time_millis)}} - {{item.file_name}}:{{item.line_number}}</b> {{item.line_text.substring(0,100)}}
                                 </span>
-
-                                    </div>
-                                  </div>
-
-                                      <div v-if="selectedLogId"
-                                        style='border: 1px solid black;height: 600px;overflow: auto'>
-                                        <debug_frame_component
-                                            v-if="selectedLogId"
-                                            v-bind:key="selectedLogId"
-                                            v-bind:log_id="selectedLogId"
-                                        >
-                                        </debug_frame_component>
-                                    </div>
-                                </div>
-
-
-
-                                <button
-                                    type="button"
-                                    v-on:click='closeDebugV2()'
-                                    class="btn btn-sm btn-info"
-                                    v-on:touchstart='closeDebugV2()'
-                                    style='float: right;height:100%;margin-left:200px;vertical-align:top;right: 0px;color: blue;'
-                                >
-                                  Close
-                                </button>
-                              </div>
                             </div>
+                        </div>
+
+                        <div    v-if="selectedLogId"
+                                style='border: 1px solid black;height: 600px;overflow: auto'>
+                            <debug_frame_component
+                                v-if="selectedLogId"
+                                v-bind:key="selectedLogId"
+                                v-bind:log_id="selectedLogId">
+                            </debug_frame_component>
+                        </div>
+                    </div>
+
+                    <button type="button"
+                            v-on:click='closeDebugV2()'
+                            class="btn btn-sm btn-info"
+                            v-on:touchstart='closeDebugV2()'
+                            style='float: right;height:100%;margin-left:200px;vertical-align:top;right: 0px;color: blue;'>
+                        Close
+                    </button>
+                </div>
+            </div>
 
 
-                            <!-- --------------------------------------------------------------------
-                                                              OLD DEBUG HEADER
-                             ------------------------------------------------------------------------ -->
-                            <debug_header   :visible='true'
-                                            :appCodeId='appCodeId'>
-                            </debug_header>
+            <!-- --------------------------------------------------------------------
+                                              OLD DEBUG HEADER
+             ------------------------------------------------------------------------ -->
+            <debug_header   :visible='true'
+                            :appCodeId='appCodeId'>
+            </debug_header>
 
 
 
 
-                            <!-- --------------------------------------------------------------------
-                                                              SHOW LOADING SPINNER
-                             ------------------------------------------------------------------------ -->
-                            <div    v-if="show_loader"
-                                    v-bind:style='show_loader?"":"display:none;"'
-                                    class="loader">
-                            </div>
+            <!-- --------------------------------------------------------------------
+                                              SHOW LOADING SPINNER
+             ------------------------------------------------------------------------ -->
+            <div    v-if="show_loader"
+                    v-bind:style='show_loader?"":"display:none;"'
+                    class="loader">
+            </div>
 
 
-                            <!-- --------------------------------------------------------------------
-                                                              SHOW THE OS SCREEN
-                             ------------------------------------------------------------------------ -->
-
-                            <os_screen  v-if='(yz.uiDb.uiDbGlobalVars["visible_app_id"] == null) || (yz.uiDb.uiDbGlobalVars["visible_app_id"] == -1)'></os_screen>
-
+            <!-- --------------------------------------------------------------------
+                                              SHOW THE OS SCREEN
+             ------------------------------------------------------------------------ -->
+            <os_screen  v-if='(yz.uiDb.uiDbGlobalVars["visible_app_id"] == null) || (yz.uiDb.uiDbGlobalVars["visible_app_id"] == -1)'></os_screen>
 
 
 
-                            <!-- --------------------------------------------------------------------
-                                                              SHOW THE RUNNING APPS
-                             ------------------------------------------------------------------------ -->
-                            <div v-if="loadedAppMetaData">
-                              <template   v-for="item  in  [loadedAppMetaData]" >
-                                <div    v-bind:style='"left:0px; top:0px; height:100%; width: 100vw ;z-index: 200000;background-color: white;overflow-y:hidden;overflow-x: hidden;display:;"'>
+
+            <!-- --------------------------------------------------------------------
+                                              SHOW THE RUNNING APPS
+             ------------------------------------------------------------------------ -->
+            <div v-if="loadedAppMetaData">
+                <template   v-for="item  in  [loadedAppMetaData]" >
+                    <div   v-bind:style='"left:0px; top:0px; height:100%; width: 100vw ;z-index: 200000;background-color: white;overflow-y:hidden;overflow-x: hidden;display:;"'>
 
                         <span   v-bind:id='"html_app_element_with_id_" + item.id'
                                 v-bind:style="'padding:0px;position: relative; margin: auto;height:100%;width:100%;border:0px; overflow-y:none;'"
@@ -9843,17 +9836,16 @@
                             </div>
                         </span>
 
+                    </div>
+                </template>
+            </div>
 
-                                </div>
-                              </template>
-                            </div>
 
-
-                            <div style="height: 200px;">
-                            </div>
-                          </div>
-                          </div>
-                          </div>`,
+            <div style="height: 200px;">
+            </div>
+        </div>
+    </div>
+</div>`,
                         mounted:    async function  (  ) {
                             let mm = this
                             mm.isValidObject    = Vue.inject('isValidObject')
