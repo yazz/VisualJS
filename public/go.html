@@ -10735,7 +10735,7 @@
 
                 <button class='btn btn-sm'
                         style="position:absolute;bottom:20px;right:20px;"
-                        v-on:click='$event.stopPropagation();(async function() {await yz.showHomePage()})()'>
+                        v-on:click='$event.stopPropagation();(async function() {await yz.closeRunningAppsDialog()})()'>
 
                     Close
                 </button>
@@ -11985,6 +11985,19 @@
                     yz.setGlobalVar("show_running_apps",            false)
                     yz.setGlobalVar("show_installed_apps",          true)
 
+                },
+                closeRunningAppsDialog:                         function        (  ) {
+                    let mm = this
+                    let lastVisAppId = yz.getGlobalVar("last_visible_app_id")
+                    if (lastVisAppId == -1) {
+                        mm.showHomePage()
+                        return
+                    }
+
+                    yz.setGlobalVar("last_visible_app_id",  -1)
+                    yz.setGlobalVar("visible_app_id",       lastVisAppId)
+                    yz.setGlobalVar("show_running_apps",    false)
+                    yz.setGlobalVar("show_installed_apps",  false)
                 },
                 showRunningApps:                                function        (  ) {
                     let visAppId = yz.getGlobalVar("visible_app_id")
