@@ -11829,12 +11829,17 @@
                                         |     ---------------
                                         |________________________________________________________________________ */
                                         let mm = this
-                                        window.open(
-                                            location.protocol +
-                                            "//" + location.hostname + ":" +
-                                            location.port + "/app/" + baseComponentId + ".html"
-                                            ,
-                                            baseComponentId)
+                                        //window.open(
+                                        //    location.protocol +
+                                        //    "//" + location.hostname + ":" +
+                                        //    location.port + "/app/" + baseComponentId + ".html"
+                                        //    ,
+                                        //    baseComponentId)
+                                        let alreadyExists = yz.uiDb.sqlui("select * from  ui_table_running_apps  where code_id = ?", [code_id])
+                                        if (alreadyExists.length == 0) {
+                                            yz.uiDb.sqlui(   "insert  into  ui_table_running_apps  (  code_id  ,  base_component_id, logo, display_name,component_type) values (?,?,?,?,?)",
+                                                [code_id, baseComponentId,null, null, null])
+                                        }
                                         mm.refresh++
                                     },
                                     runAppInNewBrowserTab:              async function  ( baseComponentId, code_id ) {
