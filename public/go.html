@@ -10964,7 +10964,7 @@
                                     <button   style='position:absolute;top:250px;left:20px;opacity:0.9;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);border-radius: 5px;margin-bottom:10px;margin-left:40px;padding:10px;font-size:20px;z-index:2147483647;'
                                               class='btn btn-sm'
                                               v-if="item.component_type=='app'"
-                                              v-on:click='runAppInNewBrowserTab(item.base_component_id);'>
+                                              v-on:click='runAppInThisBrowserTab(item.base_component_id);'>
 
                                         <img    src='/driver_icons/play.png'
                                                 style='position:relative;max-width: 40px; left:0px; top: 0px;max-height: 40px;margin-left: auto;margin-right: auto;display: inline-block;' />
@@ -11811,6 +11811,31 @@
                                             await mm.editApp(result.base_component_id, result.code_id)
                                         },50)
                                         yz.uiDb.endDebugFn()
+                                    },
+                                    runAppInThisBrowserTab:              async function  ( baseComponentId, code_id ) {
+                                        /* Given the base component ID of an app, open that app in a separate
+                                        browser tab as an app
+                                        ________________________________________
+                                        |                                      |
+                                        |      runAppInNewBrowserTab           |
+                                        |                                      |
+                                        |______________________________________|
+                                        Given the base component ID of an app, open that app in a separate
+                                        browser tab as an app
+                                        __________
+                                        | PARAMS |______________________________________________________________
+                                        |
+                                        |     baseComponentId
+                                        |     ---------------
+                                        |________________________________________________________________________ */
+                                        let mm = this
+                                        window.open(
+                                            location.protocol +
+                                            "//" + location.hostname + ":" +
+                                            location.port + "/app/" + baseComponentId + ".html"
+                                            ,
+                                            baseComponentId)
+                                        mm.refresh++
                                     },
                                     runAppInNewBrowserTab:              async function  ( baseComponentId, code_id ) {
                                         /* Given the base component ID of an app, open that app in a separate
