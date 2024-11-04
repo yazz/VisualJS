@@ -14031,13 +14031,18 @@
                         // create an event object when data changes
                         //
                         yz.uiDb.uiDbTableChangeEvents[tableName] = {
-                            refEventCounter:   Vue.ref(yz.uiDb.uiDbTickCounter)
+                            refEventCounter:    Vue.ref(yz.uiDb.uiDbTickCounter),
+                            eventData:          null
                         }
 
                         let insertEventTriggerName = "insert_event_table_" + tableName
                         alasql.fn[insertEventTriggerName] = async function(r) {
                             yz.uiDb.uiDbTableData[tableName].data = alasql("select * from " + tableName + " order by id asc")
                             yz.uiDb.uiDbTableChangeEvents[tableName].refEventCounter.value = yz.uiDb.uiDbTickCounter++
+                            yz.uiDb.uiDbTableChangeEvents[tableName].eventData = {
+                                dbEventType: "INSERT",
+                                value:        r
+                            }
                         }
                         alasql("CREATE TRIGGER process" + insertEventTriggerName + " AFTER INSERT ON  " + tableName + "  " + insertEventTriggerName);
 
@@ -14046,6 +14051,10 @@
                         alasql.fn[updateEventTriggerName] = async function(r) {
                             yz.uiDb.uiDbTableData[tableName].data = alasql("select * from " + tableName + " order by id asc")
                             yz.uiDb.uiDbTableChangeEvents[tableName].refEventCounter.value = yz.uiDb.uiDbTickCounter++
+                            yz.uiDb.uiDbTableChangeEvents[tableName].eventData = {
+                                dbEventType: "UPDATE",
+                                value:        r
+                            }
                         }
                         alasql("CREATE TRIGGER process" + updateEventTriggerName + " AFTER UPDATE ON  " + tableName + "  " + updateEventTriggerName);
 
@@ -14054,6 +14063,10 @@
                         alasql.fn[deleteEventTriggerName] = async function(r) {
                             yz.uiDb.uiDbTableData[tableName].data = alasql("select * from " + tableName + " order by id asc")
                             yz.uiDb.uiDbTableChangeEvents[tableName].refEventCounter.value = yz.uiDb.uiDbTickCounter++
+                            yz.uiDb.uiDbTableChangeEvents[tableName].eventData = {
+                                dbEventType: "DELETE",
+                                value:        r
+                            }
                         }
                         alasql("CREATE TRIGGER process" + deleteEventTriggerName + " AFTER DELETE ON  " + tableName + "  " + deleteEventTriggerName);
 
