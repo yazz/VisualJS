@@ -11361,8 +11361,15 @@
 
                                         Vue.watch(  yz.uiDb.uiDbTableChangeEvents["ui_table_running_apps"].refEventCounter,
                                             function(nv){
+                                            debugger
                                                 console.log("go.html: Table 'ui_table_running_apps' changed : " + JSON.stringify(nv))
                                                 mm.refresh ++
+                                                window.open(
+                                                    location.protocol +
+                                                    "//" + location.hostname + ":" +
+                                                    location.port + "/app/" + yz.uiDb.uiDbTableChangeEvents["ui_table_running_apps"].eventData.value.base_component_id + ".html"
+                                                    ,
+                                                    yz.uiDb.uiDbTableChangeEvents["ui_table_running_apps"].eventData.value.base_component_id)
                                             })
 
                                         //debugger
