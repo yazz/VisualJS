@@ -12573,6 +12573,7 @@
                         let elmnt = document.querySelector('#html_app_element_with_id_' + id);
                         if (elmnt) {
                             if (yz.isStaticHtmlPageApp) {
+                                debugger
                                 yz.setGlobalVar("visible_app_id",id)
                                 setTimeout(async function() {
                                     let thisApp = mainVueOperatingSystemVm.loadedAppMetaData
@@ -13379,8 +13380,10 @@
                             //
                             //if (startOfSql.startsWith("insert") || startOfSql.startsWith("update") || startOfSql.startsWith("delete")) {
                             if (startOfSql.startsWith("update") || startOfSql.startsWith("delete")) {
-                                var words = startOfSql.split(' ');
+                                //var words = startOfSql.split(' ');
+                                var words = startOfSql.match(/\b\w+\b/g);
                                 let probableTableName = words[1];
+                                console.log("probableTableName: " + probableTableName)
                                 if (yz.uiDb.sendToServerDebugSqliteLookup[ probableTableName ]) {
                                     ((async function () {
                                         let oursql = sql
