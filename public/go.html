@@ -11360,8 +11360,8 @@
                                             })
 
                                         Vue.watch(  yz.uiDb.uiDbTableChangeEvents["ui_table_running_apps"].refEventCounter,
-                                            function(nv){
-                                            debugger
+                                            async function(nv){
+                                                debugger
                                                 console.log("go.html: Table 'ui_table_running_apps' changed : " + JSON.stringify(nv))
                                                 mm.refresh ++
                                                 //window.open(
@@ -11370,6 +11370,14 @@
                                                 //    location.port + "/app/" + yz.uiDb.uiDbTableChangeEvents["ui_table_running_apps"].eventData.value.base_component_id + ".html"
                                                 //    ,
                                                 //    yz.uiDb.uiDbTableChangeEvents["ui_table_running_apps"].eventData.value.base_component_id)
+                                                let thisApp = mainVueOperatingSystemVm.loadedAppMetaData
+                                                if (mainVueOperatingSystemVm.loadedAppMetaData.fn) {
+                                                    setTimeout( mainVueOperatingSystemVm.loadedAppMetaData.fn, 3000)
+                                                }
+                                                if (thisApp.base_component_id) {
+                                                    await yz.prepareApp(thisApp.id, thisApp.base_component_id, thisApp.args)
+                                                }
+
                                             })
 
                                         //debugger
