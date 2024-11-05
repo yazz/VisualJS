@@ -11364,12 +11364,12 @@
                                             debugger
                                                 console.log("go.html: Table 'ui_table_running_apps' changed : " + JSON.stringify(nv))
                                                 mm.refresh ++
-                                                window.open(
-                                                    location.protocol +
-                                                    "//" + location.hostname + ":" +
-                                                    location.port + "/app/" + yz.uiDb.uiDbTableChangeEvents["ui_table_running_apps"].eventData.value.base_component_id + ".html"
-                                                    ,
-                                                    yz.uiDb.uiDbTableChangeEvents["ui_table_running_apps"].eventData.value.base_component_id)
+                                                //window.open(
+                                                //    location.protocol +
+                                                //    "//" + location.hostname + ":" +
+                                                //    location.port + "/app/" + yz.uiDb.uiDbTableChangeEvents["ui_table_running_apps"].eventData.value.base_component_id + ".html"
+                                                //    ,
+                                                //    yz.uiDb.uiDbTableChangeEvents["ui_table_running_apps"].eventData.value.base_component_id)
                                             })
 
                                         //debugger
@@ -12571,7 +12571,7 @@
                                         setTimeout( mainVueOperatingSystemVm.loadedAppMetaData.fn, 3000)
                                     }
                                     if (thisApp.base_component_id) {
-                                        await yz.prepareApp(  thisApp.id,   thisApp.base_component_id,   thisApp.args  )
+                                        //await yz.prepareApp(  thisApp.id,   thisApp.base_component_id,   thisApp.args  )
                                         await yz.addRunningApp(thisApp)
                                     }
                                 },200)
@@ -12585,7 +12585,7 @@
                                             setTimeout( mainVueOperatingSystemVm.loadedAppMetaData.fn, 3000)
                                         }
                                         if (thisApp.base_component_id) {
-                                            await yz.prepareApp(  thisApp.id,   thisApp.base_component_id,   thisApp.args  )
+                                            //await yz.prepareApp(  thisApp.id,   thisApp.base_component_id,   thisApp.args  )
                                             await yz.addRunningApp(thisApp)
                                         }
                                     },200)
