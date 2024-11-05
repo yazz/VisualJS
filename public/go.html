@@ -11842,10 +11842,14 @@
                                         //    location.port + "/app/" + baseComponentId + ".html"
                                         //    ,
                                         //    baseComponentId)
-                                        let alreadyExists = yz.uiDb.sqlui("select * from  ui_table_running_apps  where code_id = ?", [code_id])
-                                        if (alreadyExists.length == 0) {
-                                            yz.uiDb.sqlui(   "insert  into  ui_table_running_apps  (  code_id  ,  base_component_id, logo, display_name,component_type) values (?,?,?,?,?)",
-                                                [code_id, baseComponentId,null, null, null])
+                                        let alreadyExists = yz.uiDb.sqlui1("select * from  ui_table_running_apps  where code_id = ?", [code_id])
+                                        if (alreadyExists) {
+                                            if (alreadyExists.status == "RUNNING") {
+
+                                            } else {
+                                                yz.uiDb.sqlui(   "insert  into  ui_table_running_apps  (  code_id  ,  app_instance_id  ,  base_component_id, logo, display_name,component_type) values (?,?,?,?,?,?)",
+                                                    [code_id, 7  , baseComponentId,null, null, null])
+                                            }
                                         }
                                         mm.refresh++
                                     },
@@ -14236,11 +14240,11 @@
                     yz.uiDb.endDebugFn()
                 },
                 addRunningApp:                    async function              (  app   ) {
-                    //debugger
-                    let alreadyExists = yz.uiDb.sqlui("select * from  ui_table_running_apps  where code_id = ?", [app.code_id])
-                    if (alreadyExists.length == 0) {
-                        yz.uiDb.sqlui(   "insert  into  ui_table_running_apps  (  code_id  ,  base_component_id, logo, display_name,component_type) values (?,?,?,?,?)",
-                            [app.code_id,app.base_component_id,app.logo_url, app.displayName, app.component_type])
+                    debugger
+                    let alreadyRunningApp = yz.uiDb.sqlui1("select * from  ui_table_running_apps  where code_id = ? and status = ?", [app.code_id, "RUNNING"])
+                    if (!alreadyRunningApp) {
+                        yz.uiDb.sqlui(   "insert  into  ui_table_running_apps  (  code_id  ,  base_component_id, logo, display_name,component_type,status) values (?,?,?,?,?,?)",
+                            [app.code_id,app.base_component_id,app.logo_url, app.displayName, app.component_type, "RUNNING"])
                     }
                 },
 
