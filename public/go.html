@@ -11361,7 +11361,6 @@
 
                                         Vue.watch(  yz.uiDb.uiDbTableChangeEvents["ui_table_running_apps"].refEventCounter,
                                             async function(nv){
-                                                debugger
                                                 console.log("go.html: Table 'ui_table_running_apps' changed : " + JSON.stringify(nv))
                                                 mm.refresh ++
                                                 //window.open(
@@ -12573,7 +12572,6 @@
                         let elmnt = document.querySelector('#html_app_element_with_id_' + id);
                         if (elmnt) {
                             if (yz.isStaticHtmlPageApp) {
-                                debugger
                                 yz.setGlobalVar("visible_app_id",id)
                                 setTimeout(async function() {
                                     let thisApp = mainVueOperatingSystemVm.loadedAppMetaData
@@ -14160,6 +14158,26 @@
                     uiDbGlobalVarChangeEvents:          {},
                     uiDbGlobalVars:                     {},
                 },
+                appHelpers: {
+                    addNewAppToRunByBCI: function( bci ) {
+                        yz.uiDb.sqlui(`
+                                            insert  into
+                                                ui_table_running_apps
+                                                (  code_id  ,  app_instance_id  ,  base_component_id  , logo  ,  display_name,component_type  ,  status  )
+                                            values
+                                                (?,?,?,?,?,?,?)`
+                            ,
+                            [
+                                null,
+                                8,
+                                'TODO',
+                                null,
+                                null,
+                                null,
+                                'SCHEDULED']
+                        )
+                    }
+                },
                 setGlobalVar:                       function                    (  propId   ,  propValue  ) {
                     let dbPropValue = propValue
                     let propType = null
@@ -14252,7 +14270,6 @@
                     yz.uiDb.endDebugFn()
                 },
                 addRunningApp:                    async function              (  app   ) {
-                    debugger
                     let alreadyRunningApp = yz.uiDb.sqlui1("select * from  ui_table_running_apps  where code_id = ? and status = ?", [app.code_id, "RUNNING"])
                     if (!alreadyRunningApp) {
                         yz.uiDb.sqlui(   "insert  into  ui_table_running_apps  (  code_id  ,  base_component_id, logo, display_name,component_type,status) values (?,?,?,?,?,?)",
