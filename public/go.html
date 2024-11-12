@@ -12581,7 +12581,9 @@
                                     }
                                     if (thisApp.base_component_id) {
                                         //await yz.prepareApp(  thisApp.id,   thisApp.base_component_id,   thisApp.args  )
-                                        await yz.addRunningApp(thisApp)
+                                        debugger
+                                        //await yz.addRunningApp(thisApp)
+                                        yz.appHelpers.addNewAppToRunByBCI(thisApp.base_component_id)
                                     }
                                 },200)
                             } else {
