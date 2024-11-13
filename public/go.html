@@ -12583,7 +12583,8 @@
                                         //await yz.prepareApp(  thisApp.id,   thisApp.base_component_id,   thisApp.args  )
                                         debugger
                                         //await yz.addRunningApp(thisApp)
-                                        yz.appHelpers.addNewAppToRunByBCI(thisApp.base_component_id)
+                                        let nid = yz.mainVars.nextGlobalAppId++;
+                                        yz.appHelpers.addNewAppToRunByBCI({appInstanceId: nid,baseComponentId: thisApp.base_component_id})
                                     }
                                 },200)
                             } else {
@@ -14162,8 +14163,7 @@
                     uiDbGlobalVars:                     {},
                 },
                 appHelpers: {
-                    addNewAppToRunByBCI: function( bci ) {
-                        let nid = yz.mainVars.nextGlobalAppId++;
+                    addNewAppToRunByBCI: function( { appInstanceId, baseComponentId } ) {
                         yz.uiDb.sqlui(`
                                             insert  into
                                                 ui_table_running_apps
@@ -14173,8 +14173,8 @@
                             ,
                             [
                                 null,
-                                nid,
-                                bci,
+                                appInstanceId,
+                                baseComponentId,
                                 null,
                                 null,
                                 null,
