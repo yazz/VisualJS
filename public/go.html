@@ -14057,11 +14057,21 @@
                                             "ui_table_command_source_file_lines"
                                     ].indexOf(tableName) == -1)
                                 {
-                                    let callStack = yz.uiDb.getCallStack()
-                                    yz.uiDb.currentDebugStack.currentDebugId
-                                    yz.uiDb.currentDebugStack.start
-                                    yz.uiDb.currentDebugStack.debugTracerId
-                                    debugger
+                                    if (yz.uiDb.currentDebugStack.debugTracerId != null) {
+                                        let callStack = yz.uiDb.getCallStack()
+                                        let callStackIndex = null
+                                        for (let i=0;i<callStack.length;i++) {
+                                            let ci = callStack[i]
+                                            if (ci.indexOf("sqlui" != -1)) {
+                                                callStackIndex = i
+                                            }
+                                        }
+                                        let callerLine = callStack[callStackIndex]
+                                        yz.uiDb.currentDebugStack.currentDebugId
+                                        yz.uiDb.currentDebugStack.start
+                                        yz.uiDb.currentDebugStack.debugTracerId
+                                        debugger
+                                    }
                                 }
                                 //
                                 // create the table on the server
