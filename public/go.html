@@ -11353,6 +11353,7 @@
                                         |_________________________
                                                                  | Watch the global UI DB for changes
                                                                  |__________________________________ */
+                                        //GLOBAL DB LISTENERS
                                         Vue.watch(  yz.uiDb.uiDbTableChangeEvents["ui_table_appstore_apps"].refEventCounter,
                                             function(nv){
                                                 console.log("go.html: Table 'ui_table_appstore_apps' changed : " + JSON.stringify(nv))
@@ -11361,6 +11362,8 @@
 
                                         Vue.watch(  yz.uiDb.uiDbTableChangeEvents["ui_table_running_apps"].refEventCounter,
                                             async function(nv){
+                                            //return
+                                            debugger
                                                 console.log("go.html: Table 'ui_table_running_apps' changed : " + JSON.stringify(nv))
                                                 mm.refresh ++
                                                 //window.open(
@@ -11370,12 +11373,22 @@
                                                 //    ,
                                                 //    yz.uiDb.uiDbTableChangeEvents["ui_table_running_apps"].eventData.value.base_component_id)
                                                 let appRecord = yz.uiDb.uiDbTableChangeEvents["ui_table_running_apps"].eventData.value
-                                                let thisApp = mainVueOperatingSystemVm.loadedAppMetaData
-                                                if (mainVueOperatingSystemVm.loadedAppMetaData.fn) {
-                                                    setTimeout( mainVueOperatingSystemVm.loadedAppMetaData.fn, 3000)
-                                                }
-                                                if (thisApp.base_component_id) {
-                                                    await yz.prepareApp(thisApp.id, thisApp.base_component_id, thisApp.args)
+                                                if (appRecord.code_id) {
+                                                    let thisApp = mainVueOperatingSystemVm.loadedAppMetaData
+                                                    if (mainVueOperatingSystemVm.loadedAppMetaData.fn) {
+                                                        setTimeout( mainVueOperatingSystemVm.loadedAppMetaData.fn, 3000)
+                                                    }
+                                                    if (thisApp.base_component_id) {
+                                                        await yz.prepareApp(thisApp.id, thisApp.base_component_id, thisApp.args)
+                                                    }
+                                                } else {
+                                                    let thisApp = mainVueOperatingSystemVm.loadedAppMetaData
+                                                    if (mainVueOperatingSystemVm.loadedAppMetaData.fn) {
+                                                        setTimeout( mainVueOperatingSystemVm.loadedAppMetaData.fn, 3000)
+                                                    }
+                                                    if (thisApp.base_component_id) {
+                                                        await yz.prepareApp(thisApp.id, thisApp.base_component_id, thisApp.args)
+                                                    }
                                                 }
 
                                             })
@@ -12581,7 +12594,7 @@
                                     }
                                     if (thisApp.base_component_id) {
                                         //await yz.prepareApp(  thisApp.id,   thisApp.base_component_id,   thisApp.args  )
-                                        debugger
+                                        //debugger
                                         //await yz.addRunningApp(thisApp)
                                         let nid = yz.mainVars.nextGlobalAppId++;
                                         yz.appHelpers.addNewAppToRunByBCI({appInstanceId: nid,baseComponentId: thisApp.base_component_id})
