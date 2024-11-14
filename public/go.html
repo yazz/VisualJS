@@ -13486,6 +13486,30 @@
                             ]})
 
                         //
+                        // table "ui_table_debug_sql_log"
+                        //
+                        //
+                        await yz.uiDb.createAlaSqlTable({
+                            tableName: "ui_table_debug_sql_log",
+                            fields: [
+                                {name: "id",                            fieldType: "INT PRIMARY KEY AUTOINCREMENT"},
+                                {name: "fk_parent_debug_trace_log_id",  fieldType: "INTEGER"},
+                                {name: "fk_debug_id",                   fieldType: "STRING"},
+                                {name: "debug_tracer_id",               fieldType: "STRING"},
+                                {name: "run_time_millis",               fieldType: "INTEGER"},
+                                {name: "debug_tick",                    fieldType: "INTEGER"},
+                                {name: "file_name",                     fieldType: "STRING"},
+                                {name: "line_number",                   fieldType: "INTEGER"},
+                                {name: "line_text",                     fieldType: "STRING"},
+                                {name: "previous_value",                fieldType: "STRING"},
+                                {name: "next_value",                    fieldType: "STRING"},
+                                {name: "status",                        fieldType: "STRING"},
+                                {name: "caller_file_name",              fieldType: "STRING"},
+                                {name: "caller_line_number",            fieldType: "INTEGER"},
+                                {name: "fk_caller_debug_trace_log_id",  fieldType: "INTEGER"}
+                            ]})
+
+                        //
                         // table "ui_table_debug_code_sections"
                         //
                         await yz.uiDb.createAlaSqlTable({
