@@ -11363,7 +11363,7 @@
                                         Vue.watch(  yz.uiDb.uiDbTableChangeEvents["ui_table_running_apps"].refEventCounter,
                                             async function(nv){
                                             //return
-                                            debugger
+                                            //debugger
                                                 console.log("go.html: Table 'ui_table_running_apps' changed : " + JSON.stringify(nv))
                                                 mm.refresh ++
                                                 //window.open(
@@ -14047,7 +14047,22 @@
                             //
                             let triggerName = "insert_debug_row_into_table_" + tableName
                             alasql.fn[triggerName] = async function(r) {
-
+                                if (
+                                    [
+                                            "ui_table_command_source_file_lines",
+                                            "ui_table_debug_trace_log",
+                                            "ui_table_debug_sql_log",
+                                            "ui_table_debug_code_sections",
+                                            "ui_table_command_source_files",
+                                            "ui_table_command_source_file_lines"
+                                    ].indexOf(tableName) == -1)
+                                {
+                                    let callStack = yz.uiDb.getCallStack()
+                                    yz.uiDb.currentDebugStack.currentDebugId
+                                    yz.uiDb.currentDebugStack.start
+                                    yz.uiDb.currentDebugStack.debugTracerId
+                                    debugger
+                                }
                                 //
                                 // create the table on the server
                                 //
