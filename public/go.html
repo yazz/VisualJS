@@ -13425,7 +13425,7 @@
                         }
                         return res
                     },
-                    sqluiDebug:                         function                    (  sql  ,  params  )                            {
+                    sqluiDebug:                         function                    (  dbgCode  ,  sql  ,  params  )                            {
                         let ret = alasql(sql  ,  params)
                         if ((typeof $DEBUGUI !== 'undefined') && ($DEBUGUI == "true")) {
                             let startOfSql = sql.toLowerCase()
@@ -14353,7 +14353,8 @@
                     yz.uiDb.debugFn(arguments)
                     let alreadyExists = yz.uiDb.sqlui("select * from  ui_table_installed_apps  where code_id = ?", [app.code_id])
                     if (alreadyExists.length == 0) {
-                        yz.uiDb.sqluiDebug(   "insert  into  ui_table_installed_apps  (  code_id  ,  base_component_id, logo, display_name,component_type) values (?,?,?,?,?)",
+                        yz.uiDb.sqluiDebug("hdfjkshfjkdshfudisyouidsfyffdsbyoiudfsyboibdsfyioudsfbyoibsefyfdsidfsiobdsfoidfsbiodfsoi",
+                                "insert  into  ui_table_installed_apps  (  code_id  ,  base_component_id, logo, display_name,component_type) values (?,?,?,?,?)",
                             [app.code_id,app.base_component_id,app.logo_url, app.displayName, app.component_type])
                     }
                     yz.uiDb.endDebugFn()
