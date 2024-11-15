@@ -13458,14 +13458,6 @@
                         }
                         return ret
                     },
-                    sqlui1Debug:                        function                    (  sql  ,  params  )                            {
-                        let res = null
-                        let resBack = yz.uiDb.sqluiDebug(  sql  ,  params  )
-                        if (resBack && resBack.length > 0) {
-                            res = resBack[0]
-                        }
-                        return res
-                    },
                     setupAlaSqlDatabase:                async function              (  )                                            {
                         alasql("CREATE TABLE ui_tables (table_name STRING)");
                         alasql("CREATE TABLE ui_fields (table_name STRING, field_name STRING, field_type STRING)");
