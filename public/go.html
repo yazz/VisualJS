@@ -13408,8 +13408,8 @@
                             //
                             if ((dbgCode != null) && (yz.uiDb.tablesCreated)) {
                                 if (startOfSql.startsWith("insert") || startOfSql.startsWith("update") || startOfSql.startsWith("delete")) {
-                                    yz.uiDb.sqlui("INSERT INTO ui_table_debug_sql_log (  debug_tracer_id  ) VALUES (?)",
-                                        [dbgCode])
+                                    yz.uiDb.sqlui("INSERT INTO ui_table_debug_sql_log (  debug_tracer_id, sql_statement  ) VALUES (?,?)",
+                                        [dbgCode, sql])
                                 }
                             }
                             if (startOfSql.startsWith("update") || startOfSql.startsWith("delete")) {
@@ -13503,6 +13503,7 @@
                             tableName: "ui_table_debug_sql_log",
                             fields: [
                                 {name: "id",                            fieldType: "INT PRIMARY KEY AUTOINCREMENT"},
+                                {name: "sql_statement",                 fieldType: "STRING"},
                                 {name: "fk_parent_debug_trace_log_id",  fieldType: "INTEGER"},
                                 {name: "fk_debug_id",                   fieldType: "STRING"},
                                 {name: "debug_tracer_id",               fieldType: "STRING"},
