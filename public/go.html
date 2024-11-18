@@ -13408,8 +13408,9 @@
                             //
                             if ((dbgCode != null) && (yz.uiDb.tablesCreated)) {
                                 if (startOfSql.startsWith("insert") || startOfSql.startsWith("update") || startOfSql.startsWith("delete")) {
-                                    yz.uiDb.sqlui("INSERT INTO ui_table_debug_sql_log (  debug_tracer_id, sql_statement  ) VALUES (?,?)",
-                                        [dbgCode, sql])
+                                    debugger
+                                    yz.uiDb.sqlui("INSERT INTO ui_table_debug_sql_log (  debug_tracer_id, sql_statement  , fk_parent_debug_trace_log_id) VALUES (?,?,?)",
+                                        [dbgCode, sql,2])
                                 }
                             }
                             if (startOfSql.startsWith("update") || startOfSql.startsWith("delete")) {
