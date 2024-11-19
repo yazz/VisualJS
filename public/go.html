@@ -13412,8 +13412,9 @@
                                     let steps = yz.uiDb.currentDebugStack.steps
                                     let lastTraceid = yz.uiDb.currentDebugStack.steps[yz.uiDb.currentDebugStack.steps.length - 1]
 
-                                    yz.uiDb.sqlui("INSERT INTO ui_table_debug_sql_log (  debug_tracer_id, sql_statement  , fk_parent_debug_trace_log_id) VALUES (?,?,?)",
-                                        [dbgCode, sql, lastTraceid])
+                                    yz.uiDb.sqlui("INSERT INTO ui_table_debug_sql_log (  debug_tracer_id, sql_statement  , fk_parent_debug_trace_log_id,  debug_tick ) VALUES (?,?,?,?)",
+                                        [dbgCode, sql, lastTraceid,  yz.uiDb.currentDebugStack.debugTick])
+                                    //zzz
                                 }
                             }
                             if (startOfSql.startsWith("update") || startOfSql.startsWith("delete")) {
