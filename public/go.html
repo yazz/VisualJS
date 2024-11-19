@@ -13409,11 +13409,28 @@
                             if ((dbgCode != null) && (yz.uiDb.tablesCreated)) {
                                 if (startOfSql.startsWith("insert") || startOfSql.startsWith("update") || startOfSql.startsWith("delete")) {
                                     debugger
+                                    let sourceForCallerOfFunction = yz.uiDb.findSourceLineInCode(dbgCode)
+                                    let sourceFileName = null
+                                    let lineNumber = null
+                                    if (sourceForCallerOfFunction.found) {
+                                        sourceFileName = sourceForCallerOfFunction.fileName
+                                        lineNumber = sourceForCallerOfFunction.lineNumber
+                                    }
                                     let steps = yz.uiDb.currentDebugStack.steps
-                                    let lastTraceid = yz.uiDb.currentDebugStack.steps[yz.uiDb.currentDebugStack.steps.length - 1]
+                                    let lastTraceid = null
+                                    if (steps && (steps.length > 0)) {
+                                        lastTraceid = steps[steps.length - 1]
+                                    }
 
-                                    yz.uiDb.sqlui("INSERT INTO ui_table_debug_sql_log (  debug_tracer_id, sql_statement  , fk_parent_debug_trace_log_id,  debug_tick ) VALUES (?,?,?,?)",
-                                        [dbgCode, sql, lastTraceid,  yz.uiDb.currentDebugStack.debugTick])
+                                    yz.uiDb.sqlui("INSERT INTO ui_table_debug_sql_log (  debug_tracer_id  ,  sql_statement  ,  fk_parent_debug_trace_log_id  ,  debug_tick  ,  file_name  ,  line_number ) VALUES (?,?,?,?,?,?)",
+                                        [
+                                            dbgCode,
+                                            sql,
+                                            lastTraceid,
+                                            yz.uiDb.currentDebugStack.debugTick,
+                                            sourceFileName,
+                                            lineNumber
+                                        ])
                                     //zzz
                                 }
                             }
@@ -14084,10 +14101,6 @@
                                             }
                                         }
                                         let callerLine = callStack[callStackIndex]
-                                        yz.uiDb.currentDebugStack.currentDebugId
-                                        yz.uiDb.currentDebugStack.start
-                                        yz.uiDb.currentDebugStack.debugTracerId
-                                        debugger
                                     }
                                 }
                                 //
