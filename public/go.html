@@ -9719,6 +9719,20 @@
                                 mm.selectedTraceLogItemArguments = JSON.parse(mm.selectedTraceLogItem.arguments)
                             }
 
+
+                            //
+                            // sort out the SQL statement log
+                            //
+                            let sqlLogRecord1 = sqlui1( "select * from ui_table_debug_sql_log  where fk_parent_debug_trace_log_id = ?",[mm.log_id])
+                            if (sqlLogRecord1) {
+                                debugger
+                                mm.sqlUiDbUpdates[mm.log_id] = {
+                                    traceLogRecord: sqlLogRecord1
+                                }
+                            }
+
+                            //sqlUiDbUpdates
+
                             mm.refresh++
                         },
                         methods:    {
