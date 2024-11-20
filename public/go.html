@@ -9654,7 +9654,8 @@
     <pre style="height: auto;"><span style="color: blue;" v-if="selectedTraceLogItemArguments">ARGS: {{selectedTraceLogItemArguments.slice(1)}}</span>
         <template v-for="(contextLine,indexContextLine) in yz.uiDb.linesOfSourceFile[ selectedLogItemFileName].slice(selectedLogItemContextStartLineNumber,selectedLogItemContextEndLineNumber)"><span v-bind:style='selectedLogItemContextLineNumber==(selectedLogItemContextStartLineNumber + indexContextLine + 1)?"color:red":""'>{{selectedLogItemContextStartLineNumber + indexContextLine + 1}}: {{contextLine}}</span><span v-if="traceLogItemCalls[selectedLogItemContextStartLineNumber + indexContextLine + 1]" style="color: red;"><div v-for="logItemId in traceLogItemCalls[selectedLogItemContextStartLineNumber + indexContextLine + 1]"><debug_frame_component  v-bind:log_id="logItemId"  v-bind:key="logItemId"></debug_frame_component></div></span>
         </template>
-        </pre>
+    </pre>
+    <div v-if="sqlUiDbUpdates[log_id]" style="color: white;background-color: black;">{{sqlUiDbUpdates[log_id].traceLogRecord.sql_statement}}</div>
 </div>
 
 
