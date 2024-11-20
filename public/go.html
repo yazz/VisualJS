@@ -9655,7 +9655,7 @@
         <template v-for="(contextLine,indexContextLine) in yz.uiDb.linesOfSourceFile[ selectedLogItemFileName].slice(selectedLogItemContextStartLineNumber,selectedLogItemContextEndLineNumber)"><span v-bind:style='selectedLogItemContextLineNumber==(selectedLogItemContextStartLineNumber + indexContextLine + 1)?"color:red":""'>{{selectedLogItemContextStartLineNumber + indexContextLine + 1}}: {{contextLine}}</span><span v-if="traceLogItemCalls[selectedLogItemContextStartLineNumber + indexContextLine + 1]" style="color: red;"><div v-for="logItemId in traceLogItemCalls[selectedLogItemContextStartLineNumber + indexContextLine + 1]"><debug_frame_component  v-bind:log_id="logItemId"  v-bind:key="logItemId"></debug_frame_component></div></span>
         </template>
     </pre>
-    <div v-if="sqlUiDbUpdates[log_id]" style="color: white;background-color: black;">{{sqlUiDbUpdates[log_id].traceLogRecord.sql_statement}}</div>
+    <div v-if="sqlUiDbUpdates[log_id]" style="color: white;background-color: black;">{{sqlUiDbUpdates[log_id].traceLogRecords}}</div>
 </div>
 
 
@@ -9724,11 +9724,11 @@
                             //
                             // sort out the SQL statement log
                             //
-                            let sqlLogRecord1 = sqlui1( "select * from ui_table_debug_sql_log  where fk_parent_debug_trace_log_id = ?",[mm.log_id])
-                            if (sqlLogRecord1) {
+                            let sqlLogRecords = sqlui( "select * from ui_table_debug_sql_log  where fk_parent_debug_trace_log_id = ?",[mm.log_id])
+                            if (sqlLogRecords.length > 0) {
                                 debugger
                                 mm.sqlUiDbUpdates[mm.log_id] = {
-                                    traceLogRecord: sqlLogRecord1
+                                    traceLogRecords: sqlLogRecords
                                 }
                             }
 
