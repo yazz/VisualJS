@@ -13568,6 +13568,21 @@
                             ]})
 
                         //
+                        // table "ui_table_debug_sql_log"
+                        //
+                        //
+                        await yz.uiDb.createAlaSqlTable({
+                            tableName: "ui_table_debug_data_log",
+                            fields: [
+                                {name: "id",                            fieldType: "INT PRIMARY KEY AUTOINCREMENT"},
+                                {name: "fk_parent_debug_sql_log_id",    fieldType: "INTEGER"},
+                                {name: "table_name",                    fieldType: "STRING"},
+                                {name: "operation_type",                fieldType: "STRING"},
+                                {name: "previous_value",                fieldType: "STRING"},
+                                {name: "new_value",                     fieldType: "STRING"}
+                            ]})
+
+                        //
                         // table "ui_table_debug_code_sections"
                         //
                         await yz.uiDb.createAlaSqlTable({
