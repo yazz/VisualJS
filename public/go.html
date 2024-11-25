@@ -14201,8 +14201,19 @@
                                 dbEventType: "INSERT",
                                 value:        r
                             }
-                            yz.uiDb.sqlui(   "insert  into  ui_table_debug_data_log  (  table_name  ,  new_value  ) values (?,?)",
-                                [tableName, JSON.stringify(r)])
+                            if (
+                                [
+                                    "ui_table_command_source_file_lines",
+                                    "ui_table_debug_trace_log",
+                                    "ui_table_debug_sql_log",
+                                    "ui_table_debug_code_sections",
+                                    "ui_table_command_source_files",
+                                    "ui_table_command_source_file_lines",
+                                    "ui_table_debug_data_log"
+                                ].indexOf(tableName) == -1) {
+                                yz.uiDb.sqlui(   "insert  into  ui_table_debug_data_log  (  table_name  ,  new_value  ) values (?,?)",
+                                    [tableName, JSON.stringify(r)])
+                            }
 
                         }
                         alasql("CREATE TRIGGER process" + insertEventTriggerName + " AFTER INSERT ON  " + tableName + "  " + insertEventTriggerName);
