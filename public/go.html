@@ -14211,8 +14211,8 @@
                                     "ui_table_command_source_file_lines",
                                     "ui_table_debug_data_log"
                                 ].indexOf(tableName) == -1) {
-                                yz.uiDb.sqlui(   "insert  into  ui_table_debug_data_log  (  table_name  ,  new_value  ) values (?,?)",
-                                    [tableName, JSON.stringify(r)])
+                                yz.uiDb.sqlui(   "insert  into  ui_table_debug_data_log  (  table_name  ,  new_value  ,  operation_type  ) values (?,?,?)",
+                                    [tableName, JSON.stringify(r),"INSERT"])
                             }
 
                         }
