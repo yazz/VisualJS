@@ -13456,7 +13456,7 @@
                                             sourceFileName,
                                             lineNumber
                                         ])
-                                    //zzz
+                                    yz.uiDb.currentDebugStack.currentSqlLogId = yz.uiDb.sqlui1("select max(id) as id from ui_table_debug_sql_log").id
                                 }
                             }
                             if (startOfSql.startsWith("update") || startOfSql.startsWith("delete")) {
@@ -14211,13 +14211,9 @@
                                     "ui_table_command_source_file_lines",
                                     "ui_table_debug_data_log"
                                 ].indexOf(tableName) == -1) {
-                                if (yz.uiDb.currentDebugStack.currentSqlDebugId) {
-                                    let steps = yz.uiDb.currentDebugStack.steps
-                                    if (steps.length > 0) {
-                                        let lastStepId = steps[steps.length - 1]
-                                        yz.uiDb.sqlui(   "insert  into  ui_table_debug_data_log  (  table_name  ,  new_value  ,  operation_type  ,  fk_parent_debug_sql_log_id  ) values (?,?,?,?)",
-                                            [tableName, JSON.stringify(r),"INSERT",lastStepId])
-                                    }
+                                if (yz.uiDb.currentDebugStack.currentSqlLogId) {
+                                    yz.uiDb.sqlui(   "insert  into  ui_table_debug_data_log  (  table_name  ,  new_value  ,  operation_type  ,  fk_parent_debug_sql_log_id  ) values (?,?,?,?)",
+                                        [tableName, JSON.stringify(r),"INSERT",yz.uiDb.currentDebugStack.currentSqlLogId])
                                 }
                             }
 
@@ -14305,6 +14301,7 @@
                     currentDebugStack:                  {
                         currentDebugId:     null,
                         currentSqlDebugId:  null,
+                        currentSqlLogId:    null,
                         debugTracerId:      null,
                         debugTick:          1,
                         start:              null,
