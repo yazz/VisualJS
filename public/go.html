@@ -13433,7 +13433,6 @@
                             //
                             if ((dbgCode != null) && (yz.uiDb.tablesCreated)) {
                                 if (startOfSql.startsWith("insert") || startOfSql.startsWith("update") || startOfSql.startsWith("delete")) {
-                                    debugger
                                     let sourceForCallerOfFunction = yz.uiDb.findSourceLineInCode(dbgCode)
                                     let sourceFileName = null
                                     let lineNumber = null
