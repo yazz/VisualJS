@@ -13445,7 +13445,6 @@
                                     if (steps && (steps.length > 0)) {
                                         lastTraceid = steps[steps.length - 1]
                                     }
-
                                     yz.uiDb.sqlui("INSERT INTO ui_table_debug_sql_log (  debug_tracer_id  ,  sql_statement  ,  fk_parent_debug_trace_log_id  ,  debug_tick  ,  caller_file_name  ,  caller_line_number ) VALUES (?,?,?,?,?,?)",
                                         [
                                             dbgCode,
@@ -14211,6 +14210,7 @@
                                     "ui_table_debug_data_log"
                                 ].indexOf(tableName) == -1) {
                                 if (yz.uiDb.currentDebugStack.currentSqlLogId) {
+                                    yz.uiDb.currentDebugStack.currentSqlLogId = yz.uiDb.sqlui1("select max(id) as id from ui_table_debug_sql_log").id
                                     yz.uiDb.sqlui(   "insert  into  ui_table_debug_data_log  (  table_name  ,  new_value  ,  operation_type  ,  fk_parent_debug_sql_log_id  ) values (?,?,?,?)",
                                         [tableName, JSON.stringify(r),"INSERT",yz.uiDb.currentDebugStack.currentSqlLogId])
                                 }
