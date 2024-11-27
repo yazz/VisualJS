@@ -14396,7 +14396,8 @@
                                 for (let thisApp of responseJson) {
                                     let alreadyExists = yz.uiDb.sqlui("select * from ui_table_appstore_apps where content_hash = ?", [thisApp.content_hash])
                                     if (alreadyExists.length == 0) {
-                                        yz.uiDb.sqlui(   "insert  into  ui_table_appstore_apps  (  old_id, content_hash  ,  base_component_id, logo, display_name,component_type) values (?,?,?,?,?,?)",
+                                        yz.uiDb.sqluiDebug("hgdfsgjhksdfghjkdsfgdfjskhgnfuybgfeiurybrgeruyigferuiyigfueirgueirwygyuieriur",
+                                            "insert  into  ui_table_appstore_apps  (  old_id, content_hash  ,  base_component_id, logo, display_name,component_type) values (?,?,?,?,?,?)",
                                                         [thisApp.base_component_id, thisApp.content_hash,thisApp.base_component_id,thisApp.logo, thisApp.display_name, thisApp.component_type])
                                     }
                                 }
