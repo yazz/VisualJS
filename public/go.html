@@ -14049,16 +14049,6 @@
                         let latestLogId =  yz.uiDb.sqlui1("select MAX(id) as id from ui_table_debug_trace_log")
                         yz.uiDb.currentDebugStack.steps.push(latestLogId.id)
                     },
-                    endDebug:                           function                    (  ) {
-                        if ((typeof $DEBUGUI == 'undefined') || (!$DEBUGUI)) {
-                            return
-                        }
-                        yz.uiDb.currentDebugStack.currentDebugId    = null
-                        yz.uiDb.currentDebugStack.start             = null
-                        yz.uiDb.currentDebugStack.debugTick         = 1
-                        yz.uiDb.currentDebugStack.debugTraceid      = null
-                        yz.uiDb.currentDebugStack.steps             = []
-                    },
                     createAlaSqlTable:                  async function              (  {  tableName  ,  fields  ,  sendToDebugSqliteServer  }  ) {
                         if (typeof(sendToDebugSqliteServer) !== 'undefined') {
                             yz.uiDb.sendToServerDebugSqliteLookup[tableName] = sendToDebugSqliteServer
