@@ -9706,7 +9706,7 @@
                                 nextLine = yz.uiDb.linesOfSourceFile[ mm.selectedLogItemFileName][mm.selectedLogItemContextEndLineNumber - 1]
                                 if (mm.selectedLogItemContextEndLineNumber == yz.uiDb.linesOfSourceFile[ mm.selectedLogItemFileName].length) {
                                     readAnotherLine = false
-                                } else if (nextLine.indexOf("yz.uiDb.endDebugFn(") != -1) {
+                                } else if (nextLine.indexOf("yz.uiDb.endOfDebugSection(") != -1) {
                                     mm.selectedLogItemContextEndLineNumber ++
                                     readAnotherLine = false
                                 } else {
@@ -9934,7 +9934,7 @@
                                     nextLine = yz.uiDb.linesOfSourceFile[ mm.selectedLogItemFileName][mm.selectedLogItemContextEndLineNumber - 1]
                                     if (mm.selectedLogItemContextEndLineNumber == yz.uiDb.linesOfSourceFile[ mm.selectedLogItemFileName].length) {
                                         readAnotherLine = false
-                                    } else if (nextLine.indexOf("yz.uiDb.endDebugFn(") != -1) {
+                                    } else if (nextLine.indexOf("yz.uiDb.endOfDebugSection(") != -1) {
                                         mm.selectedLogItemContextEndLineNumber ++
                                         readAnotherLine = false
                                     } else {
@@ -11430,7 +11430,7 @@
                                                 console.log("Global var 'show_running_apps' changed : " + JSON.stringify(nv))
                                                 mm.refresh ++
                                             })
-                                        yz.uiDb.endDebugFn()
+                                        yz.uiDb.endOfDebugSection()
                                     },
 
                                     // local filesystem stuff
@@ -11765,7 +11765,7 @@
                                             await yz.addInstalledApp("uiyodfsdfsyuidfsyiuiuyodfsiuoydfsuiyodsfuiyodfsuiyodfs",app)
                                         }
 
-                                        return yz.uiDb.endDebugFn(null)
+                                        return yz.uiDb.endOfDebugSection(null)
                                     },
                                     addToEditableAppsAndEdit:           async function  ( contentHash ) {
                                         //----------------------------------------------------------------------------------
@@ -11863,7 +11863,7 @@
                                         setTimeout(async function() {
                                             await mm.editApp(result.base_component_id, result.code_id)
                                         },50)
-                                        yz.uiDb.endDebugFn()
+                                        yz.uiDb.endOfDebugSection()
                                     },
                                     runAppInThisBrowserTab:              async function  ( baseComponentId, code_id ) {
                                         /* Given the base component ID of an app, open that app in a separate
@@ -11969,7 +11969,7 @@
                                             await mm.runAppInNewBrowserTab(result.base_component_id)
 
                                         },50)
-                                        yz.uiDb.endDebugFn()
+                                        yz.uiDb.endOfDebugSection()
                                     },
                                     editApp:                            async function  ( baseComponentId, codeId) {
                                         //----------------------------------------------------------------------------------
@@ -12057,7 +12057,7 @@
                                 }
                             }
 
-                    return yz.uiDb.endDebugFn(  osStructure  )
+                    return yz.uiDb.endOfDebugSection(  osStructure  )
                 },
 
                 showHomePage:                                   function        (  ) {
@@ -12644,7 +12644,7 @@
                         }
                     }
 
-                    yz.uiDb.endDebugFn()
+                    yz.uiDb.endOfDebugSection()
                 },
 
                 // Simple web UI helpers
@@ -13838,7 +13838,7 @@
                         let trimmed = fnUptoColon.trim()
                         return trimmed
                     },
-                    endDebugFn:                         function                    (  returnValue  ) {
+                    endOfDebugSection:                         function                    (  returnValue  ) {
                         yz.uiDb.currentDebugStack.steps.pop()
                         return returnValue
                     },
@@ -13928,7 +13928,7 @@
                                 nextLine = yz.uiDb.linesOfSourceFile[sourceForFunction.fileName][endLineNumber - 1]
                                 if (endLineNumber == yz.uiDb.linesOfSourceFile[sourceForFunction.fileName].length) {
                                     readAnotherLine = false
-                                } else if (nextLine.indexOf("yz.uiDb.endDebugFn(") != -1) {
+                                } else if (nextLine.indexOf("yz.uiDb.endOfDebugSection(") != -1) {
                                     endLineNumber++
                                     readAnotherLine = false
                                 } else {
@@ -13992,7 +13992,7 @@
                                     nextLine = yz.uiDb.linesOfSourceFile[sourceForFunction.fileName][endLineNumber - 1]
                                     if (endLineNumber == yz.uiDb.linesOfSourceFile[sourceForFunction.fileName].length) {
                                         readAnotherLine = false
-                                    } else if (nextLine.indexOf("yz.uiDb.endDebugFn(") != -1) {
+                                    } else if (nextLine.indexOf("yz.uiDb.endOfDebugSection(") != -1) {
                                         endLineNumber ++
                                         readAnotherLine = false
                                     } else {
@@ -14405,7 +14405,7 @@
                             }
                         }).catch(err => {
                         })
-                    yz.uiDb.endDebugFn()
+                    yz.uiDb.endOfDebugSection()
                 },
                 addInstalledApp:                  async function              (  dbg  ,  app   ) {
                     yz.uiDb.debugFn(arguments)
@@ -14415,7 +14415,7 @@
                                 "insert  into  ui_table_installed_apps  (  code_id  ,  base_component_id, logo, display_name,component_type) values (?,?,?,?,?)",
                             [app.code_id,app.base_component_id,app.logo_url, app.displayName, app.component_type])
                     }
-                    yz.uiDb.endDebugFn()
+                    yz.uiDb.endOfDebugSection()
                 },
                 installAppFromAppstore:           async function              (  dbg  ,  {  baseComponentId  ,  codeId  }  ) {
                     yz.uiDb.debugFn(arguments)
@@ -14425,7 +14425,7 @@
                             base_component_id:  baseComponentId,
                             code_id:            codeId
                         })
-                    yz.uiDb.endDebugFn()
+                    yz.uiDb.endOfDebugSection()
                 },
                 addRunningApp:                    async function              (  app   ) {
                     let alreadyRunningApp = yz.uiDb.sqlui1("select * from  ui_table_running_apps  where code_id = ? and status = ?", [app.code_id, "RUNNING"])
