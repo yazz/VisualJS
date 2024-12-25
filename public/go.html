@@ -9706,7 +9706,7 @@
                                 nextLine = yz.uiDb.linesOfSourceFile[ mm.selectedLogItemFileName][mm.selectedLogItemContextEndLineNumber - 1]
                                 if (mm.selectedLogItemContextEndLineNumber == yz.uiDb.linesOfSourceFile[ mm.selectedLogItemFileName].length) {
                                     readAnotherLine = false
-                                } else if (nextLine.indexOf("yz.uiDb.endOfDebugSection(") != -1) {
+                                } else if (nextLine.indexOf("yz.debug.endOfDebugSection(") != -1) {
                                     mm.selectedLogItemContextEndLineNumber ++
                                     readAnotherLine = false
                                 } else {
@@ -9934,7 +9934,7 @@
                                     nextLine = yz.uiDb.linesOfSourceFile[ mm.selectedLogItemFileName][mm.selectedLogItemContextEndLineNumber - 1]
                                     if (mm.selectedLogItemContextEndLineNumber == yz.uiDb.linesOfSourceFile[ mm.selectedLogItemFileName].length) {
                                         readAnotherLine = false
-                                    } else if (nextLine.indexOf("yz.uiDb.endOfDebugSection(") != -1) {
+                                    } else if (nextLine.indexOf("yz.debug.endOfDebugSection(") != -1) {
                                         mm.selectedLogItemContextEndLineNumber ++
                                         readAnotherLine = false
                                     } else {
@@ -10791,7 +10791,7 @@
                     margin-bottom:10px;margin-left:80px;padding:25px;font-size:60px;font-weight: bold;left:30%;'
                     class='btn btn-lg'
                     v-if="hideImportButtons"
-                    v-on:click='$event.stopPropagation();yz.uiDb.startDebug("oiugfudioudsoujsdfojlks;dhfjds;kh");copyAndEditApp("lkdfjytusdfutfdsuistfuiysdtuyids",{base_component_id: "yazz_blank"})'>
+                    v-on:click='$event.stopPropagation();yz.debug.startDebug("oiugfudioudsoujsdfojlks;dhfjds;kh");copyAndEditApp("lkdfjytusdfutfdsuistfuiysdtuyids",{base_component_id: "yazz_blank"})'>
 
                 <img    src='/driver_icons/blocks.png'
                         style='position:relative;max-width: 100px; left:0px; top: 0px;max-height: 90px;margin-left: auto;margin-right: auto;display: inline-block;'
@@ -10804,7 +10804,7 @@
             <button style='opacity:0.7;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);border-radius: 40px;margin-bottom:10px;margin-left:40px;padding:25px;font-size:45px;font-weight: bold;'
                     class='btn btn-lg'
                     v-if="!hideImportButtons"
-                    v-on:click='$event.stopPropagation();yz.uiDb.startDebug("ukydsfuidsfyo8iashkjlhasdkljhasuiyguyads");copyAndEditApp("yuisdyfuiysdoiuyfdsoaiyfsduiaoyfioyuiaos",{base_component_id: "yazz_blank"})'>
+                    v-on:click='$event.stopPropagation();yz.debug.startDebug("ukydsfuidsfyo8iashkjlhasdkljhasuiyguyads");copyAndEditApp("yuisdyfuiysdoiuyfdsoaiyfsduiaoyfioyuiaos",{base_component_id: "yazz_blank"})'>
 
                 <img    src='/driver_icons/blocks.png'
                         style='position:relative;max-width: 70px; left:0px; top: 0px;max-height: 70px;margin-left: auto;margin-right: auto;display: inline-block;' />
@@ -11117,7 +11117,7 @@
                                         yz.setGlobalVar("visible_app_id", id)
                                     },
                                     pageInitialised:                    async function(  ) {
-                                        yz.uiDb.startDebug("khjdsajakshkjaskjsadjkdsahaksjhkdaslhdkhdlsa")
+                                        yz.debug.startDebug("khjdsajakshkjaskjsadjkdsahaksjhkdaslhdkhdlsa")
                                         let mm = this
 
                                         console.log("await yz.pageInitialized( async function() { entered ... ")
@@ -11430,7 +11430,7 @@
                                                 console.log("Global var 'show_running_apps' changed : " + JSON.stringify(nv))
                                                 mm.refresh ++
                                             })
-                                        yz.uiDb.endOfDebugSection()
+                                        yz.debug.endOfDebugSection()
                                     },
 
                                     // local filesystem stuff
@@ -11709,7 +11709,7 @@
 
                                     // amend the edited apps
                                     addEditableComponentToHomepage:     async function  ( dbg, baseComponentId, displayName, other) {
-                                        yz.uiDb.debugFn(arguments)
+                                        yz.debug.debugFn(arguments)
                                         //----------------------------------------------------------------------------------
                                         //
                                         //                    /-------------------------------------/
@@ -11765,7 +11765,7 @@
                                             await yz.addInstalledApp("uiyodfsdfsyuidfsyiuiuyodfsiuoydfsuiyodsfuiyodfsuiyodfs",app)
                                         }
 
-                                        return yz.uiDb.endOfDebugSection(null)
+                                        return yz.debug.endOfDebugSection(null)
                                     },
                                     addToEditableAppsAndEdit:           async function  ( contentHash ) {
                                         //----------------------------------------------------------------------------------
@@ -11811,7 +11811,7 @@
                                         },50)
                                     },
                                     copyAndEditApp:                     async function  ( dbg,compInfo ) {
-                                        yz.uiDb.debugFn(arguments)
+                                        yz.debug.debugFn(arguments)
 
                                         /* copyAndEditApp
                                         ________________________________________
@@ -11863,7 +11863,7 @@
                                         setTimeout(async function() {
                                             await mm.editApp(result.base_component_id, result.code_id)
                                         },50)
-                                        yz.uiDb.endOfDebugSection()
+                                        yz.debug.endOfDebugSection()
                                     },
                                     runAppInThisBrowserTab:              async function  ( baseComponentId, code_id ) {
                                         /* Given the base component ID of an app, open that app in a separate
@@ -11926,7 +11926,7 @@
                                         mm.refresh++
                                     },
                                     openAppInNewTab:                  async function  ( dbg,contentHash ) {
-                                        yz.uiDb.debugFn(arguments)
+                                        yz.debug.debugFn(arguments)
                                         //----------------------------------------------------------------------------------
                                         //
                                         //                    /-------------------------------------/
@@ -11969,7 +11969,7 @@
                                             await mm.runAppInNewBrowserTab(result.base_component_id)
 
                                         },50)
-                                        yz.uiDb.endOfDebugSection()
+                                        yz.debug.endOfDebugSection()
                                     },
                                     editApp:                            async function  ( baseComponentId, codeId) {
                                         //----------------------------------------------------------------------------------
@@ -12009,7 +12009,7 @@
                                         mm.refresh ++
                                     },
                                     reloadInstalledAppsForUserFromServer:         async function  ( dbg ) {
-                                        yz.uiDb.debugFn(arguments)
+                                        yz.debug.debugFn(arguments)
                                         //----------------------------------------------------------------------------------
                                         //
                                         //                    /-----------------------------------------------/
@@ -12057,7 +12057,7 @@
                                 }
                             }
 
-                    return yz.uiDb.endOfDebugSection(  osStructure  )
+                    return yz.debug.endOfDebugSection(  osStructure  )
                 },
 
                 showHomePage:                                   function        (  ) {
@@ -12595,7 +12595,7 @@
                     }
                 },
                 selectAppbyId:                        async function              (  id  ) {
-                    yz.uiDb.startDebug("jhdsghhjsdgjhsdgnfsdygsduyfngdfsuykntgfdsjgfkjhgjksdf")
+                    yz.debug.startDebug("jhdsghhjsdgjhsdgnfsdygsduyfngdfsuykntgfdsjgfkjhgjksdf")
                     //
                     // if the app is already visible then do nothing
                     //
@@ -12644,7 +12644,7 @@
                         }
                     }
 
-                    yz.uiDb.endOfDebugSection()
+                    yz.debug.endOfDebugSection()
                 },
 
                 // Simple web UI helpers
@@ -13457,6 +13457,248 @@
                             }
                         }
                         return ret
+                    },
+                    endOfDebugSection:                  function                    (  returnValue  )                                               {
+                        yz.uiDb.currentDebugStack.steps.pop()
+                        return returnValue
+                    },
+                    debugFn:                            function                    (  argsPassedIn  )                                              {
+                        if ((typeof $DEBUGUI == 'undefined') || (!$DEBUGUI)) {
+                            return
+                        }
+
+                        let callerDebugToken = argsPassedIn[0]
+
+                        //
+                        // a fn can choose to not be debuggable by passing in "null" as the debug token
+                        //
+                        if (callerDebugToken == null) {
+                            return
+                        }
+                        let sourceForCallerOfFunction = yz.uiDb.findSourceLineInCode(callerDebugToken)
+
+
+                        let stackTrace = yz.uiDb.getCallStack()
+                        let fnLine = stackTrace[2]
+                        console.log(fnLine)
+                        console.log("    (" + JSON.stringify(argsPassedIn,null,2) + ")")
+                        yz.uiDb.currentDebugStack.debugTick ++
+                        let fnName = yz.uiDb.getFnNameFromStackTrace(fnLine)
+                        let sourceForFunction = yz.uiDb.findSourceLineInCode(fnName + ":")
+                        if (sourceForFunction.found) {
+                            const argsArray = Array.from(argsPassedIn);
+                            const commaSeparatedValues = argsArray.join(', ');
+
+                            let previousCalls = yz.uiDb.sqlui("select * from ui_table_debug_trace_log where debug_tracer_id == ? order by debug_tick asc" , [yz.uiDb.currentDebugStack.debugTracerId])
+                            let callerLogId = yz.uiDb.currentDebugStack.steps[yz.uiDb.currentDebugStack.steps.length - 1]
+                            //let closestCallerLogId = previousCalls[0].id
+                            //debugger
+                            let numberLinesToTop = 1000
+                            /*for (let checkCall of previousCalls) {
+                                if (checkCall.file_name == sourceForCallerOfFunction.fileName) {
+                                    let distToCaller = sourceForCallerOfFunction.lineNumber - checkCall.line_number
+                                    if (distToCaller < numberLinesToTop) {
+                                        numberLinesToTop = distToCaller
+                                        closestCallerLogId = checkCall.id
+                                    }
+                                }
+                            }*/
+
+
+                            yz.uiDb.sqlui("INSERT INTO ui_table_debug_trace_log (  fk_debug_id  , run_time_millis , debug_tracer_id , file_name , line_number, debug_tick ,line_text,arguments, caller_file_name  ,  caller_line_number , fk_caller_debug_trace_log_id  ) VALUES (?,?,?,?,?,?,?,?,?,?,?)",
+                                [
+                                    yz.uiDb.currentDebugStack.currentDebugId,
+                                    Date.now(),
+                                    yz.uiDb.currentDebugStack.debugTracerId,
+                                    sourceForFunction.fileName,
+                                    sourceForFunction.lineNumber,
+                                    yz.uiDb.currentDebugStack.debugTick,
+                                    sourceForFunction.lineText.trim(),
+                                    JSON.stringify(argsArray,null,2),
+                                    sourceForCallerOfFunction.fileName,
+                                    sourceForCallerOfFunction.lineNumber,
+                                    callerLogId
+                                ])
+
+
+                            let latestLogId =  yz.uiDb.sqlui1("select MAX(id) as id from ui_table_debug_trace_log")
+                            yz.uiDb.currentDebugStack.steps.push(latestLogId.id)
+                        }
+
+
+
+
+
+
+
+                        //
+                        // store the debug code
+                        //
+                        let startLineNumber = sourceForFunction.lineNumber
+
+                        let codeSectionRecord1 = yz.uiDb.sqlui1("select * from ui_table_debug_code_sections where fk_fn_name_id = ?",
+                            [fnName])
+                        if (!codeSectionRecord1) {
+                            let allText = ""
+
+                            let readAnotherLine = true
+                            let nextLine
+                            let endLineNumber = startLineNumber
+                            while (readAnotherLine) {
+                                nextLine = yz.uiDb.linesOfSourceFile[sourceForFunction.fileName][endLineNumber - 1]
+                                if (endLineNumber == yz.uiDb.linesOfSourceFile[sourceForFunction.fileName].length) {
+                                    readAnotherLine = false
+                                } else if (nextLine.indexOf("yz.debug.endOfDebugSection(") != -1) {
+                                    endLineNumber++
+                                    readAnotherLine = false
+                                } else {
+                                    endLineNumber++
+                                }
+                            }
+                            for (let lineIndex = startLineNumber; lineIndex <= endLineNumber; lineIndex++) {
+                                allText += yz.uiDb.linesOfSourceFile[sourceForFunction.fileName][lineIndex - 1] + "\n"
+                            }
+                            yz.uiDb.sqlui("INSERT INTO ui_table_debug_code_sections (  fk_debug_id  ,  fk_fn_name_id  ,  fn_name  ,  file_name  ,  start_line_number  ,  end_line_number  ,  debug_all_text  ) VALUES (?,?,?,?,?,?,?)",
+                                [
+                                    null,
+                                    fnName,
+                                    fnName,
+                                    sourceForFunction.fileName,
+                                    startLineNumber,
+                                    endLineNumber,
+                                    allText
+                                ])
+                        }
+                    },
+                    startDebug:                         function                    (  debugId  )                                                   {
+                        //----------------------------------------------------------------------------------/
+                        //
+                        //                                          /-------------------------------------/
+                        //                                         /      FUNCTION  startDebug           /
+                        //                                        /-------------------------------------/
+                        //
+                        //----------------------------------------------------------------------------/
+                        // This is in the code when we want to start the recording of some code.
+                        // This is executed either from the start of a function, or from an event
+                        // being called in HTML. If this is called from the start of a function
+                        // then do not forget to close off the call with "endOfDebugSection( )"
+                        // just before the function returns to the caller
+                        //
+                        //________
+                        // PARAMS \______________________________________________________________/
+                        //
+                        //    debugId
+                        //    -------   This is the hard coded debug ID used. It is just a unique and
+                        //              random set of characters like "jgdshgfshjgfjsdgfjksdgjk"
+                        //
+                        //-----------------------------------------------------------/
+                        if ((typeof $DEBUGUI == 'undefined') || (!$DEBUGUI)) {
+                            return
+                        }
+
+                        yz.uiDb.currentDebugStack.currentDebugId    = debugId
+                        yz.uiDb.currentDebugStack.start             = {
+                            debugId: debugId
+                        }
+                        yz.uiDb.currentDebugStack.debugTracerId     = yz.uuidv4()
+                        yz.uiDb.currentDebugStack.steps             = []
+                        yz.uiDb.currentDebugStack.debugTick         = 1
+
+                        let sourceForFunction = yz.uiDb.findSourceLineInCode(debugId)
+
+                        //
+                        // store the debug code
+                        //
+                        let startLineNumber = sourceForFunction.lineNumber - 1
+                        let codeSectionRecord1 = yz.uiDb.sqlui1("select * from ui_table_debug_code_sections where fk_debug_id = ?",
+                            [debugId])
+                        if (!codeSectionRecord1) {
+                            let indexOfDebugId = sourceForFunction.lineText.indexOf(debugId)
+                            let upToDebugId = sourceForFunction.lineText.substring(indexOfDebugId)
+                            let indexToEndOfDebugId = upToDebugId.indexOf("\")")
+                            let afterDebugId = upToDebugId.substring(indexToEndOfDebugId)
+                            let lengthOfRestOfLine = afterDebugId.length
+
+                            // start debug section is in the code
+                            if (lengthOfRestOfLine < 5) {
+                                startLineNumber = sourceForFunction.lineNumber - 1
+                                let previousLine = yz.uiDb.linesOfSourceFile[sourceForFunction.fileName][startLineNumber - 1]
+                                let fnName = yz.uiDb.getFnNameFromLine(  previousLine  )
+                                let allText = ""
+
+                                let readAnotherLine = true
+                                let nextLine
+                                let endLineNumber = startLineNumber
+                                while(readAnotherLine) {
+                                    nextLine = yz.uiDb.linesOfSourceFile[sourceForFunction.fileName][endLineNumber - 1]
+                                    if (endLineNumber == yz.uiDb.linesOfSourceFile[sourceForFunction.fileName].length) {
+                                        readAnotherLine = false
+                                    } else if (nextLine.indexOf("yz.debug.endOfDebugSection(") != -1) {
+                                        endLineNumber ++
+                                        readAnotherLine = false
+                                    } else {
+                                        endLineNumber ++
+                                    }
+                                }
+                                for (let lineIndex = startLineNumber; lineIndex <= endLineNumber; lineIndex ++) {
+                                    allText += yz.uiDb.linesOfSourceFile[sourceForFunction.fileName][lineIndex - 1] + "\n"
+                                }
+                                yz.uiDb.sqlui("INSERT INTO ui_table_debug_code_sections (  fk_debug_id  ,  fk_fn_name_id  ,  fn_name  ,  file_name  ,  start_line_number  ,  end_line_number  ,  debug_all_text  ) VALUES (?,?,?,?,?,?,?)",
+                                    [
+                                        debugId,
+                                        null,
+                                        fnName,
+                                        sourceForFunction.fileName,
+                                        startLineNumber,
+                                        endLineNumber,
+                                        allText
+                                    ])
+
+                                // debug section is an event
+                            } else {
+                                startLineNumber = sourceForFunction.lineNumber
+                                yz.uiDb.sqlui("INSERT INTO ui_table_debug_code_sections (  fk_debug_id  ,  fk_fn_name_id  ,  fn_name  ,  file_name  ,  start_line_number  ,  end_line_number  ,  debug_all_text  ) VALUES (?,?,?,?,?,?,?)",
+                                    [
+                                        debugId,
+                                        null,
+                                        null,
+                                        sourceForFunction.fileName,
+                                        sourceForFunction.lineNumber,
+                                        sourceForFunction.lineNumber,
+                                        sourceForFunction.lineText.trim()
+                                    ])
+                            }
+
+                        }
+
+                        //
+                        // insert the trace record
+                        //
+                        if (sourceForFunction.found) {
+                            yz.uiDb.sqlui("INSERT INTO ui_table_debug_trace_log (  fk_debug_id  , run_time_millis , debug_tracer_id , file_name , line_number , debug_tick,line_text) VALUES (?,?,?,?,?,?,?)",
+                                [
+                                    debugId,
+                                    Date.now(),
+                                    yz.uiDb.currentDebugStack.debugTracerId,
+                                    sourceForFunction.fileName,
+                                    //sourceForFunction.lineNumber,
+                                    startLineNumber,
+                                    1,
+                                    sourceForFunction.lineText.trim()
+                                ])
+                        }
+                        let latestLogId =  yz.uiDb.sqlui1("select MAX(id) as id from ui_table_debug_trace_log")
+                        yz.uiDb.currentDebugStack.steps.push(latestLogId.id)
+                    },
+                    endDebug:                           function                    (  )                                                            {
+                        if ((typeof $DEBUGUI == 'undefined') || (!$DEBUGUI)) {
+                            return
+                        }
+                        yz.uiDb.currentDebugStack.currentDebugId    = null
+                        yz.uiDb.currentDebugStack.start             = null
+                        yz.uiDb.currentDebugStack.debugTick         = 1
+                        yz.uiDb.currentDebugStack.debugTraceid      = null
+                        yz.uiDb.currentDebugStack.steps             = []
                     }
                 },
                 uiDb:                               {
@@ -13837,248 +14079,6 @@
                         let trimmed = fnUptoColon.trim()
                         return trimmed
                     },
-                    endOfDebugSection:                  function                    (  returnValue  )                                               {
-                        yz.uiDb.currentDebugStack.steps.pop()
-                        return returnValue
-                    },
-                    debugFn:                            function                    (  argsPassedIn  )                                              {
-                        if ((typeof $DEBUGUI == 'undefined') || (!$DEBUGUI)) {
-                            return
-                        }
-
-                        let callerDebugToken = argsPassedIn[0]
-
-                        //
-                        // a fn can choose to not be debuggable by passing in "null" as the debug token
-                        //
-                        if (callerDebugToken == null) {
-                            return
-                        }
-                        let sourceForCallerOfFunction = yz.uiDb.findSourceLineInCode(callerDebugToken)
-
-
-                        let stackTrace = this.getCallStack()
-                        let fnLine = stackTrace[2]
-                        console.log(fnLine)
-                        console.log("    (" + JSON.stringify(argsPassedIn,null,2) + ")")
-                        yz.uiDb.currentDebugStack.debugTick ++
-                        let fnName = yz.uiDb.getFnNameFromStackTrace(fnLine)
-                        let sourceForFunction = yz.uiDb.findSourceLineInCode(fnName + ":")
-                        if (sourceForFunction.found) {
-                            const argsArray = Array.from(argsPassedIn);
-                            const commaSeparatedValues = argsArray.join(', ');
-
-                            let previousCalls = yz.uiDb.sqlui("select * from ui_table_debug_trace_log where debug_tracer_id == ? order by debug_tick asc" , [yz.uiDb.currentDebugStack.debugTracerId])
-                            let callerLogId = yz.uiDb.currentDebugStack.steps[yz.uiDb.currentDebugStack.steps.length - 1]
-                            //let closestCallerLogId = previousCalls[0].id
-                            //debugger
-                            let numberLinesToTop = 1000
-                            /*for (let checkCall of previousCalls) {
-                                if (checkCall.file_name == sourceForCallerOfFunction.fileName) {
-                                    let distToCaller = sourceForCallerOfFunction.lineNumber - checkCall.line_number
-                                    if (distToCaller < numberLinesToTop) {
-                                        numberLinesToTop = distToCaller
-                                        closestCallerLogId = checkCall.id
-                                    }
-                                }
-                            }*/
-
-
-                            yz.uiDb.sqlui("INSERT INTO ui_table_debug_trace_log (  fk_debug_id  , run_time_millis , debug_tracer_id , file_name , line_number, debug_tick ,line_text,arguments, caller_file_name  ,  caller_line_number , fk_caller_debug_trace_log_id  ) VALUES (?,?,?,?,?,?,?,?,?,?,?)",
-                                [
-                                    yz.uiDb.currentDebugStack.currentDebugId,
-                                    Date.now(),
-                                    yz.uiDb.currentDebugStack.debugTracerId,
-                                    sourceForFunction.fileName,
-                                    sourceForFunction.lineNumber,
-                                    yz.uiDb.currentDebugStack.debugTick,
-                                    sourceForFunction.lineText.trim(),
-                                    JSON.stringify(argsArray,null,2),
-                                    sourceForCallerOfFunction.fileName,
-                                    sourceForCallerOfFunction.lineNumber,
-                                    callerLogId
-                                ])
-
-
-                            let latestLogId =  yz.uiDb.sqlui1("select MAX(id) as id from ui_table_debug_trace_log")
-                            yz.uiDb.currentDebugStack.steps.push(latestLogId.id)
-                        }
-
-
-
-
-
-
-
-                        //
-                        // store the debug code
-                        //
-                        let startLineNumber = sourceForFunction.lineNumber
-
-                        let codeSectionRecord1 = yz.uiDb.sqlui1("select * from ui_table_debug_code_sections where fk_fn_name_id = ?",
-                            [fnName])
-                        if (!codeSectionRecord1) {
-                            let allText = ""
-
-                            let readAnotherLine = true
-                            let nextLine
-                            let endLineNumber = startLineNumber
-                            while (readAnotherLine) {
-                                nextLine = yz.uiDb.linesOfSourceFile[sourceForFunction.fileName][endLineNumber - 1]
-                                if (endLineNumber == yz.uiDb.linesOfSourceFile[sourceForFunction.fileName].length) {
-                                    readAnotherLine = false
-                                } else if (nextLine.indexOf("yz.uiDb.endOfDebugSection(") != -1) {
-                                    endLineNumber++
-                                    readAnotherLine = false
-                                } else {
-                                    endLineNumber++
-                                }
-                            }
-                            for (let lineIndex = startLineNumber; lineIndex <= endLineNumber; lineIndex++) {
-                                allText += yz.uiDb.linesOfSourceFile[sourceForFunction.fileName][lineIndex - 1] + "\n"
-                            }
-                            yz.uiDb.sqlui("INSERT INTO ui_table_debug_code_sections (  fk_debug_id  ,  fk_fn_name_id  ,  fn_name  ,  file_name  ,  start_line_number  ,  end_line_number  ,  debug_all_text  ) VALUES (?,?,?,?,?,?,?)",
-                                [
-                                    null,
-                                    fnName,
-                                    fnName,
-                                    sourceForFunction.fileName,
-                                    startLineNumber,
-                                    endLineNumber,
-                                    allText
-                                ])
-                        }
-                    },
-                    startDebug:                         function                    (  debugId  )                                                   {
-                        //----------------------------------------------------------------------------------/
-                        //
-                        //                                          /-------------------------------------/
-                        //                                         /      FUNCTION  startDebug           /
-                        //                                        /-------------------------------------/
-                        //
-                        //----------------------------------------------------------------------------/
-                        // This is in the code when we want to start the recording of some code.
-                        // This is executed either from the start of a function, or from an event
-                        // being called in HTML. If this is called from the start of a function
-                        // then do not forget to close off the call with "endOfDebugSection( )"
-                        // just before the function returns to the caller
-                        //
-                        //________
-                        // PARAMS \______________________________________________________________/
-                        //
-                        //    debugId
-                        //    -------   This is the hard coded debug ID used. It is just a unique and
-                        //              random set of characters like "jgdshgfshjgfjsdgfjksdgjk"
-                        //
-                        //-----------------------------------------------------------/
-                        if ((typeof $DEBUGUI == 'undefined') || (!$DEBUGUI)) {
-                            return
-                        }
-
-                        yz.uiDb.currentDebugStack.currentDebugId    = debugId
-                        yz.uiDb.currentDebugStack.start             = {
-                            debugId: debugId
-                        }
-                        yz.uiDb.currentDebugStack.debugTracerId     = yz.uuidv4()
-                        yz.uiDb.currentDebugStack.steps             = []
-                        yz.uiDb.currentDebugStack.debugTick         = 1
-
-                        let sourceForFunction = yz.uiDb.findSourceLineInCode(debugId)
-
-                        //
-                        // store the debug code
-                        //
-                        let startLineNumber = sourceForFunction.lineNumber - 1
-                        let codeSectionRecord1 = yz.uiDb.sqlui1("select * from ui_table_debug_code_sections where fk_debug_id = ?",
-                                                    [debugId])
-                        if (!codeSectionRecord1) {
-                            let indexOfDebugId = sourceForFunction.lineText.indexOf(debugId)
-                            let upToDebugId = sourceForFunction.lineText.substring(indexOfDebugId)
-                            let indexToEndOfDebugId = upToDebugId.indexOf("\")")
-                            let afterDebugId = upToDebugId.substring(indexToEndOfDebugId)
-                            let lengthOfRestOfLine = afterDebugId.length
-
-                            // start debug section is in the code
-                            if (lengthOfRestOfLine < 5) {
-                                startLineNumber = sourceForFunction.lineNumber - 1
-                                let previousLine = yz.uiDb.linesOfSourceFile[sourceForFunction.fileName][startLineNumber - 1]
-                                let fnName = yz.uiDb.getFnNameFromLine(  previousLine  )
-                                let allText = ""
-
-                                let readAnotherLine = true
-                                let nextLine
-                                let endLineNumber = startLineNumber
-                                while(readAnotherLine) {
-                                    nextLine = yz.uiDb.linesOfSourceFile[sourceForFunction.fileName][endLineNumber - 1]
-                                    if (endLineNumber == yz.uiDb.linesOfSourceFile[sourceForFunction.fileName].length) {
-                                        readAnotherLine = false
-                                    } else if (nextLine.indexOf("yz.uiDb.endOfDebugSection(") != -1) {
-                                        endLineNumber ++
-                                        readAnotherLine = false
-                                    } else {
-                                        endLineNumber ++
-                                    }
-                                }
-                                for (let lineIndex = startLineNumber; lineIndex <= endLineNumber; lineIndex ++) {
-                                    allText += yz.uiDb.linesOfSourceFile[sourceForFunction.fileName][lineIndex - 1] + "\n"
-                                }
-                                yz.uiDb.sqlui("INSERT INTO ui_table_debug_code_sections (  fk_debug_id  ,  fk_fn_name_id  ,  fn_name  ,  file_name  ,  start_line_number  ,  end_line_number  ,  debug_all_text  ) VALUES (?,?,?,?,?,?,?)",
-                                    [
-                                        debugId,
-                                        null,
-                                        fnName,
-                                        sourceForFunction.fileName,
-                                        startLineNumber,
-                                        endLineNumber,
-                                        allText
-                                    ])
-
-                            // debug section is an event
-                            } else {
-                                startLineNumber = sourceForFunction.lineNumber
-                                yz.uiDb.sqlui("INSERT INTO ui_table_debug_code_sections (  fk_debug_id  ,  fk_fn_name_id  ,  fn_name  ,  file_name  ,  start_line_number  ,  end_line_number  ,  debug_all_text  ) VALUES (?,?,?,?,?,?,?)",
-                                    [
-                                        debugId,
-                                        null,
-                                        null,
-                                        sourceForFunction.fileName,
-                                        sourceForFunction.lineNumber,
-                                        sourceForFunction.lineNumber,
-                                        sourceForFunction.lineText.trim()
-                                    ])
-                            }
-
-                        }
-
-                        //
-                        // insert the trace record
-                        //
-                        if (sourceForFunction.found) {
-                            yz.uiDb.sqlui("INSERT INTO ui_table_debug_trace_log (  fk_debug_id  , run_time_millis , debug_tracer_id , file_name , line_number , debug_tick,line_text) VALUES (?,?,?,?,?,?,?)",
-                                [
-                                    debugId,
-                                    Date.now(),
-                                    yz.uiDb.currentDebugStack.debugTracerId,
-                                    sourceForFunction.fileName,
-                                    //sourceForFunction.lineNumber,
-                                    startLineNumber,
-                                    1,
-                                    sourceForFunction.lineText.trim()
-                                ])
-                        }
-                        let latestLogId =  yz.uiDb.sqlui1("select MAX(id) as id from ui_table_debug_trace_log")
-                        yz.uiDb.currentDebugStack.steps.push(latestLogId.id)
-                    },
-                    endDebug:                           function                    (  )                                                            {
-                        if ((typeof $DEBUGUI == 'undefined') || (!$DEBUGUI)) {
-                            return
-                        }
-                        yz.uiDb.currentDebugStack.currentDebugId    = null
-                        yz.uiDb.currentDebugStack.start             = null
-                        yz.uiDb.currentDebugStack.debugTick         = 1
-                        yz.uiDb.currentDebugStack.debugTraceid      = null
-                        yz.uiDb.currentDebugStack.steps             = []
-                    },
                     createAlaSqlTable:                  async function              (  {  tableName  ,  fields  ,  sendToDebugSqliteServer  }  )    {
                         if (typeof(sendToDebugSqliteServer) !== 'undefined') {
                             yz.uiDb.sendToServerDebugSqliteLookup[tableName] = sendToDebugSqliteServer
@@ -14399,7 +14399,7 @@
                     return dbPropValue
                 },
                 updateAppsFromAppStore:             async function              (  dbg  ) {
-                    yz.uiDb.debugFn(arguments)
+                    yz.debug.debugFn(arguments)
 
                     let openfileurl = "http" + (($HOSTPORT == 443)?"s":"") + "://" + $HOST + "/http_post_load_top_apps"
                     fetch(openfileurl,
@@ -14425,27 +14425,27 @@
                             }
                         }).catch(err => {
                         })
-                    yz.uiDb.endOfDebugSection()
+                    yz.debug.endOfDebugSection()
                 },
                 addInstalledApp:                  async function              (  dbg  ,  app   ) {
-                    yz.uiDb.debugFn(arguments)
+                    yz.debug.debugFn(arguments)
                     let alreadyExists = yz.uiDb.sqlui("select * from  ui_table_installed_apps  where code_id = ?", [app.code_id])
                     if (alreadyExists.length == 0) {
                         yz.debug.sqluiDebug("hdfjkshfjkdshfudisyouidsfyffdsbyoiudfsyboibdsfyioudsfbyoibsefyfdsidfsiobdsfoidfsbiodfsoi",
                                 "insert  into  ui_table_installed_apps  (  code_id  ,  base_component_id, logo, display_name,component_type) values (?,?,?,?,?)",
                             [app.code_id,app.base_component_id,app.logo_url, app.displayName, app.component_type])
                     }
-                    yz.uiDb.endOfDebugSection()
+                    yz.debug.endOfDebugSection()
                 },
                 installAppFromAppstore:           async function              (  dbg  ,  {  baseComponentId  ,  codeId  }  ) {
-                    yz.uiDb.debugFn(arguments)
+                    yz.debug.debugFn(arguments)
 
                     let result = await yz.getFromYazzReturnJson("/http_get_install_appstore_app_for_current_user",
                         {
                             base_component_id:  baseComponentId,
                             code_id:            codeId
                         })
-                    yz.uiDb.endOfDebugSection()
+                    yz.debug.endOfDebugSection()
                 },
                 addRunningApp:                    async function              (  app   ) {
                     let alreadyRunningApp = yz.uiDb.sqlui1("select * from  ui_table_running_apps  where code_id = ? and status = ?", [app.code_id, "RUNNING"])
