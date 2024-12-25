@@ -13355,16 +13355,6 @@
                         return newString
                     }
                 },
-                debug:                              {
-                    writeTextFile:                  async function(  {  fileName  ,  fileText  }  ) {
-                        let resultsCode = await yz.postToYazzReturnJson(
-                            "/http_post_save_debug_text_as_file",
-                            {
-                                debugFileName:  fileName,
-                                debugFileText:  fileText
-                            })
-                    }
-                },
                 componentsAPI:                      {
                     vue: {
                         getDesignModeUiControlNameReturnsVueInstance:   function(  {  controlName  }  ) {
@@ -13400,7 +13390,16 @@
                         },
                     }
                 },
-
+                debug:                              {
+                    writeTextFile:                  async function(  {  fileName  ,  fileText  }  ) {
+                        let resultsCode = await yz.postToYazzReturnJson(
+                            "/http_post_save_debug_text_as_file",
+                            {
+                                debugFileName:  fileName,
+                                debugFileText:  fileText
+                            })
+                    }
+                },
                 uiDb:                               {
                     //
                     // sqlui()                      - replaces all SQL commands so that debug data can be synced with server
@@ -13409,11 +13408,11 @@
                     // setupAlaSqlSync()            - used to sync data from UI to server side Sqlite for debugging purposes
                     //
 
-                    sqlui:                              function                    (  sql  ,  params  )                            {
+                    sqlui:                              function                    (  sql  ,  params  )                                            {
                         let ret = yz.uiDb.sqluiDebug(null, sql , params)
                         return ret
                     },
-                    sqlui1:                             function                    (  sql  ,  params  )                            {
+                    sqlui1:                             function                    (  sql  ,  params  )                                            {
                         let res = null
                         let resBack = yz.uiDb.sqlui(  sql  ,  params  )
                         if (resBack && resBack.length > 0) {
@@ -13421,7 +13420,7 @@
                         }
                         return res
                     },
-                    sqluiDebug:                         function                    (  dbgCode  ,  sql  ,  params  )                            {
+                    sqluiDebug:                         function                    (  dbgCode  ,  sql  ,  params  )                                {
                         yz.uiDb.currentDebugStack.currentSqlDebugId = dbgCode
                         let ret = alasql(sql  ,  params)
                         if ((typeof $DEBUGUI !== 'undefined') && ($DEBUGUI == "true") && yz.uiDb.tablesCreated) {
@@ -13480,7 +13479,7 @@
                         }
                         return ret
                     },
-                    setupAlaSqlDatabase:                async function              (  )                                            {
+                    setupAlaSqlDatabase:                async function              (  )                                                            {
                         alasql("CREATE TABLE ui_tables (table_name STRING)");
                         alasql("CREATE TABLE ui_fields (table_name STRING, field_name STRING, field_type STRING)");
                         yz.uiDb.sqlui("select * from ui_tables")
@@ -13713,7 +13712,7 @@
                         await yz.uiDb.readSourceFileForDebugging("/public/go.html")
                         await yz.uiDb.readSourceFileForDebugging("/public/visifile_drivers/apps/appstore.vjs")
                     },
-                    readSourceFileForDebugging:         async function              (  fileName  ) {
+                    readSourceFileForDebugging:         async function              (  fileName  )                                                  {
                         if ((typeof $DEBUGUI == 'undefined') || (!$DEBUGUI)) {
                             return
                         }
@@ -13726,7 +13725,7 @@
                             [result.fileName,result.contents])
                         yz.uiDb.linesOfSourceFile[result.fileName] = result.contents.split('\n');
                     },
-                    findSourceLineInCode:               function                    (  searchText  ) {
+                    findSourceLineInCode:               function                    (  searchText  )                                                {
                         let found = false
                         let startLine   = null
                         let endLine     = null
@@ -13780,7 +13779,7 @@
                         }
                         return {  found: found  ,  fileName: foundFile, lineNumber: lineNumberOfSearchItem, lineText: foundLine  ,  context: surroundingLines  }
                     },
-                    findFnNameInDebugString:            function                    (  {  line  ,  dbg  }) {
+                    findFnNameInDebugString:            function                    (  {  line  ,  dbg  })                                          {
                         let indexOfDbgId = line.indexOf(dbg)
 
                         if (indexOfDbgId == null) {
@@ -13800,7 +13799,7 @@
                         //let sourceForFunction = yz.uiDb.findSourceLineInCode(functionNameString + ":")
                         return functionNameString
                     },
-                    getCallStack:                       function                    (  ) {
+                    getCallStack:                       function                    (  )                                                            {
                         // Create an Error object to get the stack trace
                         const error = new Error();
 
@@ -13813,7 +13812,7 @@
                         // Remove any leading or trailing spaces from each line
                         return stackArray.map(line => line.trim());
                     },
-                    getFnNameFromStackTrace:            function                    (  fnLine  ) {
+                    getFnNameFromStackTrace:            function                    (  fnLine  )                                                    {
                         //'at Proxy.installAppNow (eval at addRuntimePipelinesAndRunCode (http://192.168.1.171/app/appstore.html:1070:36), <anonymous>:158:29)'
                         let indexProxy = fnLine.indexOf("Proxy.")
                         if (indexProxy != -1) {
@@ -13827,7 +13826,7 @@
                         let fnNameString = fnStartString.substring(0,indexEndFn)
                         return fnNameString
                     },
-                    getFnNameFromLine:                  function                    (  fnLine  ) {
+                    getFnNameFromLine:                  function                    (  fnLine  )                                                    {
                         //'at Proxy.installAppNow (eval at addRuntimePipelinesAndRunCode (http://192.168.1.171/app/appstore.html:1070:36), <anonymous>:158:29)'
                         let indexColon = fnLine.indexOf(":")
                         if (indexColon == -1) {
@@ -13838,11 +13837,11 @@
                         let trimmed = fnUptoColon.trim()
                         return trimmed
                     },
-                    endOfDebugSection:                         function                    (  returnValue  ) {
+                    endOfDebugSection:                  function                    (  returnValue  )                                               {
                         yz.uiDb.currentDebugStack.steps.pop()
                         return returnValue
                     },
-                    debugFn:                            function                    (  argsPassedIn  ) {
+                    debugFn:                            function                    (  argsPassedIn  )                                              {
                         if ((typeof $DEBUGUI == 'undefined') || (!$DEBUGUI)) {
                             return
                         }
@@ -13950,7 +13949,7 @@
                                 ])
                         }
                     },
-                    startDebug:                         function                    (  debugId  ) {
+                    startDebug:                         function                    (  debugId  )                                                   {
                         //----------------------------------------------------------------------------------/
                         //
                         //                                          /-------------------------------------/
@@ -14070,7 +14069,7 @@
                         let latestLogId =  yz.uiDb.sqlui1("select MAX(id) as id from ui_table_debug_trace_log")
                         yz.uiDb.currentDebugStack.steps.push(latestLogId.id)
                     },
-                    endDebug:                           function                    (  ) {
+                    endDebug:                           function                    (  )                                                            {
                         if ((typeof $DEBUGUI == 'undefined') || (!$DEBUGUI)) {
                             return
                         }
@@ -14080,7 +14079,7 @@
                         yz.uiDb.currentDebugStack.debugTraceid      = null
                         yz.uiDb.currentDebugStack.steps             = []
                     },
-                    createAlaSqlTable:                  async function              (  {  tableName  ,  fields  ,  sendToDebugSqliteServer  }  ) {
+                    createAlaSqlTable:                  async function              (  {  tableName  ,  fields  ,  sendToDebugSqliteServer  }  )    {
                         if (typeof(sendToDebugSqliteServer) !== 'undefined') {
                             yz.uiDb.sendToServerDebugSqliteLookup[tableName] = sendToDebugSqliteServer
                         } else {
@@ -14268,10 +14267,10 @@
 
 
                     },
-                    getUiDbData:                        function                    (  {  tableName  }  ) {
+                    getUiDbData:                        function                    (  {  tableName  }  )                                           {
                         return yz.uiDb.uiDbTableData[tableName].data
                     },
-                    convertUiDbStringToVal:             function                    (  propType  ,  propValue  ) {
+                    convertUiDbStringToVal:             function                    (  propType  ,  propValue  )                                    {
                         let dbPropValue = null
 
                         if (propType == "STRING") {
@@ -14294,7 +14293,7 @@
                         return dbPropValue
 
                     },
-                    callUiDbGlobalVarEventListeners:    function                    (  varName  ,  propType,  varValue) {
+                    callUiDbGlobalVarEventListeners:    function                    (  varName  ,  propType,  varValue)                             {
                         let realVarValue = yz.uiDb.convertUiDbStringToVal(propType,varValue)
 
                         if (yz.uiDb.uiDbGlobalVarChangeEvents[varName]) {
@@ -14307,7 +14306,7 @@
                         yz.uiDb.uiDbGlobalVars[varName] = realVarValue
 
                     },
-                    createGlobalVars:                   function                    (  ) {
+                    createGlobalVars:                   function                    (  )                                                            {
                         //sqlui("insert into  ui_table_global_vars  (prop_id, prop_type, prop_value) values (?,?,?)",["visible_app_id", "INTEGER", -1])
                         yz.setGlobalVar("visible_app_id",               -1)
                         yz.setGlobalVar("show_running_apps",            false)
