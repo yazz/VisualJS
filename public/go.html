@@ -13951,6 +13951,26 @@
                         }
                     },
                     startDebug:                         function                    (  debugId  ) {
+                        //----------------------------------------------------------------------------------/
+                        //
+                        //                                          /-------------------------------------/
+                        //                                         /      FUNCTION  startDebug           /
+                        //                                        /-------------------------------------/
+                        //
+                        //----------------------------------------------------------------------------/
+                        // This is in the code when we want to start the recording of some code.
+                        // This is executed either from the start of a function, or from an event
+                        // being called in HTML. If this is called from the start of a function
+                        // then do not forget to close off the call with "endOfDebugSection( )"
+                        // just before the function returns to the caller
+                        //
+                        //________
+                        // PARAMS \______________________________________________________________/
+                        //
+                        //    debugId
+                        //    -------   This is the hard coded debug ID used. It is just a unique and
+                        //              random set of characters like "jgdshgfshjgfjsdgfjksdgjk"
+                        //
                         if ((typeof $DEBUGUI == 'undefined') || (!$DEBUGUI)) {
                             return
                         }
