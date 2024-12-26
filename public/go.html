@@ -9619,7 +9619,7 @@
                 populateStaticCodeCache:            async function              (  )                                            {
                     //***ADD_STATIC_CODE
                 },
-//<template v-for="(contextLine,indexContextLine) in yz.uiDb.linesOfSourceFile[ selectedLogItemFileName].slice(selectedLogItemContextStartLineNumber,selectedLogItemContextEndLineNumber)">
+//<template v-for="(contextLine,indexContextLine) in yz.debug.linesOfSourceFile[ selectedLogItemFileName].slice(selectedLogItemContextStartLineNumber,selectedLogItemContextEndLineNumber)">
 //    <span v-bind:style='selectedLogItemContextLineNumber==(selectedLogItemContextStartLineNumber + indexContextLine + 1)?"color:red":""'>
 //        {{selectedLogItemContextStartLineNumber + indexContextLine + 1}}: {{contextLine}}
 //    </span>
@@ -9652,7 +9652,7 @@
 
 <div v-if="selectedLogItemContextStartLineNumber">
     <pre style="height: auto;"><span style="color: blue;" v-if="selectedTraceLogItemArguments">ARGS: {{selectedTraceLogItemArguments.slice(1)}}</span>
-        <template v-for="(contextLine,indexContextLine) in yz.uiDb.linesOfSourceFile[ selectedLogItemFileName].slice(selectedLogItemContextStartLineNumber,selectedLogItemContextEndLineNumber)"><span v-bind:style='selectedLogItemContextLineNumber==(selectedLogItemContextStartLineNumber + indexContextLine + 1)?"color:red":""'>{{selectedLogItemContextStartLineNumber + indexContextLine + 1}}: {{contextLine}}</span><span v-if="traceLogItemCalls[selectedLogItemContextStartLineNumber + indexContextLine + 1]" style="color: red;"><div v-for="logItemId in traceLogItemCalls[selectedLogItemContextStartLineNumber + indexContextLine + 1]"><debug_frame_component  v-bind:log_id="logItemId"  v-bind:key="logItemId"></debug_frame_component></div></span><div v-if="sqlUiDbUpdates[log_id] && (sqlUiDbUpdates[log_id].lineNumbers[(selectedLogItemContextStartLineNumber + indexContextLine + 1)])" style="color: white;background-color: black;"><div v-for="logr in sqlUiDbUpdates[log_id].lineNumbers[(selectedLogItemContextStartLineNumber + indexContextLine + 1)]">{{logr.sql_statement}}</div></div>
+        <template v-for="(contextLine,indexContextLine) in yz.debug.linesOfSourceFile[ selectedLogItemFileName].slice(selectedLogItemContextStartLineNumber,selectedLogItemContextEndLineNumber)"><span v-bind:style='selectedLogItemContextLineNumber==(selectedLogItemContextStartLineNumber + indexContextLine + 1)?"color:red":""'>{{selectedLogItemContextStartLineNumber + indexContextLine + 1}}: {{contextLine}}</span><span v-if="traceLogItemCalls[selectedLogItemContextStartLineNumber + indexContextLine + 1]" style="color: red;"><div v-for="logItemId in traceLogItemCalls[selectedLogItemContextStartLineNumber + indexContextLine + 1]"><debug_frame_component  v-bind:log_id="logItemId"  v-bind:key="logItemId"></debug_frame_component></div></span><div v-if="sqlUiDbUpdates[log_id] && (sqlUiDbUpdates[log_id].lineNumbers[(selectedLogItemContextStartLineNumber + indexContextLine + 1)])" style="color: white;background-color: black;"><div v-for="logr in sqlUiDbUpdates[log_id].lineNumbers[(selectedLogItemContextStartLineNumber + indexContextLine + 1)]">{{logr.sql_statement}}</div></div>
         </template>
     </pre>
     <div v-if="sqlUiDbUpdates[log_id]" style="color: white;background-color: black;">{{sqlUiDbUpdates[log_id]}}</div>
@@ -9703,8 +9703,8 @@
 
                             mm.selectedLogItemContextEndLineNumber = logRecord1.line_number
                             while(readAnotherLine) {
-                                nextLine = yz.uiDb.linesOfSourceFile[ mm.selectedLogItemFileName][mm.selectedLogItemContextEndLineNumber - 1]
-                                if (mm.selectedLogItemContextEndLineNumber == yz.uiDb.linesOfSourceFile[ mm.selectedLogItemFileName].length) {
+                                nextLine = yz.debug.linesOfSourceFile[ mm.selectedLogItemFileName][mm.selectedLogItemContextEndLineNumber - 1]
+                                if (mm.selectedLogItemContextEndLineNumber == yz.debug.linesOfSourceFile[ mm.selectedLogItemFileName].length) {
                                     readAnotherLine = false
                                 } else if (nextLine.indexOf("yz.debug.endOfDebugSection(") != -1) {
                                     mm.selectedLogItemContextEndLineNumber ++
@@ -9931,8 +9931,8 @@
 
                                 mm.selectedLogItemContextEndLineNumber = logRecord1.line_number
                                 while(readAnotherLine) {
-                                    nextLine = yz.uiDb.linesOfSourceFile[ mm.selectedLogItemFileName][mm.selectedLogItemContextEndLineNumber - 1]
-                                    if (mm.selectedLogItemContextEndLineNumber == yz.uiDb.linesOfSourceFile[ mm.selectedLogItemFileName].length) {
+                                    nextLine = yz.debug.linesOfSourceFile[ mm.selectedLogItemFileName][mm.selectedLogItemContextEndLineNumber - 1]
+                                    if (mm.selectedLogItemContextEndLineNumber == yz.debug.linesOfSourceFile[ mm.selectedLogItemFileName].length) {
                                         readAnotherLine = false
                                     } else if (nextLine.indexOf("yz.debug.endOfDebugSection(") != -1) {
                                         mm.selectedLogItemContextEndLineNumber ++
@@ -13545,8 +13545,8 @@
                             let nextLine
                             let endLineNumber = startLineNumber
                             while (readAnotherLine) {
-                                nextLine = yz.uiDb.linesOfSourceFile[sourceForFunction.fileName][endLineNumber - 1]
-                                if (endLineNumber == yz.uiDb.linesOfSourceFile[sourceForFunction.fileName].length) {
+                                nextLine = yz.debug.linesOfSourceFile[sourceForFunction.fileName][endLineNumber - 1]
+                                if (endLineNumber == yz.debug.linesOfSourceFile[sourceForFunction.fileName].length) {
                                     readAnotherLine = false
                                 } else if (nextLine.indexOf("yz.debug.endOfDebugSection(") != -1) {
                                     endLineNumber++
@@ -13556,7 +13556,7 @@
                                 }
                             }
                             for (let lineIndex = startLineNumber; lineIndex <= endLineNumber; lineIndex++) {
-                                allText += yz.uiDb.linesOfSourceFile[sourceForFunction.fileName][lineIndex - 1] + "\n"
+                                allText += yz.debug.linesOfSourceFile[sourceForFunction.fileName][lineIndex - 1] + "\n"
                             }
                             yz.uiDb.sqlui("INSERT INTO ui_table_debug_code_sections (  fk_debug_id  ,  fk_fn_name_id  ,  fn_name  ,  file_name  ,  start_line_number  ,  end_line_number  ,  debug_all_text  ) VALUES (?,?,?,?,?,?,?)",
                                 [
@@ -13622,7 +13622,7 @@
                             // start debug section is in the code
                             if (lengthOfRestOfLine < 5) {
                                 startLineNumber = sourceForFunction.lineNumber - 1
-                                let previousLine = yz.uiDb.linesOfSourceFile[sourceForFunction.fileName][startLineNumber - 1]
+                                let previousLine = yz.debug.linesOfSourceFile[sourceForFunction.fileName][startLineNumber - 1]
                                 let fnName = yz.uiDb.getFnNameFromLine(  previousLine  )
                                 let allText = ""
 
@@ -13630,8 +13630,8 @@
                                 let nextLine
                                 let endLineNumber = startLineNumber
                                 while(readAnotherLine) {
-                                    nextLine = yz.uiDb.linesOfSourceFile[sourceForFunction.fileName][endLineNumber - 1]
-                                    if (endLineNumber == yz.uiDb.linesOfSourceFile[sourceForFunction.fileName].length) {
+                                    nextLine = yz.debug.linesOfSourceFile[sourceForFunction.fileName][endLineNumber - 1]
+                                    if (endLineNumber == yz.debug.linesOfSourceFile[sourceForFunction.fileName].length) {
                                         readAnotherLine = false
                                     } else if (nextLine.indexOf("yz.debug.endOfDebugSection(") != -1) {
                                         endLineNumber ++
@@ -13641,7 +13641,7 @@
                                     }
                                 }
                                 for (let lineIndex = startLineNumber; lineIndex <= endLineNumber; lineIndex ++) {
-                                    allText += yz.uiDb.linesOfSourceFile[sourceForFunction.fileName][lineIndex - 1] + "\n"
+                                    allText += yz.debug.linesOfSourceFile[sourceForFunction.fileName][lineIndex - 1] + "\n"
                                 }
                                 yz.uiDb.sqlui("INSERT INTO ui_table_debug_code_sections (  fk_debug_id  ,  fk_fn_name_id  ,  fn_name  ,  file_name  ,  start_line_number  ,  end_line_number  ,  debug_all_text  ) VALUES (?,?,?,?,?,?,?)",
                                     [
@@ -13699,7 +13699,9 @@
                         yz.uiDb.currentDebugStack.debugTick         = 1
                         yz.uiDb.currentDebugStack.debugTraceid      = null
                         yz.uiDb.currentDebugStack.steps             = []
-                    }
+                    },
+
+                    linesOfSourceFile:                  {},
                 },
                 uiDb:                               {
                     //
@@ -13965,7 +13967,7 @@
                             })
                         yz.uiDb.sqlui("INSERT INTO ui_table_command_source_files (  source_file_name  ,  source_text  ) VALUES (?,?)",
                             [result.fileName,result.contents])
-                        yz.uiDb.linesOfSourceFile[result.fileName] = result.contents.split('\n');
+                        yz.debug.linesOfSourceFile[result.fileName] = result.contents.split('\n');
                     },
                     findSourceLineInCode:               function                    (  searchText  )                                                {
                         let found = false
@@ -13989,7 +13991,7 @@
                                 let linesOfFileBeforeSearchItem = textUpToSearchItem.split('\n');
                                 lineNumberOfSearchItem = linesOfFileBeforeSearchItem.length
 
-                                let linesOfFile = yz.uiDb.linesOfSourceFile[fileSourceRecord.source_file_name]
+                                let linesOfFile = yz.debug.linesOfSourceFile[fileSourceRecord.source_file_name]
 
                                 startLine   = lineNumberOfSearchItem - 5
                                 if (startLine < 1) {
@@ -14316,7 +14318,6 @@
 
                     },
 
-                    linesOfSourceFile:                  {},
                     currentDebugStack:                  {
                         currentDebugId:     null,
                         currentSqlDebugId:  null,
