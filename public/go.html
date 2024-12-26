@@ -13400,7 +13400,7 @@
                             })
                     },
                     sqluiDebug:                         function                    (  dbgCode  ,  sql  ,  params  )                                {
-                        yz.uiDb.currentDebugStack.currentSqlDebugId = dbgCode
+                        yz.debug.currentDebugStack.currentSqlDebugId = dbgCode
                         let ret = alasql(sql  ,  params)
                         if ((typeof $DEBUGUI !== 'undefined') && ($DEBUGUI == "true") && yz.uiDb.tablesCreated) {
                             let startOfSql = sql.toLowerCase()
@@ -13418,7 +13418,7 @@
                                         sourceFileName = sourceForCallerOfFunction.fileName
                                         lineNumber = sourceForCallerOfFunction.lineNumber
                                     }
-                                    let steps = yz.uiDb.currentDebugStack.steps
+                                    let steps = yz.debug.currentDebugStack.steps
                                     let lastTraceid = null
                                     if (steps && (steps.length > 0)) {
                                         lastTraceid = steps[steps.length - 1]
@@ -13428,11 +13428,11 @@
                                             dbgCode,
                                             sql,
                                             lastTraceid,
-                                            yz.uiDb.currentDebugStack.debugTick,
+                                            yz.debug.currentDebugStack.debugTick,
                                             sourceFileName,
                                             lineNumber
                                         ])
-                                    yz.uiDb.currentDebugStack.currentSqlLogId = yz.uiDb.sqlui1("select max(id) as id from ui_table_debug_sql_log").id
+                                    yz.debug.currentDebugStack.currentSqlLogId = yz.uiDb.sqlui1("select max(id) as id from ui_table_debug_sql_log").id
                                 }
                             }
                             if (startOfSql.startsWith("update") || startOfSql.startsWith("delete")) {
@@ -13459,7 +13459,7 @@
                         return ret
                     },
                     endOfDebugSection:                  function                    (  returnValue  )                                               {
-                        yz.uiDb.currentDebugStack.steps.pop()
+                        yz.debug.currentDebugStack.steps.pop()
                         return returnValue
                     },
                     debugFn:                            function                    (  argsPassedIn  )                                              {
@@ -13482,15 +13482,15 @@
                         let fnLine = stackTrace[2]
                         console.log(fnLine)
                         console.log("    (" + JSON.stringify(argsPassedIn,null,2) + ")")
-                        yz.uiDb.currentDebugStack.debugTick ++
+                        yz.debug.currentDebugStack.debugTick ++
                         let fnName = yz.uiDb.getFnNameFromStackTrace(fnLine)
                         let sourceForFunction = yz.uiDb.findSourceLineInCode(fnName + ":")
                         if (sourceForFunction.found) {
                             const argsArray = Array.from(argsPassedIn);
                             const commaSeparatedValues = argsArray.join(', ');
 
-                            let previousCalls = yz.uiDb.sqlui("select * from ui_table_debug_trace_log where debug_tracer_id == ? order by debug_tick asc" , [yz.uiDb.currentDebugStack.debugTracerId])
-                            let callerLogId = yz.uiDb.currentDebugStack.steps[yz.uiDb.currentDebugStack.steps.length - 1]
+                            let previousCalls = yz.uiDb.sqlui("select * from ui_table_debug_trace_log where debug_tracer_id == ? order by debug_tick asc" , [yz.debug.currentDebugStack.debugTracerId])
+                            let callerLogId = yz.debug.currentDebugStack.steps[yz.debug.currentDebugStack.steps.length - 1]
                             //let closestCallerLogId = previousCalls[0].id
                             //debugger
                             let numberLinesToTop = 1000
@@ -13507,12 +13507,12 @@
 
                             yz.uiDb.sqlui("INSERT INTO ui_table_debug_trace_log (  fk_debug_id  , run_time_millis , debug_tracer_id , file_name , line_number, debug_tick ,line_text,arguments, caller_file_name  ,  caller_line_number , fk_caller_debug_trace_log_id  ) VALUES (?,?,?,?,?,?,?,?,?,?,?)",
                                 [
-                                    yz.uiDb.currentDebugStack.currentDebugId,
+                                    yz.debug.currentDebugStack.currentDebugId,
                                     Date.now(),
-                                    yz.uiDb.currentDebugStack.debugTracerId,
+                                    yz.debug.currentDebugStack.debugTracerId,
                                     sourceForFunction.fileName,
                                     sourceForFunction.lineNumber,
-                                    yz.uiDb.currentDebugStack.debugTick,
+                                    yz.debug.currentDebugStack.debugTick,
                                     sourceForFunction.lineText.trim(),
                                     JSON.stringify(argsArray,null,2),
                                     sourceForCallerOfFunction.fileName,
@@ -13522,7 +13522,7 @@
 
 
                             let latestLogId =  yz.uiDb.sqlui1("select MAX(id) as id from ui_table_debug_trace_log")
-                            yz.uiDb.currentDebugStack.steps.push(latestLogId.id)
+                            yz.debug.currentDebugStack.steps.push(latestLogId.id)
                         }
 
 
@@ -13596,13 +13596,13 @@
                             return
                         }
 
-                        yz.uiDb.currentDebugStack.currentDebugId    = debugId
-                        yz.uiDb.currentDebugStack.start             = {
+                        yz.debug.currentDebugStack.currentDebugId    = debugId
+                        yz.debug.currentDebugStack.start             = {
                             debugId: debugId
                         }
-                        yz.uiDb.currentDebugStack.debugTracerId     = yz.uuidv4()
-                        yz.uiDb.currentDebugStack.steps             = []
-                        yz.uiDb.currentDebugStack.debugTick         = 1
+                        yz.debug.currentDebugStack.debugTracerId     = yz.uuidv4()
+                        yz.debug.currentDebugStack.steps             = []
+                        yz.debug.currentDebugStack.debugTick         = 1
 
                         let sourceForFunction = yz.uiDb.findSourceLineInCode(debugId)
 
@@ -13679,7 +13679,7 @@
                                 [
                                     debugId,
                                     Date.now(),
-                                    yz.uiDb.currentDebugStack.debugTracerId,
+                                    yz.debug.currentDebugStack.debugTracerId,
                                     sourceForFunction.fileName,
                                     //sourceForFunction.lineNumber,
                                     startLineNumber,
@@ -13688,20 +13688,29 @@
                                 ])
                         }
                         let latestLogId =  yz.uiDb.sqlui1("select MAX(id) as id from ui_table_debug_trace_log")
-                        yz.uiDb.currentDebugStack.steps.push(latestLogId.id)
+                        yz.debug.currentDebugStack.steps.push(latestLogId.id)
                     },
                     endDebug:                           function                    (  )                                                            {
                         if ((typeof $DEBUGUI == 'undefined') || (!$DEBUGUI)) {
                             return
                         }
-                        yz.uiDb.currentDebugStack.currentDebugId    = null
-                        yz.uiDb.currentDebugStack.start             = null
-                        yz.uiDb.currentDebugStack.debugTick         = 1
-                        yz.uiDb.currentDebugStack.debugTraceid      = null
-                        yz.uiDb.currentDebugStack.steps             = []
+                        yz.debug.currentDebugStack.currentDebugId    = null
+                        yz.debug.currentDebugStack.start             = null
+                        yz.debug.currentDebugStack.debugTick         = 1
+                        yz.debug.currentDebugStack.debugTraceid      = null
+                        yz.debug.currentDebugStack.steps             = []
                     },
 
                     linesOfSourceFile:                  {},
+                    currentDebugStack:                  {
+                        currentDebugId:     null,
+                        currentSqlDebugId:  null,
+                        currentSqlLogId:    null,
+                        debugTracerId:      null,
+                        debugTick:          1,
+                        start:              null,
+                        steps:              []
+                    },
                 },
                 uiDb:                               {
                     //
@@ -14152,7 +14161,7 @@
                                             "table_debug_data_log"
                                     ].indexOf(tableName) == -1)
                                 {
-                                    if (yz.uiDb.currentDebugStack.debugTracerId != null) {
+                                    if (yz.debug.currentDebugStack.debugTracerId != null) {
                                         let callStack = yz.uiDb.getCallStack()
                                         let callStackIndex = null
                                         for (let i=0;i<callStack.length;i++) {
@@ -14231,10 +14240,10 @@
                                     "ui_table_command_source_file_lines",
                                     "ui_table_debug_data_log"
                                 ].indexOf(tableName) == -1) {
-                                if (yz.uiDb.currentDebugStack.currentSqlLogId) {
-                                    //yz.uiDb.currentDebugStack.currentSqlLogId = yz.uiDb.sqlui1("select max(id) as id from ui_table_debug_sql_log").id
+                                if (yz.debug.currentDebugStack.currentSqlLogId) {
+                                    //yz.debug.currentDebugStack.currentSqlLogId = yz.uiDb.sqlui1("select max(id) as id from ui_table_debug_sql_log").id
                                     yz.uiDb.sqlui(   "insert  into  ui_table_debug_data_log  (  table_name  ,  new_value  ,  operation_type  ,  fk_parent_debug_sql_log_id  ) values (?,?,?,?)",
-                                        [tableName, JSON.stringify(r),"INSERT",yz.uiDb.currentDebugStack.currentSqlLogId])
+                                        [tableName, JSON.stringify(r),"INSERT",yz.debug.currentDebugStack.currentSqlLogId])
                                 }
                             }
 
@@ -14318,15 +14327,6 @@
 
                     },
 
-                    currentDebugStack:                  {
-                        currentDebugId:     null,
-                        currentSqlDebugId:  null,
-                        currentSqlLogId:    null,
-                        debugTracerId:      null,
-                        debugTick:          1,
-                        start:              null,
-                        steps:              []
-                    },
                     tablesCreated:                      false,
                     sendToServerDebugSqliteLookup:      {},
                     uiDbTickCounter:                    0,
