@@ -13417,7 +13417,7 @@
                                         sourceFileName = sourceForCallerOfFunction.fileName
                                         lineNumber = sourceForCallerOfFunction.lineNumber
                                     }
-                                    let steps = yz.debug.steps
+                                    let steps = yz.debug.debugTraceSteps
                                     let lastTraceid = null
                                     if (steps && (steps.length > 0)) {
                                         lastTraceid = steps[steps.length - 1]
@@ -13458,7 +13458,7 @@
                         return ret
                     },
                     endOfDebugSection:                  function                    (  returnValue  )                                               {
-                        yz.debug.steps.pop()
+                        yz.debug.debugTraceSteps.pop()
                         return returnValue
                     },
                     debugFn:                            function                    (  argsPassedIn  )                                              {
@@ -13489,7 +13489,7 @@
                             const commaSeparatedValues = argsArray.join(', ');
 
                             let previousCalls = yz.uiDb.sqlui("select * from ui_table_debug_trace_log where debug_tracer_id == ? order by debug_tick asc" , [yz.debug.debugTracerId])
-                            let callerLogId = yz.debug.steps[yz.debug.steps.length - 1]
+                            let callerLogId = yz.debug.debugTraceSteps[yz.debug.debugTraceSteps.length - 1]
                             //let closestCallerLogId = previousCalls[0].id
                             //debugger
                             let numberLinesToTop = 1000
@@ -13521,7 +13521,7 @@
 
 
                             let latestLogId =  yz.uiDb.sqlui1("select MAX(id) as id from ui_table_debug_trace_log")
-                            yz.debug.steps.push(latestLogId.id)
+                            yz.debug.debugTraceSteps.push(latestLogId.id)
                         }
 
 
@@ -13600,7 +13600,7 @@
                             debugId: debugId
                         }
                         yz.debug.debugTracerId     = yz.uuidv4()
-                        yz.debug.steps             = []
+                        yz.debug.debugTraceSteps             = []
                         yz.debug.debugTick         = 1
 
                         let sourceForFunction = yz.uiDb.findSourceLineInCode(debugId)
@@ -13687,7 +13687,7 @@
                                 ])
                         }
                         let latestLogId =  yz.uiDb.sqlui1("select MAX(id) as id from ui_table_debug_trace_log")
-                        yz.debug.steps.push(latestLogId.id)
+                        yz.debug.debugTraceSteps.push(latestLogId.id)
                     },
                     endDebug:                           function                    (  )                                                            {
                         //----------------------------------------------------------------------------------/
@@ -13708,7 +13708,7 @@
                         yz.debug.start             = null
                         yz.debug.debugTick         = 1
                         yz.debug.debugTraceid      = null
-                        yz.debug.steps             = []
+                        yz.debug.debugTraceSteps             = []
                     },
 
                     linesOfSourceFile:                  {},         // the lines of code in go.html and other source files = [line 1, line 2, etc...]
@@ -13716,7 +13716,7 @@
                     debugTracerId:                      null,       // a UUID which shows which debug trace event we are in ("currentDebugId" is not unique)
                     currentSqlLogId:                    null,       // ID to use for the SQL log 1..n
                     debugTick:                          1,          // 1..n is used to show which step in a trace we are at
-                    steps:                              []
+                    debugTraceSteps:                    []
                 },
                 uiDb:                               {
                     //
