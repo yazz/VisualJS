@@ -13400,7 +13400,6 @@
                             })
                     },
                     sqluiDebug:                         function                    (  dbgCode  ,  sql  ,  params  )                                {
-                        yz.debug.currentSqlDebugId = dbgCode
                         let ret = alasql(sql  ,  params)
                         if ((typeof $DEBUGUI !== 'undefined') && ($DEBUGUI == "true") && yz.uiDb.tablesCreated) {
                             let startOfSql = sql.toLowerCase()
@@ -13715,7 +13714,6 @@
                     linesOfSourceFile:                  {},         // the lines of code in go.html and other source files = [line 1, line 2, etc...]
                     currentDebugId:                     null,       // table "ui_table_debug_trace_log", field "fk_debug_id" = eg: "hjgfsjfgsdhjgfhjfgdjhsfgjfh"
                     debugTracerId:                      null,       // a UUID which shows which debug trace event we are in ("currentDebugId" is not unique)
-                    currentSqlDebugId:                  null,       // table "ui_table_debug_sql_log", field ""
                     currentSqlLogId:                    null,
                     debugTick:                          1,
                     start:                              null,
