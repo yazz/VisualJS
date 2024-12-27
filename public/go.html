@@ -13591,16 +13591,17 @@
                         //              random set of characters like "jgdshgfshjgfjsdgfjksdgjk"
                         //
                         //-----------------------------------------------------------/
+
+                        //
+                        // do nothing if not in debug mode
+                        //
                         if ((typeof $DEBUGUI == 'undefined') || (!$DEBUGUI)) {
                             return
                         }
 
                         yz.debug.currentDebugId    = debugId
-                        yz.debug.start             = {
-                            debugId: debugId
-                        }
                         yz.debug.debugTracerId     = yz.uuidv4()
-                        yz.debug.debugTraceSteps             = []
+                        yz.debug.debugTraceSteps   = []
                         yz.debug.debugTick         = 1
 
                         let sourceForFunction = yz.uiDb.findSourceLineInCode(debugId)
@@ -13714,9 +13715,9 @@
                     linesOfSourceFile:                  {},         // the lines of code in go.html and other source files = [line 1, line 2, etc...]
                     currentDebugId:                     null,       // table "ui_table_debug_trace_log", field "fk_debug_id" = eg: "hjgfsjfgsdhjgfhjfgdjhsfgjfh"
                     debugTracerId:                      null,       // a UUID which shows which debug trace event we are in ("currentDebugId" is not unique)
-                    currentSqlLogId:                    null,       // ID to use for the SQL log 1..n
                     debugTick:                          1,          // 1..n is used to show which step in a trace we are at
-                    debugTraceSteps:                    []          // [1,2,4,8,9] - list of the trace IDs of the current debug log
+                    debugTraceSteps:                    [],         // [1,2,4,8,9] - list of the trace IDs of the current debug log
+                    currentSqlLogId:                    null        // ID to use for the SQL log 1..n
                 },
                 uiDb:                               {
                     //
