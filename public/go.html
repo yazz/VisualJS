@@ -13599,20 +13599,28 @@
                             return
                         }
 
+                        //
+                        // reset all the debug markers as we are starting a new debug trace
+                        //
                         yz.debug.currentDebugId    = debugId
                         yz.debug.debugTracerId     = yz.uuidv4()
                         yz.debug.debugTraceSteps   = []
                         yz.debug.debugTick         = 1
 
+
+                        //
+                        // Find out which source code line we are editing
+                        //
+                        debugger
                         let sourceForFunction = yz.uiDb.findSourceLineInCode(debugId)
 
                         //
                         // store the debug code
                         //
                         let startLineNumber = sourceForFunction.lineNumber - 1
-                        let codeSectionRecord1 = yz.uiDb.sqlui1("select * from ui_table_debug_code_sections where fk_debug_id = ?",
-                            [debugId])
-                        if (!codeSectionRecord1) {
+                        //let codeSectionRecord1 = yz.uiDb.sqlui1("select * from ui_table_debug_code_sections where fk_debug_id = ?",
+                        //    [debugId])
+                        //if (!codeSectionRecord1) {
                             let indexOfDebugId = sourceForFunction.lineText.indexOf(debugId)
                             let upToDebugId = sourceForFunction.lineText.substring(indexOfDebugId)
                             let indexToEndOfDebugId = upToDebugId.indexOf("\")")
@@ -13669,7 +13677,7 @@
                                     ])
                             }
 
-                        }
+                        //}
 
                         //
                         // insert the trace record
