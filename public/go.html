@@ -13613,29 +13613,30 @@
                         //
                         // Find out which source code line we are editing
                         //
-                        debugger
                         let sourceForFunction = yz.uiDb.findSourceLineInCode(debugId)
 
                         //
                         // store the debug code
                         //
-                        let startLineNumber = sourceForFunction.lineNumber - 1
-                        let indexOfDebugId = sourceForFunction.lineText.indexOf(debugId)
-                        let upToDebugId = sourceForFunction.lineText.substring(indexOfDebugId)
+                        let startLineNumber     = sourceForFunction.lineNumber - 1
+                        let indexOfDebugId      = sourceForFunction.lineText.indexOf(debugId)
+                        let upToDebugId         = sourceForFunction.lineText.substring(indexOfDebugId)
                         let indexToEndOfDebugId = upToDebugId.indexOf("\")")
-                        let afterDebugId = upToDebugId.substring(indexToEndOfDebugId)
-                        let lengthOfRestOfLine = afterDebugId.length
+                        let afterDebugId        = upToDebugId.substring(indexToEndOfDebugId)
+                        let lengthOfRestOfLine  = afterDebugId.length
 
-                        // start debug section is in the code
+                        //
+                        // if the start debug section is in the code
+                        //
                         if (lengthOfRestOfLine < 5) {
-                            startLineNumber = sourceForFunction.lineNumber - 1
-                            let previousLine = yz.debug.linesOfSourceFile[sourceForFunction.fileName][startLineNumber - 1]
-                            let fnName = yz.uiDb.getFnNameFromLine(  previousLine  )
-                            let allText = ""
-
+                            startLineNumber     = sourceForFunction.lineNumber - 1
+                            let previousLine    = yz.debug.linesOfSourceFile[sourceForFunction.fileName][startLineNumber - 1]
+                            let fnName          = yz.uiDb.getFnNameFromLine(  previousLine  )
+                            let allText         = ""
                             let readAnotherLine = true
                             let nextLine
-                            let endLineNumber = startLineNumber
+                            let endLineNumber   = startLineNumber
+
                             while(readAnotherLine) {
                                 nextLine = yz.debug.linesOfSourceFile[sourceForFunction.fileName][endLineNumber - 1]
                                 if (endLineNumber == yz.debug.linesOfSourceFile[sourceForFunction.fileName].length) {
@@ -13661,7 +13662,10 @@
                                     allText
                                 ])
 
-                            // debug section is an event
+
+                        //
+                        // otherwise if the start debug section is in from an event in the HTML
+                        //
                         } else {
                             startLineNumber = sourceForFunction.lineNumber
                             yz.uiDb.sqlui("INSERT INTO ui_table_debug_code_sections (  fk_debug_id  ,  fk_fn_name_id  ,  fn_name  ,  file_name  ,  start_line_number  ,  end_line_number  ,  debug_all_text  ) VALUES (?,?,?,?,?,?,?)",
