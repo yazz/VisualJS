@@ -13488,10 +13488,17 @@
                         //                   is a unique set of characters like "fdssdfdjfghkhgkjghdfjkfk"
                         //
                         //-----------------------------------------------------------/
+
+                        //
+                        // make sure we are in debug mode
+                        //
                         if ((typeof $DEBUGUI == 'undefined') || (!$DEBUGUI)) {
                             return
                         }
 
+                        //
+                        // get the debug token, like "hjgdfsgjhfsgjsgdjhsf" from the args passed in
+                        //
                         let callerDebugToken = argsPassedIn[0]
 
                         //
@@ -13500,6 +13507,11 @@
                         if (callerDebugToken == null) {
                             return
                         }
+
+                        //
+                        // find the source code where this was called from
+                        //
+                        debugger
                         let sourceForCallerOfFunction = yz.uiDb.findSourceLineInCode(callerDebugToken)
 
 
