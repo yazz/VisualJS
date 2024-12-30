@@ -13626,7 +13626,9 @@
                         let lengthOfRestOfLine  = afterDebugId.length
 
                         //
-                        // if the start debug section is in the code
+                        // if the start debug section is in a function then the code snippet stored in
+                        // "ui_table_debug_code_sections" will be from the start of the function to
+                        // the marker "endOfDebugSection( )"
                         //
                         if (lengthOfRestOfLine < 5) {
                             startLineIndex      = sourceForFunction.lineNumber - 1
@@ -13664,7 +13666,8 @@
 
 
                         //
-                        // otherwise if the start debug section is in from an event in the HTML
+                        // otherwise if the start debug section is in from an event in the HTML then just
+                        // add a very basic code snippet into "ui_table_debug_code_sections"
                         //
                         } else {
                             startLineIndex = sourceForFunction.lineNumber
