@@ -13618,7 +13618,7 @@
                         //
                         // store the debug code
                         //
-                        let startLineNumber     = sourceForFunction.lineNumber - 1
+                        let startLineIndex      = sourceForFunction.lineNumber - 1
                         let indexOfDebugId      = sourceForFunction.lineText.indexOf(debugId)
                         let upToDebugId         = sourceForFunction.lineText.substring(indexOfDebugId)
                         let indexToEndOfDebugId = upToDebugId.indexOf("\")")
@@ -13629,26 +13629,26 @@
                         // if the start debug section is in the code
                         //
                         if (lengthOfRestOfLine < 5) {
-                            startLineNumber     = sourceForFunction.lineNumber - 1
-                            let previousLine    = yz.debug.linesOfSourceFile[sourceForFunction.fileName][startLineNumber - 1]
+                            startLineIndex      = sourceForFunction.lineNumber - 1
+                            let previousLine    = yz.debug.linesOfSourceFile[sourceForFunction.fileName][startLineIndex - 1]
                             let fnName          = yz.uiDb.getFnNameFromLine(  previousLine  )
                             let allText         = ""
                             let readAnotherLine = true
                             let nextLine
-                            let endLineNumber   = startLineNumber
+                            let endLineIndex    = startLineIndex
 
                             while(readAnotherLine) {
-                                nextLine = yz.debug.linesOfSourceFile[sourceForFunction.fileName][endLineNumber - 1]
-                                if (endLineNumber == yz.debug.linesOfSourceFile[sourceForFunction.fileName].length) {
+                                nextLine = yz.debug.linesOfSourceFile[sourceForFunction.fileName][endLineIndex - 1]
+                                if (endLineIndex == yz.debug.linesOfSourceFile[sourceForFunction.fileName].length) {
                                     readAnotherLine = false
                                 } else if (nextLine.indexOf("yz.debug.endOfDebugSection(") != -1) {
-                                    endLineNumber ++
+                                    endLineIndex ++
                                     readAnotherLine = false
                                 } else {
-                                    endLineNumber ++
+                                    endLineIndex ++
                                 }
                             }
-                            for (let lineIndex = startLineNumber; lineIndex <= endLineNumber; lineIndex ++) {
+                            for (let lineIndex = startLineIndex; lineIndex <= endLineIndex; lineIndex ++) {
                                 allText += yz.debug.linesOfSourceFile[sourceForFunction.fileName][lineIndex - 1] + "\n"
                             }
                             yz.uiDb.sqlui("INSERT INTO ui_table_debug_code_sections (  fk_debug_id  ,  fk_fn_name_id  ,  fn_name  ,  file_name  ,  start_line_number  ,  end_line_number  ,  debug_all_text  ) VALUES (?,?,?,?,?,?,?)",
@@ -13657,8 +13657,8 @@
                                     null,
                                     fnName,
                                     sourceForFunction.fileName,
-                                    startLineNumber,
-                                    endLineNumber,
+                                    startLineIndex,
+                                    endLineIndex,
                                     allText
                                 ])
 
@@ -13667,7 +13667,7 @@
                         // otherwise if the start debug section is in from an event in the HTML
                         //
                         } else {
-                            startLineNumber = sourceForFunction.lineNumber
+                            startLineIndex = sourceForFunction.lineNumber
                             yz.uiDb.sqlui("INSERT INTO ui_table_debug_code_sections (  fk_debug_id  ,  fk_fn_name_id  ,  fn_name  ,  file_name  ,  start_line_number  ,  end_line_number  ,  debug_all_text  ) VALUES (?,?,?,?,?,?,?)",
                                 [
                                     debugId,
@@ -13691,7 +13691,7 @@
                                     yz.debug.debugTracerId,
                                     sourceForFunction.fileName,
                                     //sourceForFunction.lineNumber,
-                                    startLineNumber,
+                                    startLineIndex,
                                     1,
                                     sourceForFunction.lineText.trim()
                                 ])
