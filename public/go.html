@@ -13699,6 +13699,11 @@
                                     sourceForFunction.lineText.trim()
                                 ])
                         }
+
+                        //
+                        // Set the trace call log to start at the entry added into the table "ui_table_debug_trace_log"
+                        // by just storing the "id" of the record
+                        //
                         let latestLogId =  yz.uiDb.sqlui1("select MAX(id) as id from ui_table_debug_trace_log")
                         yz.debug.debugTraceSteps.push(latestLogId.id)
                     },
