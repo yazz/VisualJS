@@ -13462,6 +13462,32 @@
                         return returnValue
                     },
                     debugFn:                            function                    (  argsPassedIn  )                                              {
+                        //----------------------------------------------------------------------------------/
+                        //
+                        //                                          /-------------------------------------/
+                        //                                         /       debugFn( ... ) { ... }        /
+                        //                                        /-------------------------------------/
+                        //
+                        //----------------------------------------------------------------------------/
+                        // This is called after we have started a debug session and we want to debug
+                        // a function call. This should be on the line after the function definition:
+                        //
+                        // function someFUnction( ) {
+                        //     yz.debug.debugFn(arguments)
+                        //     ... rest of code
+                        //
+                        // Do not forget to close off the call with "endOfDebugSection( ... )"
+                        // just before the function returns to the caller, with any return
+                        // parameters included too
+                        //
+                        //________
+                        // PARAMS \______________________________________________________________/
+                        //
+                        //    argsPassedIn
+                        //    ------------   This passes through parameters such as the hard coded debug ID used which
+                        //                   is a unique set of characters like "fdssdfdjfghkhgkjghdfjkfk"
+                        //
+                        //-----------------------------------------------------------/
                         if ((typeof $DEBUGUI == 'undefined') || (!$DEBUGUI)) {
                             return
                         }
