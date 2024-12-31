@@ -13400,8 +13400,34 @@
                             })
                     },
                     sqluiDebug:                         function                    (  dbgCode  ,  sql  ,  params  )                                {
+                        //----------------------------------------------------------------------------------/
+                        //
+                        //                                          /-------------------------------------/
+                        //                                         /     sqluiDebug( ... ) { ... }       /
+                        //                                        /-------------------------------------/
+                        //
+                        //----------------------------------------------------------------------------/
+                        // This is used to log changes made to the client UI database. It is the same
+                        // a call to "sqlui( ... )" except that thhe first paramter is a randomly
+                        // typed keyboard debug ID like "hjkgdsfhjfdgsjhgfdsjfdgsjkfgdsjfgjksfgjsfgjdk"
+                        //
+                        //________
+                        // PARAMS \______________________________________________________________/
+                        //
+                        //    dbgCode
+                        //    -------   A randomly typed debug code from the keyboard like
+                        //              "dfshjhgjsdfghdfsgkjhfdsgjkdgfsjkfgdsjdfsgjhgdfs"
+                        //
+                        //    sql
+                        //    ---       The sql which will update the UI database
+                        //
+                        //    params
+                        //    ------    The SQL params
+                        //-----------------------------------------------------------/
                         let ret = alasql(sql  ,  params)
-                        if ((typeof $DEBUGUI !== 'undefined') && ($DEBUGUI == "true") && yz.uiDb.tablesCreated) {
+                        //if ((typeof $DEBUGUI !== 'undefined') && ($DEBUGUI == "true") && yz.uiDb.tablesCreated) {
+                        if ((typeof $DEBUGUI !== 'undefined') && ($DEBUGUI == "true")) {
+                            debugger
                             let startOfSql = sql.toLowerCase()
 
                             //
