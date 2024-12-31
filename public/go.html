@@ -13401,7 +13401,9 @@
                     },
                     sqluiDebug:                         function                    (  dbgCode  ,  sql  ,  params  )                                {
                         let ret = alasql(sql  ,  params)
-                        if ((typeof $DEBUGUI !== 'undefined') && ($DEBUGUI == "true") && yz.uiDb.tablesCreated) {
+                        //if ((typeof $DEBUGUI !== 'undefined') && ($DEBUGUI == "true") && yz.uiDb.tablesCreated) {
+                        if ((typeof $DEBUGUI !== 'undefined') && ($DEBUGUI == "true")) {
+                            debugger
                             let startOfSql = sql.toLowerCase()
 
                             //
