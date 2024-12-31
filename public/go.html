@@ -13422,19 +13422,19 @@
                         //    ---       The sql which will update the UI database
                         //
                         //    params
-                        //    ------    The SQL params
+                        //    ------    The SQL parameters
                         //-----------------------------------------------------------/
 
                         //
-                        // do the SQL with a normal alasql call
+                        // do the SQL update with a normal alasql call
                         //
                         let ret = alasql(sql  ,  params)
 
                         //
                         // if we are not debug mode then log the SQL
                         //
-                        //if ((typeof $DEBUGUI !== 'undefined') && ($DEBUGUI == "true") && yz.uiDb.tablesCreated) {
                         if ((typeof $DEBUGUI !== 'undefined') && ($DEBUGUI == "true")) {
+                        //if ((typeof $DEBUGUI !== 'undefined') && ($DEBUGUI == "true") && yz.uiDb.tablesCreated) {
                             let startOfSql = sql.toLowerCase()
 
                             //
