@@ -13408,7 +13408,7 @@
                         //
                         //----------------------------------------------------------------------------/
                         // This is used to log changes made to the client UI database. It is the same
-                        // a call to "sqlui( ... )" except that thhe first paramter is a randomly
+                        // as a call to "sqlui( ... )" except that the first parameter is a randomly
                         // typed keyboard debug ID like "hjkgdsfhjfdgsjhgfdsjfdgsjkfgdsjfgjksfgjsfgjdk"
                         //
                         //________
@@ -13424,10 +13424,17 @@
                         //    params
                         //    ------    The SQL params
                         //-----------------------------------------------------------/
+
+                        //
+                        // do the SQL with a normal alasql call
+                        //
                         let ret = alasql(sql  ,  params)
+
+                        //
+                        // if we are not debug mode then log the SQL
+                        //
                         //if ((typeof $DEBUGUI !== 'undefined') && ($DEBUGUI == "true") && yz.uiDb.tablesCreated) {
                         if ((typeof $DEBUGUI !== 'undefined') && ($DEBUGUI == "true")) {
-                            debugger
                             let startOfSql = sql.toLowerCase()
 
                             //
@@ -13435,6 +13442,7 @@
                             // may handle them differently. Inserts are dealt with in a special debug trigger
                             //
                             if ((dbgCode != null) && (yz.uiDb.tablesCreated)) {
+                                debugger
                                 if (startOfSql.startsWith("insert") || startOfSql.startsWith("update") || startOfSql.startsWith("delete")) {
                                     let sourceForCallerOfFunction = yz.uiDb.findSourceLineInCode(dbgCode)
                                     let sourceFileName = null
@@ -13537,7 +13545,6 @@
                         //
                         // find the source code where this was called from
                         //
-                        debugger
                         let sourceForCallerOfFunction = yz.uiDb.findSourceLineInCode(callerDebugToken)
 
 
