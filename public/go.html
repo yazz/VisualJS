@@ -13515,6 +13515,9 @@
                         let sourceForCallerOfFunction = yz.uiDb.findSourceLineInCode(callerDebugToken)
 
 
+                        //
+                        // Find out who called this function
+                        //
                         let stackTrace = yz.uiDb.getCallStack()
                         let fnLine = stackTrace[2]
                         console.log(fnLine)
@@ -13526,7 +13529,8 @@
                             const argsArray = Array.from(argsPassedIn);
                             const commaSeparatedValues = argsArray.join(', ');
 
-                            let previousCalls = yz.uiDb.sqlui("select * from ui_table_debug_trace_log where debug_tracer_id == ? order by debug_tick asc" , [yz.debug.debugTracerId])
+                            let previousCalls = yz.uiDb.sqlui("select * from ui_table_debug_trace_log where debug_tracer_id == ? order by debug_tick asc" ,
+                                [yz.debug.debugTracerId])
                             let callerLogId = yz.debug.debugTraceSteps[yz.debug.debugTraceSteps.length - 1]
                             //let closestCallerLogId = previousCalls[0].id
                             //debugger
@@ -13542,7 +13546,9 @@
                             }*/
 
 
-                            yz.uiDb.sqlui("INSERT INTO ui_table_debug_trace_log (  fk_debug_id  , run_time_millis , debug_tracer_id , file_name , line_number, debug_tick ,line_text,arguments, caller_file_name  ,  caller_line_number , fk_caller_debug_trace_log_id  ) VALUES (?,?,?,?,?,?,?,?,?,?,?)",
+                            yz.uiDb.sqlui("INSERT INTO ui_table_debug_trace_log (  fk_debug_id  , run_time_millis , debug_tracer_id ," +
+                                            " file_name , line_number, debug_tick ,line_text,arguments, caller_file_name  ,  caller_line_number , " +
+                                            "fk_caller_debug_trace_log_id  ) VALUES (?,?,?,?,?,?,?,?,?,?,?)",
                                 [
                                     yz.debug.currentDebugId,
                                     Date.now(),
@@ -13595,7 +13601,8 @@
                             for (let lineIndex = startLineNumber; lineIndex <= endLineNumber; lineIndex++) {
                                 allText += yz.debug.linesOfSourceFile[sourceForFunction.fileName][lineIndex - 1] + "\n"
                             }
-                            yz.uiDb.sqlui("INSERT INTO ui_table_debug_code_sections (  fk_debug_id  ,  fk_fn_name_id  ,  fn_name  ,  file_name  ,  start_line_number  ,  end_line_number  ,  debug_all_text  ) VALUES (?,?,?,?,?,?,?)",
+                            yz.uiDb.sqlui("INSERT INTO ui_table_debug_code_sections (  fk_debug_id  ,  fk_fn_name_id  ,  fn_name  ,  file_name  ,  " +
+                                                "start_line_number  ,  end_line_number  ,  debug_all_text  ) VALUES (?,?,?,?,?,?,?)",
                                 [
                                     null,
                                     fnName,
