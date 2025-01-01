@@ -13637,9 +13637,10 @@
                             for (let lineIndex = startLineNumber; lineIndex <= endLineNumber; lineIndex++) {
                                 allText += yz.debug.linesOfSourceFile[sourceForFunction.fileName][lineIndex - 1] + "\n"
                             }
-                            yz.uiDb.sqlui("INSERT INTO ui_table_debug_code_sections (  fk_debug_id  ,  fk_fn_name_id  ,  fn_name  ,  file_name  ,  " +
-                                                "start_line_number  ,  end_line_number  ,  debug_all_text  ) VALUES (?,?,?,?,?,?,?)",
+                            yz.uiDb.sqlui("INSERT INTO ui_table_debug_code_sections (  id  ,  fk_debug_id  ,  fk_fn_name_id  ,  fn_name  ,  file_name  ,  " +
+                                                "start_line_number  ,  end_line_number  ,  debug_all_text  ) VALUES (?,?,?,?,?,?,?,?)",
                                 [
+                                    yz.uiDb.uiDbNextId ++,
                                     null,
                                     fnName,
                                     fnName,
@@ -13734,8 +13735,9 @@
                             for (let lineIndex = startLineIndex; lineIndex <= endLineIndex; lineIndex ++) {
                                 allText += yz.debug.linesOfSourceFile[sourceForFunction.fileName][lineIndex - 1] + "\n"
                             }
-                            yz.uiDb.sqlui("INSERT INTO ui_table_debug_code_sections (  fk_debug_id  ,  fk_fn_name_id  ,  fn_name  ,  file_name  ,  start_line_number  ,  end_line_number  ,  debug_all_text  ) VALUES (?,?,?,?,?,?,?)",
+                            yz.uiDb.sqlui("INSERT INTO ui_table_debug_code_sections (  id  ,  fk_debug_id  ,  fk_fn_name_id  ,  fn_name  ,  file_name  ,  start_line_number  ,  end_line_number  ,  debug_all_text  ) VALUES (?,?,?,?,?,?,?,?)",
                                 [
+                                    yz.uiDb.uiDbNextId ++,
                                     debugId,
                                     null,
                                     fnName,
@@ -13752,8 +13754,9 @@
                         //
                         } else {
                             startLineIndex = sourceForFunction.lineNumber
-                            yz.uiDb.sqlui("INSERT INTO ui_table_debug_code_sections (  fk_debug_id  ,  fk_fn_name_id  ,  fn_name  ,  file_name  ,  start_line_number  ,  end_line_number  ,  debug_all_text  ) VALUES (?,?,?,?,?,?,?)",
+                            yz.uiDb.sqlui("INSERT INTO ui_table_debug_code_sections (  id  ,  fk_debug_id  ,  fk_fn_name_id  ,  fn_name  ,  file_name  ,  start_line_number  ,  end_line_number  ,  debug_all_text  ) VALUES (?,?,?,?,?,?,?,?)",
                                 [
+                                    yz.uiDb.uiDbNextId ++,
                                     debugId,
                                     null,
                                     null,
@@ -13943,7 +13946,7 @@
                         await yz.uiDb.createAlaSqlTable({
                             tableName: "ui_table_debug_code_sections",
                             fields: [
-                                {name: "id",                            fieldType: "INT PRIMARY KEY AUTOINCREMENT"},
+                                {name: "id",                            fieldType: "INTEGER"},
                                 {name: "fk_debug_id",                   fieldType: "STRING"},
                                 {name: "fk_fn_name_id",                 fieldType: "STRING"},
                                 {name: "fn_name",                       fieldType: "INTEGER"},
