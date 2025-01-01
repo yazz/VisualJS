@@ -13458,8 +13458,10 @@
                                     if (steps && (steps.length > 0)) {
                                         lastTraceid = steps[steps.length - 1]
                                     }
-                                    yz.uiDb.sqlui("INSERT INTO ui_table_debug_sql_log (  debug_tracer_id  ,  sql_statement  ,  fk_parent_debug_trace_log_id  ,  debug_tick  ,  caller_file_name  ,  caller_line_number ) VALUES (?,?,?,?,?,?)",
+                                    debugger
+                                    yz.uiDb.sqlui("INSERT INTO ui_table_debug_sql_log (  id  ,  debug_tracer_id  ,  sql_statement  ,  fk_parent_debug_trace_log_id  ,  debug_tick  ,  caller_file_name  ,  caller_line_number ) VALUES (?,?,?,?,?,?,?)",
                                         [
+                                            yz.uiDb.uiDbNextId ++,
                                             dbgCode,
                                             sql,
                                             lastTraceid,
@@ -13902,7 +13904,7 @@
                         await yz.uiDb.createAlaSqlTable({
                             tableName: "ui_table_debug_sql_log",
                             fields: [
-                                {name: "id",                            fieldType: "INT PRIMARY KEY AUTOINCREMENT"},
+                                {name: "id",                            fieldType: "INTEGER"},
                                 {name: "sql_statement",                 fieldType: "STRING"},
                                 {name: "fk_parent_debug_trace_log_id",  fieldType: "INTEGER"},
                                 {name: "fk_debug_id",                   fieldType: "STRING"},
@@ -14437,6 +14439,7 @@
                     uiDbTableData:                      {},
                     uiDbGlobalVarChangeEvents:          {},
                     uiDbGlobalVars:                     {},
+                    uiDbNextId:                         1,
                 },
                 appHelpers: {
                     addNewAppToRunByBCI: function( { appInstanceId, baseComponentId } ) {
