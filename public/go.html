@@ -13444,7 +13444,6 @@
                             // may handle them differently. Inserts are dealt with in a special debug trigger
                             //
                             if ((dbgCode != null) && (yz.uiDb.tablesCreated)) {
-                                debugger
                                 if (startOfSql.startsWith("insert") || startOfSql.startsWith("update") || startOfSql.startsWith("delete")) {
                                     let sourceForCallerOfFunction = yz.uiDb.findSourceLineInCode(dbgCode)
                                     let sourceFileName = null
@@ -13458,7 +13457,6 @@
                                     if (steps && (steps.length > 0)) {
                                         lastTraceid = steps[steps.length - 1]
                                     }
-                                    debugger
                                     yz.uiDb.sqlui("INSERT INTO ui_table_debug_sql_log (  id  ,  debug_tracer_id  ,  sql_statement  ,  fk_parent_debug_trace_log_id  ,  debug_tick  ,  caller_file_name  ,  caller_line_number ) VALUES (?,?,?,?,?,?,?)",
                                         [
                                             yz.uiDb.uiDbNextId ++,
@@ -13583,10 +13581,11 @@
                             }*/
 
 
-                            yz.uiDb.sqlui("INSERT INTO ui_table_debug_trace_log (  fk_debug_id  , run_time_millis , debug_tracer_id ," +
+                            yz.uiDb.sqlui("INSERT INTO ui_table_debug_trace_log (  id  ,  fk_debug_id  , run_time_millis , debug_tracer_id ," +
                                             " file_name , line_number, debug_tick ,line_text,arguments, caller_file_name  ,  caller_line_number , " +
-                                            "fk_caller_debug_trace_log_id  ) VALUES (?,?,?,?,?,?,?,?,?,?,?)",
+                                            "fk_caller_debug_trace_log_id  ) VALUES (?,?,?,?,?,?,?,?,?,?,?,?)",
                                 [
+                                    yz.uiDb.uiDbNextId ++,
                                     yz.debug.currentDebugId,
                                     Date.now(),
                                     yz.debug.debugTracerId,
@@ -13769,8 +13768,9 @@
                         // insert the trace record
                         //
                         if (sourceForFunction.found) {
-                            yz.uiDb.sqlui("INSERT INTO ui_table_debug_trace_log (  fk_debug_id  , run_time_millis , debug_tracer_id , file_name , line_number , debug_tick,line_text) VALUES (?,?,?,?,?,?,?)",
+                            yz.uiDb.sqlui("INSERT INTO ui_table_debug_trace_log (  id  ,  fk_debug_id  , run_time_millis , debug_tracer_id , file_name , line_number , debug_tick,line_text) VALUES (?,?,?,?,?,?,?,?)",
                                 [
+                                    yz.uiDb.uiDbNextId ++,
                                     debugId,
                                     Date.now(),
                                     yz.debug.debugTracerId,
@@ -13882,7 +13882,7 @@
                         await yz.uiDb.createAlaSqlTable({
                             tableName: "ui_table_debug_trace_log",
                             fields: [
-                                {name: "id",                            fieldType: "INT PRIMARY KEY AUTOINCREMENT"},
+                                {name: "id",                            fieldType: "INTEGER"},
                                 {name: "fk_debug_id",                   fieldType: "STRING"},
                                 {name: "debug_tracer_id",               fieldType: "STRING"},
                                 {name: "run_time_millis",               fieldType: "INTEGER"},
