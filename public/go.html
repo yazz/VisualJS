@@ -13929,7 +13929,7 @@
                         await yz.uiDb.createAlaSqlTable({
                             tableName: "ui_table_debug_data_log",
                             fields: [
-                                {name: "id",                            fieldType: "INT PRIMARY KEY AUTOINCREMENT"},
+                                {name: "id",                            fieldType: "INTEGER"},
                                 {name: "fk_parent_debug_sql_log_id",    fieldType: "INTEGER"},
                                 {name: "table_name",                    fieldType: "STRING"},
                                 {name: "operation_type",                fieldType: "STRING"},
@@ -14347,8 +14347,8 @@
                                 ].indexOf(tableName) == -1) {
                                 if (yz.debug.currentSqlLogId) {
                                     //yz.debug.currentSqlLogId = yz.uiDb.sqlui1("select max(id) as id from ui_table_debug_sql_log").id
-                                    yz.uiDb.sqlui(   "insert  into  ui_table_debug_data_log  (  table_name  ,  new_value  ,  operation_type  ,  fk_parent_debug_sql_log_id  ) values (?,?,?,?)",
-                                        [tableName, JSON.stringify(r),"INSERT",yz.debug.currentSqlLogId])
+                                    yz.uiDb.sqlui(   "insert  into  ui_table_debug_data_log  (  id  ,  table_name  ,  new_value  ,  operation_type  ,  fk_parent_debug_sql_log_id  ) values (?,?,?,?,?)",
+                                        [yz.uiDb.uiDbNextId ++,tableName, JSON.stringify(r),"INSERT",yz.debug.currentSqlLogId])
                                 }
                             }
 
