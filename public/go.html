@@ -14042,7 +14042,7 @@
                             */
                             tableName: "ui_table_command_source_files",
                             fields: [
-                                {name: "id",                            fieldType: "INT PRIMARY KEY AUTOINCREMENT"},
+                                {name: "id",                            fieldType: "INTEGER"},
                                 {name: "source_file_name",              fieldType: "STRING"},
                                 {name: "source_text",                   fieldType: "STRING"}
 
@@ -14082,8 +14082,8 @@
                             {
                                 file_name:  fileName
                             })
-                        yz.uiDb.sqlui("INSERT INTO ui_table_command_source_files (  source_file_name  ,  source_text  ) VALUES (?,?)",
-                            [result.fileName,result.contents])
+                        yz.uiDb.sqlui("INSERT INTO ui_table_command_source_files (  id  ,  source_file_name  ,  source_text  ) VALUES (?,?,?)",
+                            [yz.uiDb.uiDbNextId ++,result.fileName,result.contents])
                         yz.debug.linesOfSourceFile[result.fileName] = result.contents.split('\n');
                     },
                     findSourceLineInCode:               function                    (  searchText  )                                                {
