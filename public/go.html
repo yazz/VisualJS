@@ -14062,7 +14062,7 @@
                             */
                             tableName: "ui_table_command_source_file_lines",
                             fields: [
-                                {name: "id",                            fieldType: "INT PRIMARY KEY AUTOINCREMENT"},
+                                {name: "id",                            fieldType: "INTEGER"},
                                 {name: "source_file_name",              fieldType: "STRING"},
                                 {name: "source_line_number",            fieldType: "INTEGER"},
                                 {name: "source_line_text",              fieldType: "STRING"}
@@ -14125,8 +14125,8 @@
                                     let existsRow = yz.uiDb.sqlui1("select id from ui_table_command_source_file_lines where source_file_name= ? and source_line_number = ?",
                                                         [fileSourceRecord.source_file_name , currentLineNumber])
                                     if (!existsRow) {
-                                        yz.uiDb.sqlui("INSERT INTO  ui_table_command_source_file_lines  (  source_file_name  ,  source_line_text  , source_line_number  ) VALUES (?,?,?)",
-                                            [fileSourceRecord.source_file_name, currentLine, currentLineNumber])
+                                        yz.uiDb.sqlui("INSERT INTO  ui_table_command_source_file_lines  (  id  ,  source_file_name  ,  source_line_text  , source_line_number  ) VALUES (?,?,?,?)",
+                                            [yz.uiDb.uiDbNextId ++,fileSourceRecord.source_file_name, currentLine, currentLineNumber])
                                     }
                                 }
                                 console.log("Filename: " + fileSourceRecord.source_file_name)
