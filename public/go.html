@@ -13997,7 +13997,7 @@
                             */
                             tableName: "ui_table_installed_apps",
                             fields: [
-                                {name: "id",                            fieldType: "INT PRIMARY KEY AUTOINCREMENT"},
+                                {name: "id",                            fieldType: "INTEGER"},
                                 {name: "icon_position",                 fieldType: "STRING"},
                                 {name: "base_component_id",             fieldType: "STRING"},
                                 {name: "content_hash",                  fieldType: "STRING"},
@@ -14543,8 +14543,8 @@
                     let alreadyExists = yz.uiDb.sqlui("select * from  ui_table_installed_apps  where code_id = ?", [app.code_id])
                     if (alreadyExists.length == 0) {
                         yz.debug.sqluiDebug("hdfjkshfjkdshfudisyouidsfyffdsbyoiudfsyboibdsfyioudsfbyoibsefyfdsidfsiobdsfoidfsbiodfsoi",
-                                "insert  into  ui_table_installed_apps  (  code_id  ,  base_component_id, logo, display_name,component_type) values (?,?,?,?,?)",
-                            [app.code_id,app.base_component_id,app.logo_url, app.displayName, app.component_type])
+                                "insert  into  ui_table_installed_apps  (  id  ,  code_id  ,  base_component_id, logo, display_name,component_type) values (?,?,?,?,?,?)",
+                            [yz.uiDb.uiDbNextId ++,app.code_id,app.base_component_id,app.logo_url, app.displayName, app.component_type])
                     }
                     yz.debug.endOfDebugSection()
                 },
