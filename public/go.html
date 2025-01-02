@@ -13581,12 +13581,12 @@
                                 }
                             }*/
 
-
+                            let nextId = yz.uiDb.uiDbNextId ++
                             yz.uiDb.sqlui("INSERT INTO ui_table_debug_trace_log (  id  ,  fk_debug_id  , run_time_millis , debug_tracer_id ," +
                                             " file_name , line_number, debug_tick ,line_text,arguments, caller_file_name  ,  caller_line_number , " +
                                             "fk_caller_debug_trace_log_id  ) VALUES (?,?,?,?,?,?,?,?,?,?,?,?)",
                                 [
-                                    yz.uiDb.uiDbNextId ++,
+                                    nextId,
                                     yz.debug.currentDebugId,
                                     Date.now(),
                                     yz.debug.debugTracerId,
@@ -13601,8 +13601,7 @@
                                 ])
 
 
-                            let latestLogId =  yz.uiDb.sqlui1("select MAX(id) as id from ui_table_debug_trace_log")
-                            yz.debug.debugTraceSteps.push(latestLogId.id)
+                            yz.debug.debugTraceSteps.push(nextId)
                         }
 
 
@@ -13771,10 +13770,11 @@
                         //
                         // insert the trace record
                         //
+                        let nextId = yz.uiDb.uiDbNextId ++
                         if (sourceForFunction.found) {
                             yz.uiDb.sqlui("INSERT INTO ui_table_debug_trace_log (  id  ,  fk_debug_id  , run_time_millis , debug_tracer_id , file_name , line_number , debug_tick,line_text) VALUES (?,?,?,?,?,?,?,?)",
                                 [
-                                    yz.uiDb.uiDbNextId ++,
+                                    nextId,
                                     debugId,
                                     Date.now(),
                                     yz.debug.debugTracerId,
@@ -13790,8 +13790,7 @@
                         // Set the trace call log to start at the entry added into the table "ui_table_debug_trace_log"
                         // by just storing the "id" of the record
                         //
-                        let latestLogId =  yz.uiDb.sqlui1("select MAX(id) as id from ui_table_debug_trace_log")
-                        yz.debug.debugTraceSteps.push(latestLogId.id)
+                        yz.debug.debugTraceSteps.push(nextId)
                     },
                     endDebug:                           function                    (  )                                                            {
                         //----------------------------------------------------------------------------------/
