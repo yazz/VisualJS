@@ -13447,7 +13447,6 @@
                             // it just has "dbgCode" set to "null" so that no logging occurs
                             //
                             if ((dbgCode != null) && (yz.uiDb.tablesCreated)) {
-                                debugger
                                 if (startOfSql.startsWith("insert") || startOfSql.startsWith("update") || startOfSql.startsWith("delete")) {
                                     let sourceForCallerOfFunction = yz.uiDb.findSourceLineInCode(dbgCode)
                                     let sourceFileName = null
@@ -13699,6 +13698,7 @@
                         //
                         // Find out which source code line we are editing
                         //
+                        debugger
                         let sourceForFunction = yz.uiDb.findSourceLineInCode(debugId)
 
                         //
