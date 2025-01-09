@@ -13563,7 +13563,7 @@
                         console.log(fnLine)
                         console.log("    (" + JSON.stringify(argsPassedIn,null,2) + ")")
                         yz.debug.debugTick ++
-                        let fnName = yz.uiDb.getFnNameFromStackTrace(fnLine)
+                        let fnName = yz.debug.internal.getFnNameFromStackTrace(fnLine)
                         let sourceForFunction = yz.debug.internal.findSourceLineInCode(fnName + ":")
                         if (sourceForFunction.found) {
                             const argsArray = Array.from(argsPassedIn);
@@ -13975,6 +13975,20 @@
                             // Remove any leading or trailing spaces from each line
                             return stackArray.map(line => line.trim());
                         },
+                        getFnNameFromStackTrace:         function                   (  fnLine  )                                                    {
+                            //'at Proxy.installAppNow (eval at addRuntimePipelinesAndRunCode (http://192.168.1.171/app/appstore.html:1070:36), <anonymous>:158:29)'
+                            let indexProxy = fnLine.indexOf("Proxy.")
+                            if (indexProxy != -1) {
+                                indexProxy += 6
+                            } else {
+                                indexProxy = fnLine.indexOf("Object.")
+                                indexProxy += 7
+                            }
+                            let fnStartString = fnLine.substring(indexProxy)
+                            let indexEndFn = fnStartString.indexOf(" ")
+                            let fnNameString = fnStartString.substring(0,indexEndFn)
+                            return fnNameString
+                        },
                     },
 
                     linesOfSourceFile:                  {},         // the lines of code in go.html and other source files = [line 1, line 2, etc...]
@@ -14236,20 +14250,6 @@
                         yz.uiDb.tablesCreated = true
                         await yz.debug.internal.readSourceFileForDebugging("/public/go.html")
                         await yz.debug.internal.readSourceFileForDebugging("/public/visifile_drivers/apps/appstore.vjs")
-                    },
-                    getFnNameFromStackTrace:            function                    (  fnLine  )                                                    {
-                        //'at Proxy.installAppNow (eval at addRuntimePipelinesAndRunCode (http://192.168.1.171/app/appstore.html:1070:36), <anonymous>:158:29)'
-                        let indexProxy = fnLine.indexOf("Proxy.")
-                        if (indexProxy != -1) {
-                            indexProxy += 6
-                        } else {
-                            indexProxy = fnLine.indexOf("Object.")
-                            indexProxy += 7
-                        }
-                        let fnStartString = fnLine.substring(indexProxy)
-                        let indexEndFn = fnStartString.indexOf(" ")
-                        let fnNameString = fnStartString.substring(0,indexEndFn)
-                        return fnNameString
                     },
                     getFnNameFromLine:                  function                    (  fnLine  )                                                    {
                         //'at Proxy.installAppNow (eval at addRuntimePipelinesAndRunCode (http://192.168.1.171/app/appstore.html:1070:36), <anonymous>:158:29)'
