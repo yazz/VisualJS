@@ -13558,7 +13558,7 @@
                         // Find out who called this function
                         //
                         //debugger
-                        let stackTrace = yz.uiDb.getCallStack()
+                        let stackTrace = yz.debug.internal.getCallStack()
                         let fnLine = stackTrace[2]
                         console.log(fnLine)
                         console.log("    (" + JSON.stringify(argsPassedIn,null,2) + ")")
@@ -13821,7 +13821,7 @@
                     },
 
                     internal:   {
-                        readSourceFileForDebugging:      async function              (  fileName  )                                                  {
+                        readSourceFileForDebugging:      async function             (  fileName  )                                                  {
                             if ((typeof $DEBUGUI == 'undefined') || (!$DEBUGUI)) {
                                 return
                             }
@@ -13834,7 +13834,7 @@
                                 [yz.uiDb.uiDbNextId ++,result.fileName,result.contents])
                             yz.debug.linesOfSourceFile[result.fileName] = result.contents.split('\n');
                         },
-                        findDebugIdInCode:               function                    (  searchText  )                                                {
+                        findDebugIdInCode:               function                   (  searchText  )                                                {
                             let found = false
                             let startLine   = null
                             let endLine     = null
@@ -13888,7 +13888,7 @@
                             }
                             return {  found: found  ,  fileName: foundFile, lineNumber: lineNumberOfSearchItem, lineText: foundLine  ,  context: surroundingLines  }
                         },
-                        findSourceLineInCode:               function                    (  searchText  )                                                {
+                        findSourceLineInCode:            function                   (  searchText  )                                                {
                             let found = false
                             let startLine   = null
                             let endLine     = null
@@ -13941,6 +13941,39 @@
                                 }
                             }
                             return {  found: found  ,  fileName: foundFile, lineNumber: lineNumberOfSearchItem, lineText: foundLine  ,  context: surroundingLines  }
+                        },
+                        findFnNameInDebugString:         function                   (  {  line  ,  dbg  })                                          {
+                            let indexOfDbgId = line.indexOf(dbg)
+
+                            if (indexOfDbgId == null) {
+                                return null
+                            }
+                            let initialString=line.substring(0,indexOfDbgId)
+                            let lastParan = initialString.lastIndexOf("(")
+
+                            let secondString=initialString.substring(0,lastParan)
+                            let lastPeriod = secondString.lastIndexOf(".")
+                            let lastSpace = secondString.lastIndexOf(" ")
+                            let lastSemicolon = secondString.lastIndexOf(";")
+                            let lastDelimeter = lastPeriod
+                            if (lastSpace > lastPeriod) {lastDelimeter = lastSpace}
+                            if (lastSemicolon > lastPeriod) {lastDelimeter = lastSemicolon}
+                            let functionNameString = secondString.substring(lastDelimeter+1,lastParan)
+                            //let sourceForFunction = yz.debug.internal.findSourceLineInCode(functionNameString + ":")
+                            return functionNameString
+                        },
+                        getCallStack:                    function                   (  )                                                            {
+                            // Create an Error object to get the stack trace
+                            const error = new Error();
+
+                            // Get the stack trace from the error object
+                            const stack = error.stack || '';
+
+                            // Split the stack into individual lines, ignore the first line (it contains the error message)
+                            const stackArray = stack.split('\n').slice(1);
+
+                            // Remove any leading or trailing spaces from each line
+                            return stackArray.map(line => line.trim());
                         },
                     },
 
@@ -14204,39 +14237,6 @@
                         await yz.debug.internal.readSourceFileForDebugging("/public/go.html")
                         await yz.debug.internal.readSourceFileForDebugging("/public/visifile_drivers/apps/appstore.vjs")
                     },
-                    findFnNameInDebugString:            function                    (  {  line  ,  dbg  })                                          {
-                        let indexOfDbgId = line.indexOf(dbg)
-
-                        if (indexOfDbgId == null) {
-                            return null
-                        }
-                        let initialString=line.substring(0,indexOfDbgId)
-                        let lastParan = initialString.lastIndexOf("(")
-
-                        let secondString=initialString.substring(0,lastParan)
-                        let lastPeriod = secondString.lastIndexOf(".")
-                        let lastSpace = secondString.lastIndexOf(" ")
-                        let lastSemicolon = secondString.lastIndexOf(";")
-                        let lastDelimeter = lastPeriod
-                        if (lastSpace > lastPeriod) {lastDelimeter = lastSpace}
-                        if (lastSemicolon > lastPeriod) {lastDelimeter = lastSemicolon}
-                        let functionNameString = secondString.substring(lastDelimeter+1,lastParan)
-                        //let sourceForFunction = yz.debug.internal.findSourceLineInCode(functionNameString + ":")
-                        return functionNameString
-                    },
-                    getCallStack:                       function                    (  )                                                            {
-                        // Create an Error object to get the stack trace
-                        const error = new Error();
-
-                        // Get the stack trace from the error object
-                        const stack = error.stack || '';
-
-                        // Split the stack into individual lines, ignore the first line (it contains the error message)
-                        const stackArray = stack.split('\n').slice(1);
-
-                        // Remove any leading or trailing spaces from each line
-                        return stackArray.map(line => line.trim());
-                    },
                     getFnNameFromStackTrace:            function                    (  fnLine  )                                                    {
                         //'at Proxy.installAppNow (eval at addRuntimePipelinesAndRunCode (http://192.168.1.171/app/appstore.html:1070:36), <anonymous>:158:29)'
                         let indexProxy = fnLine.indexOf("Proxy.")
@@ -14334,7 +14334,7 @@
                                     ].indexOf(tableName) == -1)
                                 {
                                     if (yz.debug.debugTracerId != null) {
-                                        let callStack = yz.uiDb.getCallStack()
+                                        let callStack = yz.debug.internal.getCallStack()
                                         let callStackIndex = null
                                         for (let i=0;i<callStack.length;i++) {
                                             let ci = callStack[i]
