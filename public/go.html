@@ -13895,7 +13895,6 @@
                             let foundLine   = null
                             let foundFile   = null
                             let lineNumberOfSearchItem = null
-                            let surroundingLines = null
 
                             for (let fileSourceRecord of yz.uiDb.uiDbTableData["ui_table_command_source_files"].data) {
                                 console.log("Searching " + fileSourceRecord.source_file_name)
@@ -13935,12 +13934,10 @@
                                     foundLine = linesOfFile[lineNumberOfSearchItem - 1]
                                     console.log("    foundOnLine: " + lineNumberOfSearchItem            + ":" + foundLine)
 
-                                    surroundingLines = sqlui("select * from ui_table_command_source_file_lines where source_file_name = ? and source_line_number >= ? and source_line_number <= ?",[foundFile, startLine, endLine])
-
                                     break
                                 }
                             }
-                            return {  found: found  ,  fileName: foundFile, lineNumber: lineNumberOfSearchItem, lineText: foundLine  ,  context: surroundingLines  }
+                            return {  found: found  ,  fileName: foundFile, lineNumber: lineNumberOfSearchItem, lineText: foundLine  }
                         },
                         getCallStack:                    function                   (  )                                                            {
                             // Create an Error object to get the stack trace
