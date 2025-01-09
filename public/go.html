@@ -13820,6 +13820,22 @@
                         yz.debug.debugTraceSteps             = []
                     },
 
+                    internal:   {
+                        readSourceFileForDebugging:         async function              (  fileName  )                                                  {
+                            if ((typeof $DEBUGUI == 'undefined') || (!$DEBUGUI)) {
+                                return
+                            }
+
+                            let result = await yz.getFromYazzReturnJson("/http_get_read_source_file",
+                                {
+                                    file_name:  fileName
+                                })
+                            yz.uiDb.sqlui("INSERT INTO ui_table_command_source_files (  id  ,  source_file_name  ,  source_text  ) VALUES (?,?,?)",
+                                [yz.uiDb.uiDbNextId ++,result.fileName,result.contents])
+                            yz.debug.linesOfSourceFile[result.fileName] = result.contents.split('\n');
+                        },
+                    },
+
                     linesOfSourceFile:                  {},         // the lines of code in go.html and other source files = [line 1, line 2, etc...]
                     currentDebugId:                     null,       // table "ui_table_debug_trace_log", field "fk_debug_id" = eg: "hjgfsjfgsdhjgfhjfgdjhsfgjfh"
                     debugTracerId:                      null,       // a UUID which shows which debug trace event we are in ("currentDebugId" is not unique)
@@ -14077,21 +14093,8 @@
                             sendToDebugSqliteServer: true
                         })
                         yz.uiDb.tablesCreated = true
-                        await yz.uiDb.readSourceFileForDebugging("/public/go.html")
-                        await yz.uiDb.readSourceFileForDebugging("/public/visifile_drivers/apps/appstore.vjs")
-                    },
-                    readSourceFileForDebugging:         async function              (  fileName  )                                                  {
-                        if ((typeof $DEBUGUI == 'undefined') || (!$DEBUGUI)) {
-                            return
-                        }
-
-                        let result = await yz.getFromYazzReturnJson("/http_get_read_source_file",
-                            {
-                                file_name:  fileName
-                            })
-                        yz.uiDb.sqlui("INSERT INTO ui_table_command_source_files (  id  ,  source_file_name  ,  source_text  ) VALUES (?,?,?)",
-                            [yz.uiDb.uiDbNextId ++,result.fileName,result.contents])
-                        yz.debug.linesOfSourceFile[result.fileName] = result.contents.split('\n');
+                        await yz.debug.internal.readSourceFileForDebugging("/public/go.html")
+                        await yz.debug.internal.readSourceFileForDebugging("/public/visifile_drivers/apps/appstore.vjs")
                     },
                     findDebugIdInCode:               function                    (  searchText  )                                                {
                         let found = false
