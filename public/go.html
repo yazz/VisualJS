@@ -13512,13 +13512,17 @@
                         // This is called after we have started a debug session and we want to debug
                         // a function call. This should be on the line after the function definition:
                         //
-                        // function someFUnction( ) {
+                        // function someFunction( ) {
                         //     yz.debug.debugFn(arguments)
                         //     ... rest of code
                         //
-                        // Do not forget to close off the call with "endOfDebugSection( ... )"
-                        // just before the function returns to the caller, with any return
-                        // parameters included too
+                        // Do not forget to close off the call with "endOfDebugSection( )" just
+                        // before the function returns to the caller. If there are any return
+                        // parameters then use the following to end the function:
+                        //
+                        //    ... code
+                        //    return endOfDebugSection( returnParameters )
+                        // }
                         //
                         //________
                         // PARAMS \______________________________________________________________/
@@ -13530,14 +13534,15 @@
                         //-----------------------------------------------------------/
 
                         //
-                        // make sure we are in debug mode
+                        // make sure that we are in debug mode
                         //
                         if ((typeof $DEBUGUI == 'undefined') || (!$DEBUGUI)) {
                             return
                         }
 
                         //
-                        // get the debug token, like "hjgdfsgjhfsgjsgdjhsf" from the args passed in
+                        // get the debug token, like "hjgdffdsfdsfdsgjhfsgjsgdjhsf" from the args passed in
+                        // as "argsPassedIn"
                         //
                         let callerDebugToken = argsPassedIn[0]
 
