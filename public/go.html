@@ -13942,26 +13942,6 @@
                             }
                             return {  found: found  ,  fileName: foundFile, lineNumber: lineNumberOfSearchItem, lineText: foundLine  ,  context: surroundingLines  }
                         },
-                        findFnNameInDebugString:         function                   (  {  line  ,  dbg  })                                          {
-                            let indexOfDbgId = line.indexOf(dbg)
-
-                            if (indexOfDbgId == null) {
-                                return null
-                            }
-                            let initialString=line.substring(0,indexOfDbgId)
-                            let lastParan = initialString.lastIndexOf("(")
-
-                            let secondString=initialString.substring(0,lastParan)
-                            let lastPeriod = secondString.lastIndexOf(".")
-                            let lastSpace = secondString.lastIndexOf(" ")
-                            let lastSemicolon = secondString.lastIndexOf(";")
-                            let lastDelimeter = lastPeriod
-                            if (lastSpace > lastPeriod) {lastDelimeter = lastSpace}
-                            if (lastSemicolon > lastPeriod) {lastDelimeter = lastSemicolon}
-                            let functionNameString = secondString.substring(lastDelimeter+1,lastParan)
-                            //let sourceForFunction = yz.debug.internal.findSourceLineInCode(functionNameString + ":")
-                            return functionNameString
-                        },
                         getCallStack:                    function                   (  )                                                            {
                             // Create an Error object to get the stack trace
                             const error = new Error();
