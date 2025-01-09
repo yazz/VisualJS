@@ -13448,7 +13448,7 @@
                             //
                             if ((dbgCode != null) && (yz.uiDb.tablesCreated)) {
                                 if (startOfSql.startsWith("insert") || startOfSql.startsWith("update") || startOfSql.startsWith("delete")) {
-                                    let sourceForCallerOfFunction = yz.debug.internal.findSourceLineInCode(dbgCode)
+                                    let sourceForCallerOfFunction = yz.debug.internal.findDebugIdInCode(dbgCode)
                                     let sourceFileName = null
                                     let lineNumber = null
                                     if (sourceForCallerOfFunction.found) {
@@ -13551,7 +13551,7 @@
                         //
                         // find the source code where this was called from
                         //
-                        let sourceForCallerOfFunction = yz.debug.internal.findSourceLineInCode(callerDebugToken)
+                        let sourceForCallerOfFunction = yz.debug.internal.findDebugIdInCode(callerDebugToken)
 
 
                         //
@@ -13702,7 +13702,7 @@
                         // Find out which source code line we are editing
                         //
                         //debugger
-                        let sourceForFunction = yz.debug.internal.findSourceLineInCode(debugId)
+                        let sourceForFunction = yz.debug.internal.findDebugIdInCode(debugId)
 
                         //
                         // store the debug code
