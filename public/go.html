@@ -13783,12 +13783,13 @@
                         // insert the trace record
                         //
                         let nextId = yz.uiDb.uiDbNextId ++
+                        let dateNow = Date.now()
                         if (sourceForFunction.found) {
                             yz.uiDb.sqlui("INSERT INTO ui_table_debug_trace_log (  id  ,  fk_debug_id  , run_time_millis , debug_tracer_id , file_name , line_number , debug_tick,line_text) VALUES (?,?,?,?,?,?,?,?)",
                                 [
                                     nextId,
                                     debugId,
-                                    Date.now(),
+                                    dateNow,
                                     yz.debug.debugTracerId,
                                     sourceForFunction.fileName,
                                     //sourceForFunction.lineNumber,
@@ -13803,6 +13804,18 @@
                         // by just storing the "id" of the record
                         //
                         yz.debug.debugTraceSteps.push(nextId)
+                        yz.debug.debugTraceStepsV2.push(
+                            {
+                                id:                 nextId,
+                                fk_debug_id:        debugId,
+                                run_time_millis:    dateNow,
+                                debug_tracer_id:    yz.debug.debugTracerId,
+                                file_name:          sourceForFunction.fileName,
+                                line_number:        startLineIndex,
+                                debug_tick:         1,
+                                line_text:          sourceForFunction.lineText.trim()
+                            }
+                        )
                     },
                     endDebug:                           function                    (  )                                                            {
                         //----------------------------------------------------------------------------------/
@@ -13989,6 +14002,7 @@
                     debugTracerId:                      null,       // a UUID which shows which debug trace event we are in ("currentDebugId" is not unique)
                     debugTick:                          1,          // 1..n is used to show which step in a trace we are at
                     debugTraceSteps:                    [],         // [1,2,4,8,9] - list of the trace IDs of the current debug log
+                    debugTraceStepsV2:                  [],         // [{db record},{db record}] - list of the trace IDs of the current debug log
                     currentSqlLogId:                    null        // ID to use for the SQL log 1..n
                 },
                 uiDb:                               {
