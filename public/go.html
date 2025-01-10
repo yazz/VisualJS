@@ -13722,11 +13722,10 @@
                         // "ui_table_debug_code_sections" will be from the start of the function to
                         // the marker "endOfDebugSection( )"
                         //
-
-                        // the startDebug( ) call is made from a JS function
                         if (lengthOfRestOfLine < 5) {
                             startLineIndex      = sourceForFunction.lineNumber - 1
                             let previousLine    = yz.debug.linesOfSourceFile[sourceForFunction.fileName][startLineIndex - 1]
+                            let fnName          = yz.debug.internal.getFnNameFromLine(  previousLine  )
                             let allText         = ""
                             let readAnotherLine = true
                             let nextLine
@@ -13751,7 +13750,7 @@
                                     yz.uiDb.uiDbNextId ++,
                                     debugId,
                                     null,
-                                    null,
+                                    fnName,
                                     sourceForFunction.fileName,
                                     startLineIndex,
                                     endLineIndex,
@@ -13969,7 +13968,18 @@
                             let indexEndFn = fnStartString.indexOf(" ")
                             let fnNameString = fnStartString.substring(0,indexEndFn)
                             return fnNameString
-                        }
+                        },
+                        getFnNameFromLine:               function                   (  fnLine  )                                                    {
+                            //'at Proxy.installAppNow (eval at addRuntimePipelinesAndRunCode (http://192.168.1.171/app/appstore.html:1070:36), <anonymous>:158:29)'
+                            let indexColon = fnLine.indexOf(":")
+                            if (indexColon == -1) {
+                                return null
+                            }
+
+                            let fnUptoColon = fnLine.substring(0,indexColon)
+                            let trimmed = fnUptoColon.trim()
+                            return trimmed
+                        },
                     },
 
                     linesOfSourceFile:                  {},         // the lines of code in go.html and other source files = [line 1, line 2, etc...]
