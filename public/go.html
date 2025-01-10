@@ -13591,13 +13591,14 @@
                             }*/
 
                             let nextId = yz.uiDb.uiDbNextId ++
+                            let dateNow = Date.now()
                             yz.uiDb.sqlui("INSERT INTO ui_table_debug_trace_log (  id  ,  fk_debug_id  , run_time_millis , debug_tracer_id ," +
                                             " file_name , line_number, debug_tick ,line_text,arguments, caller_file_name  ,  caller_line_number , " +
                                             "fk_caller_debug_trace_log_id  ) VALUES (?,?,?,?,?,?,?,?,?,?,?,?)",
                                 [
                                     nextId,
                                     yz.debug.currentDebugId,
-                                    Date.now(),
+                                    dateNow,
                                     yz.debug.debugTracerId,
                                     sourceForFunction.fileName,
                                     sourceForFunction.lineNumber,
@@ -13611,6 +13612,23 @@
 
 
                             yz.debug.debugTraceSteps.push(nextId)
+                            yz.debug.debugTraceStepsV2.push(
+                                {
+                                    id:                             nextId,
+                                    fk_debug_id:                    yz.debug.currentDebugId,
+                                    run_time_millis:                dateNow,
+                                    debug_tracer_id:                yz.debug.debugTracerId,
+                                    file_name:                      sourceForFunction.fileName,
+                                    line_number:                    sourceForFunction.lineNumber,
+                                    debug_tick:                     yz.debug.debugTick,
+                                    line_text:                      sourceForFunction.lineText.trim(),
+                                    arguments:                      JSON.stringify(argsArray,null,2),
+                                    caller_file_name:               sourceForCallerOfFunction.fileName,
+                                    caller_line_number:             sourceForCallerOfFunction.lineNumber,
+                                    fk_caller_debug_trace_log_id:   callerLogId
+                                }
+                            )
+
                         }
 
 
