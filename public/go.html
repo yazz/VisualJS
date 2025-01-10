@@ -13722,6 +13722,8 @@
                         // "ui_table_debug_code_sections" will be from the start of the function to
                         // the marker "endOfDebugSection( )"
                         //
+
+                        // if this startDebug() is in a function
                         if (lengthOfRestOfLine < 5) {
                             startLineIndex      = sourceForFunction.lineNumber - 1
                             let previousLine    = yz.debug.linesOfSourceFile[sourceForFunction.fileName][startLineIndex - 1]
