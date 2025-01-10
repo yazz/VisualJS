@@ -13668,8 +13668,8 @@
                         //                                        /-------------------------------------/
                         //
                         //----------------------------------------------------------------------------/
-                        // This is in the code when we want to start the recording of some code for
-                        // debug purposes.
+                        // use "startDebug("hjdfgjdfshgjk") when we want to trace the execution path
+                        // for debug purposes.
                         //
                         // This is executed either from the start of a function, or from an event
                         // being called in HTML. If this is called from the start of a function
@@ -13677,7 +13677,7 @@
                         // just before the function returns to the caller
                         //
                         //________
-                        // PARAMS \______________________________________________________________/
+                        // PARAMS \_________________________________________________________/
                         //
                         //    debugId
                         //    -------   This is the hard coded debug ID used. It is just a unique and
@@ -13688,7 +13688,6 @@
                         //
                         // do nothing if not in debug mode
                         //
-
                         if ((typeof $DEBUGUI == 'undefined') || (!$DEBUGUI)) {
                             return
                         }
@@ -13696,7 +13695,6 @@
                         //
                         // reset all the debug markers as we are starting a new debug trace
                         //
-                        debugger
                         yz.debug.currentDebugId    = debugId
                         yz.debug.debugTracerId     = yz.uuidv4()
                         yz.debug.debugTraceSteps   = []
@@ -13706,7 +13704,7 @@
                         //
                         // Find out which source code line we are editing
                         //
-                        //debugger
+                        debugger
                         let sourceForFunction = yz.debug.internal.findDebugIdInCode(debugId)
 
                         //
