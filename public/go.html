@@ -13711,9 +13711,9 @@
 
 
                         //
-                        // Find out which source code line we are editing
+                        // Find out which source code line we are editing (as it contains the
+                        // debug ID)
                         //
-                        debugger
                         let sourceForFunction = yz.debug.internal.findDebugIdInCode(debugId)
 
                         //
@@ -13734,7 +13734,6 @@
 
                         // if this startDebug() is in a function
                         if (lengthOfRestOfLine < 5) {
-                            startLineIndex      = sourceForFunction.lineNumber - 1
                             let previousLine    = yz.debug.linesOfSourceFile[sourceForFunction.fileName][startLineIndex - 1]
                             let fnName          = yz.debug.internal.getFnNameFromLine(  previousLine  )
                             let allText         = ""
