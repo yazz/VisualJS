@@ -13455,10 +13455,12 @@
                                         sourceFileName = sourceForCallerOfFunction.fileName
                                         lineNumber = sourceForCallerOfFunction.lineNumber
                                     }
-                                    let steps = yz.debug.debugTraceSteps
+                                    let steps = yz.debug.debugTraceStepsV2
+                                    let lastTraceitem = null
                                     let lastTraceid = null
                                     if (steps && (steps.length > 0)) {
-                                        lastTraceid = steps[steps.length - 1]
+                                        lastTraceitem = steps[steps.length - 1]
+                                        lastTraceid = lastTraceitem.id
                                     }
                                     let nextId = yz.uiDb.uiDbNextId ++
                                     yz.uiDb.sqlui("INSERT INTO ui_table_debug_sql_log (  id  ,  debug_tracer_id  ,  sql_statement  ,  fk_parent_debug_trace_log_id  ,  debug_tick  ,  caller_file_name  ,  caller_line_number ) VALUES (?,?,?,?,?,?,?)",
@@ -13499,6 +13501,7 @@
                     },
                     endOfDebugSection:                  function                    (  returnValue  )                                               {
                         yz.debug.debugTraceSteps.pop()
+                        yz.debug.debugTraceStepsV2.pop()
                         return returnValue
                     },
                     debugFn:                            function                    (  argsPassedIn  )                                              {
@@ -13576,7 +13579,8 @@
 
                             let previousCalls = yz.uiDb.sqlui("select * from ui_table_debug_trace_log where debug_tracer_id == ? order by debug_tick asc" ,
                                 [yz.debug.debugTracerId])
-                            let callerLogId = yz.debug.debugTraceSteps[yz.debug.debugTraceSteps.length - 1]
+                            let callerLogItem = yz.debug.debugTraceStepsV2[yz.debug.debugTraceStepsV2.length - 1]
+                            let callerLogId = callerLogItem.id
                             //let closestCallerLogId = previousCalls[0].id
                             //debugger
                             let numberLinesToTop = 1000
@@ -13716,6 +13720,7 @@
                         yz.debug.currentDebugId    = debugId
                         yz.debug.debugTracerId     = yz.uuidv4()
                         yz.debug.debugTraceSteps   = []
+                        yz.debug.debugTraceStepsV2 = []
                         yz.debug.debugTick         = 1
 
 
@@ -13850,10 +13855,11 @@
                         if ((typeof $DEBUGUI == 'undefined') || (!$DEBUGUI)) {
                             return
                         }
-                        yz.debug.currentDebugId    = null
-                        yz.debug.debugTick         = 1
-                        yz.debug.debugTraceid      = null
-                        yz.debug.debugTraceSteps             = []
+                        yz.debug.currentDebugId     = null
+                        yz.debug.debugTick          = 1
+                        yz.debug.debugTraceid       = null
+                        yz.debug.debugTraceSteps    = []
+                        yz.debug.debugTraceStepsV2  = []
                     },
 
                     internal:   {
