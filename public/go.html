@@ -13500,7 +13500,6 @@
                         return ret
                     },
                     endOfDebugSection:                  function                    (  returnValue  )                                               {
-                        yz.debug.debugTraceSteps.pop()
                         yz.debug.debugTraceStepsV2.pop()
                         return returnValue
                     },
@@ -13615,7 +13614,6 @@
                                 ])
 
 
-                            yz.debug.debugTraceSteps.push(nextId)
                             yz.debug.debugTraceStepsV2.push(
                                 {
                                     id:                             nextId,
@@ -13719,7 +13717,6 @@
                         //
                         yz.debug.currentDebugId    = debugId
                         yz.debug.debugTracerId     = yz.uuidv4()
-                        yz.debug.debugTraceSteps   = []
                         yz.debug.debugTraceStepsV2 = []
                         yz.debug.debugTick         = 1
 
@@ -13826,7 +13823,6 @@
                         // Set the trace call log to start at the entry added into the table "ui_table_debug_trace_log"
                         // by just storing the "id" of the record
                         //
-                        yz.debug.debugTraceSteps.push(nextId)
                         yz.debug.debugTraceStepsV2.push(
                             {
                                 id:                 nextId,
@@ -13858,7 +13854,6 @@
                         yz.debug.currentDebugId     = null
                         yz.debug.debugTick          = 1
                         yz.debug.debugTraceid       = null
-                        yz.debug.debugTraceSteps    = []
                         yz.debug.debugTraceStepsV2  = []
                     },
 
@@ -14025,7 +14020,6 @@
                     currentDebugId:                     null,       // table "ui_table_debug_trace_log", field "fk_debug_id" = eg: "hjgfsjfgsdhjgfhjfgdjhsfgjfh"
                     debugTracerId:                      null,       // a UUID which shows which debug trace event we are in ("currentDebugId" is not unique)
                     debugTick:                          1,          // 1..n is used to show which step in a trace we are at
-                    debugTraceSteps:                    [],         // [1,2,4,8,9] - list of the trace IDs of the current debug log
                     debugTraceStepsV2:                  [],         // [{db record},{db record}] - list of the trace IDs of the current debug log
                     currentSqlLogId:                    null        // ID to use for the SQL log 1..n
                 },
