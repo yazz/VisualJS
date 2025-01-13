@@ -13806,24 +13806,25 @@
                                     1,
                                     sourceForFunction.lineText.trim()
                                 ])
-                        }
 
-                        //
-                        // Set the trace call log to start at the entry added into the table "ui_table_debug_trace_log"
-                        // by just storing the "id" of the record
-                        //
-                        yz.debug.debugTraceStepsV2.push(
-                            {
-                                id:                 nextId,
-                                fk_debug_id:        debugId,
-                                run_time_millis:    dateNow,
-                                debug_tracer_id:    yz.debug.debugTracerId,
-                                file_name:          sourceForFunction.fileName,
-                                line_number:        startLineIndex,
-                                debug_tick:         1,
-                                line_text:          sourceForFunction.lineText.trim()
-                            }
-                        )
+
+                            //
+                            // Set the trace call log to start at the entry added into the table "ui_table_debug_trace_log"
+                            // by just storing the "id" of the record
+                            //
+                            yz.debug.debugTraceStepsV2.push(
+                                {
+                                    id:                 nextId,
+                                    fk_debug_id:        debugId,
+                                    run_time_millis:    dateNow,
+                                    debug_tracer_id:    yz.debug.debugTracerId,
+                                    file_name:          sourceForFunction.fileName,
+                                    line_number:        startLineIndex,
+                                    debug_tick:         1,
+                                    line_text:          sourceForFunction.lineText.trim()
+                                }
+                            )
+                        }
                     },
                     endDebug:                           function                    (  )                                                            {
                         //----------------------------------------------------------------------------------/
