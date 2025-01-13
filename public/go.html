@@ -13719,7 +13719,7 @@
                         //
                         // store the debug code
                         //
-                        let startLineIndex      = sourceForFunction.lineNumber - 1
+                        let startLineIndex
                         let indexOfDebugId      = sourceForFunction.lineText.indexOf(debugId)
                         let upToDebugId         = sourceForFunction.lineText.substring(indexOfDebugId)
                         let indexToEndOfDebugId = upToDebugId.indexOf("\")")
@@ -13734,6 +13734,7 @@
 
                         // if this startDebug() is in a function
                         if (lengthOfRestOfLine < 5) {
+                            startLineIndex      = sourceForFunction.lineNumber - 1
                             let previousLine    = yz.debug.linesOfSourceFile[sourceForFunction.fileName][startLineIndex - 1]
                             let fnName          = yz.debug.internal.getFnNameFromLine(  previousLine  )
                             let allText         = ""
