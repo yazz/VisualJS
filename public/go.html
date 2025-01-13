@@ -13579,57 +13579,46 @@
                             let previousCalls = yz.uiDb.sqlui("select * from ui_table_debug_trace_log where debug_tracer_id == ? order by debug_tick asc" ,
                                 [yz.debug.debugTracerId])
                             let callerLogItem = yz.debug.debugTraceStepsV2[yz.debug.debugTraceStepsV2.length - 1]
-                            let callerLogId = callerLogItem.id
-                            //let closestCallerLogId = previousCalls[0].id
-                            //debugger
-                            let numberLinesToTop = 1000
-                            /*for (let checkCall of previousCalls) {
-                                if (checkCall.file_name == sourceForCallerOfFunction.fileName) {
-                                    let distToCaller = sourceForCallerOfFunction.lineNumber - checkCall.line_number
-                                    if (distToCaller < numberLinesToTop) {
-                                        numberLinesToTop = distToCaller
-                                        closestCallerLogId = checkCall.id
+                            if (callerLogItem) {
+                                let callerLogId = callerLogItem.id
+                                let nextId = yz.uiDb.uiDbNextId ++
+                                let dateNow = Date.now()
+                                yz.uiDb.sqlui("INSERT INTO ui_table_debug_trace_log (  id  ,  fk_debug_id  , run_time_millis , debug_tracer_id ," +
+                                    " file_name , line_number, debug_tick ,line_text,arguments, caller_file_name  ,  caller_line_number , " +
+                                    "fk_caller_debug_trace_log_id  ) VALUES (?,?,?,?,?,?,?,?,?,?,?,?)",
+                                    [
+                                        nextId,
+                                        yz.debug.currentDebugId,
+                                        dateNow,
+                                        yz.debug.debugTracerId,
+                                        sourceForFunction.fileName,
+                                        sourceForFunction.lineNumber,
+                                        yz.debug.debugTick,
+                                        sourceForFunction.lineText.trim(),
+                                        JSON.stringify(argsArray,null,2),
+                                        sourceForCallerOfFunction.fileName,
+                                        sourceForCallerOfFunction.lineNumber,
+                                        callerLogId
+                                    ])
+
+
+                                yz.debug.debugTraceStepsV2.push(
+                                    {
+                                        id:                             nextId,
+                                        fk_debug_id:                    yz.debug.currentDebugId,
+                                        run_time_millis:                dateNow,
+                                        debug_tracer_id:                yz.debug.debugTracerId,
+                                        file_name:                      sourceForFunction.fileName,
+                                        line_number:                    sourceForFunction.lineNumber,
+                                        debug_tick:                     yz.debug.debugTick,
+                                        line_text:                      sourceForFunction.lineText.trim(),
+                                        arguments:                      JSON.stringify(argsArray,null,2),
+                                        caller_file_name:               sourceForCallerOfFunction.fileName,
+                                        caller_line_number:             sourceForCallerOfFunction.lineNumber,
+                                        fk_caller_debug_trace_log_id:   callerLogId
                                     }
-                                }
-                            }*/
-
-                            let nextId = yz.uiDb.uiDbNextId ++
-                            let dateNow = Date.now()
-                            yz.uiDb.sqlui("INSERT INTO ui_table_debug_trace_log (  id  ,  fk_debug_id  , run_time_millis , debug_tracer_id ," +
-                                            " file_name , line_number, debug_tick ,line_text,arguments, caller_file_name  ,  caller_line_number , " +
-                                            "fk_caller_debug_trace_log_id  ) VALUES (?,?,?,?,?,?,?,?,?,?,?,?)",
-                                [
-                                    nextId,
-                                    yz.debug.currentDebugId,
-                                    dateNow,
-                                    yz.debug.debugTracerId,
-                                    sourceForFunction.fileName,
-                                    sourceForFunction.lineNumber,
-                                    yz.debug.debugTick,
-                                    sourceForFunction.lineText.trim(),
-                                    JSON.stringify(argsArray,null,2),
-                                    sourceForCallerOfFunction.fileName,
-                                    sourceForCallerOfFunction.lineNumber,
-                                    callerLogId
-                                ])
-
-
-                            yz.debug.debugTraceStepsV2.push(
-                                {
-                                    id:                             nextId,
-                                    fk_debug_id:                    yz.debug.currentDebugId,
-                                    run_time_millis:                dateNow,
-                                    debug_tracer_id:                yz.debug.debugTracerId,
-                                    file_name:                      sourceForFunction.fileName,
-                                    line_number:                    sourceForFunction.lineNumber,
-                                    debug_tick:                     yz.debug.debugTick,
-                                    line_text:                      sourceForFunction.lineText.trim(),
-                                    arguments:                      JSON.stringify(argsArray,null,2),
-                                    caller_file_name:               sourceForCallerOfFunction.fileName,
-                                    caller_line_number:             sourceForCallerOfFunction.lineNumber,
-                                    fk_caller_debug_trace_log_id:   callerLogId
-                                }
-                            )
+                                )
+                            }
 
                         }
 
