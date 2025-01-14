@@ -13564,7 +13564,7 @@
                         //
                         // Find out who called this function
                         //
-                        //debugger
+                        debugger
                         let stackTrace = yz.debug.internal.getCallStack()
                         let fnLine = stackTrace[2]
                         //console.log(fnLine)
@@ -13620,53 +13620,6 @@
                                 )
                             }
 
-                        }
-
-
-
-
-
-
-
-                        //
-                        // store the debug code
-                        //
-                        let startLineNumber = sourceForFunction.lineNumber
-
-                        let codeSectionRecord1 = yz.uiDb.sqlui1("select * from ui_table_debug_code_sections where fk_fn_name_id = ?",
-                            [fnName])
-                        if (!codeSectionRecord1) {
-                            let allText = ""
-
-                            let readAnotherLine = true
-                            let nextLine
-                            let endLineNumber = startLineNumber
-                            while (readAnotherLine) {
-                                nextLine = yz.debug.linesOfSourceFile[sourceForFunction.fileName][endLineNumber - 1]
-                                if (endLineNumber == yz.debug.linesOfSourceFile[sourceForFunction.fileName].length) {
-                                    readAnotherLine = false
-                                } else if (nextLine.indexOf("yz.debug.endOfDebugSection(") != -1) {
-                                    endLineNumber++
-                                    readAnotherLine = false
-                                } else {
-                                    endLineNumber++
-                                }
-                            }
-                            for (let lineIndex = startLineNumber; lineIndex <= endLineNumber; lineIndex++) {
-                                allText += yz.debug.linesOfSourceFile[sourceForFunction.fileName][lineIndex - 1] + "\n"
-                            }
-                            yz.uiDb.sqlui("INSERT INTO ui_table_debug_code_sections (  id  ,  fk_debug_id  ,  fk_fn_name_id  ,  fn_name  ,  file_name  ,  " +
-                                                "start_line_number  ,  end_line_number  ,  debug_all_text  ) VALUES (?,?,?,?,?,?,?,?)",
-                                [
-                                    yz.uiDb.uiDbNextId ++,
-                                    null,
-                                    fnName,
-                                    fnName,
-                                    sourceForFunction.fileName,
-                                    startLineNumber,
-                                    endLineNumber,
-                                    allText
-                                ])
                         }
                     },
                     startDebug:                         function                    (  debugId  )                                                   {
