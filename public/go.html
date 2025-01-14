@@ -14578,8 +14578,6 @@
                     return dbPropValue
                 },
                 updateAppsFromAppStore:             async function              (  dbg  ) {
-                    yz.debug.debugFn(arguments)
-
                     let openfileurl = "http" + (($HOSTPORT == 443)?"s":"") + "://" + $HOST + "/http_post_load_top_apps"
                     fetch(openfileurl,
                         {
@@ -14589,11 +14587,13 @@
                         .then((response) => response.json())
                         .then(function(responseJson)
                         {
+                            yz.debug.debugFn([dbg])
                             for (let rt=0;rt<responseJson.length; rt++) {
 
                                 for (let thisApp of responseJson) {
                                     let alreadyExists = yz.uiDb.sqlui("select * from ui_table_appstore_apps where content_hash = ?", [thisApp.content_hash])
                                     if (alreadyExists.length == 0) {
+                                        debugger
                                         yz.debug.sqluiDebug("hgdfsgjhksdfghjkdsfgdfjskhgnfuybgfeiurybrgeruyigferuiyigfueirgueirwygyuieriur",
                                             "insert  into  ui_table_appstore_apps  (  id  ,  old_id, content_hash  ,  base_component_id, logo, display_name,component_type) values (?,?,?,?,?,?,?)",
                                                         [yz.uiDb.uiDbNextId ++, thisApp.base_component_id, thisApp.content_hash,thisApp.base_component_id,thisApp.logo, thisApp.display_name, thisApp.component_type])
@@ -14602,9 +14602,9 @@
                                 //mm.appstore_apps.push(responseJson[rt])
                                 //mm.app_store_component_logos_by_BCI[responseJson[rt].id] = responseJson[rt].logo
                             }
+                            yz.debug.endOfDebugSection()
                         }).catch(err => {
                         })
-                    yz.debug.endOfDebugSection()
                 },
                 addInstalledApp:                  async function              (  dbg  ,  app   ) {
                     yz.debug.debugFn(arguments)
