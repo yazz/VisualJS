@@ -13871,11 +13871,11 @@
                             let surroundingLines = null
 
                             for (let fileSourceRecord of yz.uiDb.uiDbTableData["ui_table_command_source_files"].data) {
-                                console.log("Searching " + fileSourceRecord.source_file_name)
+                                //console.log("Searching " + fileSourceRecord.source_file_name)
                                 let indexOfSearch = fileSourceRecord.source_text.indexOf(searchText)
 
                                 if ( indexOfSearch != -1 ) {
-                                    console.log("    Found '" + searchText + "' at index " + indexOfSearch)
+                                    //console.log("    Found '" + searchText + "' at index " + indexOfSearch)
                                     found = true
                                     foundFile = fileSourceRecord.source_file_name
 
@@ -13904,9 +13904,9 @@
                                                 [yz.uiDb.uiDbNextId ++,fileSourceRecord.source_file_name, currentLine, currentLineNumber])
                                         }
                                     }
-                                    console.log("Filename: " + fileSourceRecord.source_file_name)
+                                    //console.log("Filename: " + fileSourceRecord.source_file_name)
                                     foundLine = linesOfFile[lineNumberOfSearchItem - 1]
-                                    console.log("    foundOnLine: " + lineNumberOfSearchItem            + ":" + foundLine)
+                                    //console.log("    foundOnLine: " + lineNumberOfSearchItem            + ":" + foundLine)
 
                                     surroundingLines = sqlui("select * from ui_table_command_source_file_lines where source_file_name = ? and source_line_number >= ? and source_line_number <= ?",[foundFile, startLine, endLine])
 
@@ -13924,11 +13924,11 @@
                             let lineNumberOfSearchItem = null
 
                             for (let fileSourceRecord of yz.uiDb.uiDbTableData["ui_table_command_source_files"].data) {
-                                console.log("Searching " + fileSourceRecord.source_file_name)
+                                //console.log("Searching " + fileSourceRecord.source_file_name)
                                 let indexOfSearch = fileSourceRecord.source_text.indexOf(searchText)
 
                                 if ( indexOfSearch != -1 ) {
-                                    console.log("    Found '" + searchText + "' at index " + indexOfSearch)
+                                    //console.log("    Found '" + searchText + "' at index " + indexOfSearch)
                                     found = true
                                     foundFile = fileSourceRecord.source_file_name
 
@@ -13957,9 +13957,9 @@
                                                 [yz.uiDb.uiDbNextId ++,fileSourceRecord.source_file_name, currentLine, currentLineNumber])
                                         }
                                     }
-                                    console.log("Filename: " + fileSourceRecord.source_file_name)
+                                    //console.log("Filename: " + fileSourceRecord.source_file_name)
                                     foundLine = linesOfFile[lineNumberOfSearchItem - 1]
-                                    console.log("    foundOnLine: " + lineNumberOfSearchItem            + ":" + foundLine)
+                                    //console.log("    foundOnLine: " + lineNumberOfSearchItem            + ":" + foundLine)
 
                                     break
                                 }
@@ -14594,7 +14594,7 @@
                                 for (let thisApp of responseJson) {
                                     let alreadyExists = yz.uiDb.sqlui("select * from ui_table_appstore_apps where content_hash = ?", [thisApp.content_hash])
                                     if (alreadyExists.length == 0) {
-                                        debugger
+                                        //debugger
                                         yz.debug.sqluiDebug("hgdfsgjhksdfghjkdsfgdfjskhgnfuybgfeiurybrgeruyigferuiyigfueirgueirwygyuieriur",
                                             "insert  into  ui_table_appstore_apps  (  id  ,  old_id, content_hash  ,  base_component_id, logo, display_name,component_type) values (?,?,?,?,?,?,?)",
                                                         [yz.uiDb.uiDbNextId ++, thisApp.base_component_id, thisApp.content_hash,thisApp.base_component_id,thisApp.logo, thisApp.display_name, thisApp.component_type])
