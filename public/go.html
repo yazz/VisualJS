@@ -14578,6 +14578,7 @@
                     return dbPropValue
                 },
                 updateAppsFromAppStore:             async function              (  dbg  ) {
+                    yz.debug.debugFn(arguments)
                     let openfileurl = "http" + (($HOSTPORT == 443)?"s":"") + "://" + $HOST + "/http_post_load_top_apps"
                     fetch(openfileurl,
                         {
@@ -14605,6 +14606,7 @@
                             yz.debug.endOfDebugSection()
                         }).catch(err => {
                         })
+                    yz.debug.endOfDebugSection()
                 },
                 addInstalledApp:                  async function              (  dbg  ,  app   ) {
                     yz.debug.debugFn(arguments)
