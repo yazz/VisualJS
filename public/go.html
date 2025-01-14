@@ -12595,7 +12595,7 @@
                     }
                 },
                 selectAppbyId:                        async function              (  id  ) {
-                    yz.debug.startDebug("jhdsghhjsdgjhsdgnfsdygsduyfngdfsuykntgfdsjgfkjhgjksdf")
+                    yz.debug.debugFn(arguments)
                     //
                     // if the app is already visible then do nothing
                     //
@@ -13567,8 +13567,8 @@
                         //debugger
                         let stackTrace = yz.debug.internal.getCallStack()
                         let fnLine = stackTrace[2]
-                        console.log(fnLine)
-                        console.log("    (" + JSON.stringify(argsPassedIn,null,2) + ")")
+                        //console.log(fnLine)
+                        //console.log("    (" + JSON.stringify(argsPassedIn,null,2) + ")")
                         yz.debug.debugTick ++
                         let fnName = yz.debug.internal.getFnNameFromStackTrace(fnLine)
                         let sourceForFunction = yz.debug.internal.findSourceLineInCode(fnName + ":")
@@ -13694,6 +13694,8 @@
                         //
                         //-----------------------------------------------------------/
 
+                        console.log("Before: "                        + JSON.stringify(yz.debug.debugTraceStepsV2.length,null,2))
+                        console.log("startDebug(")
                         //
                         // do nothing if not in debug mode
                         //
