@@ -13567,17 +13567,11 @@
                         debugger
                         let stackTrace = yz.debug.internal.getCallStack()
                         let fnLine = stackTrace[2]
-                        //console.log(fnLine)
-                        //console.log("    (" + JSON.stringify(argsPassedIn,null,2) + ")")
                         yz.debug.debugTick ++
                         let fnName = yz.debug.internal.getFnNameFromStackTrace(fnLine)
                         let sourceForFunction = yz.debug.internal.findSourceLineInCode(fnName + ":")
                         if (sourceForFunction.found) {
                             const argsArray = Array.from(argsPassedIn);
-                            const commaSeparatedValues = argsArray.join(', ');
-
-                            let previousCalls = yz.uiDb.sqlui("select * from ui_table_debug_trace_log where debug_tracer_id == ? order by debug_tick asc" ,
-                                [yz.debug.debugTracerId])
                             let callerLogItem = yz.debug.debugTraceStepsV2[yz.debug.debugTraceStepsV2.length - 1]
                             if (callerLogItem) {
                                 let callerLogId = callerLogItem.id
