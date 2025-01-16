@@ -13564,7 +13564,6 @@
                         //
                         // Find out who called this function
                         //
-                        debugger
                         let stackTrace = yz.debug.internal.getCallStack()
                         let fnLine = stackTrace[2]
                         yz.debug.debugTick ++
@@ -13574,6 +13573,7 @@
                             const argsArray = Array.from(argsPassedIn);
                             let callerLogItem = yz.debug.debugTraceStepsV2[yz.debug.debugTraceStepsV2.length - 1]
                             if (callerLogItem) {
+                                debugger
                                 let callerLogId = callerLogItem.id
                                 let nextId = yz.uiDb.uiDbNextId ++
                                 let dateNow = Date.now()
@@ -13585,7 +13585,7 @@
                                         yz.debug.currentDebugId,
                                         dateNow,
                                         yz.debug.debugTracerId,
-                                        sourceForFunction.fileName,
+                                        callerLogItem.file_name,//sourceForFunction.fileName,
                                         sourceForFunction.lineNumber,
                                         yz.debug.debugTick,
                                         sourceForFunction.lineText.trim(),
