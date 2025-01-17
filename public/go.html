@@ -13814,57 +13814,6 @@
                             }
                             return {  found: found  ,  fileName: foundFile, lineNumber: lineNumberOfSearchItem, lineText: foundLine  ,  context: surroundingLines  }
                         },
-                        findSourceLineInCode:            function                   (  searchText  )                                                {
-                            let found = false
-                            let startLine   = null
-                            let endLine     = null
-                            let foundLine   = null
-                            let foundFile   = null
-                            let lineNumberOfSearchItem = null
-
-                            for (let fileSourceRecord of yz.uiDb.uiDbTableData["ui_table_command_source_files"].data) {
-                                //console.log("Searching " + fileSourceRecord.source_file_name)
-                                let indexOfSearch = fileSourceRecord.source_text.indexOf(searchText)
-
-                                if ( indexOfSearch != -1 ) {
-                                    //console.log("    Found '" + searchText + "' at index " + indexOfSearch)
-                                    found = true
-                                    foundFile = fileSourceRecord.source_file_name
-
-                                    let textUpToSearchItem = fileSourceRecord.source_text.substring(0,indexOfSearch)
-                                    let linesOfFileBeforeSearchItem = textUpToSearchItem.split('\n');
-                                    lineNumberOfSearchItem = linesOfFileBeforeSearchItem.length
-
-                                    let linesOfFile = yz.debug.linesOfSourceFile[fileSourceRecord.source_file_name]
-
-                                    startLine   = lineNumberOfSearchItem - 5
-                                    if (startLine < 1) {
-                                        startLine = 1
-                                    }
-                                    endLine     = lineNumberOfSearchItem + 5
-                                    if (endLine > linesOfFile.length) {
-                                        endLine = linesOfFile.length
-                                    }
-
-                                    for (let currentLineNumber = startLine; currentLineNumber <= endLine ; currentLineNumber ++) {
-                                        let currentLine = linesOfFile[currentLineNumber - 1]
-
-                                        let existsRow = yz.uiDb.sqlui1("select id from ui_table_command_source_file_lines where source_file_name= ? and source_line_number = ?",
-                                            [fileSourceRecord.source_file_name , currentLineNumber])
-                                        if (!existsRow) {
-                                            yz.uiDb.sqlui("INSERT INTO  ui_table_command_source_file_lines  (  id  ,  source_file_name  ,  source_line_text  , source_line_number  ) VALUES (?,?,?,?)",
-                                                [yz.uiDb.uiDbNextId ++,fileSourceRecord.source_file_name, currentLine, currentLineNumber])
-                                        }
-                                    }
-                                    //console.log("Filename: " + fileSourceRecord.source_file_name)
-                                    foundLine = linesOfFile[lineNumberOfSearchItem - 1]
-                                    //console.log("    foundOnLine: " + lineNumberOfSearchItem            + ":" + foundLine)
-
-                                    break
-                                }
-                            }
-                            return {  found: found  ,  fileName: foundFile, lineNumber: lineNumberOfSearchItem, lineText: foundLine  }
-                        },
                         getCallStack:                    function                   (  )                                                            {
                             // Create an Error object to get the stack trace
                             const error = new Error();
@@ -13877,31 +13826,6 @@
 
                             // Remove any leading or trailing spaces from each line
                             return stackArray.map(line => line.trim());
-                        },
-                        getFnNameFromStackTrace:         function                   (  fnLine  )                                                    {
-                            //'at Proxy.installAppNow (eval at addRuntimePipelinesAndRunCode (http://192.168.1.171/app/appstore.html:1070:36), <anonymous>:158:29)'
-                            let indexProxy = fnLine.indexOf("Proxy.")
-                            if (indexProxy != -1) {
-                                indexProxy += 6
-                            } else {
-                                indexProxy = fnLine.indexOf("Object.")
-                                indexProxy += 7
-                            }
-                            let fnStartString = fnLine.substring(indexProxy)
-                            let indexEndFn = fnStartString.indexOf(" ")
-                            let fnNameString = fnStartString.substring(0,indexEndFn)
-                            return fnNameString
-                        },
-                        getFnNameFromLine:               function                   (  fnLine  )                                                    {
-                            //'at Proxy.installAppNow (eval at addRuntimePipelinesAndRunCode (http://192.168.1.171/app/appstore.html:1070:36), <anonymous>:158:29)'
-                            let indexColon = fnLine.indexOf(":")
-                            if (indexColon == -1) {
-                                return null
-                            }
-
-                            let fnUptoColon = fnLine.substring(0,indexColon)
-                            let trimmed = fnUptoColon.trim()
-                            return trimmed
                         },
                     },
 
