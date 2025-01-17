@@ -11709,7 +11709,7 @@
 
                                     // amend the edited apps
                                     addEditableComponentToHomepage:     async function  ( dbg, baseComponentId, displayName, other) {
-                                        yz.debug.debugFn("flksdjhsjkdhfsjkdhfsdjhfjdfshjbfdshbdsjbdsjkhbhfjdbjk")
+                                        yz.debug.debugFn("flksdjhsjkdhfsjkdhfsdjhfjdfshjbfdshbdsjbdsjkhbhfjdbjk",dbg)
                                         //----------------------------------------------------------------------------------
                                         //
                                         //                    /-------------------------------------/
@@ -11811,7 +11811,7 @@
                                         },50)
                                     },
                                     copyAndEditApp:                     async function  ( dbg,compInfo ) {
-                                        yz.debug.debugFn("hjdsfkgsdjgsdjkhgfdjkhdgfkhjdsfbkhjdsbjdskhfdjjhd")
+                                        yz.debug.debugFn("hjdsfkgsdjgsdjkhgfdjkhdgfkhjdsfbkhjdsbjdskhfdjjhd",dbg)
 
                                         /* copyAndEditApp
                                         ________________________________________
@@ -11926,7 +11926,7 @@
                                         mm.refresh++
                                     },
                                     openAppInNewTab:                  async function  ( dbg,contentHash ) {
-                                        yz.debug.debugFn("hjfdskgjfsdgjkshfdfdsjjfdshfjksdkjsdfjfdsfdsfds")
+                                        yz.debug.debugFn("hjfdskgjfsdgjkshfdfdsjjfdshfjksdkjsdfjfdsfdsfds",dbg)
                                         //----------------------------------------------------------------------------------
                                         //
                                         //                    /-------------------------------------/
@@ -12009,7 +12009,7 @@
                                         mm.refresh ++
                                     },
                                     reloadInstalledAppsForUserFromServer:         async function  ( dbg ) {
-                                        yz.debug.debugFn("hjkjkhsdfjgsfdghfhsjdfsdkhdfsjkfdsbjfhdsbfjhdshfdjsbdsfjh")
+                                        yz.debug.debugFn("hjkjkhsdfjgsfdghfhsjdfsdkhdfsjkfdsbjfhdsbfjhdshfdjsbdsfjh",dbg)
                                         //----------------------------------------------------------------------------------
                                         //
                                         //                    /-----------------------------------------------/
@@ -12595,7 +12595,7 @@
                     }
                 },
                 selectAppbyId:                        async function              (  id  ) {
-                    yz.debug.debugFn("kjlhjsdkflhjksfdhfsdkljhfdskjlhfskdjhfsdklfdhkfdsl")
+                    yz.debug.debugFn("kjlhjsdkflhjksfdhfsdkljhfdskjlhfskdjhfsdklfdhkfdsl",dbg)
                     //
                     // if the app is already visible then do nothing
                     //
@@ -14363,7 +14363,8 @@
                     return dbPropValue
                 },
                 updateAppsFromAppStore:             async function              (  dbg  ) {
-                    yz.debug.debugFn("bghjbfdshjbsfhjkbfdjshbfsdjhbfdshjbfdsjhbfdsj")
+                    debugger
+                    yz.debug.debugFn("bghjbfdshjbsfhjkbfdjshbfsdjhbfdshjbfdsjhbfdsj",dbg)
                     let openfileurl = "http" + (($HOSTPORT == 443)?"s":"") + "://" + $HOST + "/http_post_load_top_apps"
                     fetch(openfileurl,
                         {
@@ -14373,7 +14374,7 @@
                         .then((response) => response.json())
                         .then(function(responseJson)
                         {
-                            yz.debug.debugFn("hjgfsdjhkgfshjdkgfshjdkgfdshjkgfdsjhgfdsjhfgsdhjfghj")
+                            yz.debug.debugFn("hjgfsdjhkgfshjdkgfshjdkgfdshjkgfdsjhgfdsjhfgsdhjfghj",dbg)
                             for (let rt=0;rt<responseJson.length; rt++) {
 
                                 for (let thisApp of responseJson) {
@@ -14394,7 +14395,7 @@
                     yz.debug.endOfDebugSection()
                 },
                 addInstalledApp:                  async function              (  dbg  ,  app   ) {
-                    yz.debug.debugFn("hjdgfjgfksfgdkjhgfdsjhkfgdjhkfdsgjkhfdsgjfds")
+                    yz.debug.debugFn("hjdgfjgfksfgdkjhgfdsjhkfgdjhkfdsgjkhfdsgjfds",dbg)
                     let alreadyExists = yz.uiDb.sqlui("select * from  ui_table_installed_apps  where code_id = ?", [app.code_id])
                     if (alreadyExists.length == 0) {
                         yz.debug.sqluiDebug("hdfjkshfjkdshfudisyouidsfyffdsbyoiudfsyboibdsfyioudsfbyoibsefyfdsidfsiobdsfoidfsbiodfsoi",
@@ -14404,7 +14405,7 @@
                     yz.debug.endOfDebugSection()
                 },
                 installAppFromAppstore:           async function              (  dbg  ,  {  baseComponentId  ,  codeId  }  ) {
-                    yz.debug.debugFn("hjkdfsgfdgshfjkdsghjkfdsghjkfdsgfhjdgfdjkgfdhj")
+                    yz.debug.debugFn("hjkdfsgfdgshfjkdsghjkfdsghjkfdsgfhjdgfdjkgfdhj",dbg)
 
                     let result = await yz.getFromYazzReturnJson("/http_get_install_appstore_app_for_current_user",
                         {
