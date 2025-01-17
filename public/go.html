@@ -13503,7 +13503,7 @@
                         yz.debug.debugTraceStepsV2.pop()
                         return returnValue
                     },
-                    debugFn:                            function                    (  fnDebugId  , parentDbgId  )                                              {
+                    debugFn:                            function                    (  fnDebugId  , callerFnDebugId  )                                              {
                         //----------------------------------------------------------------------------------/
                         //
                         //                                          /-------------------------------------/
@@ -13554,7 +13554,7 @@
                         //
                         // find the source code where this was called from
                         //
-                        let sourceForCallerOfFunction = yz.debug.internal.findDebugIdInCode(parentDbgId)
+                        let sourceForCallerOfFunction = yz.debug.internal.findDebugIdInCode(callerFnDebugId)
 
 
                         //
