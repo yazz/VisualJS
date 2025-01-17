@@ -13813,20 +13813,7 @@
                                 }
                             }
                             return {  found: found  ,  fileName: foundFile, lineNumber: lineNumberOfSearchItem, lineText: foundLine  ,  context: surroundingLines  }
-                        },
-                        getCallStack:                    function                   (  )                                                            {
-                            // Create an Error object to get the stack trace
-                            const error = new Error();
-
-                            // Get the stack trace from the error object
-                            const stack = error.stack || '';
-
-                            // Split the stack into individual lines, ignore the first line (it contains the error message)
-                            const stackArray = stack.split('\n').slice(1);
-
-                            // Remove any leading or trailing spaces from each line
-                            return stackArray.map(line => line.trim());
-                        },
+                        }
                     },
 
                     linesOfSourceFile:                  {},         // the lines of code in go.html and other source files = [line 1, line 2, etc...]
@@ -14145,15 +14132,7 @@
                                     ].indexOf(tableName) == -1)
                                 {
                                     if (yz.debug.debugTracerId != null) {
-                                        let callStack = yz.debug.internal.getCallStack()
-                                        let callStackIndex = null
-                                        for (let i=0;i<callStack.length;i++) {
-                                            let ci = callStack[i]
-                                            if (ci.indexOf("sqlui" != -1)) {
-                                                callStackIndex = i
-                                            }
-                                        }
-                                        let callerLine = callStack[callStackIndex]
+
                                     }
                                 }
                                 //
