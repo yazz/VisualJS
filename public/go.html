@@ -9619,25 +9619,6 @@
                 populateStaticCodeCache:            async function              (  )                                            {
                     //***ADD_STATIC_CODE
                 },
-//<template v-for="(contextLine,indexContextLine) in yz.debug.linesOfSourceFile[ selectedLogItemFileName].slice(selectedLogItemContextStartLineNumber,selectedLogItemContextEndLineNumber)">
-//    <span v-bind:style='selectedLogItemContextLineNumber==(selectedLogItemContextStartLineNumber + indexContextLine + 1)?"color:red":""'>
-//        {{selectedLogItemContextStartLineNumber + indexContextLine + 1}}: {{contextLine}}
-//    </span>
-//
-//    <span v-if="debugTraceLineLinks[selectedLogItemContextStartLineNumber + indexContextLine + 1]" style="color:red;">
-//          <b>
-//              <span>
-//                   {{debugTraceLineLinks[selectedLogItemContextStartLineNumber + indexContextLine + 1][0].file_name}}:
-//                   {{debugTraceLineLinks[selectedLogItemContextStartLineNumber + indexContextLine + 1][0].line_number}}
-//              </span>
-//              -
-//              <span v-for="debugLink in debugTraceLineLinks[selectedLogItemContextStartLineNumber + indexContextLine + 1]">
-//                   <span v-on:click="showContextForLogLine(debugLink.id)" style="color: blue;text-decoration: underline;">[{{debugLink.id}}]
-//                   </span>
-//              </span>
-//          </b>
-//    </span>
-//</template>
                 getDebugFrameVueComponentStructure:             function        (  )                                            {
                     let debugFrameVueComponentStructure = {
                         props:      [  "log_id"  ],
@@ -9912,35 +9893,6 @@
                                         }
                                         mm.debugTraceLineLinks[logRecord.caller_line_number].push(logRecord)
                                     }
-                                }
-                            },
-                            showContextForLogLine:   async function(id) {
-                                let mm = this
-                                //debugger
-                                mm.selectedLogItem = id
-                                let logRecord1 = sqlui1( "select * from ui_table_debug_trace_log  where id = ?",[id])
-                                mm.selectedLogItemFileName                  = logRecord1.file_name
-                                mm.selectedLogItemContextLineNumber         = logRecord1.line_number
-                                mm.selectedLogItemContextStartLineNumber    = logRecord1.line_number - 1
-                                if (mm.selectedLogItemContextStartLineNumber  < 1) {
-                                    mm.selectedLogItemContextStartLineNumber = 1
-                                }
-
-                                let readAnotherLine = true
-                                let nextLine
-
-                                mm.selectedLogItemContextEndLineNumber = logRecord1.line_number
-                                while(readAnotherLine) {
-                                    nextLine = yz.debug.linesOfSourceFile[ mm.selectedLogItemFileName][mm.selectedLogItemContextEndLineNumber - 1]
-                                    if (mm.selectedLogItemContextEndLineNumber == yz.debug.linesOfSourceFile[ mm.selectedLogItemFileName].length) {
-                                        readAnotherLine = false
-                                    } else if (nextLine.indexOf("yz.debug.endOfDebugSection(") != -1) {
-                                        mm.selectedLogItemContextEndLineNumber ++
-                                        readAnotherLine = false
-                                    } else {
-                                        mm.selectedLogItemContextEndLineNumber ++
-                                    }
-
                                 }
                             },
                             closeDebugV2:       async function() {
