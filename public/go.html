@@ -13564,10 +13564,7 @@
                         //
                         // Find out who called this function
                         //
-                        let stackTrace = yz.debug.internal.getCallStack()
-                        let fnLine = stackTrace[2]
                         yz.debug.debugTick ++
-                        let fnName = yz.debug.internal.getFnNameFromStackTrace(fnLine)
                         let sourceForFunction = yz.debug.internal.findDebugIdInCode(callerDebugToken)
                         if (sourceForFunction.found) {
                             const argsArray = Array.from(argsPassedIn);
