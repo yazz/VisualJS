@@ -13503,7 +13503,7 @@
                         yz.debug.debugTraceStepsV2.pop()
                         return returnValue
                     },
-                    debugFn:                            function                    (  argsPassedIn  )                                              {
+                    debugFn:                            function                    (  argsPassedIn  , parentDbgId  )                                              {
                         //----------------------------------------------------------------------------------/
                         //
                         //                                          /-------------------------------------/
@@ -13558,7 +13558,7 @@
                         //
                         // find the source code where this was called from
                         //
-                        let sourceForCallerOfFunction = yz.debug.internal.findDebugIdInCode(callerDebugToken)
+                        let sourceForCallerOfFunction = yz.debug.internal.findDebugIdInCode(parentDbgId)
 
 
                         //
@@ -13587,8 +13587,8 @@
                                         yz.debug.debugTick,
                                         sourceForFunction.lineText.trim(),
                                         JSON.stringify(argsArray,null,2),
-                                        callerLogItem.file_name,//sourceForCallerOfFunction.fileName,
-                                        callerLogItem.line_number,//sourceForCallerOfFunction.lineNumber,
+                                        sourceForCallerOfFunction.filename,
+                                        sourceForCallerOfFunction.lineNumber,
                                         callerLogId
                                     ])
 
@@ -13604,8 +13604,8 @@
                                         debug_tick:                     yz.debug.debugTick,
                                         line_text:                      sourceForFunction.lineText.trim(),
                                         arguments:                      JSON.stringify(argsArray,null,2),
-                                        caller_file_name:               callerLogItem.file_name,//sourceForCallerOfFunction.fileName,
-                                        caller_line_number:             callerLogItem.line_number,//sourceForCallerOfFunction.lineNumber,
+                                        caller_file_name:               sourceForCallerOfFunction.filename,
+                                        caller_line_number:             sourceForCallerOfFunction.lineNumber,
                                         fk_caller_debug_trace_log_id:   callerLogId
                                     }
                                 )
@@ -14363,7 +14363,6 @@
                     return dbPropValue
                 },
                 updateAppsFromAppStore:             async function              (  dbg  ) {
-                    debugger
                     yz.debug.debugFn("bghjbfdshjbsfhjkbfdjshbfsdjhbfdshjbfdsjhbfdsj",dbg)
                     let openfileurl = "http" + (($HOSTPORT == 443)?"s":"") + "://" + $HOST + "/http_post_load_top_apps"
                     fetch(openfileurl,
