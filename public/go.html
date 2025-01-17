@@ -9717,7 +9717,7 @@
                             mm.selectedTraceLogItem = yz.uiDb.sqlui1("select * from ui_table_debug_trace_log where id == ?" ,
                                 [mm.log_id])
                             if (mm.selectedTraceLogItem.arguments) {
-                                mm.selectedTraceLogItemArguments = "FIX ARGS"//null//JSON.parse(mm.selectedTraceLogItem.arguments,null,2)
+                                mm.selectedTraceLogItemArguments = JSON.parse(mm.selectedTraceLogItem.arguments,null,2)
                             }
 
 
@@ -13503,7 +13503,7 @@
                         yz.debug.debugTraceStepsV2.pop()
                         return returnValue
                     },
-                    debugFn:                            function                    (  argsPassedIn  , parentDbgId  )                                              {
+                    debugFn:                            function                    (  fnDebugId  , parentDbgId  )                                              {
                         //----------------------------------------------------------------------------------/
                         //
                         //                                          /-------------------------------------/
@@ -13529,7 +13529,7 @@
                         //________
                         // PARAMS \______________________________________________________________/
                         //
-                        //    argsPassedIn
+                        //    fnDebugId
                         //    ------------   This passes through parameters such as the hard coded debug ID used which
                         //                   is a unique set of characters like "fdssdfdjfghkhgkjghdfjkfk"
                         //
@@ -13544,14 +13544,10 @@
 
                         //
                         // get the debug token, like "hjgdffdsfdsfdsgjhfsgjsgdjhsf" from the args passed in
-                        // as "argsPassedIn"
-                        //
-                        let callerDebugToken = argsPassedIn
-
-                        //
+                        // as "fnDebugId"
                         // a fn can choose to not be debuggable by passing in "null" as the debug token
                         //
-                        if (callerDebugToken == null) {
+                        if (fnDebugId == null) {
                             return
                         }
 
@@ -13565,9 +13561,9 @@
                         // Find out who called this function
                         //
                         yz.debug.debugTick ++
-                        let sourceForFunction = yz.debug.internal.findDebugIdInCode(callerDebugToken)
+                        let sourceForFunction = yz.debug.internal.findDebugIdInCode(fnDebugId)
                         if (sourceForFunction.found) {
-                            const argsArray = Array.from(argsPassedIn);
+                            const argsArray = Array.from(arguments);
                             let callerLogItem = yz.debug.debugTraceStepsV2[yz.debug.debugTraceStepsV2.length - 1]
                             if (callerLogItem) {
                                 debugger
