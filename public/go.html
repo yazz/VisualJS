@@ -9681,15 +9681,27 @@
 
                             let readAnotherLine = true
                             let nextLine
+                            let indentedCodeScopes = 0
 
                             mm.selectedLogItemContextEndLineNumber = logRecord1.line_number
                             while(readAnotherLine) {
                                 nextLine = yz.debug.linesOfSourceFile[ mm.selectedLogItemFileName][mm.selectedLogItemContextEndLineNumber - 1]
+
+                                if (nextLine.indexOf("yz.debug.debugFn(") != -1) {
+                                    indentedCodeScopes++
+                                }
+                                if (nextLine.indexOf("yz.debug.debugStart(") != -1) {
+                                    indentedCodeScopes++
+                                }
+
                                 if (mm.selectedLogItemContextEndLineNumber == yz.debug.linesOfSourceFile[ mm.selectedLogItemFileName].length) {
                                     readAnotherLine = false
                                 } else if (nextLine.indexOf("yz.debug.endOfDebugSection(") != -1) {
                                     mm.selectedLogItemContextEndLineNumber ++
-                                    readAnotherLine = false
+                                    indentedCodeScopes--
+                                    if (indentedCodeScopes == 0) {
+                                        readAnotherLine = false
+                                    }
                                 } else {
                                     mm.selectedLogItemContextEndLineNumber ++
                                 }
