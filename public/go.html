@@ -13448,7 +13448,7 @@
                             //
                             if ((dbgCode != null) && (yz.uiDb.tablesCreated)) {
                                 if (startOfSql.startsWith("insert") || startOfSql.startsWith("update") || startOfSql.startsWith("delete")) {
-                                    let sourceForCallerOfFunction = yz.debug.internal.findDebugIdInCode(dbgCode)
+                                    let sourceForCallerOfFunction = yz.debug.internal.findScopeForDebugId(dbgCode)
                                     let sourceFileName = null
                                     let lineNumber = null
                                     if (sourceForCallerOfFunction.found) {
@@ -13554,14 +13554,14 @@
                         //
                         // find the source code where this was called from
                         //
-                        let sourceForCallerOfFunction = yz.debug.internal.findDebugIdInCode(callerFnDebugId)
+                        let sourceForCallerOfFunction = yz.debug.internal.findScopeForDebugId(callerFnDebugId)
 
 
                         //
                         // Find out who called this function
                         //
                         yz.debug.debugTick ++
-                        let sourceForFunction = yz.debug.internal.findDebugIdInCode(fnDebugId)
+                        let sourceForFunction = yz.debug.internal.findScopeForDebugId(fnDebugId)
                         if (sourceForFunction.found) {
                             const argsArray = Array.from(arguments).slice(2);
                             let callerLogItem = yz.debug.debugTraceStepsV2[yz.debug.debugTraceStepsV2.length - 1]
@@ -13656,7 +13656,7 @@
                         // Find out which source code line we are editing (as it contains the
                         // debug ID)
                         //
-                        let sourceForFunction = yz.debug.internal.findDebugIdInCode(debugId)
+                        let sourceForFunction = yz.debug.internal.findScopeForDebugId(debugId)
 
                         //
                         // store the debug code
@@ -13756,7 +13756,7 @@
                                 [yz.uiDb.uiDbNextId ++,result.fileName,result.contents])
                             yz.debug.linesOfSourceFile[result.fileName] = result.contents.split('\n');
                         },
-                        findDebugIdInCode:               function                   (  searchText  )                                                {
+                        findScopeForDebugId:               function                   (  searchDebugId  )                                                {
                             let found = false
                             let startLine   = null
                             let endLine     = null
@@ -13767,10 +13767,10 @@
 
                             for (let fileSourceRecord of yz.uiDb.uiDbTableData["ui_table_command_source_files"].data) {
                                 //console.log("Searching " + fileSourceRecord.source_file_name)
-                                let indexOfSearch = fileSourceRecord.source_text.indexOf(searchText)
+                                let indexOfSearch = fileSourceRecord.source_text.indexOf(searchDebugId)
 
                                 if ( indexOfSearch != -1 ) {
-                                    //console.log("    Found '" + searchText + "' at index " + indexOfSearch)
+                                    //console.log("    Found '" + searchDebugId + "' at index " + indexOfSearch)
                                     found = true
                                     foundFile = fileSourceRecord.source_file_name
 
