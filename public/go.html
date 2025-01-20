@@ -13721,12 +13721,27 @@
                             yz.debug.linesOfSourceFile[result.fileName] = result.contents.split('\n');
                         },
                         findScopeForDebugId:               function                   (  searchDebugId  )                                                {
-                            let found = false
-                            let startLine   = null
-                            let endLine     = null
-                            let foundLine   = null
-                            let foundFile   = null
-                            let lineNumberOfSearchItem = null
+                            //----------------------------------------------------------------------------------/
+                            //
+                            //                                          /-------------------------------------/
+                            //                                         /      FUNCTION  findScopeForDebugId  /
+                            //                                        /-------------------------------------/
+                            //
+                            //----------------------------------------------------------------------------/
+                            // This is used for find the piece of source code that belongs to a
+                            // particular debug ID, when we use either of the following functions:
+                            //
+                            // - startDebug( ... )
+                            // - debugFn( ... )
+                            //
+                            //
+                            //-----------------------------------------------------------/
+                            let found                   = false
+                            let startLine               = null
+                            let endLine                 = null
+                            let foundLine               = null
+                            let foundFile               = null
+                            let lineNumberOfSearchItem  = null
                             let surroundingLines = null
 
                             for (let fileSourceRecord of yz.uiDb.uiDbTableData["ui_table_command_source_files"].data) {
