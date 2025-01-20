@@ -9640,6 +9640,7 @@
 </div>
 
 
+
             </div>
     </div>
 </div>`,
@@ -9684,7 +9685,7 @@
                             let indentedCodeScopes = 0
 
                             mm.selectedLogItemContextEndLineNumber = logRecord1.line_number
-                            //debugger
+                            debugger
                             while(readAnotherLine) {
                                 nextLine = yz.debug.linesOfSourceFile[ mm.selectedLogItemFileName][mm.selectedLogItemContextEndLineNumber - 1]
 
@@ -9692,7 +9693,22 @@
                                     indentedCodeScopes++
                                 }
                                 if (nextLine.indexOf("yz.debug.startDebug(") != -1) {
-                                    indentedCodeScopes++
+                                    //
+                                    // if this is in HTML
+                                    //
+                                    let indexPos = nextLine.indexOf("yz.debug.startDebug(")
+                                    let indexText = nextLine.substring(0,indexPos)
+                                    indexText = indexText.trim()
+                                    if (indexText.length > 10) {
+                                        indentedCodeScopes++
+                                        readAnotherLine = false
+
+                                    //
+                                    // otherwise irf this is in code
+                                    //
+                                    } else {
+                                        indentedCodeScopes++
+                                    }
                                 }
 
                                 if (mm.selectedLogItemContextEndLineNumber == yz.debug.linesOfSourceFile[ mm.selectedLogItemFileName].length) {
