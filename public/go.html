@@ -13736,40 +13736,45 @@
                             //
                             //
                             //-----------------------------------------------------------/
-                            let found                   = false
-                            let startLine               = null
-                            let endLine                 = null
-                            let foundLine               = null
-                            let foundFile               = null
-                            let lineNumberOfSearchItem  = null
-                            let surroundingLines = null
+                            let found                       = false
+                            let startLine                   = null
+                            let endLine                     = null
+                            let foundLine                   = null
+                            let foundFile                   = null
+                            let lineNumberOfSearchItem      = null
+                            let surroundingLines            = null
+                            let textUpToSearchItem          = null
+                            let linesOfFileBeforeSearchItem = null
+                            let linesOfFile                 = null
+                            let indexOfSearch               = null
+                            let currentLine                 = null
 
                             for (let fileSourceRecord of yz.uiDb.uiDbTableData["ui_table_command_source_files"].data) {
                                 //console.log("Searching " + fileSourceRecord.source_file_name)
-                                let indexOfSearch = fileSourceRecord.source_text.indexOf(searchDebugId)
+                                indexOfSearch = fileSourceRecord.source_text.indexOf(searchDebugId)
 
                                 if ( indexOfSearch != -1 ) {
                                     //console.log("    Found '" + searchDebugId + "' at index " + indexOfSearch)
-                                    found = true
-                                    foundFile = fileSourceRecord.source_file_name
 
-                                    let textUpToSearchItem = fileSourceRecord.source_text.substring(0,indexOfSearch)
-                                    let linesOfFileBeforeSearchItem = textUpToSearchItem.split('\n');
-                                    lineNumberOfSearchItem = linesOfFileBeforeSearchItem.length
+                                    found                       = true
+                                    foundFile                   = fileSourceRecord.source_file_name
+                                    textUpToSearchItem          = fileSourceRecord.source_text.substring(0,indexOfSearch)
+                                    linesOfFileBeforeSearchItem = textUpToSearchItem.split('\n');
+                                    lineNumberOfSearchItem      = linesOfFileBeforeSearchItem.length
+                                    linesOfFile                 = yz.debug.linesOfSourceFile[fileSourceRecord.source_file_name]
+                                    startLine                   = lineNumberOfSearchItem - 5
 
-                                    let linesOfFile = yz.debug.linesOfSourceFile[fileSourceRecord.source_file_name]
-
-                                    startLine   = lineNumberOfSearchItem - 5
                                     if (startLine < 1) {
                                         startLine = 1
                                     }
+
                                     endLine     = lineNumberOfSearchItem + 5
                                     if (endLine > linesOfFile.length) {
                                         endLine = linesOfFile.length
                                     }
 
                                     for (let currentLineNumber = startLine; currentLineNumber <= endLine ; currentLineNumber ++) {
-                                        let currentLine = linesOfFile[currentLineNumber - 1]
+                                        currentLine = linesOfFile[currentLineNumber - 1]
 
                                         let existsRow = yz.uiDb.sqlui1("select id from ui_table_command_source_file_lines where source_file_name= ? and source_line_number = ?",
                                             [fileSourceRecord.source_file_name , currentLineNumber])
