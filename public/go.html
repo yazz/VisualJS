@@ -13447,7 +13447,7 @@
                                         lastTraceid = lastTraceitem.id
                                     }
                                     let nextId = yz.uiDb.uiDbNextId ++
-                                    yz.uiDb.sqlui("INSERT INTO ui_table_debug_sql_log (  id  ,  start_debug_id  ,  sql_statement  ,  fk_parent_debug_trace_log_id  ,  debug_tick  ,  caller_file_name  ,  caller_line_number ) VALUES (?,?,?,?,?,?,?)",
+                                    yz.uiDb.sqlui("INSERT INTO ui_table_debug_sql_log (  id  ,  sql_debug_id  ,  sql_statement  ,  fk_parent_debug_trace_log_id  ,  debug_tick  ,  caller_file_name  ,  caller_line_number ) VALUES (?,?,?,?,?,?,?)",
                                         [
                                             nextId,
                                             dbgCode,
@@ -13916,7 +13916,7 @@
                                 {name: "sql_statement",                 fieldType: "STRING"},
                                 {name: "fk_parent_debug_trace_log_id",  fieldType: "INTEGER"},
                                 {name: "fk_debug_id",                   fieldType: "STRING"},
-                                {name: "start_debug_id",                fieldType: "STRING"},
+                                {name: "sql_debug_id",                  fieldType: "STRING"},
                                 {name: "fn_debug_id",                   fieldType: "STRING"},
                                 {name: "uuid_thread_tracer_id",         fieldType: "STRING"},
                                 {name: "run_time_millis",               fieldType: "INTEGER"},
