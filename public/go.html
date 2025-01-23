@@ -13534,6 +13534,8 @@
                         if (fnDebugId == null) {
                             return
                         }
+                        yz.debug.fnDebugId         = fnDebugId
+
 
                         //
                         // find the source code where this was called from
@@ -13633,7 +13635,7 @@
                         // reset all the debug markers as we are starting a new debug trace
                         //
                         yz.debug.startDebugId      = debugId
-                        yz.debug.fnDebugId    = debugId
+                        yz.debug.fnDebugId         = debugId
                         yz.debug.debugTracerId     = yz.uuidv4()
                         yz.debug.debugTraceStepsV2 = []
                         yz.debug.debugTick         = 1
