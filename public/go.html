@@ -9657,7 +9657,7 @@
                             //debugger
 
                             mm.debugTracerId = yz.uiDb.sqlui1("select * from ui_table_debug_trace_log where id == ?" ,
-                                [mm.log_id]).start_debug_id
+                                [mm.log_id]).uuid_thread_tracer_id
 
                             mm.itemsCalled = yz.uiDb.sqlui("select * from ui_table_debug_trace_log where fk_caller_debug_trace_log_id == ? order by debug_tick asc" ,
                                     [mm.log_id])
@@ -9796,7 +9796,7 @@
                     <div style='border: 1px solid black;'>
                         <div   v-for="item  in  yz.uiDb.uiDbTableData.ui_table_debug_trace_log.data.slice().reverse()" >
                             <div v-if="item.debug_tick==1"
-                                 v-on:click="showTraceForTraceLogItem(item.start_debug_id)">
+                                 v-on:click="showTraceForTraceLogItem(item.uuid_thread_tracer_id)">
                                 <span v-bind:style='"border: 1px sold red;margin-bottom: 20px;"+(selectedLogId==item.id?"background-color:lightgray;":"")'>
                                     <b>{{yz.msToTime(item.run_time_millis)}} - {{item.file_name}}:{{item.line_number}}</b> {{item.line_text.substring(0,100)}}
                                 </span>
@@ -9909,7 +9909,7 @@
                             showTraceForTraceLogItem:   async function(tracerId) {
                                 let mm = this
                                 mm.selectedTracerItem = tracerId
-                                let logRecords = sqlui( "select * from ui_table_debug_trace_log  where start_debug_id = ? order by debug_tick asc",[tracerId])
+                                let logRecords = sqlui( "select * from ui_table_debug_trace_log  where uuid_thread_tracer_id = ? order by debug_tick asc",[tracerId])
                                 mm.selectedDebugTraceLines = logRecords
                                 mm.selectedLogId = logRecords[0].id
 
@@ -13554,7 +13554,7 @@
                                 let callerLogId = callerLogItem.id
                                 let nextId = yz.uiDb.uiDbNextId ++
                                 let dateNow = Date.now()
-                                yz.uiDb.sqlui("INSERT INTO ui_table_debug_trace_log (  id  ,  fk_debug_id  , run_time_millis , start_debug_id ," +
+                                yz.uiDb.sqlui("INSERT INTO ui_table_debug_trace_log (  id  ,  fk_debug_id  , run_time_millis , uuid_thread_tracer_id ," +
                                     " file_name , line_number, debug_tick ,line_text,arguments, caller_file_name  ,  caller_line_number , " +
                                     "fk_caller_debug_trace_log_id  ) VALUES (?,?,?,?,?,?,?,?,?,?,?,?)",
                                     [
@@ -13578,7 +13578,7 @@
                                         id:                             nextId,
                                         fk_debug_id:                    yz.debug.currentDebugId,
                                         run_time_millis:                dateNow,
-                                        start_debug_id:                yz.debug.debugTracerId,
+                                        uuid_thread_tracer_id:          yz.debug.debugTracerId,
                                         file_name:                      sourceForFunction.fileName,
                                         line_number:                    sourceForFunction.lineNumber - 1,
                                         debug_tick:                     yz.debug.debugTick,
@@ -13673,7 +13673,7 @@
                         let nextId = yz.uiDb.uiDbNextId ++
                         let dateNow = Date.now()
                         if (sourceForFunction.found) {
-                            yz.uiDb.sqlui("INSERT INTO ui_table_debug_trace_log (  id  ,  fk_debug_id  , run_time_millis , start_debug_id , file_name , line_number , debug_tick,line_text) VALUES (?,?,?,?,?,?,?,?)",
+                            yz.uiDb.sqlui("INSERT INTO ui_table_debug_trace_log (  id  ,  fk_debug_id  , run_time_millis , uuid_thread_tracer_id , file_name , line_number , debug_tick,line_text) VALUES (?,?,?,?,?,?,?,?)",
                                 [
                                     nextId,
                                     debugId,
@@ -13693,14 +13693,14 @@
                             //
                             yz.debug.debugTraceStepsV2.push(
                                 {
-                                    id:                 nextId,
-                                    fk_debug_id:        debugId,
-                                    run_time_millis:    dateNow,
-                                    start_debug_id:    yz.debug.debugTracerId,
-                                    file_name:          sourceForFunction.fileName,
-                                    line_number:        startLineIndex,
-                                    debug_tick:         1,
-                                    line_text:          sourceForFunction.lineText.trim()
+                                    id:                     nextId,
+                                    fk_debug_id:            debugId,
+                                    run_time_millis:        dateNow,
+                                    uuid_thread_tracer_id:  yz.debug.debugTracerId,
+                                    file_name:              sourceForFunction.fileName,
+                                    line_number:            startLineIndex,
+                                    debug_tick:             1,
+                                    line_text:              sourceForFunction.lineText.trim()
                                 }
                             )
                         }
