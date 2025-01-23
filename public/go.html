@@ -13630,6 +13630,7 @@
                         //
                         // reset all the debug markers as we are starting a new debug trace
                         //
+                        yz.debug.startDebugId      = debugId
                         yz.debug.currentDebugId    = debugId
                         yz.debug.debugTracerId     = yz.uuidv4()
                         yz.debug.debugTraceStepsV2 = []
@@ -13673,9 +13674,10 @@
                         let nextId = yz.uiDb.uiDbNextId ++
                         let dateNow = Date.now()
                         if (sourceForFunction.found) {
-                            yz.uiDb.sqlui("INSERT INTO ui_table_debug_trace_log (  id  ,  start_debug_id  , run_time_millis , uuid_thread_tracer_id , file_name , line_number , debug_tick,line_text) VALUES (?,?,?,?,?,?,?,?)",
+                            yz.uiDb.sqlui("INSERT INTO ui_table_debug_trace_log (  id  ,  start_debug_id  , fn_debug_id , run_time_millis , uuid_thread_tracer_id , file_name , line_number , debug_tick,line_text) VALUES (?,?,?,?,?,?,?,?,?)",
                                 [
                                     nextId,
+                                    debugId,
                                     debugId,
                                     dateNow,
                                     yz.debug.debugTracerId,
@@ -13694,7 +13696,8 @@
                             yz.debug.debugTraceStepsV2.push(
                                 {
                                     id:                     nextId,
-                                    start_debug_id:            debugId,
+                                    start_debug_id:         debugId,
+                                    fn_debug_id:            debugId,
                                     run_time_millis:        dateNow,
                                     uuid_thread_tracer_id:  yz.debug.debugTracerId,
                                     file_name:              sourceForFunction.fileName,
