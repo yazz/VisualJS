@@ -13560,7 +13560,7 @@
                                     [
                                         nextId,
                                         yz.debug.startDebugId,
-                                        yz.debug.currentDebugId,
+                                        yz.debug.fnDebugId,
                                         dateNow,
                                         yz.debug.debugTracerId,
                                         sourceForFunction.fileName,
@@ -13578,7 +13578,7 @@
                                     {
                                         id:                             nextId,
                                         start_debug_id:                 yz.debug.startDebugId,
-                                        fn_debug_id:                    yz.debug.currentDebugId,
+                                        fn_debug_id:                    yz.debug.fnDebugId,
                                         run_time_millis:                dateNow,
                                         uuid_thread_tracer_id:          yz.debug.debugTracerId,
                                         file_name:                      sourceForFunction.fileName,
@@ -13633,7 +13633,7 @@
                         // reset all the debug markers as we are starting a new debug trace
                         //
                         yz.debug.startDebugId      = debugId
-                        yz.debug.currentDebugId    = debugId
+                        yz.debug.fnDebugId    = debugId
                         yz.debug.debugTracerId     = yz.uuidv4()
                         yz.debug.debugTraceStepsV2 = []
                         yz.debug.debugTick         = 1
@@ -13725,7 +13725,7 @@
                         if ((typeof $DEBUGUI == 'undefined') || (!$DEBUGUI)) {
                             return
                         }
-                        yz.debug.currentDebugId     = null
+                        yz.debug.fnDebugId     = null
                         yz.debug.debugTick          = 1
                         yz.debug.debugTraceid       = null
                         yz.debug.debugTraceStepsV2  = []
@@ -13822,8 +13822,8 @@
                     },
 
                     linesOfSourceFile:                  {},         // the lines of code in go.html and other source files = [line 1, line 2, etc...]
-                    currentDebugId:                     null,       // table "ui_table_debug_trace_log", field "start_debug_id" = eg: "hjgfsjfgsdhjgfhjfgdjhsfgjfh"
-                    debugTracerId:                      null,       // a UUID which shows which debug trace event we are in ("currentDebugId" is not unique)
+                    fnDebugId:                     null,       // table "ui_table_debug_trace_log", field "start_debug_id" = eg: "hjgfsjfgsdhjgfhjfgdjhsfgjfh"
+                    debugTracerId:                      null,       // a UUID which shows which debug trace event we are in ("fnDebugId" is not unique)
                     debugTick:                          1,          // 1..n is used to show which step in a trace we are at
                     debugTraceStepsV2:                  [],         // [{db record},{db record}] - list of the trace IDs of the current debug log
                     currentSqlLogId:                    null        // ID to use for the SQL log 1..n
