@@ -10772,7 +10772,7 @@
                     margin-bottom:10px;margin-left:80px;padding:25px;font-size:60px;font-weight: bold;left:30%;'
                     class='btn btn-lg'
                     v-if="hideImportButtons"
-                    v-on:click='$event.stopPropagation();yz.debug.startDebug("oiugfudioudsoujsdfojlks;dhfjds;kh");copyAndEditApp("lkdfjytusdfutfdsuistfuiysdtuyids",{base_component_id: "yazz_blank"})'>
+                    v-on:click='$event.stopPropagation();let dbg = yz.debug.startDebug("oiugfudioudsoujsdfojlks;dhfjds;kh");copyAndEditApp("lkdfjytusdfutfdsuistfuiysdtuyids",{base_component_id: "yazz_blank"})'>
 
                 <img    src='/driver_icons/blocks.png'
                         style='position:relative;max-width: 100px; left:0px; top: 0px;max-height: 90px;margin-left: auto;margin-right: auto;display: inline-block;'
@@ -10785,7 +10785,7 @@
             <button style='opacity:0.7;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);border-radius: 40px;margin-bottom:10px;margin-left:40px;padding:25px;font-size:45px;font-weight: bold;'
                     class='btn btn-lg'
                     v-if="!hideImportButtons"
-                    v-on:click='$event.stopPropagation();yz.debug.startDebug("ukydsfuidsfyo8iashkjlhasdkljhasuiyguyads");copyAndEditApp("yuisdyfuiysdoiuyfdsoaiyfsduiaoyfioyuiaos",{base_component_id: "yazz_blank"})'>
+                    v-on:click='$event.stopPropagation();let dbg = yz.debug.startDebug("ukydsfuidsfyo8iashkjlhasdkljhasuiyguyads");copyAndEditApp("yuisdyfuiysdoiuyfdsoaiyfsduiaoyfioyuiaos",{base_component_id: "yazz_blank"})'>
 
                 <img    src='/driver_icons/blocks.png'
                         style='position:relative;max-width: 70px; left:0px; top: 0px;max-height: 70px;margin-left: auto;margin-right: auto;display: inline-block;' />
@@ -11098,7 +11098,7 @@
                                         yz.setGlobalVar("visible_app_id", id)
                                     },
                                     pageInitialised:                    async function(  ) {
-                                        yz.debug.startDebug("khjdsajakshkjaskjsadjkdsahaksjhkdaslhdkhdlsa")
+                                        let dbg = yz.debug.startDebug("khjdsajakshkjaskjsadjkdsahaksjhkdaslhdkhdlsa")
                                         let mm = this
 
                                         console.log("await yz.pageInitialized( async function() { entered ... ")
@@ -14382,7 +14382,7 @@
                         })
                         .then((response) => response.json())
                         .then(function(responseJson) {
-                            yz.debug.startDebug("hjgfsdjhkgfshjdkgfshjdkgfdshjkgfdsjhgfdsjhfgsdhjfghj")
+                            let dbg = yz.debug.startDebug("hjgfsdjhkgfshjdkgfshjdkgfdshjkgfdsjhgfdsjhfgsdhjfghj")
                             for (let rt=0;rt<responseJson.length; rt++) {
 
                                 for (let thisApp of responseJson) {
