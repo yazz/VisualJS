@@ -13547,7 +13547,6 @@
                         //
                         // Find out who called this function
                         //
-                        yz.debug.nextDebugTick ++
                         let sourceForFunction = yz.debug.internal.findScopeForDebugId(fnDebugId)
                         if (sourceForFunction.found) {
                             const argsArray = Array.from(arguments).slice(2);
