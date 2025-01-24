@@ -9633,7 +9633,7 @@
 
 <div v-if="selectedLogItemContextStartLineNumber">
     <pre style="height: auto;"><span style="color: blue;" v-if="selectedTraceLogItemArguments">ARGS: {{selectedTraceLogItemArguments}}</span>
-        <template v-for="(contextLine,indexContextLine) in yz.debug.linesOfSourceFile[ selectedLogItemFileName].slice(selectedLogItemContextStartLineNumber,selectedLogItemContextEndLineNumber)"><span v-bind:style='selectedLogItemContextLineNumber==(selectedLogItemContextStartLineNumber + indexContextLine + 1)?"color:red":""'>{{selectedLogItemContextStartLineNumber + indexContextLine + 1}}: {{contextLine}}</span><span v-if="traceLogItemCalls[selectedLogItemContextStartLineNumber + indexContextLine + 1]" style="color: red;"><div style="color:blue"><b>]{{traceLogItemCalls[selectedLogItemContextStartLineNumber + indexContextLine + 1]}}]</b></div><div v-for="logItemId in traceLogItemCalls[selectedLogItemContextStartLineNumber + indexContextLine + 1]"><div style="color:red"><b>{{logItemId}}</b></div><debug_frame_component  v-bind:log_id="logItemId"  v-bind:key="logItemId"></debug_frame_component></div></span><div v-if="sqlUiDbUpdates[log_id] && (sqlUiDbUpdates[log_id].lineNumbers[(selectedLogItemContextStartLineNumber + indexContextLine + 1)])" style="color: white;background-color: black;"><div v-for="logr in sqlUiDbUpdates[log_id].lineNumbers[(selectedLogItemContextStartLineNumber + indexContextLine + 1)]">{{logr.sql_statement}}</div></div>
+        <template v-for="(contextLine,indexContextLine) in yz.debug.linesOfSourceFile[ selectedLogItemFileName].slice(selectedLogItemContextStartLineNumber,selectedLogItemContextEndLineNumber)"><span v-bind:style='selectedLogItemContextLineNumber==(selectedLogItemContextStartLineNumber + indexContextLine + 1)?"color:red":""'>{{selectedLogItemContextStartLineNumber + indexContextLine + 1}}: {{contextLine}}</span><span v-if="traceLogItemCalls[selectedLogItemContextStartLineNumber + indexContextLine + 1]" style="color: red;"><div v-for="logItemId in traceLogItemCalls[selectedLogItemContextStartLineNumber + indexContextLine + 1]"><debug_frame_component  v-bind:log_id="logItemId"  v-bind:key="logItemId"></debug_frame_component></div></span><div v-if="sqlUiDbUpdates[log_id] && (sqlUiDbUpdates[log_id].lineNumbers[(selectedLogItemContextStartLineNumber + indexContextLine + 1)])" style="color: white;background-color: black;"><div v-for="logr in sqlUiDbUpdates[log_id].lineNumbers[(selectedLogItemContextStartLineNumber + indexContextLine + 1)]">{{logr.sql_statement}}</div></div>
         </template>
     </pre>
     <div v-if="sqlUiDbUpdates[log_id]" style="color: white;background-color: black;">{{sqlUiDbUpdates[log_id]}}</div>
@@ -9663,8 +9663,6 @@
                                     [mm.log_id])
 
                             for (let itemCalled of mm.itemsCalled) {
-                                if (itemCalled.debug_tick == 4){
-                                    debugger
                                 let callerLine = itemCalled.caller_line_number
                                 if (mm.traceLogItemCalls[callerLine]) {
                                 } else {
@@ -9738,6 +9736,7 @@
                             //
                             let sqlLogRecords = sqlui( "select * from ui_table_debug_sql_log  where fk_parent_debug_trace_log_id = ?",[mm.log_id])
                             if (sqlLogRecords.length > 0) {
+                                debugger
                                 mm.sqlUiDbUpdates[mm.log_id] = {
                                     traceLogRecords: sqlLogRecords,
                                     lineNumbers: {}
