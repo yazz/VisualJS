@@ -13454,7 +13454,7 @@
                                             yz.debug.debugTracerId,
                                             sql,
                                             lastTraceid,
-                                            yz.debug.debugTick,
+                                            yz.debug.debugTick++,
                                             sourceFileName,
                                             lineNumber
                                         ])
@@ -13594,6 +13594,7 @@
                                         fk_caller_debug_trace_log_id:   callerLogId
                                     }
                                 )
+                                yz.debug.debugTick++
                             }
 
                         }
@@ -13711,6 +13712,7 @@
                                     line_text:              sourceForFunction.lineText.trim()
                                 }
                             )
+                            yz.debug.debugTick++
                         }
                     },
                     endDebug:                           function                    (  )                                                            {
