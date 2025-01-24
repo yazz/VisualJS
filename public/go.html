@@ -13713,6 +13713,25 @@
                             )
                             yz.debug.nextDebugTick++
                         }
+
+                        //
+                        // return the debug context now that we have started a debug thread
+                        //
+                        return {
+                            start_debug_id:         debugId,
+                            uuid_thread_tracer_id:  yz.debug.debugTracerId,
+                            debugTraceStepsV3: [
+                                {
+                                    id:                     nextId,
+                                    fn_debug_id:            debugId,
+                                    run_time_millis:        dateNow,
+                                    file_name:              sourceForFunction.fileName,
+                                    line_number:            startLineIndex,
+                                    debug_tick:             1,
+                                    line_text:              sourceForFunction.lineText.trim()
+                                }
+                            ]
+                        }
                     },
                     endDebug:                           function                    (  )                                                            {
                         //----------------------------------------------------------------------------------/
