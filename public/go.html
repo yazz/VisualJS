@@ -9665,10 +9665,6 @@
                             for (let itemCalled of mm.itemsCalled) {
                                 if (itemCalled.debug_tick == 4){
                                     debugger
-                                }
-                                if (itemCalled.caller_line_number == 11110){
-                                    debugger
-                                }
                                 let callerLine = itemCalled.caller_line_number
                                 if (mm.traceLogItemCalls[callerLine]) {
                                 } else {
