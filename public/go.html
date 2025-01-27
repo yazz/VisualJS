@@ -14400,8 +14400,8 @@
 
                     return dbPropValue
                 },
-                updateAppsFromAppStore:             async function              (  dbg  ) {
-                    yz.debug.debugFn("bghjbfdshjbsfhjkbfdjshbfsdjhbfdshjbfdsjhbfdsj",dbg, arguments)
+                updateAppsFromAppStore:             async function              (  callerDbgId, dbgThread  ) {
+                    yz.debug.debugFn("bghjbfdshjbsfhjkbfdjshbfsdjhbfdshjbfdsjhbfdsj",callerDbgId, dbgThread, arguments)
                     let openfileurl = "http" + (($HOSTPORT == 443)?"s":"") + "://" + $HOST + "/http_post_load_top_apps"
                     fetch(openfileurl,
                         {
@@ -14410,7 +14410,7 @@
                         })
                         .then((response) => response.json())
                         .then(function(responseJson) {
-                            let dbg = yz.debug.startDebug("hjgfsdjhkgfshjdkgfshjdkgfdshjkgfdsjhgfdsjhfgsdhjfghj")
+                            let dbgThread = yz.debug.startDebug("hjgfsdjhkgfshjdkgfshjdkgfdshjkgfdsjhgfdsjhfgsdhjfghj")
                             for (let rt=0;rt<responseJson.length; rt++) {
 
                                 for (let thisApp of responseJson) {
