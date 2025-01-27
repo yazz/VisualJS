@@ -70,13 +70,13 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
                                     v-bind:src='item.logo'
                                     style='position:relative;max-width: 75%; left:0px; top: 10px;max-height: 150px;margin-left: auto;margin-right: auto;display: block;z-index:0;'
                                     v-bind:alt='item.logo'
-                                    v-on:click='$event.stopPropagation();let dbg = yz.debug.startDebug("hjkfdhkjsdhfkjsdhfkdshfklsfhksdfhksdhfskjhfdsjkhfds");installAppNow("iodsfdfsiohdfshdfsjkhdfsjkhjdfksl",item.base_component_id)' />
+                                    v-on:click='$event.stopPropagation();let dbg = yz.debug.startDebug("hjkfdhkjsdhfkjsdhfkdshfklsfhksdfhksdhfskjhfdsjkhfds");installAppNow("iodsfdfsiohdfshdfsjkhdfsjkhjdfksl",dbg,item.base_component_id)' />
 
 
 
                             <button style='position:absolute;top:250px;left:65px;opacity:0.9;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);border-radius: 5px;margin-bottom:10px;margin-left:40px;padding:10px;font-size:20px;z-index:2147483647;'
                                     class='btn  btn-sm'
-                                    v-on:click='$event.stopPropagation();let dbg = yz.debug.startDebug("ewjkrjewrlkjewkljewkhewhrklejwhrjklewhkl");installAppNow("iuyidusfyiduosfyfdiusyfidsfisdyfsdio",item.content_hash)'>
+                                    v-on:click='$event.stopPropagation();let dbg = yz.debug.startDebug("ewjkrjewrlkjewkljewkhewhrklejwhrjklewhkl");installAppNow("iuyidusfyiduosfyfdiusyfidsfisdyfsdio",dbg,item.content_hash)'>
                                     <img    src='/driver_icons/edit.png'
                                     style='position:relative;max-width: 60px; left:0px; top: 0px;max-height: 40px;margin-left: auto;margin-right: auto;display: inline-block;'
                                     />
@@ -91,17 +91,17 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
 
                     <div    v-if="currentlyHighlightedAppstoreBCI != item.old_id"
                             style='border-radius: 0px;padding:0px; margin:0;'
-                            v-on:click='$event.stopPropagation();installAppNow("udfsuiyyfdsuioyfdsioyfiuyfsdiosdyiosd",item.old_id)'>
+                            v-on:click='$event.stopPropagation();let dbg = yz.debug.startDebug("jhkfgsdhgjfsdhgfdyuhgyughejwgewhujgeuwhjr");installAppNow("udfsuiyyfdsuioyfdsioyfiuyfsdiosdyiosd",dbg,item.old_id)'>
     
                         <img    v-if='item.logo && (item.logo != "")'
                                 v-bind:src='item.logo'
                                 style='position:relative;max-width: 75%; left:0px; top: 10px;max-height: 150px;margin-left: auto;margin-right: auto;display: block;'
                                 v-bind:alt='item.logo'
-                                v-on:click='$event.stopPropagation();installAppNow("uyidfsiufdsyfdsofysdiufyiusofsidoyfiduso", item.old_id)'
+                                v-on:click='$event.stopPropagation();let dbg = yz.debug.startDebug("hgdfsudfsgjhfgjdhgjhdfsghjdfsghjdfsjghdfsghjkdfksj");installAppNow("uyidfsiufdsyfdsofysdiufyiusofsidoyfiduso", dbg, item.old_id)'
                                 />
 
 
-                        <a  v-on:click='$event.stopPropagation();installAppNow("dsffdsuhfdsuihfdskjhfdskfdshkldsf", item.old_id)'
+                        <a  v-on:click='$event.stopPropagation();let dbg = yz.debug.startDebug("ukhdfshdsfjkdfshkfdshkldsahdsafklhfdklfdsah");installAppNow("dsffdsuhfdsuihfdskjhfdskfdshkldsf", dbg, item.old_id)'
                             class="nav-link active" href="#" style="position: absolute; bottom:0px;font-style:bold;width:90%;overflow-x: hidden;white-space: nowrap;font-size: 20px;color:white;">
 
                             {{item.display_name}}
@@ -154,8 +154,8 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
               }
               ,
               methods: {
-                installAppNow:          async function ( dbg, appInstanceId ) {
-                    yz.debug.debugFn("hfjdsjgsdfjkhbfjkhbfdshjkbfjhkbfsdhjkbffdshjbfjhsdbjh",dbg, arguments)
+                installAppNow:          async function ( callerDbgId, dbg, appInstanceId ) {
+                    yz.debug.debugFn("hfjdsjgsdfjkhbfjkhbfdshjkbfjhkbfsdhjkbffdshjbfjhsdbjh",callerDbgId, dbg , arguments)
                     showProgressBar();
                     let appRow = sqlui1("select  base_component_id  from  ui_table_appstore_apps  where  content_hash = ?"  ,  [  appInstanceId  ]  )
                     await yz.installAppFromAppstore("dfsasdfdfsadsffdsdfsdfsfdsfdsa", {baseComponentId: appRow.base_component_id , codeId: appInstanceId})
