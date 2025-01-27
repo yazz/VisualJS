@@ -9566,7 +9566,9 @@
                         mainVueOperatingSystemVm.show_loader = true
                     } else if (!yz.isStaticHtmlPageApp) {
                         setTimeout(async function() {
-                            await yz.selectAppbyId(nid)
+                            let dbgThread = yz.debug.startDebug("oiugfudioudsoujsdfojlks;dhfjds;kh");
+                            await yz.selectAppbyId("fdhsjkghjsdfhjfdgshjkfdsghjfdsgfdjshgfjhgfdsjhgfjsd",dbgThread,nid)
+                            yz.debug.endOfDebugSection()
                         },200)
                     } else if (yz.isStaticHtmlPageApp) {
                         //mainVueOperatingSystemVm.is_static = true
@@ -11098,11 +11100,11 @@
                                         yz.setGlobalVar("visible_app_id", id)
                                     },
                                     pageInitialised:                    async function(  ) {
-                                        let dbg = yz.debug.startDebug("khjdsajakshkjaskjsadjkdsahaksjhkdaslhdkhdlsa")
+                                        let dbgThread = yz.debug.startDebug("khjdsajakshkjaskjsadjkdsahaksjhkdaslhdkhdlsa")
                                         let mm = this
 
                                         console.log("await yz.pageInitialized( async function() { entered ... ")
-                                        await yz.updateAppsFromAppStore("gfdshjdsfgjkdhfsghjkfdsgjfdhksgfdsjhgfjkgfdsjkghjfskd")
+                                        await yz.updateAppsFromAppStore("gfdshjdsfgjkdhfsghjkfdsgjfdhksgfdsjhgfjkgfdsjkghjfskd",dbgThread)
 
                                         if (typeof($HIDEIMPORTBUTTONS) !== 'undefined') {
                                             if ($HIDEIMPORTBUTTONS == 'true') {
@@ -11113,7 +11115,7 @@
                                         } else {
                                             mm.hideImportButtons = false
                                         }
-                                        await mm.reloadInstalledAppsForUserFromServer("uiodfspfsduiopsufopsdudopsafuoapsisoadfp");
+                                        await mm.reloadInstalledAppsForUserFromServer("uiodfspfsduiopsufopsdudopsafuoapsisoadfp",dbgThread);
 
 
                                         /*
@@ -11124,8 +11126,9 @@
                                                                  | apps on the homepage
                                                                  |__________________________________ */
                                         yz.globalEventBus.on('message', async function(text) {
+                                            let dbgThread = yz.debug.startDebug("jfdklsjdfsjdlskjfkldshfkjhsdfkjlhsdkjsdflhsdklhfdsklhfdskl")
                                             if (text.type == "insert_editable_component_on_homepage") {
-                                                await mm.addEditableComponentToHomepage("fsdiudusidisfuofydsiuofyiusdfifdsuoyfdsiouyfiusdf",
+                                                await mm.addEditableComponentToHomepage("fsdiudusidisfuofydsiuofyiusdfifdsuoyfdsiouyfiusdf",dbgThread,
                                                     text.base_component_id,
                                                     text.display_name,
                                                     {
@@ -11149,7 +11152,7 @@
                                                                      | homepage
                                                                      |__________________________________ */
                                             if (text.type == "update_editable_components_on_homepage") {
-                                                await mm.reloadInstalledAppsForUserFromServer("uidfydfsiuodfyydfiouyfdsioufdyiudsf")
+                                                await mm.reloadInstalledAppsForUserFromServer("uidfydfsiuodfyydfiouyfdsioufdyiudsf",dbgThread)
                                                 mm.refresh++
                                             }
 
@@ -11192,6 +11195,7 @@
                                                 yz.globalEventBus.emit('show_settings', {});
 
                                                 setTimeout(async function() {
+                                                    let dbgThread = yz.debug.startDebug("jdkfskjdshkjldsfhjklshfklsdhfkjsdhfksjdhfksdhfhkfdskj")
                                                     let bci = text.base_component_id
                                                     let cid = text.code_id
                                                     if (!isValidObject(cid)) {
@@ -11203,8 +11207,9 @@
                                                     yz.editor.originalNameOfEditedUiControl             = cni
                                                     yz.editor.originalBaseComponentIdOfEditedUiControl  = bci
                                                     yz.editor.originalCodeIdOfEditedUiControl           = cid
-                                                    await mm.copyAndEditApp("duidfsyiufdsyiouydsaiuoyfdsoiufyiusoffds",
+                                                    await mm.copyAndEditApp("duidfsyiufdsyiouydsaiuoyfdsoiufyiusoffds",dbgThread,
                                                         {base_component_id: bci  ,  code_id: cid})
+                                                    yz.debug.endOfDebugSection()
                                                 },200)
                                             }
 
@@ -11307,7 +11312,7 @@
                                             }
 
 
-
+                                            yz.debug.endOfDebugSection()
                                         })
 
                                         /*
@@ -12578,8 +12583,8 @@
                         mainVueOperatingSystemVm.appCodeId = codeIdOfComponent
                     }
                 },
-                selectAppbyId:                        async function              (  id  ) {
-                    yz.debug.debugFn("kjlhjsdkflhjksfdhfsdkljhfdskjlhfskdjhfsdklfdhkfdsl",dbg, arguments)
+                selectAppbyId:                        async function              (  callerDgbId, dbgThread,  id  ) {
+                    yz.debug.debugFn("kjlhjsdkflhjksfdhfsdkljhfdskjlhfskdjhfsdklfdhkfdsl",callerDgbId, dbgThread, arguments)
                     //
                     // if the app is already visible then do nothing
                     //
