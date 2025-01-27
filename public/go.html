@@ -11100,6 +11100,7 @@
                                         yz.setGlobalVar("visible_app_id", id)
                                     },
                                     pageInitialised:                    async function(  ) {
+                                        debugger
                                         let dbgThread = yz.debug.startDebug("khjdsajakshkjaskjsadjkdsahaksjhkdaslhdkhdlsa")
                                         let mm = this
 
@@ -13598,6 +13599,29 @@
                                         fk_caller_debug_trace_log_id:   callerLogId
                                     }
                                 )
+                                let currentDebugThread = yz.debug.debugThreads[yz.debug.debugTracerId]
+                                if (!currentDebugThread) {
+                                    debugger
+                                    throw new Error("debug entry")
+                                }
+                                let debugThreadEntryForFn =
+                                    {
+                                        id:                             nextId,
+                                        start_debug_id:                 yz.debug.startDebugId,
+                                        fn_debug_id:                    yz.debug.fnDebugId,
+                                        run_time_millis:                dateNow,
+                                        file_name:                      sourceForFunction.fileName,
+                                        line_number:                    sourceForFunction.lineNumber - 1,
+                                        debug_tick:                     yz.debug.nextDebugTick,
+                                        line_text:                      sourceForFunction.lineText.trim(),
+                                        arguments:                      JSON.stringify(argsArray,null,2),
+                                        caller_file_name:               sourceForCallerOfFunction.filename,
+                                        caller_line_number:             sourceForCallerOfFunction.lineNumber,
+                                        fk_caller_debug_trace_log_id:   callerLogId
+                                    }
+                                yz.debug.debugThreads[yz.debug.debugTracerId].debugTraceStepsV3.push(
+                                    debugThreadEntryForFn)
+
                                 yz.debug.nextDebugTick++
                             }
 
