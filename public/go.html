@@ -13717,7 +13717,7 @@
                         //
                         // return the debug context now that we have started a debug thread
                         //
-                        return {
+                        let newDebugThread = {
                             start_debug_id:         debugId,
                             uuid_thread_tracer_id:  yz.debug.debugTracerId,
                             debugTraceStepsV3: [
@@ -13732,6 +13732,9 @@
                                 }
                             ]
                         }
+                        yz.debug.debugThreads[yz.debug.debugTracerId] = newDebugThread
+
+                        return newDebugThread
                     },
                     endDebug:                           function                    (  )                                                            {
                         //----------------------------------------------------------------------------------/
@@ -13844,6 +13847,7 @@
                         }
                     },
 
+                    debugThreads:                       {},         // collection of all live debug threads indexed by the THREAD UUID
                     linesOfSourceFile:                  {},         // the lines of code in go.html and other source files = [line 1, line 2, etc...]
                     fnDebugId:                          null,       // table "ui_table_debug_trace_log", field "start_debug_id" = eg: "hjgfsjfgsdhjgfhjfgdjhsfgjfh"
                     debugTracerId:                      null,       // a UUID which shows which debug trace event we are in ("fnDebugId" is not unique)
