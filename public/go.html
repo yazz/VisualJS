@@ -14468,10 +14468,10 @@
                                 //mm.appstore_apps.push(responseJson[rt])
                                 //mm.app_store_component_logos_by_BCI[responseJson[rt].id] = responseJson[rt].logo
                             }
-                            yz.debug.endOfDebugSection()
+                            yz.debug.endOfDebugSection(dbgThread)
                         }).catch(err => {
                         })
-                    yz.debug.endOfDebugSection()
+                    yz.debug.endOfDebugSection(dbgThread)
                 },
                 addInstalledApp:                  async function              (  dbg  ,  app   ) {
                     let dbgThread = yz.debug.debugFn("hjdgfjgfksfgdkjhgfdsjhkfgdjhkfdsgjkhfdsgjfds",dbg, arguments)
@@ -14481,7 +14481,7 @@
                                 "insert  into  ui_table_installed_apps  (  id  ,  code_id  ,  base_component_id, logo, display_name,component_type) values (?,?,?,?,?,?)",
                             [yz.uiDb.uiDbNextId ++,app.code_id,app.base_component_id,app.logo_url, app.displayName, app.component_type])
                     }
-                    yz.debug.endOfDebugSection()
+                    yz.debug.endOfDebugSection(dbgThread)
                 },
                 installAppFromAppstore:           async function              (  dbg  ,  {  baseComponentId  ,  codeId  }  ) {
                     yz.debug.debugFn("hjkdfsgfdgshfjkdsghjkfdsghjkfdsgfhjdgfdjkgfdhj",dbg, arguments)
@@ -14491,7 +14491,7 @@
                             base_component_id:  baseComponentId,
                             code_id:            codeId
                         })
-                    yz.debug.endOfDebugSection()
+                    yz.debug.endOfDebugSection(dbgThread)
                 },
                 addRunningApp:                    async function              (  app   ) {
                     let alreadyRunningApp = yz.uiDb.sqlui1("select * from  ui_table_running_apps  where code_id = ? and status = ?", [app.code_id, "RUNNING"])
