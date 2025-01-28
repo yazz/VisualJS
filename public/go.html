@@ -13569,7 +13569,7 @@
                         //
                         let sourceForFunction = yz.debug.internal.findScopeForDebugId(fnDebugId)
                         if (sourceForFunction.found) {
-                            const argsArray = Array.from(arguments).slice(3);
+                            const argsArray = Array.from(Array.from(arguments)[3]).slice(2)
                             //let callerLogItem = yz.debug.debugTraceStepsV2[yz.debug.debugTraceStepsV2.length - 1]
                             let callerLogItem = currentDebugThread.debugTraceStepsV3[currentDebugThread.debugTraceStepsV3.length - 1]
                             if (callerLogItem) {
