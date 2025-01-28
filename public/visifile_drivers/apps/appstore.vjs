@@ -155,12 +155,12 @@ logo_url("data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxIQEg8SEBE
               ,
               methods: {
                 installAppNow:          async function ( callerDbgId, dbgThread, appInstanceId ) {
-                    yz.debug.debugFn("hfjdsjgsdfjkhbfjkhbfdshjkbfjhkbfsdhjkbffdshjbfjhsdbjh",callerDbgId, dbgThread , arguments)
+                    let dbgThread = yz.debug.debugFn("hfjdsjgsdfjkhbfjkhbfdshjkbfjhkbfsdhjkbffdshjbfjhsdbjh",callerDbgId, dbgThread , arguments)
                     showProgressBar();
                     let appRow = sqlui1("select  base_component_id  from  ui_table_appstore_apps  where  content_hash = ?"  ,  [  appInstanceId  ]  )
-                    await yz.installAppFromAppstore("dfsasdfdfsadsffdsdfsdfsfdsfdsa", {baseComponentId: appRow.base_component_id , codeId: appInstanceId})
+                    await yz.installAppFromAppstore("dfsasdfdfsadsffdsdfsdfsfdsfdsa" , dbgThread , {baseComponentId: appRow.base_component_id , codeId: appInstanceId})
                     hideProgressBar();
-                    yz.debug.endOfDebugSection()
+                    yz.debug.endOfDebugSection(dbgThread)
                 }
               }
         }

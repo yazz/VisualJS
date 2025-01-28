@@ -9568,7 +9568,7 @@
                         setTimeout(async function() {
                             let dbgThread = yz.debug.startDebug("oiugfudioudsoujsdfojlks;dhfjds;kh");
                             await yz.selectAppbyId("fdhsjkghjsdfhjfdgshjkfdsghjfdsgfdjshgfjhgfdsjhgfjsd",dbgThread,nid)
-                            yz.debug.endOfDebugSection()
+                            yz.debug.endOfDebugSection(dbgThread)
                         },200)
                     } else if (yz.isStaticHtmlPageApp) {
                         //mainVueOperatingSystemVm.is_static = true
@@ -10779,7 +10779,7 @@
                     margin-bottom:10px;margin-left:80px;padding:25px;font-size:60px;font-weight: bold;left:30%;'
                     class='btn btn-lg'
                     v-if="hideImportButtons"
-                    v-on:click='$event.stopPropagation();let dbg = yz.debug.startDebug("oiugfudioudsoujsdfojlks;dhfjds;kh");copyAndEditApp("lkdfjytusdfutfdsuistfuiysdtuyids",{base_component_id: "yazz_blank"})'>
+                    v-on:click='$event.stopPropagation();let dbg = yz.debug.startDebug("oiugfudioudsoujsdfojlks;dhfjds;kh");copyAndEditApp("lkdfjytusdfutfdsuistfuiysdtuyids",dbg,{base_component_id: "yazz_blank"})'>
 
                 <img    src='/driver_icons/blocks.png'
                         style='position:relative;max-width: 100px; left:0px; top: 0px;max-height: 90px;margin-left: auto;margin-right: auto;display: inline-block;'
@@ -10792,7 +10792,7 @@
             <button style='opacity:0.7;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);border-radius: 40px;margin-bottom:10px;margin-left:40px;padding:25px;font-size:45px;font-weight: bold;'
                     class='btn btn-lg'
                     v-if="!hideImportButtons"
-                    v-on:click='$event.stopPropagation();let dbg = yz.debug.startDebug("ukydsfuidsfyo8iashkjlhasdkljhasuiyguyads");copyAndEditApp("yuisdyfuiysdoiuyfdsoaiyfsduiaoyfioyuiaos",{base_component_id: "yazz_blank"})'>
+                    v-on:click='$event.stopPropagation();let dbg = yz.debug.startDebug("ukydsfuidsfyo8iashkjlhasdkljhasuiyguyads");copyAndEditApp("yuisdyfuiysdoiuyfdsoaiyfsduiaoyfioyuiaos",dbg,{base_component_id: "yazz_blank"})'>
 
                 <img    src='/driver_icons/blocks.png'
                         style='position:relative;max-width: 70px; left:0px; top: 0px;max-height: 70px;margin-left: auto;margin-right: auto;display: inline-block;' />
@@ -11214,7 +11214,7 @@
                                                     yz.editor.originalCodeIdOfEditedUiControl           = cid
                                                     await mm.copyAndEditApp("duidfsyiufdsyiouydsaiuoyfdsoiufyiusoffds",dbgThread,
                                                         {base_component_id: bci  ,  code_id: cid})
-                                                    yz.debug.endOfDebugSection()
+                                                    yz.debug.endOfDebugSection(dbgThread)
                                                 },200)
                                             }
 
@@ -11317,7 +11317,7 @@
                                             }
 
 
-                                            yz.debug.endOfDebugSection()
+                                            yz.debug.endOfDebugSection(dbgThread)
                                         })
 
                                         /*
@@ -11329,8 +11329,8 @@
                                                                  |__________________________________ */
                                         yz.globalEventBus.on('new-appshare-app-uploaded',
                                             async function({baseComponentId, codeId, logoUrl, displayName}) {
-
-                                                await mm.addEditableComponentToHomepage("sdfayjghjfghjsdfgjhksdfgjhfdsgjsdfhgfdshjgj",
+                                                let dbgThread = yz.debug.startDebug("hdjfgshkjgfsdhkjgfjkhgdfsjksgdfjfsdhg")
+                                                await mm.addEditableComponentToHomepage("sdfayjghjfghjsdfgjhksdfgjhfdsgjsdfhgfdshjgj",dbgThread,
                                                     baseComponentId,
                                                     displayName,
                                                     {
@@ -11342,6 +11342,7 @@
                                                 setTimeout(async function() {
                                                     await mm.editApp(baseComponentId, codeId)
                                                 },250)
+                                                yz.debug.endOfDebugSection(dbgThread)
                                             });
 
 
@@ -11421,7 +11422,7 @@
                                                 console.log("Global var 'show_running_apps' changed : " + JSON.stringify(nv))
                                                 mm.refresh ++
                                             })
-                                        yz.debug.endOfDebugSection()
+                                        yz.debug.endOfDebugSection(dbgThread)
                                     },
 
                                     // local filesystem stuff
@@ -11699,8 +11700,8 @@
                                     },
 
                                     // amend the edited apps
-                                    addEditableComponentToHomepage:     async function  ( dbg, baseComponentId, displayName, other) {
-                                        yz.debug.debugFn("flksdjhsjkdhfsjkdhfsdjhfjdfshjbfdshbdsjbdsjkhbhfjdbjk",dbg, arguments)
+                                    addEditableComponentToHomepage:     async function  ( callerDbgId , dbgThread, baseComponentId, displayName, other) {
+                                        yz.debug.debugFn("flksdjhsjkdhfsjkdhfsdjhfjdfshjbfdshbdsjbdsjkhbhfjdbjk",dbgThread, arguments)
                                         //----------------------------------------------------------------------------------
                                         //
                                         //                    /-------------------------------------/
@@ -11756,7 +11757,7 @@
                                             await yz.addInstalledApp("uiyodfsdfsyuidfsyiuiuyodfsiuoydfsuiyodsfuiyodfsuiyodfs",app)
                                         }
 
-                                        return yz.debug.endOfDebugSection(null)
+                                        return yz.debug.endOfDebugSection(dbgThread , null)
                                     },
                                     addToEditableAppsAndEdit:           async function  ( contentHash ) {
                                         //----------------------------------------------------------------------------------
@@ -11801,8 +11802,8 @@
                                             await mm.editApp(result.base_component_id , contentHash)
                                         },50)
                                     },
-                                    copyAndEditApp:                     async function  ( dbg,compInfo ) {
-                                        yz.debug.debugFn("hjdsfkgsdjgsdjkhgfdjkhdgfkhjdsfbkhjdsbjdskhfdjjhd",dbg, arguments)
+                                    copyAndEditApp:                     async function  ( callerDbgId, dbgThread,compInfo ) {
+                                        yz.debug.debugFn("hjdsfkgsdjgsdjkhgfdjkhdgfkhjdsfbkhjdsbjdskhfdjjhd",callerDbgId , dbgThread, arguments)
 
                                         /* copyAndEditApp
                                         ________________________________________
@@ -11842,7 +11843,7 @@
                                             componentType = "component"
                                         }
 
-                                        await mm.addEditableComponentToHomepage("dfsjkhfdsjkhdfsjkhfdsjkhfdkjfdsjfdsjlkds;",
+                                        await mm.addEditableComponentToHomepage("dfsjkhfdsjkhdfsjkhfdsjkhfdkjfdsjfdsjlkds;",dbgThread,
                                             result.base_component_id,
                                             result.new_display_name,
                                             {
@@ -11854,7 +11855,7 @@
                                         setTimeout(async function() {
                                             await mm.editApp(result.base_component_id, result.code_id)
                                         },50)
-                                        yz.debug.endOfDebugSection()
+                                        yz.debug.endOfDebugSection(dbgThread)
                                     },
                                     runAppInThisBrowserTab:              async function  ( baseComponentId, code_id ) {
                                         /* Given the base component ID of an app, open that app in a separate
@@ -11916,8 +11917,8 @@
                                             baseComponentId)
                                         mm.refresh++
                                     },
-                                    openAppInNewTab:                  async function  ( dbg,contentHash ) {
-                                        yz.debug.debugFn("hjfdskgjfsdgjkshfdfdsjjfdshfjksdkjsdfjfdsfdsfds",dbg, arguments)
+                                    openAppInNewTab:                  async function  ( callerDbgId, dbgThread,contentHash ) {
+                                        yz.debug.debugFn("hjfdskgjfsdgjkshfdfdsjjfdshfjksdkjsdfjfdsfdsfds",callerDbgId ,dbgThread, arguments)
                                         //----------------------------------------------------------------------------------
                                         //
                                         //                    /-------------------------------------/
@@ -11945,7 +11946,7 @@
 
                                         let logoUrl = await mm.addLogoForApp(result.base_component_id)
 
-                                        await mm.addEditableComponentToHomepage("hdsfghjkdsffdsfdsfdfsddsf",
+                                        await mm.addEditableComponentToHomepage("hdsfghjkdsffdsfdsfdfsddsf",dbgThread,
                                             result.base_component_id,
                                             result.display_name,
                                             {
@@ -11960,7 +11961,7 @@
                                             await mm.runAppInNewBrowserTab(result.base_component_id)
 
                                         },50)
-                                        yz.debug.endOfDebugSection()
+                                        yz.debug.endOfDebugSection(dbgThread)
                                     },
                                     editApp:                            async function  ( baseComponentId, codeId) {
                                         //----------------------------------------------------------------------------------
@@ -11999,8 +12000,8 @@
                                         mm.currentlyHighlightedAppstoreBCI  = null
                                         mm.refresh ++
                                     },
-                                    reloadInstalledAppsForUserFromServer:         async function  ( dbg ) {
-                                        yz.debug.debugFn("hjkjkhsdfjgsfdghfhsjdfsdkhdfsjkfdsbjfhdsbfjhdshfdjsbdsfjh",dbg, arguments)
+                                    reloadInstalledAppsForUserFromServer:         async function  ( callerDbgId, dbgThread ) {
+                                        yz.debug.debugFn("hjkjkhsdfjgsfdghfhsjdfsdkhdfsjkfdsbjfhdsbfjhdshfdjsbdsfjh",callerDbgId,dbgThread, arguments)
                                         //----------------------------------------------------------------------------------
                                         //
                                         //                    /-----------------------------------------------/
@@ -12028,7 +12029,7 @@
 
                                         // add all the items to the homepage
                                         for (let rt = 0; rt < responseJson.length; rt++) {
-                                            await mm.addEditableComponentToHomepage("hgdfsjgdfsjkgfdsjhkgfdjkhgfdshjkgfdshjfghjs",
+                                            await mm.addEditableComponentToHomepage("hgdfsjgdfsjkgfdsjhkgfdjkhgfdshjkgfdshjfghjs",dbgThread,
                                                 responseJson[rt].base_component_id,
                                                 responseJson[rt].display_name,
                                                 {
@@ -12045,7 +12046,7 @@
                                         }
                                         mm.refresh++
 
-                                        yz.debug.endOfDebugSection()
+                                        yz.debug.endOfDebugSection(dbgThread)
 
                                     }
                                 }
@@ -13494,8 +13495,8 @@
                         }
                         return ret
                     },
-                    endOfDebugSection:                  function                    (  returnValue  )                                               {
-                        yz.debug.debugTraceStepsV2.pop()
+                    endOfDebugSection:                  function                    (  dbgThread  ,  returnValue  )                                               {
+                        dbgThread.debugTraceStepsV3.pop()
                         return returnValue
                     },
                     debugFn:                            function                    (  fnDebugId  , callerFnDebugId  ,  dbgThread  ,  argsPassedIn  )                                              {
