@@ -13393,7 +13393,7 @@
                                 debugFileText:  fileText
                             })
                     },
-                    sqluiDebug:                         function                    (  dbgCode  ,  sql  ,  params  )                                {
+                    sqluiDebug:                         function                    (  dbgCode  ,  dbgThread  ,  sql  ,  params  )                                {
                         //----------------------------------------------------------------------------------/
                         //
                         //                                          /-------------------------------------/
@@ -13449,7 +13449,7 @@
                                         sourceFileName = sourceForCallerOfFunction.fileName
                                         lineNumber = sourceForCallerOfFunction.lineNumber
                                     }
-                                    let steps = yz.debug.debugTraceStepsV2
+                                    let steps = dbgThread.debugTraceStepsV3
                                     let lastTraceitem = null
                                     let lastTraceid = null
                                     if (steps && (steps.length > 0)) {
@@ -13912,7 +13912,7 @@
                     //
 
                     sqlui:                              function                    (  sql  ,  params  )                                            {
-                        let ret = yz.debug.sqluiDebug(null, sql , params)
+                        let ret = yz.debug.sqluiDebug(null, null, sql , params)
                         return ret
                     },
                     sqlui1:                             function                    (  sql  ,  params  )                                            {
@@ -14459,7 +14459,7 @@
                                 for (let thisApp of responseJson) {
                                     let alreadyExists = yz.uiDb.sqlui("select * from ui_table_appstore_apps where content_hash = ?", [thisApp.content_hash])
                                     if (alreadyExists.length == 0) {
-                                        yz.debug.sqluiDebug("hgdfsgjhksdfghjkdsfgdfjskhgnfuybgfeiurybrgeruyigferuiyigfueirgueirwygyuieriur",
+                                        yz.debug.sqluiDebug("hgdfsgjhksdfghjkdsfgdfjskhgnfuybgfeiurybrgeruyigferuiyigfueirgueirwygyuieriur",dbgThread,
                                             "insert  into  ui_table_appstore_apps  (  id  ,  old_id, content_hash  ,  base_component_id, logo, display_name,component_type) values (?,?,?,?,?,?,?)",
                                                         [yz.uiDb.uiDbNextId ++, thisApp.base_component_id, thisApp.content_hash,thisApp.base_component_id,thisApp.logo, thisApp.display_name, thisApp.component_type])
                                     }
@@ -14473,10 +14473,10 @@
                     yz.debug.endOfDebugSection()
                 },
                 addInstalledApp:                  async function              (  dbg  ,  app   ) {
-                    yz.debug.debugFn("hjdgfjgfksfgdkjhgfdsjhkfgdjhkfdsgjkhfdsgjfds",dbg, arguments)
+                    let dbgThread = yz.debug.debugFn("hjdgfjgfksfgdkjhgfdsjhkfgdjhkfdsgjkhfdsgjfds",dbg, arguments)
                     let alreadyExists = yz.uiDb.sqlui("select * from  ui_table_installed_apps  where code_id = ?", [app.code_id])
                     if (alreadyExists.length == 0) {
-                        yz.debug.sqluiDebug("hdfjkshfjkdshfudisyouidsfyffdsbyoiudfsyboibdsfyioudsfbyoibsefyfdsidfsiobdsfoidfsbiodfsoi",
+                        yz.debug.sqluiDebug("hdfjkshfjkdshfudisyouidsfyffdsbyoiudfsyboibdsfyioudsfbyoibsefyfdsidfsiobdsfoidfsbiodfsoi",dbgThread,
                                 "insert  into  ui_table_installed_apps  (  id  ,  code_id  ,  base_component_id, logo, display_name,component_type) values (?,?,?,?,?,?)",
                             [yz.uiDb.uiDbNextId ++,app.code_id,app.base_component_id,app.logo_url, app.displayName, app.component_type])
                     }
