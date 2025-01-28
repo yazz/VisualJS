@@ -13660,8 +13660,7 @@
                         //
                         //-----------------------------------------------------------/
 
-                        console.log("Before: "                        + JSON.stringify(yz.debug.debugTraceStepsV2.length,null,2))
-                        console.log("startDebug(")
+
                         //
                         // do nothing if not in debug mode
                         //
@@ -13694,6 +13693,7 @@
                         let indexToEndOfDebugId = upToDebugId.indexOf("\")")
                         let afterDebugId        = upToDebugId.substring(indexToEndOfDebugId)
                         let lengthOfRestOfLine  = afterDebugId.length
+                        let newDebugThread
 
                         //
                         // if the start debug section is in a function
@@ -13748,29 +13748,32 @@
                                     line_text:              sourceForFunction.lineText.trim()
                                 }
                             )
+
+                            newDebugThread = {
+                                start_debug_id:         debugId,
+                                uuid_thread_tracer_id:  yz.debug.debugTracerId,
+                                debugTraceStepsV3: [
+                                    {
+                                        id:                     nextId,
+                                        fn_debug_id:            debugId,
+                                        run_time_millis:        dateNow,
+                                        file_name:              sourceForFunction.fileName,
+                                        line_number:            startLineIndex,
+                                        debug_tick:             1,
+                                        line_text:              sourceForFunction.lineText.trim()
+                                    }
+                                ]
+                            }
+                            yz.debug.debugThreads[yz.debug.debugTracerId] = newDebugThread
+
+
+
                             yz.debug.nextDebugTick++
                         }
 
                         //
                         // return the debug context now that we have started a debug thread
                         //
-                        let newDebugThread = {
-                            start_debug_id:         debugId,
-                            uuid_thread_tracer_id:  yz.debug.debugTracerId,
-                            debugTraceStepsV3: [
-                                {
-                                    id:                     nextId,
-                                    fn_debug_id:            debugId,
-                                    run_time_millis:        dateNow,
-                                    file_name:              sourceForFunction.fileName,
-                                    line_number:            startLineIndex,
-                                    debug_tick:             1,
-                                    line_text:              sourceForFunction.lineText.trim()
-                                }
-                            ]
-                        }
-                        yz.debug.debugThreads[yz.debug.debugTracerId] = newDebugThread
-
                         return newDebugThread
                     },
                     endDebug:                           function                    (  )                                                            {
