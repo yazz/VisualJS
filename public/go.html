@@ -13785,26 +13785,6 @@
                         //
                         return newDebugThread
                     },
-                    endDebug:                           function                    (  )                                                            {
-                        //----------------------------------------------------------------------------------/
-                        //
-                        //                                          /-------------------------------------/
-                        //                                         /      FUNCTION  endDebug             /
-                        //                                        /-------------------------------------/
-                        //
-                        //----------------------------------------------------------------------------/
-                        // This is not currently used. It is supposed to set all the debug vars
-                        // to null though, like when we stop debugging
-                        //-----------------------------------------------------------/
-
-                        if ((typeof $DEBUGUI == 'undefined') || (!$DEBUGUI)) {
-                            return
-                        }
-                        yz.debug.fnDebugId     = null
-                        yz.debug.nextDebugTick          = 1
-                        yz.debug.debugTraceid       = null
-                        yz.debug.debugTraceStepsV2  = []
-                    },
 
                     internal:   {
                         readSourceFileForDebugging:      async function             (  fileName  )                                                  {
