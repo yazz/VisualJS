@@ -13533,10 +13533,14 @@
                             return
                         }
 
+
                         //
                         // check we have a valid debug thread
                         //
-                        let currentDebugThread = yz.debug.debugThreads[dbgThread.debugTracerId]
+                        if (!dbgThread) {
+                            return
+                        }
+                        let currentDebugThread = yz.debug.debugThreads[dbgThread.uuid_thread_tracer_id]
                         if (!currentDebugThread) {
                             return
                             debugger
