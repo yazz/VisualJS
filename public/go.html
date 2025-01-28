@@ -11100,7 +11100,6 @@
                                         yz.setGlobalVar("visible_app_id", id)
                                     },
                                     pageInitialised:                    async function(  ) {
-                                        debugger
                                         let dbgThread = yz.debug.startDebug("khjdsajakshkjaskjsadjkdsahaksjhkdaslhdkhdlsa")
                                         let mm = this
 
@@ -13570,9 +13569,9 @@
                         //
                         let sourceForFunction = yz.debug.internal.findScopeForDebugId(fnDebugId)
                         if (sourceForFunction.found) {
-                            const argsArray = Array.from(arguments).slice(2);
-                            let callerLogItem = yz.debug.debugTraceStepsV2[yz.debug.debugTraceStepsV2.length - 1]
-                            //let callerLogItem = currentDebugThread
+                            const argsArray = Array.from(arguments).slice(3);
+                            //let callerLogItem = yz.debug.debugTraceStepsV2[yz.debug.debugTraceStepsV2.length - 1]
+                            let callerLogItem = currentDebugThread.debugTraceStepsV3[currentDebugThread.debugTraceStepsV3.length - 1]
                             if (callerLogItem) {
                                 //debugger
                                 let callerLogId = callerLogItem.id
@@ -13583,10 +13582,10 @@
                                     "fk_caller_debug_trace_log_id  ) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?)",
                                     [
                                         nextId,
-                                        yz.debug.startDebugId,
-                                        yz.debug.fnDebugId,
+                                        currentDebugThread.start_debug_id,//yz.debug.startDebugId,
+                                        fnDebugId,//yz.debug.fnDebugId,
                                         dateNow,
-                                        yz.debug.debugTracerId,
+                                        dbgThread.uuid_thread_tracer_id,//yz.debug.debugTracerId,
                                         sourceForFunction.fileName,
                                         sourceForFunction.lineNumber - 1,
                                         yz.debug.nextDebugTick,
@@ -13601,10 +13600,10 @@
                                 yz.debug.debugTraceStepsV2.push(
                                     {
                                         id:                             nextId,
-                                        start_debug_id:                 yz.debug.startDebugId,
-                                        fn_debug_id:                    yz.debug.fnDebugId,
+                                        start_debug_id:                 currentDebugThread.start_debug_id,
+                                        fn_debug_id:                    fnDebugId,
                                         run_time_millis:                dateNow,
-                                        uuid_thread_tracer_id:          yz.debug.debugTracerId,
+                                        uuid_thread_tracer_id:          dbgThread.uuid_thread_tracer_id,
                                         file_name:                      sourceForFunction.fileName,
                                         line_number:                    sourceForFunction.lineNumber - 1,
                                         debug_tick:                     yz.debug.nextDebugTick,
@@ -13619,8 +13618,8 @@
                                 let debugThreadEntryForFn =
                                     {
                                         id:                             nextId,
-                                        start_debug_id:                 yz.debug.startDebugId,
-                                        fn_debug_id:                    yz.debug.fnDebugId,
+                                        start_debug_id:                 currentDebugThread.start_debug_id,
+                                        fn_debug_id:                    fnDebugId,
                                         run_time_millis:                dateNow,
                                         file_name:                      sourceForFunction.fileName,
                                         line_number:                    sourceForFunction.lineNumber - 1,
@@ -14440,6 +14439,7 @@
                     return dbPropValue
                 },
                 updateAppsFromAppStore:             async function              (  callerDbgId, dbgThread  ) {
+                    debugger
                     yz.debug.debugFn("bghjbfdshjbsfhjkbfdjshbfsdjhbfdshjbfdsjhbfdsj",callerDbgId, dbgThread, arguments)
                     let openfileurl = "http" + (($HOSTPORT == 443)?"s":"") + "://" + $HOST + "/http_post_load_top_apps"
                     fetch(openfileurl,
