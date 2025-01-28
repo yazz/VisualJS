@@ -13576,7 +13576,6 @@
                         let sourceForFunction = yz.debug.internal.findScopeForDebugId(fnDebugId)
                         if (sourceForFunction.found) {
                             const argsArray = Array.from(Array.from(arguments)[3]).slice(2)
-                            //let callerLogItem = yz.debug.debugTraceStepsV2[yz.debug.debugTraceStepsV2.length - 1]
                             let callerLogItem = currentDebugThread.debugTraceStepsV3[currentDebugThread.debugTraceStepsV3.length - 1]
                             if (callerLogItem) {
                                 //debugger
@@ -13601,25 +13600,6 @@
                                         sourceForCallerOfFunction.lineNumber,
                                         callerLogId
                                     ])
-
-
-                                yz.debug.debugTraceStepsV2.push(
-                                    {
-                                        id:                             nextId,
-                                        start_debug_id:                 currentDebugThread.start_debug_id,
-                                        fn_debug_id:                    fnDebugId,
-                                        run_time_millis:                dateNow,
-                                        uuid_thread_tracer_id:          dbgThread.uuid_thread_tracer_id,
-                                        file_name:                      sourceForFunction.fileName,
-                                        line_number:                    sourceForFunction.lineNumber - 1,
-                                        debug_tick:                     yz.debug.nextDebugTick,
-                                        line_text:                      sourceForFunction.lineText.trim(),
-                                        arguments:                      JSON.stringify(argsArray,null,2),
-                                        caller_file_name:               sourceForCallerOfFunction.filename,
-                                        caller_line_number:             sourceForCallerOfFunction.lineNumber,
-                                        fk_caller_debug_trace_log_id:   callerLogId
-                                    }
-                                )
 
                                 let debugThreadEntryForFn =
                                     {
@@ -13683,7 +13663,6 @@
                         yz.debug.startDebugId      = debugId
                         yz.debug.fnDebugId         = debugId
                         yz.debug.debugTracerId     = yz.uuidv4()
-                        yz.debug.debugTraceStepsV2 = []
                         yz.debug.nextDebugTick         = 1
 
 
@@ -13739,24 +13718,6 @@
                                     sourceForFunction.lineText.trim()
                                 ])
 
-
-                            //
-                            // Set the trace call log to start at the entry added into the table "ui_table_debug_trace_log"
-                            // by just storing the "id" of the record
-                            //
-                            yz.debug.debugTraceStepsV2.push(
-                                {
-                                    id:                     nextId,
-                                    start_debug_id:         debugId,
-                                    fn_debug_id:            debugId,
-                                    run_time_millis:        dateNow,
-                                    uuid_thread_tracer_id:  yz.debug.debugTracerId,
-                                    file_name:              sourceForFunction.fileName,
-                                    line_number:            startLineIndex,
-                                    debug_tick:             1,
-                                    line_text:              sourceForFunction.lineText.trim()
-                                }
-                            )
 
                             newDebugThread = {
                                 start_debug_id:         debugId,
@@ -13881,7 +13842,6 @@
                     fnDebugId:                          null,       // table "ui_table_debug_trace_log", field "start_debug_id" = eg: "hjgfsjfgsdhjgfhjfgdjhsfgjfh"
                     debugTracerId:                      null,       // a UUID which shows which debug trace event we are in ("fnDebugId" is not unique)
                     nextDebugTick:                      1,          // 1..n is used to show which step in a trace we are at
-                    debugTraceStepsV2:                  [],         // [{db record},{db record}] - list of the trace IDs of the current debug log
                     currentSqlLogId:                    null        // ID to use for the SQL log 1..n
                 },
                 uiDb:                               {
