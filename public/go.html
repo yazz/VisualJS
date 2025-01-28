@@ -13561,8 +13561,6 @@
                         if (fnDebugId == null) {
                             return
                         }
-                        yz.debug.fnDebugId         = fnDebugId
-
 
                         //
                         // find the source code where this was called from
@@ -13587,10 +13585,10 @@
                                     "fk_caller_debug_trace_log_id  ) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?)",
                                     [
                                         nextId,
-                                        currentDebugThread.start_debug_id,//yz.debug.startDebugId,
-                                        fnDebugId,//yz.debug.fnDebugId,
+                                        currentDebugThread.start_debug_id,
+                                        fnDebugId,
                                         dateNow,
-                                        dbgThread.uuid_thread_tracer_id,//yz.debug.debugTracerId,
+                                        dbgThread.uuid_thread_tracer_id,
                                         sourceForFunction.fileName,
                                         sourceForFunction.lineNumber - 1,
                                         yz.debug.nextDebugTick,
@@ -13661,7 +13659,6 @@
                         // reset all the debug markers as we are starting a new debug trace
                         //
                         yz.debug.startDebugId      = debugId
-                        yz.debug.fnDebugId         = debugId
                         yz.debug.debugTracerId     = yz.uuidv4()
                         yz.debug.nextDebugTick         = 1
 
