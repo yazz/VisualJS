@@ -13534,6 +13534,17 @@
                         }
 
                         //
+                        // check we have a valid debug thread
+                        //
+                        let currentDebugThread = yz.debug.debugThreads[dbgThread.debugTracerId]
+                        if (!currentDebugThread) {
+                            return
+                            debugger
+                            throw new Error("debug entry")
+                        }
+
+
+                        //
                         // get the debug token, like "hjgdffdsfdsfdsgjhfsgjsgdjhsf" from the args passed in
                         // as "fnDebugId"
                         // a fn can choose to not be debuggable by passing in "null" as the debug token
@@ -13557,6 +13568,7 @@
                         if (sourceForFunction.found) {
                             const argsArray = Array.from(arguments).slice(2);
                             let callerLogItem = yz.debug.debugTraceStepsV2[yz.debug.debugTraceStepsV2.length - 1]
+                            //let callerLogItem = currentDebugThread
                             if (callerLogItem) {
                                 //debugger
                                 let callerLogId = callerLogItem.id
@@ -13599,11 +13611,7 @@
                                         fk_caller_debug_trace_log_id:   callerLogId
                                     }
                                 )
-                                let currentDebugThread = yz.debug.debugThreads[yz.debug.debugTracerId]
-                                if (!currentDebugThread) {
-                                    debugger
-                                    throw new Error("debug entry")
-                                }
+
                                 let debugThreadEntryForFn =
                                     {
                                         id:                             nextId,
