@@ -9542,7 +9542,10 @@
                         mainVueOperatingSystemVm.show_loader = false
                         yz.mainVars.autoScroll = false
                         setTimeout(async function() {
-                            await yz.selectAppbyId(nid)
+                            let dbgThread = yz.debug.startDebug("dhjfsgjhksdfghjdsgfjkhdgsfjhkgfjhkgdsfjkhf")
+                            await yz.selectAppbyId("hjefhjgrjhgrejkwgrjkegrewjkgerjwkhgrewjk",dbgThread,
+                                nid)
+                            yz.debug.endOfDebugSection(dbgThread)
                         },20)
                     }
 
@@ -12639,7 +12642,7 @@
                         }
                     }
 
-                    yz.debug.endOfDebugSection()
+                    yz.debug.endOfDebugSection(dbgThread)
                 },
 
                 // Simple web UI helpers
