@@ -14083,13 +14083,49 @@
                         await yz.debug.internal.readSourceFileForDebugging("/public/visifile_drivers/apps/appstore.vjs")
                     },
                     createAlaSqlTable:                  async function              (  {  tableName  ,  fields  ,  sendToDebugSqliteServer  }  )    {
+                        //----------------------------------------------------------------------------------/
+                        //
+                        //                                          /-------------------------------------/
+                        //                                         /     createAlaSqlTable( ... ) {      /
+                        //                                        /      {                              /
+                        //                                       /          ...                        /
+                        //                                      /        }                            /
+                        //                                     /-------------------------------------/
+                        //
+                        //----------------------------------------------------------------------------/
+                        // This is used to create a table in the UI DB on the client side
+                        //
+                        //________
+                        // PARAMS \______________________________________________________________/
+                        //
+                        //    tableName
+                        //    ---------                 The table name of the UI table
+                        //
+                        //    fields
+                        //    ------                    [
+                        //                                  list of fields
+                        //                              ]
+                        //
+                        //    sendToDebugSqliteServer
+                        //    -----------------------   true/false will determine if the serverside
+                        //                              SQLite database is synced with this UI table.
+                        //                              This can be useful for debugging
+                        //
+                        //-----------------------------------------------------------/
+
+                        //
+                        // Set whether we sync this table with the server
+                        //
                         if (typeof(sendToDebugSqliteServer) !== 'undefined') {
                             yz.uiDb.sendToServerDebugSqliteLookup[tableName] = sendToDebugSqliteServer
                         } else {
                             yz.uiDb.sendToServerDebugSqliteLookup[tableName] = true
                         }
-                        let alaSqlCreateString = "create table " + tableName + "("
 
+                        //
+                        // Create this table on the client side in AlaSQL
+                        //
+                        let alaSqlCreateString = "create table " + tableName + "("
                         let alaSqlInsertString = "insert into ui_tables (table_name) values (?)"
                         alasql(alaSqlInsertString, tableName);
                         for (let fieldIndex = 0;  fieldIndex < fields.length ; fieldIndex++) {
@@ -14106,7 +14142,11 @@
                         alasql(alaSqlCreateString);
 
 
-                        //IF WE ARE RUNNING IN DEBUG MODE
+                        //
+                        // IF WE ARE RUNNING IN DEBUG MODE and we are syncing this table
+                        // to the server then send any changes back to the server
+                        //
+                        //
                         if ((typeof $DEBUGUI !== 'undefined') && ($DEBUGUI == "true") && yz.uiDb.sendToServerDebugSqliteLookup[ tableName ]) {
 
                             //
