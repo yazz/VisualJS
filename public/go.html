@@ -13881,6 +13881,7 @@
                         await yz.uiDb.createAlaSqlTable({
                             tableName: "ui_table_global_vars",
                             fields: [
+                                {name: "id",             fieldType: "INT"},
                                 {name: "prop_id",        fieldType: "STRING"},
                                 {name: "prop_type",      fieldType: "STRING"},
                                 {name: "prop_value",     fieldType: "STRING"}
@@ -14421,8 +14422,8 @@
                     if (exists.length > 0) {
                         sqlui("update  ui_table_global_vars  set prop_value = ?  where  prop_id = ?",[dbPropValue,propId])
                     } else {
-                        sqlui("insert into  ui_table_global_vars  (prop_id  ,  prop_type   ,  prop_value)  values  (?,?,?)",
-                        [propId, propType, dbPropValue])
+                        sqlui("insert into  ui_table_global_vars  (id , prop_id  ,  prop_type   ,  prop_value)  values  (?,?,?,?)",
+                        [yz.debug.nextDebugTick++, propId, propType, dbPropValue])
                     }
                 },
                 getGlobalVar:                       function                    (  propId  ) {
