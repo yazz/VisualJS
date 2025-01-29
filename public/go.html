@@ -13465,7 +13465,7 @@
                                         [
                                             nextId,
                                             dbgCode,
-                                            yz.debug.debugTracerId,
+                                            dbgThread.uuid_thread_tracer_id,
                                             sql,
                                             lastTraceid,
                                             yz.debug.nextDebugTick++,
@@ -13617,7 +13617,7 @@
                                         caller_line_number:             sourceForCallerOfFunction.lineNumber,
                                         fk_caller_debug_trace_log_id:   callerLogId
                                     }
-                                yz.debug.debugThreads[yz.debug.debugTracerId].debugTraceStepsV3.push(
+                                yz.debug.debugThreads[dbgThread.uuid_thread_tracer_id].debugTraceStepsV3.push(
                                     debugThreadEntryForFn)
 
                                 yz.debug.nextDebugTick++
@@ -13662,7 +13662,7 @@
                         // reset all the debug markers as we are starting a new debug trace
                         //
                         yz.debug.startDebugId      = debugId
-                        yz.debug.debugTracerId     = yz.uuidv4()
+                        let debugTracerId          = yz.uuidv4()
                         yz.debug.nextDebugTick         = 1
 
 
@@ -13710,7 +13710,7 @@
                                     debugId,
                                     debugId,
                                     dateNow,
-                                    yz.debug.debugTracerId,
+                                    debugTracerId,
                                     sourceForFunction.fileName,
                                     //sourceForFunction.lineNumber,
                                     startLineIndex,
@@ -13721,7 +13721,7 @@
 
                             newDebugThread = {
                                 start_debug_id:         debugId,
-                                uuid_thread_tracer_id:  yz.debug.debugTracerId,
+                                uuid_thread_tracer_id:  debugTracerId,
                                 debugTraceStepsV3: [
                                     {
                                         id:                     nextId,
@@ -13734,7 +13734,7 @@
                                     }
                                 ]
                             }
-                            yz.debug.debugThreads[yz.debug.debugTracerId] = newDebugThread
+                            yz.debug.debugThreads[debugTracerId] = newDebugThread
 
 
 
@@ -13839,7 +13839,6 @@
 
                     debugThreads:                       {},         // collection of all live debug threads indexed by the THREAD UUID
                     linesOfSourceFile:                  {},         // the lines of code in go.html and other source files = [line 1, line 2, etc...]
-                    debugTracerId:                      null,       // a UUID which shows which debug trace event we are in ("fnDebugId" is not unique)
                     nextDebugTick:                      1,          // 1..n is used to show which step in a trace we are at
                     currentSqlLogId:                    null        // ID to use for the SQL log 1..n
                 },
@@ -14152,9 +14151,9 @@
                                             "table_debug_data_log"
                                     ].indexOf(tableName) == -1)
                                 {
-                                    if (yz.debug.debugTracerId != null) {
+                                    //if (yz.debug.debugTracerId != null) {
 
-                                    }
+                                    //}
                                 }
                                 //
                                 // create the table on the server
