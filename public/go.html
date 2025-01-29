@@ -14092,11 +14092,11 @@
                         //                                      /        }                            /
                         //                                     /-------------------------------------/
                         //
-                        //----------------------------------------------------------------------------/
+                        //-------------------------------------------------------------------------/
                         // This is used to create a table in the UI DB on the client side
                         //
                         //________
-                        // PARAMS \______________________________________________________________/
+                        // PARAMS \____________________________________________________________/
                         //
                         //    tableName
                         //    ---------                 The table name of the UI table
@@ -14111,7 +14111,7 @@
                         //                              SQLite database is synced with this UI table.
                         //                              This can be useful for debugging
                         //
-                        //-----------------------------------------------------------/
+                        //---------------------------------------------------------/
 
                         //
                         // Set whether we sync this table with the server
@@ -14167,7 +14167,7 @@
 
 
                             //
-                            // delete all table records
+                            // delete all records for this table if they exist on the server
                             //
                             let resultsCode3 = await yz.postToYazzReturnJson(
                                 "/http_post_browser_sql_write_operation",
