@@ -9542,10 +9542,10 @@
                         mainVueOperatingSystemVm.show_loader = false
                         yz.mainVars.autoScroll = false
                         setTimeout(async function() {
-                            let dbgThread = yz.debug.startDebug("dhjfsgjhksdfghjdsgfjkhdgsfjhkgfjhkgdsfjkhf")
-                            await yz.selectAppbyId("hjefhjgrjhgrejkwgrjkegrewjkgerjwkhgrewjk",dbgThread,
+                            let _B = yz.debug.startDebug("dhjfsgjhksdfghjdsgfjkhdgsfjhkgfjhkgdsfjkhf")
+                            await yz.selectAppbyId("hjefhjgrjhgrejkwgrjkegrewjkgerjwkhgrewjk",_B,
                                 nid)
-                            yz.debug.endOfDebugSection(dbgThread)
+                            yz.debug.endOfDebugSection(_B)
                         },20)
                     }
 
@@ -9569,9 +9569,9 @@
                         mainVueOperatingSystemVm.show_loader = true
                     } else if (!yz.isStaticHtmlPageApp) {
                         setTimeout(async function() {
-                            let dbgThread = yz.debug.startDebug("oiugfudioudsoujsdfojlks;dhfjds;kh");
-                            await yz.selectAppbyId("fdhsjkghjsdfhjfdgshjkfdsghjfdsgfdjshgfjhgfdsjhgfjsd",dbgThread,nid)
-                            yz.debug.endOfDebugSection(dbgThread)
+                            let _B = yz.debug.startDebug("oiugfudioudsoujsdfojlks;dhfjds;kh");
+                            await yz.selectAppbyId("fdhsjkghjsdfhjfdgshjkfdsghjfdsgfdjshgfjhgfdsjhgfjsd",_B,nid)
+                            yz.debug.endOfDebugSection(_B)
                         },200)
                     } else if (yz.isStaticHtmlPageApp) {
                         //mainVueOperatingSystemVm.is_static = true
@@ -10315,7 +10315,7 @@
 
                                         <button class='btn btn-sm'
                                                 style="float:right;margin-right:20px;margin-top:2px;"
-                                                v-on:click='$event.stopPropagation();(async function() {let dbgThread=yz.debug.startDebug("hfsdhjdfsgjgfsdjhgfdhjdsfghjsfdgjhfsdgfjshdgdfjsh"); await yz.showHomePage("jkdfhjfhdjgfdjsdgfhjfdjgsfdjhdfg",dbgThread)})()'>
+                                                v-on:click='$event.stopPropagation();(async function() {let _B=yz.debug.startDebug("hfsdhjdfsgjgfsdjhgfdhjdsfghjsfdgjhfsdgfjshdgdfjsh"); await yz.showHomePage("jkdfhjfhdjgfdjsdgfhjfdjgsfdjhdfg",_B)})()'>
 
                                             Home
                                         </button>
@@ -11108,11 +11108,11 @@
                                         yz.setGlobalVar("visible_app_id", id)
                                     },
                                     pageInitialised:                    async function(  ) {
-                                        let dbgThread = yz.debug.startDebug("khjdsajakshkjaskjsadjkdsahaksjhkdaslhdkhdlsa")
+                                        let _B = yz.debug.startDebug("khjdsajakshkjaskjsadjkdsahaksjhkdaslhdkhdlsa")
                                         let mm = this
 
                                         console.log("await yz.pageInitialized( async function() { entered ... ")
-                                        await yz.updateAppsFromAppStore("gfdshjdsfgjkdhfsghjkfdsgjfdhksgfdsjhgfjkgfdsjkghjfskd",dbgThread)
+                                        await yz.updateAppsFromAppStore("gfdshjdsfgjkdhfsghjkfdsgjfdhksgfdsjhgfjkgfdsjkghjfskd",_B)
 
                                         if (typeof($HIDEIMPORTBUTTONS) !== 'undefined') {
                                             if ($HIDEIMPORTBUTTONS == 'true') {
@@ -11123,7 +11123,7 @@
                                         } else {
                                             mm.hideImportButtons = false
                                         }
-                                        await mm.reloadInstalledAppsForUserFromServer("uiodfspfsduiopsufopsdudopsafuoapsisoadfp",dbgThread);
+                                        await mm.reloadInstalledAppsForUserFromServer("uiodfspfsduiopsufopsdudopsafuoapsisoadfp",_B);
 
 
                                         /*
@@ -11134,9 +11134,9 @@
                                                                  | apps on the homepage
                                                                  |__________________________________ */
                                         yz.globalEventBus.on('message', async function(text) {
-                                            let dbgThread = yz.debug.startDebug("jfdklsjdfsjdlskjfkldshfkjhsdfkjlhsdkjsdflhsdklhfdsklhfdskl")
+                                            let _B = yz.debug.startDebug("jfdklsjdfsjdlskjfkldshfkjhsdfkjlhsdkjsdflhsdklhfdsklhfdskl")
                                             if (text.type == "insert_editable_component_on_homepage") {
-                                                await mm.addEditableComponentToHomepage("fsdiudusidisfuofydsiuofyiusdfifdsuoyfdsiouyfiusdf",dbgThread,
+                                                await mm.addEditableComponentToHomepage("fsdiudusidisfuofydsiuofyiusdfifdsuoyfdsiouyfiusdf",_B,
                                                     text.base_component_id,
                                                     text.display_name,
                                                     {
@@ -11160,7 +11160,7 @@
                                                                      | homepage
                                                                      |__________________________________ */
                                             if (text.type == "update_editable_components_on_homepage") {
-                                                await mm.reloadInstalledAppsForUserFromServer("uidfydfsiuodfyydfiouyfdsioufdyiudsf",dbgThread)
+                                                await mm.reloadInstalledAppsForUserFromServer("uidfydfsiuodfyydfiouyfdsioufdyiudsf",_B)
                                                 mm.refresh++
                                             }
 
@@ -11203,7 +11203,7 @@
                                                 yz.globalEventBus.emit('show_settings', {});
 
                                                 setTimeout(async function() {
-                                                    let dbgThread = yz.debug.startDebug("jdkfskjdshkjldsfhjklshfklsdhfkjsdhfksjdhfksdhfhkfdskj")
+                                                    let _B = yz.debug.startDebug("jdkfskjdshkjldsfhjklshfklsdhfkjsdhfksjdhfksdhfhkfdskj")
                                                     let bci = text.base_component_id
                                                     let cid = text.code_id
                                                     if (!isValidObject(cid)) {
@@ -11215,9 +11215,9 @@
                                                     yz.editor.originalNameOfEditedUiControl             = cni
                                                     yz.editor.originalBaseComponentIdOfEditedUiControl  = bci
                                                     yz.editor.originalCodeIdOfEditedUiControl           = cid
-                                                    await mm.copyAndEditApp("duidfsyiufdsyiouydsaiuoyfdsoiufyiusoffds",dbgThread,
+                                                    await mm.copyAndEditApp("duidfsyiufdsyiouydsaiuoyfdsoiufyiusoffds",_B,
                                                         {base_component_id: bci  ,  code_id: cid})
-                                                    yz.debug.endOfDebugSection(dbgThread)
+                                                    yz.debug.endOfDebugSection(_B)
                                                 },200)
                                             }
 
@@ -11320,7 +11320,7 @@
                                             }
 
 
-                                            yz.debug.endOfDebugSection(dbgThread)
+                                            yz.debug.endOfDebugSection(_B)
                                         })
 
                                         /*
@@ -11332,8 +11332,8 @@
                                                                  |__________________________________ */
                                         yz.globalEventBus.on('new-appshare-app-uploaded',
                                             async function({baseComponentId, codeId, logoUrl, displayName}) {
-                                                let dbgThread = yz.debug.startDebug("hdjfgshkjgfsdhkjgfjkhgdfsjksgdfjfsdhg")
-                                                await mm.addEditableComponentToHomepage("sdfayjghjfghjsdfgjhksdfgjhfdsgjsdfhgfdshjgj",dbgThread,
+                                                let _B = yz.debug.startDebug("hdjfgshkjgfsdhkjgfjkhgdfsjksgdfjfsdhg")
+                                                await mm.addEditableComponentToHomepage("sdfayjghjfghjsdfgjhksdfgjhfdsgjsdfhgfdshjgj",_B,
                                                     baseComponentId,
                                                     displayName,
                                                     {
@@ -11345,7 +11345,7 @@
                                                 setTimeout(async function() {
                                                     await mm.editApp(baseComponentId, codeId)
                                                 },250)
-                                                yz.debug.endOfDebugSection(dbgThread)
+                                                yz.debug.endOfDebugSection(_B)
                                             });
 
 
@@ -11425,7 +11425,7 @@
                                                 console.log("Global var 'show_running_apps' changed : " + JSON.stringify(nv))
                                                 mm.refresh ++
                                             })
-                                        yz.debug.endOfDebugSection(dbgThread)
+                                        yz.debug.endOfDebugSection(_B)
                                     },
 
                                     // local filesystem stuff
@@ -11703,8 +11703,8 @@
                                     },
 
                                     // amend the edited apps
-                                    addEditableComponentToHomepage:     async function  ( callerDbgId , dbgThread, baseComponentId, displayName, other) {
-                                        yz.debug.debugFn("flksdjhsjkdhfsjkdhfsdjhfjdfshjbfdshbdsjbdsjkhbhfjdbjk",dbgThread, arguments)
+                                    addEditableComponentToHomepage:     async function  ( _A , _B, baseComponentId, displayName, other) {
+                                        yz.debug.debugFn("flksdjhsjkdhfsjkdhfsdjhfjdfshjbfdshbdsjbdsjkhbhfjdbjk",_B, arguments)
                                         //----------------------------------------------------------------------------------
                                         //
                                         //                    /-------------------------------------/
@@ -11757,10 +11757,10 @@
                                             }
 
                                             mm.installed_app_list.push( app  )
-                                            await yz.addInstalledApp("uiyodfsdfsyuidfsyiuiuyodfsiuoydfsuiyodsfuiyodfsuiyodfs",dbgThread,app)
+                                            await yz.addInstalledApp("uiyodfsdfsyuidfsyiuiuyodfsiuoydfsuiyodsfuiyodfsuiyodfs",_B,app)
                                         }
 
-                                        return yz.debug.endOfDebugSection(dbgThread , null)
+                                        return yz.debug.endOfDebugSection(_B , null)
                                     },
                                     addToEditableAppsAndEdit:           async function  ( contentHash ) {
                                         //----------------------------------------------------------------------------------
@@ -11805,8 +11805,8 @@
                                             await mm.editApp(result.base_component_id , contentHash)
                                         },50)
                                     },
-                                    copyAndEditApp:                     async function  ( callerDbgId, dbgThread,compInfo ) {
-                                        yz.debug.debugFn("hjdsfkgsdjgsdjkhgfdjkhdgfkhjdsfbkhjdsbjdskhfdjjhd",callerDbgId , dbgThread, arguments)
+                                    copyAndEditApp:                     async function  ( _A, _B,compInfo ) {
+                                        yz.debug.debugFn("hjdsfkgsdjgsdjkhgfdjkhdgfkhjdsfbkhjdsbjdskhfdjjhd",_A , _B, arguments)
 
                                         /* copyAndEditApp
                                         ________________________________________
@@ -11846,7 +11846,7 @@
                                             componentType = "component"
                                         }
 
-                                        await mm.addEditableComponentToHomepage("dfsjkhfdsjkhdfsjkhfdsjkhfdkjfdsjfdsjlkds;",dbgThread,
+                                        await mm.addEditableComponentToHomepage("dfsjkhfdsjkhdfsjkhfdsjkhfdkjfdsjfdsjlkds;",_B,
                                             result.base_component_id,
                                             result.new_display_name,
                                             {
@@ -11858,7 +11858,7 @@
                                         setTimeout(async function() {
                                             await mm.editApp(result.base_component_id, result.code_id)
                                         },50)
-                                        yz.debug.endOfDebugSection(dbgThread)
+                                        yz.debug.endOfDebugSection(_B)
                                     },
                                     runAppInThisBrowserTab:              async function  ( baseComponentId, code_id ) {
                                         /* Given the base component ID of an app, open that app in a separate
@@ -11920,8 +11920,8 @@
                                             baseComponentId)
                                         mm.refresh++
                                     },
-                                    openAppInNewTab:                  async function  ( callerDbgId, dbgThread,contentHash ) {
-                                        yz.debug.debugFn("hjfdskgjfsdgjkshfdfdsjjfdshfjksdkjsdfjfdsfdsfds",callerDbgId ,dbgThread, arguments)
+                                    openAppInNewTab:                  async function  ( _A, _B,contentHash ) {
+                                        yz.debug.debugFn("hjfdskgjfsdgjkshfdfdsjjfdshfjksdkjsdfjfdsfdsfds",_A ,_B, arguments)
                                         //----------------------------------------------------------------------------------
                                         //
                                         //                    /-------------------------------------/
@@ -11949,7 +11949,7 @@
 
                                         let logoUrl = await mm.addLogoForApp(result.base_component_id)
 
-                                        await mm.addEditableComponentToHomepage("hdsfghjkdsffdsfdsfdfsddsf",dbgThread,
+                                        await mm.addEditableComponentToHomepage("hdsfghjkdsffdsfdsfdfsddsf",_B,
                                             result.base_component_id,
                                             result.display_name,
                                             {
@@ -11964,7 +11964,7 @@
                                             await mm.runAppInNewBrowserTab(result.base_component_id)
 
                                         },50)
-                                        yz.debug.endOfDebugSection(dbgThread)
+                                        yz.debug.endOfDebugSection(_B)
                                     },
                                     editApp:                            async function  ( baseComponentId, codeId) {
                                         //----------------------------------------------------------------------------------
@@ -12003,8 +12003,8 @@
                                         mm.currentlyHighlightedAppstoreBCI  = null
                                         mm.refresh ++
                                     },
-                                    reloadInstalledAppsForUserFromServer:         async function  ( callerDbgId, dbgThread ) {
-                                        yz.debug.debugFn("hjkjkhsdfjgsfdghfhsjdfsdkhdfsjkfdsbjfhdsbfjhdshfdjsbdsfjh",callerDbgId,dbgThread, arguments)
+                                    reloadInstalledAppsForUserFromServer:         async function  ( _A, _B ) {
+                                        yz.debug.debugFn("hjkjkhsdfjgsfdghfhsjdfsdkhdfsjkfdsbjfhdsbfjhdshfdjsbdsfjh",_A,_B, arguments)
                                         //----------------------------------------------------------------------------------
                                         //
                                         //                    /-----------------------------------------------/
@@ -12032,7 +12032,7 @@
 
                                         // add all the items to the homepage
                                         for (let rt = 0; rt < responseJson.length; rt++) {
-                                            await mm.addEditableComponentToHomepage("hgdfsjgdfsjkgfdsjhkgfdjkhgfdshjkgfdshjfghjs",dbgThread,
+                                            await mm.addEditableComponentToHomepage("hgdfsjgdfsjkgfdsjhkgfdjkhgfdshjkgfdshjfghjs",_B,
                                                 responseJson[rt].base_component_id,
                                                 responseJson[rt].display_name,
                                                 {
@@ -12049,7 +12049,7 @@
                                         }
                                         mm.refresh++
 
-                                        yz.debug.endOfDebugSection(dbgThread)
+                                        yz.debug.endOfDebugSection(_B)
 
                                     }
                                 }
@@ -12058,12 +12058,12 @@
                     return osStructure
                 },
 
-                showHomePage:                                   function        (  callerDbgId  , dbgThread ) {
-                    yz.debug.debugFn("hfdgyjfgsdkhgfdshjgfdshjgfjfsdgjhfds",callerDbgId,dbgThread, arguments)
+                showHomePage:                                   function        (  _A  , _B ) {
+                    yz.debug.debugFn("hfdgyjfgsdkhgfdshjgfdshjgfjfsdgjhfds",_A,_B, arguments)
                     yz.setGlobalVar("visible_app_id",               -1)
                     yz.setGlobalVar("show_running_apps",            false)
                     yz.setGlobalVar("show_installed_apps",          true)
-                    yz.debug.endOfDebugSection(dbgThread)
+                    yz.debug.endOfDebugSection(_B)
                 },
                 closeRunningAppsDialog:                         function        (  ) {
                     let mm = this
@@ -12593,8 +12593,8 @@
                         mainVueOperatingSystemVm.appCodeId = codeIdOfComponent
                     }
                 },
-                selectAppbyId:                        async function              (  callerDgbId, dbgThread,  id  ) {
-                    yz.debug.debugFn("kjlhjsdkflhjksfdhfsdkljhfdskjlhfskdjhfsdklfdhkfdsl",callerDgbId, dbgThread, arguments)
+                selectAppbyId:                        async function              (  _A, _B,  id  ) {
+                    yz.debug.debugFn("kjlhjsdkflhjksfdhfsdkljhfdskjlhfskdjhfsdklfdhkfdsl",_A, _B, arguments)
                     //
                     // if the app is already visible then do nothing
                     //
@@ -12643,7 +12643,7 @@
                         }
                     }
 
-                    yz.debug.endOfDebugSection(dbgThread)
+                    yz.debug.endOfDebugSection(_B)
                 },
 
                 // Simple web UI helpers
@@ -13398,7 +13398,7 @@
                                 debugFileText:  fileText
                             })
                     },
-                    sqluiDebug:                         function                    (  dbgCode  ,  dbgThread  ,  sql  ,  params  )                                {
+                    sqluiDebug:                         function                    (  dbgCode  ,  _B  ,  sql  ,  params  )                                {
                         //----------------------------------------------------------------------------------/
                         //
                         //                                          /-------------------------------------/
@@ -13454,7 +13454,7 @@
                                         sourceFileName = sourceForCallerOfFunction.fileName
                                         lineNumber = sourceForCallerOfFunction.lineNumber
                                     }
-                                    let steps = dbgThread.debugTraceStepsV3
+                                    let steps = _B.debugTraceStepsV3
                                     let lastTraceitem = null
                                     let lastTraceid = null
                                     if (steps && (steps.length > 0)) {
@@ -13466,7 +13466,7 @@
                                         [
                                             nextId,
                                             dbgCode,
-                                            dbgThread.uuid_thread_tracer_id,
+                                            _B.uuid_thread_tracer_id,
                                             sql,
                                             lastTraceid,
                                             yz.debug.nextDebugTick++,
@@ -13499,11 +13499,11 @@
                         }
                         return ret
                     },
-                    endOfDebugSection:                  function                    (  dbgThread  ,  returnValue  )                                               {
-                        dbgThread.debugTraceStepsV3.pop()
+                    endOfDebugSection:                  function                    (  _B  ,  returnValue  )                                               {
+                        _B.debugTraceStepsV3.pop()
                         return returnValue
                     },
-                    debugFn:                            function                    (  fnDebugId  , callerFnDebugId  ,  dbgThread  ,  argsPassedIn  )                                              {
+                    debugFn:                            function                    (  fnDebugId  , callerFnDebugId  ,  _B  ,  argsPassedIn  )                                              {
                         //----------------------------------------------------------------------------------/
                         //
                         //                                          /-------------------------------------/
@@ -13546,10 +13546,10 @@
                         //
                         // check we have a valid debug thread
                         //
-                        if (!dbgThread) {
+                        if (!_B) {
                             return
                         }
-                        let currentDebugThread = yz.debug.debugThreads[dbgThread.uuid_thread_tracer_id]
+                        let currentDebugThread = yz.debug.debugThreads[_B.uuid_thread_tracer_id]
                         if (!currentDebugThread) {
                             return
                             debugger
@@ -13592,7 +13592,7 @@
                                         currentDebugThread.start_debug_id,
                                         fnDebugId,
                                         dateNow,
-                                        dbgThread.uuid_thread_tracer_id,
+                                        _B.uuid_thread_tracer_id,
                                         sourceForFunction.fileName,
                                         sourceForFunction.lineNumber - 1,
                                         yz.debug.nextDebugTick,
@@ -13618,7 +13618,7 @@
                                         caller_line_number:             sourceForCallerOfFunction.lineNumber,
                                         fk_caller_debug_trace_log_id:   callerLogId
                                     }
-                                yz.debug.debugThreads[dbgThread.uuid_thread_tracer_id].debugTraceStepsV3.push(
+                                yz.debug.debugThreads[_B.uuid_thread_tracer_id].debugTraceStepsV3.push(
                                     debugThreadEntryForFn)
 
                                 yz.debug.nextDebugTick++
@@ -14383,8 +14383,8 @@
 
                     return dbPropValue
                 },
-                updateAppsFromAppStore:             async function              (  callerDbgId, dbgThread  ) {
-                    yz.debug.debugFn("bghjbfdshjbsfhjkbfdjshbfsdjhbfdshjbfdsjhbfdsj",callerDbgId, dbgThread, arguments)
+                updateAppsFromAppStore:             async function              (  _A, _B  ) {
+                    yz.debug.debugFn("bghjbfdshjbsfhjkbfdjshbfsdjhbfdshjbfdsjhbfdsj",_A, _B, arguments)
                     let openfileurl = "http" + (($HOSTPORT == 443)?"s":"") + "://" + $HOST + "/http_post_load_top_apps"
                     fetch(openfileurl,
                         {
@@ -14393,13 +14393,13 @@
                         })
                         .then((response) => response.json())
                         .then(function(responseJson) {
-                            let dbgThread = yz.debug.startDebug("hjgfsdjhkgfshjdkgfshjdkgfdshjkgfdsjhgfdsjhfgsdhjfghj")
+                            let _B = yz.debug.startDebug("hjgfsdjhkgfshjdkgfshjdkgfdshjkgfdsjhgfdsjhfgsdhjfghj")
                             for (let rt=0;rt<responseJson.length; rt++) {
 
                                 for (let thisApp of responseJson) {
                                     let alreadyExists = yz.uiDb.sqlui("select * from ui_table_appstore_apps where content_hash = ?", [thisApp.content_hash])
                                     if (alreadyExists.length == 0) {
-                                        yz.debug.sqluiDebug("hgdfsgjhksdfghjkdsfgdfjskhgnfuybgfeiurybrgeruyigferuiyigfueirgueirwygyuieriur",dbgThread,
+                                        yz.debug.sqluiDebug("hgdfsgjhksdfghjkdsfgdfjskhgnfuybgfeiurybrgeruyigferuiyigfueirgueirwygyuieriur",_B,
                                             "insert  into  ui_table_appstore_apps  (  id  ,  old_id, content_hash  ,  base_component_id, logo, display_name,component_type) values (?,?,?,?,?,?,?)",
                                                         [yz.uiDb.uiDbNextId ++, thisApp.base_component_id, thisApp.content_hash,thisApp.base_component_id,thisApp.logo, thisApp.display_name, thisApp.component_type])
                                     }
@@ -14407,30 +14407,30 @@
                                 //mm.appstore_apps.push(responseJson[rt])
                                 //mm.app_store_component_logos_by_BCI[responseJson[rt].id] = responseJson[rt].logo
                             }
-                            yz.debug.endOfDebugSection(dbgThread)
+                            yz.debug.endOfDebugSection(_B)
                         }).catch(err => {
                         })
-                    yz.debug.endOfDebugSection(dbgThread)
+                    yz.debug.endOfDebugSection(_B)
                 },
-                addInstalledApp:                  async function              (  calledDbgId, dbgThread  ,  app   ) {
-                    yz.debug.debugFn("hjdgfjgfksfgdkjhgfdsjhkfgdjhkfdsgjkhfdsgjfds",calledDbgId, dbgThread, arguments)
+                addInstalledApp:                  async function              (  calledDbgId, _B  ,  app   ) {
+                    yz.debug.debugFn("hjdgfjgfksfgdkjhgfdsjhkfgdjhkfdsgjkhfdsgjfds",calledDbgId, _B, arguments)
                     let alreadyExists = yz.uiDb.sqlui("select * from  ui_table_installed_apps  where code_id = ?", [app.code_id])
                     if (alreadyExists.length == 0) {
-                        yz.debug.sqluiDebug("hdfjkshfjkdshfudisyouidsfyffdsbyoiudfsyboibdsfyioudsfbyoibsefyfdsidfsiobdsfoidfsbiodfsoi",dbgThread,
+                        yz.debug.sqluiDebug("hdfjkshfjkdshfudisyouidsfyffdsbyoiudfsyboibdsfyioudsfbyoibsefyfdsidfsiobdsfoidfsbiodfsoi",_B,
                                 "insert  into  ui_table_installed_apps  (  id  ,  code_id  ,  base_component_id, logo, display_name,component_type) values (?,?,?,?,?,?)",
                             [yz.uiDb.uiDbNextId ++,app.code_id,app.base_component_id,app.logo_url, app.displayName, app.component_type])
                     }
-                    yz.debug.endOfDebugSection(dbgThread)
+                    yz.debug.endOfDebugSection(_B)
                 },
-                installAppFromAppstore:           async function              (  calledDbgId, dbgThread  ,  {  baseComponentId  ,  codeId  }  ) {
-                    yz.debug.debugFn("hjkdfsgfdgshfjkdsghjkfdsghjkfdsgfhjdgfdjkgfdhj",calledDbgId, dbgThread, arguments)
+                installAppFromAppstore:           async function              (  calledDbgId, _B  ,  {  baseComponentId  ,  codeId  }  ) {
+                    yz.debug.debugFn("hjkdfsgfdgshfjkdsghjkfdsghjkfdsgfhjdgfdjkgfdhj",calledDbgId, _B, arguments)
 
                     let result = await yz.getFromYazzReturnJson("/http_get_install_appstore_app_for_current_user",
                         {
                             base_component_id:  baseComponentId,
                             code_id:            codeId
                         })
-                    yz.debug.endOfDebugSection(dbgThread)
+                    yz.debug.endOfDebugSection(_B)
                 },
                 addRunningApp:                    async function              (  app   ) {
                     let alreadyRunningApp = yz.uiDb.sqlui1("select * from  ui_table_running_apps  where code_id = ? and status = ?", [app.code_id, "RUNNING"])
