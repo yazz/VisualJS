@@ -10315,7 +10315,7 @@
 
                                         <button class='btn btn-sm'
                                                 style="float:right;margin-right:20px;margin-top:2px;"
-                                                v-on:click='$event.stopPropagation();(async function() {await yz.showHomePage()})()'>
+                                                v-on:click='$event.stopPropagation();(async function() {let dbgThread=yz.debug.startDebug("hfsdhjdfsgjgfsdjhgfdhjdsfghjsfdgjhfsdgfjshdgdfjsh"); await yz.showHomePage("jkdfhjfhdjgfdjsdgfhjfdjgsfdjhdfg",dbgThread)})()'>
 
                                             Home
                                         </button>
@@ -12058,11 +12058,12 @@
                     return osStructure
                 },
 
-                showHomePage:                                   function        (  ) {
+                showHomePage:                                   function        (  callerDbgId  , dbgThread ) {
+                    yz.debug.debugFn("hfdgyjfgsdkhgfdshjgfdshjgfjfsdgjhfds",callerDbgId,dbgThread, arguments)
                     yz.setGlobalVar("visible_app_id",               -1)
                     yz.setGlobalVar("show_running_apps",            false)
                     yz.setGlobalVar("show_installed_apps",          true)
-
+                    yz.debug.endOfDebugSection(dbgThread)
                 },
                 closeRunningAppsDialog:                         function        (  ) {
                     let mm = this
