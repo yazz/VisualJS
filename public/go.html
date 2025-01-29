@@ -11757,7 +11757,7 @@
                                             }
 
                                             mm.installed_app_list.push( app  )
-                                            await yz.addInstalledApp("uiyodfsdfsyuidfsyiuiuyodfsiuoydfsuiyodsfuiyodfsuiyodfs",app)
+                                            await yz.addInstalledApp("uiyodfsdfsyuidfsyiuiuyodfsiuoydfsuiyodsfuiyodfsuiyodfs",dbgThread,app)
                                         }
 
                                         return yz.debug.endOfDebugSection(dbgThread , null)
@@ -14412,8 +14412,8 @@
                         })
                     yz.debug.endOfDebugSection(dbgThread)
                 },
-                addInstalledApp:                  async function              (  dbg  ,  app   ) {
-                    let dbgThread = yz.debug.debugFn("hjdgfjgfksfgdkjhgfdsjhkfgdjhkfdsgjkhfdsgjfds",dbg, arguments)
+                addInstalledApp:                  async function              (  calledDbgId, dbgThread  ,  app   ) {
+                    yz.debug.debugFn("hjdgfjgfksfgdkjhgfdsjhkfgdjhkfdsgjkhfdsgjfds",calledDbgId, dbgThread, arguments)
                     let alreadyExists = yz.uiDb.sqlui("select * from  ui_table_installed_apps  where code_id = ?", [app.code_id])
                     if (alreadyExists.length == 0) {
                         yz.debug.sqluiDebug("hdfjkshfjkdshfudisyouidsfyffdsbyoiudfsyboibdsfyioudsfbyoibsefyfdsidfsiobdsfoidfsbiodfsoi",dbgThread,
@@ -14422,8 +14422,8 @@
                     }
                     yz.debug.endOfDebugSection(dbgThread)
                 },
-                installAppFromAppstore:           async function              (  dbg  ,  {  baseComponentId  ,  codeId  }  ) {
-                    yz.debug.debugFn("hjkdfsgfdgshfjkdsghjkfdsghjkfdsgfhjdgfdjkgfdhj",dbg, arguments)
+                installAppFromAppstore:           async function              (  calledDbgId, dbgThread  ,  {  baseComponentId  ,  codeId  }  ) {
+                    yz.debug.debugFn("hjkdfsgfdgshfjkdsghjkfdsghjkfdsgfhjdgfdjkgfdhj",calledDbgId, dbgThread, arguments)
 
                     let result = await yz.getFromYazzReturnJson("/http_get_install_appstore_app_for_current_user",
                         {
